@@ -1,6 +1,4 @@
 module.exports = function(sequelize, Sequelize) {
- 
-    //var modelRol = require('./rol');
 
     var Usuario = sequelize.define('usuario', {
  

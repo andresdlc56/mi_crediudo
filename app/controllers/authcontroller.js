@@ -5,12 +5,21 @@ exports.signup = function(req, res) {
 }
 
 exports.signin = function(req, res) {
-    res.render('signin');
+    res.render('index/login');
 }
 
 exports.dashboard = function(req, res) {
-	//res.render('dashboard', { usuario:req.user });
-	res.status(201).send(req.user);
+	var usuario = req.user;
+
+	//si el rol del usuario es 1 (admin)
+	if (usuario.rolId == 1) {
+		res.render('dashboard', { usuario });	
+	} else{
+		res.status(201).send('No es Usuario admin');
+	}
+	//res.send('home | admin');
+	
+	//res.status(201).send(req.user);
 }
 
 exports.logout = function(req, res) {
