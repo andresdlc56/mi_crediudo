@@ -1,0 +1,26 @@
+{
+ 
+    "development": {
+        "username": "Andres",
+        "password": 1234,
+        "database": "mi_crediudo",
+        "host": "127.0.0.1",
+        "dialect": "postgres"
+    },
+ 
+    "test": {
+        "username": "",
+        "password": null,
+        "database": "",
+        "host": "",
+        "dialect": "mysql"
+    },
+ 
+    "production": {
+        "username": "",
+        "password": null,
+        "database": "",
+        "host": "127.0.0.1",
+        "dialect": "mysql"
+    }
+}
