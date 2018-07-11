@@ -1,6 +1,6 @@
 var bCrypt = require('bcrypt-nodejs');
 var modelUsuario = require('../../models/usuario');
-var modelCargo = require('../../models/cargo');
+var modelRol = require('../../models/rol');
 
 module.exports = function(passport, user) {
  
@@ -73,7 +73,7 @@ module.exports = function(passport, user) {
     // deserialize user 
     passport.deserializeUser(function(cedula, done) {
         Usuario.findOne({
-            include: [modelCargo.Cargo],
+            include: [modelRol.Rol],
             where:{cedula:cedula}
         }).then(function(user) {
             if (user) {
@@ -102,7 +102,7 @@ module.exports = function(passport, user) {
             }
 
             Usuario.findOne({
-                include: [modelCargo.Cargo],
+                include: [modelRol.Rol],
                 where:{cedula: cedula}
             }).then(function(user){
 

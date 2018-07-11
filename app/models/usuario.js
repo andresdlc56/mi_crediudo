@@ -1,5 +1,7 @@
 module.exports = function(sequelize, Sequelize) {
  
+    //var modelRol = require('./rol');
+
     var Usuario = sequelize.define('usuario', {
  
         cedula: {
@@ -35,7 +37,7 @@ module.exports = function(sequelize, Sequelize) {
     });
     // Class Method
     Usuario.associate = function (models) {
-       Usuario.belongsTo(models.cargo);
+       Usuario.belongsTo(models.rol);
     };
     
     module.exports.Usuario = Usuario;    
