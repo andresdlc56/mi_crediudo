@@ -13,7 +13,8 @@ exports.dashboard = function(req, res) {
 
 	//si el rol del usuario es 1 (admin)
 	if (usuario.rolId == 1) {
-		res.render('dashboard', { usuario });	
+		res.redirect('/admin');
+		//res.render('dashboard', { usuario });	
 	} else{
 		res.status(201).send('No es Usuario admin');
 	}

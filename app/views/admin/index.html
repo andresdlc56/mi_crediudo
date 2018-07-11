@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | ADMIN</title>
+
+	<style>
+		table, th, td {
+    		border: 1px solid black;
+    		border-collapse: collapse;
+		}
+	</style>
+</head>
+<body>
+	<h2>Dashboard | ADMIN</h2>
+	<a href="/logout">Cerrar Sesion</a>
+	<br><br>
+	<h4>Personal CREDIUDO</h4>
+	<table style="width:40%">
+		<tr>
+	    	<th>Cargo</th>
+	    	<th>Nombre y Apellido</th> 
+	    	<th>Cedula</th>
+	    	<th>Acción</th>
+	  	</tr>
+		<tr>
+	    	<td>Presidente</td>
+	    	<td><%=Presidente.nombre%></td> 
+	    	<td><%=Presidente.cedula%></td>
+	    	<td>
+	    		<a href="">Asignar</a>
+				<a href="">Cambiar</a>
+	    	</td>
+	  	</tr>
+	  	<tr>
+	    	<td>Coord. Planificación</td>
+	    	<td>
+	    		<% if(coordPlani == undefined){%>
+	    			Vacante
+	    		<%} else{%>
+					<%=coordPlani.nombre%>
+	    		<%}%>
+	    	</td> 
+	    	<td>
+	    		<% if(coordPlani == undefined){%>
+	    			Vacante
+	    		<%} else{%>
+					<%=coordPlani.nombre%>
+	    		<%}%>
+	    	</td>
+	    	<td>
+	    		<a href="/admin/asignar-coordP">Asignar</a>
+				<a href="">Cambiar</a>
+	    	</td>
+	  	</tr>
+
+	  	<tr>
+	    	<td>Coord. Evaluación</td>
+	    	<td>
+	    		<% if(coordEval == undefined){%>
+	    			Vacante
+	    		<%} else{%>
+					<%=coordEval.nombre%>
+	    		<%}%>
+	    	</td> 
+	    	<td>
+	    		<% if(coordEval == undefined){%>
+	    			Vacante
+	    		<%} else{%>
+					<%=coordEval.nombre%>
+	    		<%}%>
+	    	</td>
+	    	<td>
+	    		<a href="/admin/asignar-coordE">Asignar</a>
+				<a href="">Cambiar</a>
+	    	</td>
+	  	</tr>
+
+	</table>
+</body>
+</html>
