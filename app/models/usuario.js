@@ -35,7 +35,7 @@ module.exports = function(sequelize, Sequelize) {
     });
     // Class Method
     Usuario.associate = function (models) {
-       
+       Usuario.belongsTo(models.cargo);
     };
     
     module.exports.Usuario = Usuario;    
