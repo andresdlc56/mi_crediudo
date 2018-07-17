@@ -7,6 +7,10 @@ module.exports = function(app) {
 
     app.get('/coord_ev',isLoggedIn, coord_evController.index);
 
+    app.get('/coord_ev/factor', isLoggedIn, coord_evController.factor);
+
+    app.post('/coord_ev/add-factor', isLoggedIn, coord_evController.addFactor);
+
     /*
     app.get('/admin/asignar-coordP', isLoggedIn, adminController.asignarCoordP);
 
