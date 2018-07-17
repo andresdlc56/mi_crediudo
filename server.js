@@ -35,6 +35,8 @@ var models = require("./app/models");
 //Routes
 var Index = require('./app/routes/index.js')(app,passport);
 var admin = require('./app/routes/admin/index.js')(app);
+var presi = require('./app/routes/president/index.js')(app);
+var coord_ev = require('./app/routes/coord_ev/index.js')(app);
 
 //load passport strategies
 require('./app/config/passport/passport.js')(passport,models.usuario);

@@ -3,8 +3,22 @@
 <head>
 	<meta charset="UTF-8">
 	<title>CREDIDUDO | ADMIN</title>
+
+	<style>
+		table, th, td {
+    		border: 1px solid black;
+    		border-collapse: collapse;
+		}
+	</style>
 </head>
 <body>
 	<h3>Asignar Coord Evaluación</h3>
+
+	<form method="post" action="/admin/buscar_ce">
+		<label for="cedula">Cedula de Identidad: </label>
+		<input type="text" name="cedula" placeholder="Ingrese una Cedula">
+
+		<input type="submit" name="buscar" value="Buscar">
+	</form>
 </body>
 </html>

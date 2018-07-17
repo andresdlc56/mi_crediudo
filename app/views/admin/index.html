@@ -23,55 +23,80 @@
 	    	<th>Cedula</th>
 	    	<th>Acción</th>
 	  	</tr>
+	  	<!--=====================PRESIDENTE========================-->
 		<tr>
 	    	<td>Presidente</td>
-	    	<td><%=Presidente.nombre%></td> 
-	    	<td><%=Presidente.cedula%></td>
 	    	<td>
-	    		<a href="">Asignar</a>
+	    		<% if(Presidente == undefined) {%>
+					Vacante
+	    		<%} else{%>
+					<p><%=Presidente.nombre%> <%=Presidente.apellido%></p>
+	    		<%}%>
+	    		
+	    	</td> 
+	    	<td>
+	    		<% if(Presidente == undefined) {%>
+					Vacante
+	    		<%} else{%>
+					<%=Presidente.cedula%>
+	    		<%}%>
+	    				
+	    	</td>
+	    	<td>
+	    		<% if(Presidente == undefined) {%>
+					<a href="#">Asignar</a>
+	    		<%}%>
 				<a href="">Cambiar</a>
 	    	</td>
 	  	</tr>
+
+	  	<!--================COORD. PLANIFICACION========================-->
 	  	<tr>
 	    	<td>Coord. Planificación</td>
 	    	<td>
 	    		<% if(coordPlani == undefined){%>
 	    			Vacante
 	    		<%} else{%>
-					<%=coordPlani.nombre%>
+					<p><%=coordPlani.nombre%> <%=coordPlani.apellido%></p>
 	    		<%}%>
 	    	</td> 
 	    	<td>
 	    		<% if(coordPlani == undefined){%>
 	    			Vacante
 	    		<%} else{%>
-					<%=coordPlani.nombre%>
+					<%=coordPlani.cedula%>
 	    		<%}%>
 	    	</td>
 	    	<td>
-	    		<a href="/admin/asignar-coordP">Asignar</a>
+	    		<% if(coordPlani == undefined) {%>
+					<a href="/admin/asignar-coordP">Asignar</a>
+	    		<%}%>
+	    		
 				<a href="">Cambiar</a>
 	    	</td>
 	  	</tr>
 
+		<!--=================COORD. EVEALUACION========================-->
 	  	<tr>
 	    	<td>Coord. Evaluación</td>
 	    	<td>
 	    		<% if(coordEval == undefined){%>
 	    			Vacante
 	    		<%} else{%>
-					<%=coordEval.nombre%>
+					<p><%=coordEval.nombre%> <%=coordEval.apellido%></p>
 	    		<%}%>
 	    	</td> 
 	    	<td>
 	    		<% if(coordEval == undefined){%>
 	    			Vacante
 	    		<%} else{%>
-					<%=coordEval.nombre%>
+					<%=coordEval.cedula%>
 	    		<%}%>
 	    	</td>
 	    	<td>
-	    		<a href="/admin/asignar-coordE">Asignar</a>
+	    		<% if(coordEval == undefined) {%>
+					<a href="/admin/asignar-coordE">Asignar</a>
+	    		<%}%>
 				<a href="">Cambiar</a>
 	    	</td>
 	  	</tr>

@@ -11,7 +11,15 @@ module.exports = function(app) {
 
     app.get('/admin/asignar-coordE', isLoggedIn, adminController.asignarCoordE);
 
-    app.post('/admin/buscar', isLoggedIn, adminController.buscar);
+    app.post('/admin/buscar_cp', isLoggedIn, adminController.buscar_cp);
+
+    app.post('/admin/buscar_ce', isLoggedIn, adminController.buscar_ce);
+
+    app.post('/admin/asignar-coordP', isLoggedIn, adminController.asignaCoordP);
+
+    app.post('/admin/asignar-coordE', isLoggedIn, adminController.asignaCoordE);
+
+    //app.post('/admin/probando', isLoggedIn, adminController.probando);
 
     /*
     app.get('/login', authController.signin);
