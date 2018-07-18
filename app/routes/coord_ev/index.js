@@ -11,6 +11,12 @@ module.exports = function(app) {
 
     app.post('/coord_ev/add-factor', isLoggedIn, coord_evController.addFactor);
 
+    app.get('/coord_ev/instrument', isLoggedIn, coord_evController.instrument);
+
+    app.get('/coord_ev/add-instrument', isLoggedIn, coord_evController.addInstrument);
+
+    app.post('/coord_ev/add-instrument', isLoggedIn, coord_evController.createInstrument);
+
     /*
     app.get('/admin/asignar-coordP', isLoggedIn, adminController.asignarCoordP);
 

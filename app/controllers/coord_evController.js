@@ -26,8 +26,34 @@ exports.addFactor = function(req, res) {
 		} else{
 			res.send('El factor existe');
 		}
-	})
+	});
+}
 
-
+exports.instrument = function(req, res) {
 	
+	res.render('coord_ev/instrumento/index');
+}
+
+exports.addInstrument = function(req, res) {
+
+	models.categoria.findAll({
+
+	}).then(Categorias => {
+		models.tipoEval.findAll({
+
+		}).then(tipoEval => {
+			res.render('coord_ev/instrumento/add', { Categorias, tipoEval });
+		})
+	})
+}
+
+exports.createInstrument = function(req, res) {
+
+	models.instrument.create({
+		titulo: req.body.titulo,
+		categoriumId: req.body.categoria,
+		tipoEvalId: req.body.t_instrument
+	}).then(Instrument => {
+		res.send('Instrumento Creado Exitosamente');
+	})
 }

@@ -1,19 +1,22 @@
 module.exports = function(sequelize, Sequelize) {
  
-    var Factor = sequelize.define('factor', {
+    var Item = sequelize.define('item', {
         nombre: {
             type: Sequelize.STRING,
             notEmpty: true
+        },
+        valor: {
+            type: Sequelize.INTEGER,
         }
     });
     // Class Method
-    Factor.associate = function (models) {
-        Factor.hasMany(models.item);
-        Factor.belongsToMany(models.instrument, {through: 'instrumentFactor'});
+    Item.associate = function (models) {
+        Item.belongsTo(models.instrument);
+        Item.belongsTo(models.factor);
         //Rol.hasMany(models.usuario);
         //Cargo.belongsToMany(models.empleado, {through: 'empleadoCargo', foreignKey: 'cargoId'});
     };
 
-    module.exports.Factor = Factor; 
-    return Factor;
+    module.exports.Item = Item; 
+    return Item;
 }

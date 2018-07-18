@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Coord. Evaluación<</title>
+</head>
+<body>
+	<h3>Index | ADD Instrumento de Eval</h3>
+
+	<form method="post" action="/coord_ev/add-instrument" id="instrument">
+		<label for="titulo">Nombre o Titulo: </label>
+		<input type="text" name="titulo" placeholder="Ingrese el nombre o titulo del Instrumento">
+		
+		<br><br>
+
+		<label for="caregoria">Categoria: </label>
+		<select name="categoria" id="categoria">
+			<option value=""> --Seleccione una Opción-- </option>
+			<% for(let i = 0; i < Categorias.length; i ++) {%>
+				<option value="<%= Categorias[i].id %>"><%= Categorias[i].nombre %></option>
+			<%}%>
+		</select>
+
+		<br><br>
+
+		<label for="t_instrument">Tipo:</label>
+		<select name="t_instrument" id="t_instrument">
+			<option value=""> --Seleccione una Opción-- </option>
+			<% for(let j = 0; j < tipoEval.length; j ++) {%>
+				<option value="<%= tipoEval[j].id %>"><%= tipoEval[j].nombre %></option>
+			<%}%>
+		</select>
+
+		<input type="submit" name="crear" value="Crear">
+	</form>
+</body>
+</html>
