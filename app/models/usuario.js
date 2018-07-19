@@ -36,11 +36,10 @@ module.exports = function(sequelize, Sequelize) {
     // Class Method
     Usuario.associate = function (models) {
        Usuario.belongsTo(models.rol);
+       Usuario.belongsTo(models.nucleo); //un Usuario pertenece a un Nucleo
+       Usuario.belongsTo(models.unidad); //un Usuario pertenece a una Unidad
     };
     
     module.exports.Usuario = Usuario;    
     return Usuario;
 }
-
-
-
