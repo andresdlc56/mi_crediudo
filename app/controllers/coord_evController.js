@@ -31,7 +31,12 @@ exports.addFactor = function(req, res) {
 
 exports.instrument = function(req, res) {
 	
-	res.render('coord_ev/instrumento/index');
+	models.instrument.findAll({
+		include: [models.categoria, models.tipoEval],
+	}).then(Instruments => {
+		//res.send(Instruments);
+		res.render('coord_ev/instrumento/index', { Instruments });
+	})
 }
 
 exports.addInstrument = function(req, res) {
@@ -54,6 +59,15 @@ exports.createInstrument = function(req, res) {
 		categoriumId: req.body.categoria,
 		tipoEvalId: req.body.t_instrument
 	}).then(Instrument => {
-		res.send('Instrumento Creado Exitosamente');
+		res.redirect('/coord_ev/instrument');
+		//res.send('Instrumento Creado Exitosamente');
+	})
+}
+
+exports.verInstrument = function(req, res) {
+
+	models.instrument.findById(req.params.id).then(Instruments => {
+		//res.send('Ver Instrumento');
+		res.render('coord_ev/instrumento/ver', { Instruments });
 	})
 }

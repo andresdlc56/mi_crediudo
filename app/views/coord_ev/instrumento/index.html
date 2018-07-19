@@ -3,10 +3,38 @@
 <head>
 	<meta charset="UTF-8">
 	<title>CREDIUDO | Coord. Evaluación</title>
+
+	<style>
+		table, th, td {
+		    border: 1px solid black;
+		}
+	</style>
 </head>
 <body>
 	<h3>Index | Instrumento de Evaluación</h3>
 
 	<a href="/coord_ev/add-instrument">Crear Instrumento de Eval.</a>
+
+	<br><br>
+
+	<table style="width:30%">
+		<tr>
+	    	<th>Titulo</th>
+	    	<th>Categoria</th> 
+	    	<th>Tipo</th>
+	    	<th>Item</th>
+	    	<th>Operación</th>
+	  	</tr>
+
+	  	<%for(let i = 0; i < Instruments.length; i ++) {%>
+			<tr>
+		    	<td><%= Instruments[i].titulo %></td>
+		    	<td><%= Instruments[i].categorium.nombre %></td> 
+		    	<td><%= Instruments[i].tipoEval.nombre %></td>
+		    	<td><a href="/coord_ev/instrument/<%= Instruments[i].id %>">Ver</a></td>
+		    	<td>50</td>
+		  	</tr>
+	  	<%}%>
+	</table>
 </body>
 </html>
