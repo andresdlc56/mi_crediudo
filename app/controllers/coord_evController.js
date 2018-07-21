@@ -67,7 +67,28 @@ exports.createInstrument = function(req, res) {
 exports.verInstrument = function(req, res) {
 
 	models.instrument.findById(req.params.id).then(Instruments => {
-		//res.send('Ver Instrumento');
-		res.render('coord_ev/instrumento/ver', { Instruments });
-	})
+		models.factor.findAll({
+
+		}).then(Factores => {
+			models.item.findAll({
+				include: [models.factor],
+				where: { instrumentId: req.params.id }
+			}).then(Items => {
+				//res.send(Items);
+				res.render('coord_ev/instrumento/ver', { Instruments, Factores, Items });	
+			})
+		});
+	});
+}
+
+exports.addItem = function(req, res) {
+
+	models.item.create({
+		nombre: req.body.nombre,
+		valor: 0,
+		factorId: req.body.factor,
+		instrumentId: req.params.id
+	}).then(Item => {
+		res.redirect('/coord_ev/instrument/'+req.params.id);
+	});
 }
