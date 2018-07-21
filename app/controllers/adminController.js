@@ -47,17 +47,21 @@ exports.buscar_presi = function(req, res) {
 	models.usuario.findOne({
 		where:{cedula: req.body.cedula}
 	}).then(Usuario => {
-		if (Usuario.rolId == 5) {
-			//res.send(Usuario);
-			res.render('admin/asignar/busqueda-presi', {Usuario});	
-		} else if(Usuario.rolId == 1){
-			res.send('Este Usuario ya esta asignado para el cargo de admin');
-		} else if(Usuario.rolId == 2) {
-			res.send('Este Usuario ya esta asignado para el cargo de presidente');
-		} else if(Usuario.rolId == 3) {
-			res.send('Este Usuario ya esta asignado para el cargo de Coord. Planificación');
-		} else if(Usuario.rolId == 4) {
-			res.send('Este Usuario ya esta asignado para el cargo de Coord. Evaluación');
+		if(Usuario == undefined) {
+			res.send("El Usuario no Existe");
+		} else {
+			if (Usuario.rolId == 5) {
+				//res.send(Usuario);
+				res.render('admin/asignar/busqueda-presi', {Usuario});	
+			} else if(Usuario.rolId == 1){
+				res.send('Este Usuario ya esta asignado para el cargo de admin');
+			} else if(Usuario.rolId == 2) {
+				res.send('Este Usuario ya esta asignado para el cargo de presidente');
+			} else if(Usuario.rolId == 3) {
+				res.send('Este Usuario ya esta asignado para el cargo de Coord. Planificación');
+			} else if(Usuario.rolId == 4) {
+				res.send('Este Usuario ya esta asignado para el cargo de Coord. Evaluación');
+			}	
 		}
 	});  
 }
@@ -67,18 +71,23 @@ exports.buscar_cp = function(req, res) {
 	models.usuario.findOne({
 		where:{cedula: req.body.cedula}
 	}).then(Usuario => {
-		if (Usuario.rolId == 5) {
-			//res.send(Usuario);
-			res.render('admin/asignar/busqueda-cp', {Usuario});	
-		} else if(Usuario.rolId == 1){
-			res.send('Este Usuario ya esta asignado para el cargo de admin');
-		} else if(Usuario.rolId == 2) {
-			res.send('Este Usuario ya esta asignado para el cargo de presidente');
-		} else if(Usuario.rolId == 3) {
-			res.send('Este Usuario ya esta asignado para el cargo de Coord. Planificación');
-		} else if(Usuario.rolId == 4) {
-			res.send('Este Usuario ya esta asignado para el cargo de Coord. Evaluación');
+		if(Usuario == undefined) {
+			res.send("El Usuario no Existe");
+		} else {
+			if (Usuario.rolId == 5) {
+				//res.send(Usuario);
+				res.render('admin/asignar/busqueda-cp', {Usuario});	
+			} else if(Usuario.rolId == 1){
+				res.send('Este Usuario ya esta asignado para el cargo de admin');
+			} else if(Usuario.rolId == 2) {
+				res.send('Este Usuario ya esta asignado para el cargo de presidente');
+			} else if(Usuario.rolId == 3) {
+				res.send('Este Usuario ya esta asignado para el cargo de Coord. Planificación');
+			} else if(Usuario.rolId == 4) {
+				res.send('Este Usuario ya esta asignado para el cargo de Coord. Evaluación');
+			}	
 		}
+		
 	});  
 }
 
@@ -87,18 +96,24 @@ exports.buscar_ce = function(req, res) {
 	models.usuario.findOne({
 		where:{cedula: req.body.cedula}
 	}).then(Usuario => {
-		if (Usuario.rolId == 5) {
-			//res.send(Usuario);
-			res.render('admin/asignar/busqueda-ce', {Usuario});	
-		} else if(Usuario.rolId == 1){
-			res.send('Este Usuario ya esta asignado para el cargo de admin');
-		} else if(Usuario.rolId == 2) {
-			res.send('Este Usuario ya esta asignado para el cargo de presidente');
-		} else if(Usuario.rolId == 3) {
-			res.send('Este Usuario ya esta asignado para el cargo de Coord. Planificación');
-		} else if(Usuario.rolId == 4) {
-			res.send('Este Usuario ya esta asignado para el cargo de Coord. Evaluación');
-		}
+		if(Usuario == undefined) {
+			res.send("El Usuario no Existe");
+		} else {
+			if (Usuario.rolId == 5) {
+				//res.send(Usuario);
+				res.render('admin/asignar/busqueda-ce', {Usuario});	
+			} else if(Usuario.rolId == 1){
+				res.send('Este Usuario ya esta asignado para el cargo de admin');
+			} else if(Usuario.rolId == 2) {
+				res.send('Este Usuario ya esta asignado para el cargo de presidente');
+			} else if(Usuario.rolId == 3) {
+				res.send('Este Usuario ya esta asignado para el cargo de Coord. Planificación');
+			} else if(Usuario.rolId == 4) {
+				res.send('Este Usuario ya esta asignado para el cargo de Coord. Evaluación');
+			}	
+		}	
+	}).catch(function(e) {
+  		console.log(e); // "oh, no!"
 	});  
 }
 
