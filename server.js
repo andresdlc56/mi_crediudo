@@ -30,7 +30,7 @@ app.get('/', function(req, res) {
 var models = require("./app/models");
 
 //Routes
-//var authRoute = require('./app/routes/auth.js')(app,passport);
+var authRoute = require('./app/routes/auth.js')(app,passport);
 
 //Routes
 var Index = require('./app/routes/index.js')(app,passport);

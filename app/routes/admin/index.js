@@ -7,13 +7,19 @@ module.exports = function(app) {
 
     app.get('/admin',isLoggedIn, adminController.index);
 
+    app.get('/admin/asignar-presi', isLoggedIn, adminController.asignarPresi);
+
     app.get('/admin/asignar-coordP', isLoggedIn, adminController.asignarCoordP);
 
     app.get('/admin/asignar-coordE', isLoggedIn, adminController.asignarCoordE);
 
+    app.post('/admin/buscar_presi', isLoggedIn, adminController.buscar_presi);
+
     app.post('/admin/buscar_cp', isLoggedIn, adminController.buscar_cp);
 
     app.post('/admin/buscar_ce', isLoggedIn, adminController.buscar_ce);
+
+    app.post('/admin/asignar-presi', isLoggedIn, adminController.asignaPresi);
 
     app.post('/admin/asignar-coordP', isLoggedIn, adminController.asignaCoordP);
 

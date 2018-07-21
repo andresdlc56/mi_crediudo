@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIDUDO | ADMIN</title>
+
+	<style>
+		table, th, td {
+    		border: 1px solid black;
+    		border-collapse: collapse;
+		}
+	</style>
+</head>
+<body>
+	<h3>Asignar Presidente</h3>
+
+	<form method="post" action="/admin/buscar_presi">
+		<label for="cedula">Cedula de Identidad: </label>
+		<input type="text" name="cedula" placeholder="Ingrese una Cedula">
+
+		<input type="submit" name="buscar" value="Buscar">
+	</form>
+
+	<br>
+	
+	<%if(Usuario == undefined){%>
+		<h3>No existe</h3>
+	<%} else{%>
+		<form method="post" action="/admin/asignar-presi" name="asignar" id="asignar">
+			<input type="hidden" name="cedula" value="<%=Usuario.cedula%>">
+			<table style="width:40%">
+				<tr>
+			    	<th>Nombre</th>
+			    	<th>Apellido</th> 
+			    	<th>Cedula</th>
+			    	<th>Acción</th>
+			  	</tr>
+				<tr>
+			    	<td><%=Usuario.nombre%></td>
+			    	<td><%=Usuario.apellido%></td> 
+			    	<td>
+			    		<%=Usuario.cedula%>		
+			    	</td>
+			    	<td>
+			    		<input type="submit" name="asignar" value="Asignar">
+			    	</td>
+			  	</tr>
+			</table>	
+		</form>
+	<%}%>
+</body>
+</html>
