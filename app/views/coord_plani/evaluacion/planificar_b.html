@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Coord. Planificación</title>
+</head>
+<body>
+	<h3>Finiquitar Planificación de Evaluación</h3>
+	<br>
+	
+	<form method="post" action="/coord_plani/plani_eval/<%=Evaluacion.id%>/n/<%=Nucleo.codigo%>" id="formEvaluacion">
+		
+		<label>Nombre de la Evaluación:</label>
+		<input type="text" name="nombre" placeholder="Nombre o Titulo de la Evaluación">
+
+		<br><br>
+
+		<label for="isntrumento">Insttumento de Evaluación: </label>
+		<select name="instrumento" id="instrumento">
+			<option value=""> --Seleccione una Opción-- </option>
+			<% for(var j = 0; j < Instrumentos.length; j ++) {%>
+				<option value="<%= Instrumentos[j].id %>"><%= Instrumentos[j].titulo %></option>
+			<%}%>
+		</select>
+
+		<br><br>
+
+		<label for="unidad">Unidad</label>
+		<select name="unidad">
+			<option value=""> --Seleccione una Opción-- </option>
+			<% for(var i = 0; i < Unidades.length; i ++) {%>
+				<option value="<%= Unidades[i].codigo %>"><%= Unidades[i].nombre %></option>
+			<%}%>
+		</select>
+
+		<br><br>
+
+		<label>Fecha de Inicio:</label>
+		<input type="date" name="fecha_i">
+
+		<label>Fecha de Fin:</label>
+		<input type="date" name="fecha_f">
+		
+		<br><br>
+
+		<input type="submit" name="guardar" value="Guardar">	
+	</form>
+	
+</body>
+</html>

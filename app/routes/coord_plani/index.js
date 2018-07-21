@@ -11,6 +11,10 @@ module.exports = function(app) {
 
     app.post('/coord_plani/plani_eval', isLoggedIn, coord_planiController.addEval);
 
+    app.get('/coord_plani/plani_eval/:id/n/:idn', isLoggedIn, coord_planiController.addEval_b);
+
+    app.post('/coord_plani/plani_eval/:id/n/:idn', isLoggedIn, coord_planiController.finiquitarEval);
+
     app.get('/logout',authController.logout);
 
 	function isLoggedIn(req, res, next) {

@@ -16,6 +16,8 @@ module.exports = function(sequelize, Sequelize) {
     Evaluacion.associate = function (models) {
         Evaluacion.belongsTo(models.categoria); //una Evaluación pertenece a una Categoria
         Evaluacion.belongsTo(models.nucleo); //una Evaluación pertenece a un Nucleo
+        Evaluacion.belongsTo(models.unidad); //una Evaluacion pertenece a una Unidad
+        Evaluacion.belongsTo(models.instrument); //una Evaluacion pertenece a un Instrumento
     };
  
     return Evaluacion;

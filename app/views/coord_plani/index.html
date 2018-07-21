@@ -3,9 +3,39 @@
 <head>
 	<meta charset="UTF-8">
 	<title>CREDIUDO | Coord. Planificación</title>
+
+	<style>
+		table, th, td {
+		    border: 1px solid black;
+		}
+	</style>
 </head>
 <body>
 	<h3>Index | Coord. Planificación</h3>
 	<a href="/coord_plani/plani_eval">Planificar Evaluacion</a>
+	
+	<br><br>
+
+	<table style="width:80%">
+		<tr>
+	    	<th>#</th>
+	    	<th>Nombre</th> 
+	    	<th>Categoria</th>
+	    	<th>Nucleo</th>
+	    	<th>Unidad a Evaluar</th>
+	    	<th>Operación</th>
+	  	</tr>
+
+	  	<%for(let i = 0; i < Evaluaciones.length; i ++) {%>
+			<tr>
+		    	<td>1</td>
+		    	<td><%= Evaluaciones[i].nombre %></td> 
+		    	<td><%= Evaluaciones[i].categorium.nombre %></td>
+		    	<td><%= Evaluaciones[i].nucleo.nombre %></td>
+		    	<td><%= Evaluaciones[i].unidad.nombre %></td>
+		    	<td><a href="#">Ver</a></td>
+		  	</tr>
+	  	<%}%>
+	</table>
 </body>
 </html>
