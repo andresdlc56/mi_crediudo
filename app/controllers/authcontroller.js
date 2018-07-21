@@ -19,7 +19,8 @@ exports.dashboard = function(req, res) {
 		res.redirect('/president');
 		//res.status(201).send('Bienvenido Presidente');
 	} else if(usuario.rolId == 3) {
-		res.status(201).send('Bienvenido Coord Planificación');
+		res.redirect('/coord_plani');
+		//res.status(201).send('Bienvenido Coord Planificación');
 	} else if(usuario.rolId == 4) {
 		res.redirect('/coord_ev');
 		//res.status(201).send('Bienvenido Coord Evaluación');

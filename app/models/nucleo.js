@@ -20,6 +20,7 @@ module.exports = function(sequelize, Sequelize) {
     Nucleo.associate = function (models) {
         Nucleo.hasMany(models.unidad); //un Nucleo tiene muchas Unidades
         Nucleo.hasMany(models.usuario); //un Nucleo tiene muchos Usuarios
+        Nucleo.hasMany(models.evaluacion); //un Nucleo tiene muchas Evaluaciones
     };
  
     return Nucleo;

@@ -9,6 +9,7 @@ module.exports = function(sequelize, Sequelize) {
     // Class Method
     Categoria.associate = function (models) {
         Categoria.hasMany(models.instrument);
+        Categoria.hasMany(models.evaluacion); //una Categoria tiene Muchas Evaluaciones 
     };
  
     return Categoria;
