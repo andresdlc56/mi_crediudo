@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Inicio</title>
+</head>
+<body>
+	<h2>CREDIUDO | Inicio</h2>
+	<h4>Bienvendio <%= usuario.nombre %></h4>
+	<a href="/logout">Cerrar Sesion</a>
+
+	<br><br>
+	
+	<% if(Evaluacion) {%>
+		<% for(var i = 0; i < Evaluacion.length; i ++) {%>
+			<% if(Evaluacion[i].nucleoCodigo == usuario.nucleoCodigo) {%>
+				<a href="/dashboard/evaluacion/<%=Evaluacion[i].id%>/u/<%=usuario.cedula%>"><%=Evaluacion[i].nombre%></a>
+			<%}%>
+		<%}%>
+	<%}%>
+	
+</body>
+</html>

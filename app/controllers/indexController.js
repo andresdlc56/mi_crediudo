@@ -1,6 +1,14 @@
 var exports = module.exports = {}
 
+var models = require('../models');
+
 exports.index = function(req, res) {
-    res.render('index/index');
+    models.evaluacion.findAll({
+
+    }).then(Evaluaciones => {
+    	
+    	res.render('index/index', { Evaluaciones });	
+    })
+    
     //res.send('Ruta Index');
 }
