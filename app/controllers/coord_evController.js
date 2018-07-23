@@ -134,6 +134,21 @@ exports.addItem = function(req, res) {
 					}
 				}
 			}
-		} 
+		} else {
+			//res.send('No Tiene conetenido');
+			models.instrumentFactor.create({
+				factorId: req.body.factor,
+				instrumentId: req.params.id
+			}).then(instrumentFactor => {
+				models.item.create({
+					nombre: req.body.nombre,
+					valor: 0,
+					factorId: req.body.factor,
+					instrumentId: req.params.id
+				}).then(Item => {
+					res.redirect('/coord_ev/instrument/'+req.params.id);
+				});
+			});
+		}
 	})
 }
