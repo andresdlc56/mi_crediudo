@@ -9,9 +9,8 @@ module.exports = function(sequelize, Sequelize) {
     });
     // Class Method
     instrumentFactor.associate = function (models) {
-    
+        
     };
-
-    module.exports.instrumentFactor = instrumentFactor; 
+ 
     return instrumentFactor;
 }

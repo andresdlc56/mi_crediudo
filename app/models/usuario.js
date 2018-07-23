@@ -38,8 +38,8 @@ module.exports = function(sequelize, Sequelize) {
        Usuario.belongsTo(models.rol);
        Usuario.belongsTo(models.nucleo); //un Usuario pertenece a un Nucleo
        Usuario.belongsTo(models.unidad); //un Usuario pertenece a una Unidad
+       Usuario.belongsToMany(models.evaluacion, {through: 'evaluacionUsuario'});
     };
-    
-    module.exports.Usuario = Usuario;    
+        
     return Usuario;
 }

@@ -14,6 +14,5 @@ module.exports = function(sequelize, Sequelize) {
         //Cargo.belongsToMany(models.empleado, {through: 'empleadoCargo', foreignKey: 'cargoId'});
     };
 
-    module.exports.Factor = Factor; 
     return Factor;
 }
