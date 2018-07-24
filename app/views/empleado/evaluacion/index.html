@@ -9,6 +9,19 @@
 		    border: 1px solid black;
 		}
 	</style>
+
+	<script>
+		var cifra=""; //inicializamos la variable como una cadena vacia 
+		//funcion que se activara cuando hagamos click en un numero
+	  	function display_numero(numero){
+	    	//alert("ejecutandose");
+	    	document.getElementById("display").value=cifra+numero; //asignamos un valor a la pantalla de la calculadora
+
+	    	//cifra=document.getElementById("display").value; //cambiamos el valor de la variable cifra x el valor que tiene la pantalla de la calculadora actualmente
+	  	}
+	</script>
+
+
 </head>
 <body>
 	<h2>CREDIUDO | Evaluación</h2>
@@ -22,13 +35,16 @@
 	<h4>Nombre o Titulo del Instrumento de Eval: <%=Evaluacion.instrument.titulo%></h4>
 
 	<form method="post" action="/dashboard/evaluacion/<%=Evaluacion.id%>/u/<%=Usuario.cedula%>" id="formEvaluacion">
-		<input type="hidden" name="factores" value="<%=instrumentFactor.length%>">
+		<input type="hidden" name="factores" value=<%=instrumentFactor.length%>>
 		<input type="hidden" name="items" value="<%=Items.length%>">
 		<input type="hidden" name="instrumentId" value="<%=Evaluacion.instrumentId%>">
+		<input type="text" name="display" id="display">
 
 		<table style="width:80%">
 			<% var k=0 %>
 			<% var n=0 %>
+			<% var k=-1 %>
+			<% var item = [] %>
 
 			<%for(let i = 0; i < instrumentFactor.length; i++){%>
 				<tr>
@@ -43,19 +59,19 @@
 					    	<td width="5%"><%= k=k+1 %></td>
 					    	<td><%=Items[j].nombre%></td> 
 					    	<td>
-					    		<input type="radio" name="item_<%= n=n+1 %>" value="2">
+					    		<input type="radio" name="item[<%= k %>]" value=2 id="item_[<%= j %>]">
 					    	</td>
 					    	<td>
-					    		<input type="radio" name="item_<%= n=n+1 %>" value="4">
+					    		<input type="radio" name="item[<%= k %>]" value=4 id="item_[<%= j %>]">
 					    	</td>
 					    	<td>
-					    		<input type="radio" name="item_<%= n=n+1 %>" value="6">
+					    		<input type="radio" name="item[<%= k %>]" value=6 id="item_[<%= j %>]">
 					    	</td>
 					    	<td>
-					    		<input type="radio" name="item_<%= n=n+1 %>" value="8">
+					    		<input type="radio" name="item[<%= k %>]" value=8 id="item_[<%= j %>]">
 					    	</td>
 					    	<td>
-					    		<input type="radio" name="item_<%= n=n+1 %>" value="10">
+					    		<input type="radio" name="item[<%= k %>]" value=10 id="item_[<%= j %>]">
 					    	</td>
 					  	</tr>					
 					<%}%>
@@ -66,6 +82,7 @@
 		<br>
 		<input type="submit" name="enviar" value="Enviar">
 	</form>
-
+	
+	<script src="/js/main.js"></script>
 </body>
 </html>

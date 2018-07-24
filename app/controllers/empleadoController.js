@@ -29,13 +29,17 @@ exports.evaluacion = function(req, res) {
 
 exports.procesarEval = function(req, res) {
 	var factores = req.body.factores;
-	var items = req.body.items;
-	var total = {};
-	var variable = 'item';
+	var items = parseInt(req.body.items); //esta siendo tratado como un string
 
-	for(var i = 0; i < items; i ++){
-		total[ variable + i ] = req.body.item_1;
-	};
+	
+	var item = [];
+	var acomulador = 0;
 
-	res.send(total);
+	for(var i = 0; i < items.length; i ++) {
+		acomulador = acomulador + req.body.item[i];
+	}
+	
+	//res.send(req.body.item[0] + req.body.item[1]);
+	res.send(items);
+	
 }
