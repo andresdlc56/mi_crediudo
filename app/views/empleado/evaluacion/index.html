@@ -21,28 +21,51 @@
 	<br>
 	<h4>Nombre o Titulo del Instrumento de Eval: <%=Evaluacion.instrument.titulo%></h4>
 
-	<table style="width:80%">
-		<% var k=0 %>
-		<%for(let i=0; i < instrumentFactor.length; i++){%>
-			<tr>
-		    	<td width="5%"></td>
-		    	<td><%=instrumentFactor[i].factor.nombre%></td> 
-		    	<td width="25%"></td>
-		  	</tr>
+	<form method="post" action="/dashboard/evaluacion/<%=Evaluacion.id%>/u/<%=Usuario.cedula%>" id="formEvaluacion">
+		<input type="hidden" name="factores" value="<%=instrumentFactor.length%>">
+		<input type="hidden" name="items" value="<%=Items.length%>">
+		<input type="hidden" name="instrumentId" value="<%=Evaluacion.instrumentId%>">
 
-		  	<% for(let j=0; j < Items.length; j++) {%>
-				<%if(Items[j].factorId == instrumentFactor[i].factorId){%>
-					<tr>
-				    	<td width="5%"><%= k=k+1 %></td>
-				    	<td><%=Items[j].nombre%></td> 
-				    	<td width="25%">
-				    		
-				    	</td>
-				  	</tr>					
-				<%}%>
-		  	<%}%>	
-		<%}%>
-	</table>
-	
+		<table style="width:80%">
+			<% var k=0 %>
+			<% var n=0 %>
+
+			<%for(let i = 0; i < instrumentFactor.length; i++){%>
+				<tr>
+			    	<td width="5%"></td>
+			    	<td><%=instrumentFactor[i].factor.nombre%></td> 
+			    	<td colspan="5"></td>
+			  	</tr>
+
+			  	<% for(let j = 0; j < Items.length; j++) {%>
+					<%if(Items[j].factorId == instrumentFactor[i].factorId){%>
+						<tr>
+					    	<td width="5%"><%= k=k+1 %></td>
+					    	<td><%=Items[j].nombre%></td> 
+					    	<td>
+					    		<input type="radio" name="item_<%= n=n+1 %>" value="2">
+					    	</td>
+					    	<td>
+					    		<input type="radio" name="item_<%= n=n+1 %>" value="4">
+					    	</td>
+					    	<td>
+					    		<input type="radio" name="item_<%= n=n+1 %>" value="6">
+					    	</td>
+					    	<td>
+					    		<input type="radio" name="item_<%= n=n+1 %>" value="8">
+					    	</td>
+					    	<td>
+					    		<input type="radio" name="item_<%= n=n+1 %>" value="10">
+					    	</td>
+					  	</tr>					
+					<%}%>
+			  	<%}%>	
+			<%}%>
+		</table>
+
+		<br>
+		<input type="submit" name="enviar" value="Enviar">
+	</form>
+
 </body>
 </html>

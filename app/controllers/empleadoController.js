@@ -26,3 +26,16 @@ exports.evaluacion = function(req, res) {
 		})
 	})
 }
+
+exports.procesarEval = function(req, res) {
+	var factores = req.body.factores;
+	var items = req.body.items;
+	var total = {};
+	var variable = 'item';
+
+	for(var i = 0; i < items; i ++){
+		total[ variable + i ] = req.body.item_1;
+	};
+
+	res.send(total);
+}
