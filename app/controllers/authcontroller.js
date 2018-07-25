@@ -32,7 +32,13 @@ exports.dashboard = function(req, res) {
 		models.evaluacion.findAll({
 			where: { [Op.and]: [{nucleoCodigo:usuario.nucleoCodigo}, {unidadCodigo:usuario.unidadCodigo}] }
 		}).then(Evaluacion => {
-			res.render('empleado/index', { Evaluacion, usuario })	
+			models.evaluacionUsuario.findAll({
+				where: { usuarioCedula: usuario.cedula }
+			}).then(evaluacionUsuario => {
+				console.log(evaluacionUsuario.length);
+				res.render('empleado/index', { Evaluacion, usuario, evaluacionUsuario });
+				//res.send(evaluacionUsuario);	
+			});	
 		});
 
 		

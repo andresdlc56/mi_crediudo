@@ -14,7 +14,12 @@
 	<% if(Evaluacion) {%>
 		<% for(var i = 0; i < Evaluacion.length; i ++) {%>
 			<% if(Evaluacion[i].nucleoCodigo == usuario.nucleoCodigo) {%>
-				<a href="/dashboard/evaluacion/<%=Evaluacion[i].id%>/u/<%=usuario.cedula%>"><%=Evaluacion[i].nombre%></a>
+				<% if(evaluacionUsuario.length == 0) {%>
+					<a href="/dashboard/evaluacion/<%=Evaluacion[i].id%>/u/<%=usuario.cedula%>"><%=Evaluacion[i].nombre%></a>
+				<%} else{%>
+					<h4>Ya no tienes Evaluaciones</h4>
+				<%}%>
+				
 			<%}%>
 		<%}%>
 	<%}%>

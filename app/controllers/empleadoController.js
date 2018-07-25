@@ -37,10 +37,12 @@ exports.procesarEval = function(req, res) {
 	//arreglo = req.body.item[];
 
 	var isNumber = parseInt(items);
+	var factorNumber = parseInt(factores);
 
 	//var itemIsNumber = parseInt(item[]);
 
 	var tipo = typeof(req.body.item);
+	var tipoFactor = typeof(factores);
 
 	for(var i = 0; i < isNumber; i ++){
 		arreglo[i] = parseInt(req.body.item[i]);
@@ -49,9 +51,28 @@ exports.procesarEval = function(req, res) {
 	
 	//res.send(req.body.item[0] + req.body.item[1]);
 	
-	console.log(isNumber);
-	console.log(tipo);
-	console.log(acomulador);
+	var calificacion = acomulador/isNumber;
+
+	models.evaluacionUsuario.create({
+		calificacion: calificacion,
+		status: 1,
+		evaluacionId: req.params.id,
+		usuarioCedula: req.params.idu
+	}).then(evaluacionUsuario => {
+		console.log(isNumber);
+		console.log(tipo);
+		
+		console.log(acomulador);
+		console.log(calificacion);
+
+		console.log(evaluacionUsuario);
+
+		res.redirect('/dashboard');
+	});
+
+	
+	
+
 	//res.send(isNumber);
-	res.render('empleado/evaluacion/finalizado', { isNumber })
+	//res.render('empleado/evaluacion/finalizado', { isNumber })
 }
