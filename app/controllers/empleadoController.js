@@ -29,17 +29,29 @@ exports.evaluacion = function(req, res) {
 
 exports.procesarEval = function(req, res) {
 	var factores = req.body.factores;
-	var items = parseInt(req.body.items); //esta siendo tratado como un string
-
-	
-	var item = [];
+	var items = req.body.items; //esta siendo tratado como un string
 	var acomulador = 0;
 
-	for(var i = 0; i < items.length; i ++) {
-		acomulador = acomulador + req.body.item[i];
+	var arreglo = [];
+
+	//arreglo = req.body.item[];
+
+	var isNumber = parseInt(items);
+
+	//var itemIsNumber = parseInt(item[]);
+
+	var tipo = typeof(req.body.item);
+
+	for(var i = 0; i < isNumber; i ++){
+		arreglo[i] = parseInt(req.body.item[i]);
+		acomulador = acomulador + arreglo[i];
 	}
 	
 	//res.send(req.body.item[0] + req.body.item[1]);
-	res.send(items);
 	
+	console.log(isNumber);
+	console.log(tipo);
+	console.log(acomulador);
+	//res.send(isNumber);
+	res.render('empleado/evaluacion/finalizado', { isNumber })
 }
