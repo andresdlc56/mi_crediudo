@@ -10,19 +10,16 @@
 	<a href="/logout">Cerrar Sesion</a>
 
 	<br><br>
-	
-	<% if(Evaluacion) {%>
-		<% for(var i = 0; i < Evaluacion.length; i ++) {%>
-			<% if(Evaluacion[i].nucleoCodigo == usuario.nucleoCodigo) {%>
-				<% if(evaluacionUsuario.length == 0) {%>
-					<a href="/dashboard/evaluacion/<%=Evaluacion[i].id%>/u/<%=usuario.cedula%>"><%=Evaluacion[i].nombre%></a>
-				<%} else{%>
-					<h4>Ya no tienes Evaluaciones</h4>
-				<%}%>
-				
-			<%}%>
+
+	<%if(evaluacionUsuario && evaluacionUsuario.length > 0) {%>
+		<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
+			<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
 		<%}%>
+	<%} else{%>
+		<h3>No hay Evaluaciones</h3>
 	<%}%>
+	
+	
 	
 </body>
 </html>

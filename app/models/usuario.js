@@ -39,6 +39,7 @@ module.exports = function(sequelize, Sequelize) {
        Usuario.belongsTo(models.nucleo); //un Usuario pertenece a un Nucleo
        Usuario.belongsTo(models.unidad); //un Usuario pertenece a una Unidad
        Usuario.belongsToMany(models.evaluacion, {through: 'evaluacionUsuario'});
+       Usuario.belongsTo(models.cargo);
     };
         
     return Usuario;

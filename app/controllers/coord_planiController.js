@@ -1,6 +1,8 @@
 var exports = module.exports = {}
 
 var models = require('../models');
+var Sequelize = require('sequelize');
+var Op = Sequelize.Op;
 
 exports.index = function(req, res) {
 	models.evaluacion.findAll({
@@ -68,7 +70,19 @@ exports.finiquitarEval = function(req, res) {
 			id: req.params.id
 		}
 	}).then(Evaluacion => {
-		res.redirect('/coord_plani');
-		//res.send('primera parte lista');
+		models.usuario.findAll({
+			where: { [Op.and]: [{nucleoCodigo:req.params.idn}, {unidadCodigo:req.body.unidad}] }
+		}).then(Usuario => {
+			for(var i = 0; i < Usuario.length; i ++) {
+				models.evaluacionUsuario.create({
+					calificacion: null,
+					status: false,
+					evaluacionId: req.params.id,
+					usuarioCedula: Usuario[i].cedula
+				});
+			}
+			res.redirect('/coord_plani');	
+		});
+
 	});
 }

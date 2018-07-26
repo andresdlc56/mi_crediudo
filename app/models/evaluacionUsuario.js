@@ -17,7 +17,8 @@ module.exports = function(sequelize, Sequelize) {
     });
     // Class Method
     evaluacionUsuario.associate = function (models) {
-    
+        evaluacionUsuario.belongsTo(models.evaluacion);
+        evaluacionUsuario.belongsTo(models.usuario);
     };
  
     return evaluacionUsuario;

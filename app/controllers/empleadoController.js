@@ -1,6 +1,8 @@
 var exports = module.exports = {}
 
 var models = require('../models');
+var Sequelize = require('sequelize');
+var Op = Sequelize.Op;
 
 exports.evaluacion = function(req, res) {
 	models.usuario.findById(req.params.idu).then(Usuario => {
@@ -53,11 +55,12 @@ exports.procesarEval = function(req, res) {
 	
 	var calificacion = acomulador/isNumber;
 
-	models.evaluacionUsuario.create({
+	models.evaluacionUsuario.update({
 		calificacion: calificacion,
-		status: 1,
-		evaluacionId: req.params.id,
-		usuarioCedula: req.params.idu
+		status: true
+	}, {
+		where: { [Op.and]: [{usuarioCedula: req.params.idu}, {evaluacionId:req.params.id}] }
+		//where: { usuarioCedula: req.params.idu }
 	}).then(evaluacionUsuario => {
 		console.log(isNumber);
 		console.log(tipo);
