@@ -6,10 +6,14 @@ var Op = Sequelize.Op;
 
 exports.index = function(req, res) {
 	models.evaluacion.findAll({
-		include: [models.categoria, models.nucleo, models.unidad],
+		include: [models.categoria, models.nucleo, models.unidad, models.instrument],
 	}).then(Evaluaciones => {
-		//res.send(Evaluaciones);
-		res.render('coord_plani/index', { Evaluaciones });	
+		models.tipoEval.findAll({
+
+		}).then(tipoEval => {
+			//res.send(Evaluaciones);
+			res.render('coord_plani/index', { Evaluaciones, tipoEval });	
+		});
 	});
 }
 
@@ -58,6 +62,7 @@ exports.addEval_b = function(req, res) {
 	});
 }
 
+/*
 exports.finiquitarEval = function(req, res) {
 	models.evaluacion.update({
 		nombre: req.body.nombre,
@@ -84,5 +89,66 @@ exports.finiquitarEval = function(req, res) {
 			res.redirect('/coord_plani');	
 		});
 
+	});
+}*/
+
+exports.finiquitarEval = function(req, res) {
+	models.evaluacion.update({
+		nombre: req.body.nombre,
+		fecha_i: req.body.fecha_i,
+		fecha_f: req.body.fecha_f,
+		unidadCodigo: req.body.unidad,
+		instrumentId: req.body.instrumento
+	},{
+		where: {
+			id: req.params.id
+		}
+	}).then(Evaluacion => {
+		models.usuario.findAll({
+			where: { [Op.and]: [{nucleoCodigo:req.params.idn}, {unidadCodigo:req.body.unidad}] }
+		}).then(Usuario => {
+			models.evaluacion.findAll({
+				include: [models.instrument],
+			}).then(Evaluaciones => {
+				for(var i = 0; i < Usuario.length; i ++) {
+					for(var j = 0; j < Evaluaciones.length; j ++) {
+						//Evaluacion solo disponible para usuarios Jefe-Subordinado 
+						if((Usuario[i].cargoId == 2 || Usuario[i].cargoId == 3) && (Evaluaciones[j].instrument.tipoEvalId == 3 || Evaluaciones[j].instrument.tipoEvalId == 2 || Evaluaciones[j].instrument.tipoEvalId == 4)) {
+							models.evaluacionUsuario.create({
+								calificacion: null,
+								status: false,
+								evaluacionId: req.params.id,
+								usuarioCedula: Usuario[i].cedula
+							});
+						//Evaluacion solo disponible para usuarios Jefe-Subordinado 
+						}  if((Usuario[i].cargoId == 2) && Evaluaciones[j].instrument.tipoEvalId == 4) {
+							models.evaluacionUsuario.create({
+								calificacion: null,
+								status: false,
+								evaluacionId: req.params.id,
+								usuarioCedula: Usuario[i].cedula
+							});
+						//Evaluacion solo disponible para usuarios Jefe-Subordinado o Subordinado
+						}  if((Usuario[i].cargoId == 2  || Usuario[i].cargoId == 3) && Evaluaciones[j].instrument.tipoEvalId == 1) {
+							models.evaluacionUsuario.create({
+								calificacion: null,
+								status: false,
+								evaluacionId: req.params.id,
+								usuarioCedula: Usuario[i].cedula
+							});
+						//Evaluacion solo disponible para usuarios subordinados	
+						} if((Usuario[i].cargoId == 3) && (Evaluaciones[j].instrument.tipoEvalId == 1 || Evaluaciones[j].instrument.tipoEvalId == 2 || Evaluaciones[j].instrument.tipoEvalId == 4)) {
+							models.evaluacionUsuario.create({
+								calificacion: null,
+								status: false,
+								evaluacionId: req.params.id,
+								usuarioCedula: Usuario[i].cedula
+							});
+						} 
+					}
+				}
+				res.redirect('/coord_plani');
+			});	
+		});
 	});
 }

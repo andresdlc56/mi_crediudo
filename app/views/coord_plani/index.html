@@ -23,6 +23,7 @@
 	    	<th>Categoria</th>
 	    	<th>Nucleo</th>
 	    	<th>Unidad a Evaluar</th>
+	    	<th>Tipo Eval.</th>
 	    	<th>Operación</th>
 	  	</tr>
 
@@ -33,6 +34,15 @@
 		    	<td><%= Evaluaciones[i].categorium.nombre %></td>
 		    	<td><%= Evaluaciones[i].nucleo.nombre %></td>
 		    	<td><%= Evaluaciones[i].unidad.nombre %></td>
+		    	<td>
+		    		<%for(var j = 0; j < tipoEval.length; j ++) {%>
+						<% if(Evaluaciones[i].instrument.tipoEvalId == tipoEval[j].id) {%>
+							<%= tipoEval[j].nombre %>
+						<%}%>
+		    		<%}%>
+		    	
+		    			
+		    	</td>
 		    	<td><a href="#">Ver</a></td>
 		  	</tr>
 	  	<%}%>

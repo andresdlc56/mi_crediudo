@@ -13,7 +13,11 @@
 
 	<%if(evaluacionUsuario && evaluacionUsuario.length > 0) {%>
 		<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
-			<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
+			<% if(usuario.cargoId == 2 || usuario.cargoId == 3) {%>
+				<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>"><%=evaluacionUsuario[i].evaluacion.nombre%></a>	
+			<%} else{%>
+				Usted No tiene Evaluaciones Disponibles
+			<%}%>
 		<%}%>
 	<%} else{%>
 		<h3>No hay Evaluaciones</h3>

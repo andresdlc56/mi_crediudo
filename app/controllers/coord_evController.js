@@ -118,10 +118,10 @@ exports.addItem = function(req, res) {
 								factorId: req.body.factor,
 								instrumentId: req.params.id
 							}).then(Item => {
-								res.redirect('/coord_ev/instrument/'+req.params.id);
+								//
 							});
 						});
-						break;
+						res.redirect('/coord_ev/instrument/'+req.params.id);
 					} else {
 						//res.send('no procede');
 						models.item.create({
@@ -132,7 +132,7 @@ exports.addItem = function(req, res) {
 						}).then(Item => {
 							res.redirect('/coord_ev/instrument/'+req.params.id);
 						})
-						break;	
+						res.redirect('/coord_ev/instrument/'+req.params.id);	
 					}
 				}
 			}
@@ -160,30 +160,14 @@ exports.addItem = function(req, res) {
 	var Factor = req.body.factor;
 
 	models.instrumentFactor.findAll({
-		where: { factorId: Factor }
+		//where: { [Op.and]: [{factorId: Factor}, {instrumentId:req.params.id}] }
+		//where: { factorId: Factor }
 	}).then(instrumentFactor => {
 		if (instrumentFactor.length > 0) {
 			//res.send(instrumentFactor);
 			for(var i = 0; i < instrumentFactor.length; i ++){
-				if (instrumentFactor[i].factorId == Factor) {
-					if (instrumentFactor[i].instrumentId != req.params.id) {
-						//res.send('excelente');
-						models.instrumentFactor.create({
-							factorId: req.body.factor,
-							instrumentId: req.params.id
-						}).then(instrumentFactor => {
-							models.item.create({
-								nombre: req.body.nombre,
-								valor: 0,
-								factorId: req.body.factor,
-								instrumentId: req.params.id
-							}).then(Item => {
-								//
-							});
-						});
-						res.redirect('/coord_ev/instrument/'+req.params.id);
-					} else {
-						//res.send('no procede');
+				if (instrumentFactor[i].factorId == Factor && instrumentFactor[i].instrumentId == req.params.id) {
+					//res.send('no procede');
 						models.item.create({
 							nombre: req.body.nombre,
 							valor: 0,
@@ -192,9 +176,25 @@ exports.addItem = function(req, res) {
 						}).then(Item => {
 							res.redirect('/coord_ev/instrument/'+req.params.id);
 						})
-						res.redirect('/coord_ev/instrument/'+req.params.id);	
-					}
+				} else {
+					//res.send('No Tiene conetenido');
+					models.instrumentFactor.create({
+						factorId: req.body.factor,
+						instrumentId: req.params.id
+					}).then(instrumentFactor => {
+						models.item.create({
+							nombre: req.body.nombre,
+							valor: 0,
+							factorId: req.body.factor,
+							instrumentId: req.params.id
+						}).then(Item => {
+							res.redirect('/coord_ev/instrument/'+req.params.id);
+						});
+					});
 				}
+
+					
+				
 			}
 		} else {
 			//res.send('No Tiene conetenido');
