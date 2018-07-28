@@ -6,6 +6,9 @@ module.exports = function(sequelize, Sequelize) {
             primaryKey: true,
             autoIncrement: true
         },
+        usuarioCedula: {
+            type: Sequelize.INTEGER
+        },
         calificacion: {
             type: Sequelize.DECIMAL,
             defaultValue: 0
@@ -13,12 +16,16 @@ module.exports = function(sequelize, Sequelize) {
         status: {
             type: Sequelize.BOOLEAN,
             defaultValue: false
+        },
+        usuarioEvaluado: {
+            type: Sequelize.INTEGER
         }
     });
     // Class Method
     evaluacionUsuario.associate = function (models) {
         evaluacionUsuario.belongsTo(models.evaluacion);
-        evaluacionUsuario.belongsTo(models.usuario);
+        //evaluacionUsuario.belongsTo(models.usuario);
+        //evaluacionUsuario.belongsTo(models.usuario, {foreignKey: 'usuarioEvaluado'});
     };
  
     return evaluacionUsuario;

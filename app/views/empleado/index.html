@@ -3,17 +3,59 @@
 <head>
 	<meta charset="UTF-8">
 	<title>CREDIUDO | Inicio</title>
+
+	<style type="text/css">
+		table, th, td {
+		    border: 1px solid black;
+		}
+	</style>
 </head>
 <body>
 	<h2>CREDIUDO | Inicio</h2>
-	<h4>Bienvendio <%= usuario.nombre %></h4>
+	<h4>Bienvendio <%= Usuario.nombre %> <%= Usuario.apellido %></h4>
+	<h5>Nucleo: <%= Usuario.nucleo.nombre %></h5>
+	<h5>Unidad: <%= Usuario.unidad.nombre %></h5>
 	<a href="/logout">Cerrar Sesion</a>
 
 	<br><br>
+	
+	<% if(subordinados && jefeSubordinado == false) {%>
+		<h4>Subordinados: </h4>
+	<%} else if(subordinados == false && jefeSubordinado) {%>
+		<h4>Jefe: </h4>
+	<%}%>
+	<table style="width:50%">
+	  	<tr>
+	    	<th>Nombre</th>
+	    	<th>Apellido</th> 
+	    	<th>Cedula</th>
+	    	<th>Evaluar</th>
+	  	</tr>
+	  	<%if(subordinados == false && jefeSubordinado) {%>
+			<tr>
+				<td><%= jefeSubordinado.nombre %></td>
+				<td><%= jefeSubordinado.apellido %></td>
+				<td><%= jefeSubordinado.cedula %></td>
+				<td></td>
+			</tr>
+	  	<%} else if(subordinados && jefeSubordinado == false) {%>
+			<% for(var k = 0; k < subordinados.length; k ++) {%>
+				<tr>
+				<td><%= subordinados[k].nombre %></td>
+				<td><%= subordinados[k].apellido %></td>
+				<td><%= subordinados[k].cedula %></td>
+				<td></td>
+			</tr>
+			<%}%>
+	  	<%}%>
+	  	
+	  	
+	</table>
 
+	<br><br>
 	<%if(evaluacionUsuario && evaluacionUsuario.length > 0) {%>
 		<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
-			<% if(usuario.cargoId == 2 || usuario.cargoId == 3) {%>
+			<% if(Usuario.cargoId == 2 || Usuario.cargoId == 3) {%>
 				<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>"><%=evaluacionUsuario[i].evaluacion.nombre%></a>	
 			<%} else{%>
 				Usted No tiene Evaluaciones Disponibles

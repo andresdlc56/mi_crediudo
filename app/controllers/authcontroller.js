@@ -37,9 +37,46 @@ exports.dashboard = function(req, res) {
 				where: { [Op.and]: [{usuarioCedula: usuario.cedula}, {status:false}] }
 				//where: { usuarioCedula: usuario.cedula }
 			}).then(evaluacionUsuario => {
-				console.log(evaluacionUsuario.length);
-				res.render('empleado/index', { Evaluacion, usuario, evaluacionUsuario });
-				//res.send(evaluacionUsuario);	
+				models.usuario.findOne({
+					include: [models.nucleo, models.unidad],
+					where: { cedula: usuario.cedula }
+				}).then(Usuario => {
+					if(Usuario.cargoId == 3) {
+						var subordinados = false;
+						models.usuario.findOne({
+							include: [models.nucleo, models.unidad],
+							where: { 
+								[Op.and]: [{cargoId: 2}, 
+								{nucleoCodigo: Usuario.nucleoCodigo}, 
+								{unidadCodigo: Usuario.unidadCodigo}, 
+								{rolId: Usuario.rolId}] 
+							}
+						}).then(jefeSubordinado => {
+							console.log(Usuario.cargoId);
+							res.render('empleado/index', { Evaluacion, Usuario, evaluacionUsuario, jefeSubordinado, subordinados });
+							//res.send(jefeSubordinado);	
+						})	
+					} 
+
+					if(Usuario.cargoId == 2) {
+						var jefeSubordinado = false;
+
+						models.usuario.findAll({
+							include: [models.nucleo, models.unidad],
+							where: { 
+								[Op.and]: [{cargoId: 3}, 
+								{nucleoCodigo: Usuario.nucleoCodigo}, 
+								{unidadCodigo: Usuario.unidadCodigo}, 
+								{rolId: Usuario.rolId}] 
+							}
+						}).then(subordinados => {
+							res.render('empleado/index', { Evaluacion, Usuario, evaluacionUsuario, jefeSubordinado, subordinados });
+						})
+					}
+
+					
+				})
+					
 			});	
 		});
 

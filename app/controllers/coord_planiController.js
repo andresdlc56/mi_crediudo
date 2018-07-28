@@ -78,35 +78,6 @@ exports.finiquitarEval = function(req, res) {
 		models.usuario.findAll({
 			where: { [Op.and]: [{nucleoCodigo:req.params.idn}, {unidadCodigo:req.body.unidad}] }
 		}).then(Usuario => {
-			for(var i = 0; i < Usuario.length; i ++) {
-				models.evaluacionUsuario.create({
-					calificacion: null,
-					status: false,
-					evaluacionId: req.params.id,
-					usuarioCedula: Usuario[i].cedula
-				});
-			}
-			res.redirect('/coord_plani');	
-		});
-
-	});
-}*/
-
-exports.finiquitarEval = function(req, res) {
-	models.evaluacion.update({
-		nombre: req.body.nombre,
-		fecha_i: req.body.fecha_i,
-		fecha_f: req.body.fecha_f,
-		unidadCodigo: req.body.unidad,
-		instrumentId: req.body.instrumento
-	},{
-		where: {
-			id: req.params.id
-		}
-	}).then(Evaluacion => {
-		models.usuario.findAll({
-			where: { [Op.and]: [{nucleoCodigo:req.params.idn}, {unidadCodigo:req.body.unidad}] }
-		}).then(Usuario => {
 			models.evaluacion.findAll({
 				include: [models.instrument],
 			}).then(Evaluaciones => {
@@ -147,6 +118,82 @@ exports.finiquitarEval = function(req, res) {
 						} 
 					}
 				}
+				res.redirect('/coord_plani');
+			});	
+		});
+	});
+}
+*/
+
+exports.finiquitarEval = function(req, res) {
+	models.evaluacion.update({
+		nombre: req.body.nombre,
+		fecha_i: req.body.fecha_i,
+		fecha_f: req.body.fecha_f,
+		unidadCodigo: req.body.unidad,
+		instrumentId: req.body.instrumento
+	},{
+		where: {
+			id: req.params.id
+		}
+	}).then(Evaluacion => {
+		models.usuario.findAll({
+			where: { [Op.and]: [{nucleoCodigo:req.params.idn}, {unidadCodigo:req.body.unidad}] }
+		}).then(Usuario => {
+			models.evaluacion.findAll({
+				include: [models.instrument],
+				where: { [Op.and]: [
+					{nucleoCodigo: req.params.idn}, 
+					{unidadCodigo:req.body.unidad}, 
+					{instrumentId: req.body.instrumento}] 
+				}
+			}).then(Evaluaciones => {
+				for(var j = 0; j < Evaluaciones.length; j ++){
+					if(Evaluaciones[j].instrument.tipoEvalId == 1) {
+						for(var i = 0; i < Usuario.length; i ++) {
+							models.evaluacionUsuario.create({
+								calificacion: null,
+								status: false,
+								evaluacionId: req.params.id,
+								usuarioCedula: Usuario[i].cedula,
+								usuarioEvaluado: Usuario[i].cedula
+							})
+						}
+					} else if(Evaluaciones[j].instrument.tipoEvalId == 4) {
+						
+						models.usuario.findAll({
+							where: { [Op.and]: [{nucleoCodigo:req.params.idn},
+								{unidadCodigo:req.body.unidad},
+								{cargoId:3},
+								{rolId:5}] 
+							}
+						}).then(Subordinado => {
+							//res.send(Evaluaciones);
+							models.usuario.findOne({
+								where: {
+									[Op.and]: [
+												{nucleoCodigo:req.params.idn},
+												{unidadCodigo:req.body.unidad},
+												{cargoId:2},
+												{rolId:5}
+									]
+								}
+							}).then(Jefe => {
+
+								for(var k = 0; k < Subordinado.length; k ++) {
+									models.evaluacionUsuario.create({
+										calificacion: null,
+										status: false,
+										evaluacionId: req.params.id,
+										usuarioCedula: Subordinado[k].cedula,
+										usuarioEvaluado: Jefe.cedula
+									})	
+								}
+							})
+						})
+					}
+				}
+				//res.send(Evaluaciones);
 				res.redirect('/coord_plani');
 			});	
 		});
