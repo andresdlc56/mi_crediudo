@@ -62,68 +62,6 @@ exports.addEval_b = function(req, res) {
 	});
 }
 
-/*
-exports.finiquitarEval = function(req, res) {
-	models.evaluacion.update({
-		nombre: req.body.nombre,
-		fecha_i: req.body.fecha_i,
-		fecha_f: req.body.fecha_f,
-		unidadCodigo: req.body.unidad,
-		instrumentId: req.body.instrumento
-	},{
-		where: {
-			id: req.params.id
-		}
-	}).then(Evaluacion => {
-		models.usuario.findAll({
-			where: { [Op.and]: [{nucleoCodigo:req.params.idn}, {unidadCodigo:req.body.unidad}] }
-		}).then(Usuario => {
-			models.evaluacion.findAll({
-				include: [models.instrument],
-			}).then(Evaluaciones => {
-				for(var i = 0; i < Usuario.length; i ++) {
-					for(var j = 0; j < Evaluaciones.length; j ++) {
-						//Evaluacion solo disponible para usuarios Jefe-Subordinado 
-						if((Usuario[i].cargoId == 2 || Usuario[i].cargoId == 3) && (Evaluaciones[j].instrument.tipoEvalId == 3 || Evaluaciones[j].instrument.tipoEvalId == 2 || Evaluaciones[j].instrument.tipoEvalId == 4)) {
-							models.evaluacionUsuario.create({
-								calificacion: null,
-								status: false,
-								evaluacionId: req.params.id,
-								usuarioCedula: Usuario[i].cedula
-							});
-						//Evaluacion solo disponible para usuarios Jefe-Subordinado 
-						}  if((Usuario[i].cargoId == 2) && Evaluaciones[j].instrument.tipoEvalId == 4) {
-							models.evaluacionUsuario.create({
-								calificacion: null,
-								status: false,
-								evaluacionId: req.params.id,
-								usuarioCedula: Usuario[i].cedula
-							});
-						//Evaluacion solo disponible para usuarios Jefe-Subordinado o Subordinado
-						}  if((Usuario[i].cargoId == 2  || Usuario[i].cargoId == 3) && Evaluaciones[j].instrument.tipoEvalId == 1) {
-							models.evaluacionUsuario.create({
-								calificacion: null,
-								status: false,
-								evaluacionId: req.params.id,
-								usuarioCedula: Usuario[i].cedula
-							});
-						//Evaluacion solo disponible para usuarios subordinados	
-						} if((Usuario[i].cargoId == 3) && (Evaluaciones[j].instrument.tipoEvalId == 1 || Evaluaciones[j].instrument.tipoEvalId == 2 || Evaluaciones[j].instrument.tipoEvalId == 4)) {
-							models.evaluacionUsuario.create({
-								calificacion: null,
-								status: false,
-								evaluacionId: req.params.id,
-								usuarioCedula: Usuario[i].cedula
-							});
-						} 
-					}
-				}
-				res.redirect('/coord_plani');
-			});	
-		});
-	});
-}
-*/
 
 exports.finiquitarEval = function(req, res) {
 	models.evaluacion.update({
@@ -189,6 +127,37 @@ exports.finiquitarEval = function(req, res) {
 										usuarioEvaluado: Jefe.cedula
 									})	
 								}
+							})
+						})
+					} else if(Evaluaciones[j].instrument.tipoEvalId == 3) {
+
+						models.usuario.findOne({
+							where: {
+								[Op.and]: [
+									{nucleoCodigo:req.params.idn},
+									{unidadCodigo:req.body.unidad},
+									{cargoId:2},
+									{rolId:5}
+								]
+							}
+						}).then(Jefe => {
+							models.usuario.findAll({
+								where: { [Op.and]: [{nucleoCodigo:req.params.idn},
+									{unidadCodigo:req.body.unidad},
+									{cargoId:3},
+									{rolId:5}] 
+								}
+							}).then(Subordinado => {
+
+								for(var z = 0; z < Subordinado.length; z ++) {
+									models.evaluacionUsuario.create({
+										calificacion: null,
+										status: false,
+										evaluacionId: req.params.id,
+										usuarioCedula: Jefe.cedula,
+										usuarioEvaluado: Subordinado[z].cedula
+									})
+								}		
 							})
 						})
 					}

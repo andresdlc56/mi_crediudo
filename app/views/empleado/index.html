@@ -19,11 +19,21 @@
 
 	<br><br>
 	
+	<!--
 	<% if(subordinados && jefeSubordinado == false) {%>
 		<h4>Subordinados: </h4>
 	<%} else if(subordinados == false && jefeSubordinado) {%>
 		<h4>Jefe: </h4>
 	<%}%>
+	-->
+
+	<%if(evaluacionUsuario && evaluacionUsuario.length > 0) {%>
+		<h4>Evaluaciones Disponibles: </h4>
+	<%} else{%>
+		<h3>No hay Evaluaciones</h3>
+	<%}%>
+
+	<!--
 	<table style="width:50%">
 	  	<tr>
 	    	<th>Nombre</th>
@@ -36,23 +46,58 @@
 				<td><%= jefeSubordinado.nombre %></td>
 				<td><%= jefeSubordinado.apellido %></td>
 				<td><%= jefeSubordinado.cedula %></td>
-				<td></td>
+				<td>
+					
+				</td>
 			</tr>
 	  	<%} else if(subordinados && jefeSubordinado == false) {%>
 			<% for(var k = 0; k < subordinados.length; k ++) {%>
 				<tr>
-				<td><%= subordinados[k].nombre %></td>
-				<td><%= subordinados[k].apellido %></td>
-				<td><%= subordinados[k].cedula %></td>
-				<td></td>
-			</tr>
+					<td><%= subordinados[k].nombre %></td>
+					<td><%= subordinados[k].apellido %></td>
+					<td><%= subordinados[k].cedula %></td>
+					<td></td>
+				</tr>
 			<%}%>
 	  	<%}%>
-	  	
-	  	
 	</table>
+	-->
+
 
 	<br><br>
+
+<%if(evaluacionUsuario && evaluacionUsuario.length > 0) {%>
+	<table style="width:50%">
+		<tr>
+	    	<th>Nombre</th>
+	    	<th>Apellido</th> 
+	    	<th>Cedula</th>
+	    	<th>Evaluar</th>
+	  	</tr>
+	  	<!--BUSQUEDA PARA IR COMPARANDO CEDULAS E IMPRIMIR LOS NOMBRES Y APELLIDOS DE LOS USUARIOS A SER EVALUADOS-->
+		<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
+			<% if(Usuario.cargoId == 2 || Usuario.cargoId == 3) {%>
+			  	<tr>
+					<% for(var j = 0; j < subordinados.length; j ++) {%>
+						<% if(evaluacionUsuario[i].usuarioEvaluado == subordinados[j].cedula) {%>
+				  		<td>
+				  			<%= subordinados[j].nombre %>		
+				  		</td>
+				  		<%}%>
+					<%}%>
+					<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
+					<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
+					<td><a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>"><%=evaluacionUsuario[i].evaluacion.nombre%></a></td>
+			  	</tr>
+			<%}%>
+		<%}%>
+		<!-- FIN -->
+	</table>
+<%}%>
+
+	<br><br>
+
+<!--
 	<%if(evaluacionUsuario && evaluacionUsuario.length > 0) {%>
 		<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
 			<% if(Usuario.cargoId == 2 || Usuario.cargoId == 3) {%>
@@ -64,7 +109,7 @@
 	<%} else{%>
 		<h3>No hay Evaluaciones</h3>
 	<%}%>
-	
+-->
 	
 	
 </body>

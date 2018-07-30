@@ -6,7 +6,7 @@ module.exports = function(sequelize, Sequelize) {
             primaryKey: true,
             autoIncrement: true
         },
-        usuarioCedula: {
+         usuarioCedula: {
             type: Sequelize.INTEGER
         },
         calificacion: {
