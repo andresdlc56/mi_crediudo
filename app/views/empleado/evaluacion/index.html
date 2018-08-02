@@ -22,19 +22,21 @@
 	<br>
 	<!--INFORMACION DE LA PERSONA A SER EVALUADA-->
 	<h4>
-		<% if(evaluacionUsuario.usuarioEvaluado == usuarioEvaluado.cedula) {%>
-			Persona Evaluada: <%= usuarioEvaluado.nombre %> <%= usuarioEvaluado.apellido %> 	
+		<% for(let k = 0; k < usuariosTodos.length; k ++) {%>
+			<% if(evaluacionUsuario.usuarioEvaluado == usuariosTodos[k].cedula) {%>
+				Usuario Evaluado: <%= evaluacionUsuario.usuarioEvaluado %>
+			<%}%>
 		<%}%>
 		 		
 	</h4>
 	<!---->
 	<h4>Nombre o Titulo del Instrumento de Eval: <%=Evaluacion.instrument.titulo%></h4>
 
-	<form method="post" action="/dashboard/evaluacion/<%=Evaluacion.id%>/u/<%=Usuario.cedula%>" id="formEvaluacion">
+	<form method="post" action="/dashboard/evaluacion/<%=Evaluacion.id%>/u/<%=Usuario.cedula%>/ue/<%= evaluacionUsuario.usuarioEvaluado %>" id="formEvaluacion">
 		<input type="hidden" name="factores" value=<%=instrumentFactor.length%>>
 		<input type="hidden" name="items" value="<%=Items.length%>">
 		<input type="hidden" name="instrumentId" value="<%=Evaluacion.instrumentId%>">
-		<input type="hidden" name="usuarioEvaluado" value="<%= usuarioEvaluado.cedula %>">
+		<input type="hidden" name="usuarioEvaluado" value="<%= evaluacionUsuario.usuarioEvaluado %>">
 
 		<table style="width:80%">
 			<% var k=0 %>

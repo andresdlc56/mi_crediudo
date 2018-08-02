@@ -5,9 +5,9 @@ var authController = require('../../controllers/authController.js');
 
 module.exports = function(app) {
 
-    app.get('/dashboard/evaluacion/:id/u/:idu',isLoggedIn, empleadoController.evaluacion);
+    app.get('/dashboard/evaluacion/:id/u/:idu/ue/:idue',isLoggedIn, empleadoController.evaluacion);
 
-    app.post('/dashboard/evaluacion/:id/u/:idu',isLoggedIn, empleadoController.procesarEval);
+    app.post('/dashboard/evaluacion/:id/u/:idu/ue/:idue',isLoggedIn, empleadoController.procesarEval);
 
 
 	function isLoggedIn(req, res, next) {

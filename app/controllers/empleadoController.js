@@ -5,21 +5,73 @@ var Sequelize = require('sequelize');
 var Op = Sequelize.Op;
 
 exports.evaluacion = function(req, res) {
+	//busca un usuario que tenga como cedula el id que viene por parametro
 	models.usuario.findById(req.params.idu).then(Usuario => {
+		//busca una evaluacion que tenga como id el id que viene por parametro 
 		models.evaluacion.findOne({
 			include: [models.instrument],
 			where: { id: req.params.id }
 		}).then(Evaluacion => {
+			/*
+				busca todos los factores que estan relacionados con el instrumento que esta relacionado 
+				a la evaluacion encontrada anteriormente
+			*/
 			models.instrumentFactor.findAll({
 				include: [models.factor],
 				where: { instrumentId: Evaluacion.instrumentId }
 			}).then(instrumentFactor => {
+				/*
+					busca todos los items que estan relacionados con el instrumento que esta relacionado
+					con esta evaluacion
+				*/
 				models.item.findAll({
 					where: { instrumentId: Evaluacion.instrumentId }
 				}).then(Items => {
+					
+					models.evaluacionUsuario.findOne({
+						where: { 
+								[Op.and]: [
+									{usuarioCedula: req.params.idu}, 
+									{evaluacionId:req.params.id},
+									{usuarioEvaluado:req.params.idue}
+								] 
+							}
+					}).then(evaluacionUsuario => {
+						models.usuario.findAll({
+
+						}).then(usuariosTodos => {
+							if (Usuario.nucleoCodigo == Evaluacion.nucleoCodigo && Usuario.unidadCodigo == Evaluacion.unidadCodigo) {
+								//res.send(evaluacionUsuario);
+								res.render('empleado/evaluacion/index', { 
+									Usuario, 
+									Evaluacion, 
+									instrumentFactor, 
+									Items,
+									evaluacionUsuario,
+									usuariosTodos 
+								});
+							} else{
+								res.send('Negativo');
+							}	
+						})
+					})
+
+
+
+
+
+
+					/*
+						busca un usuario que este relacionado con esta evaluacion donde la cedula
+						del usuario sea igual a la cedula que viene por parametro y el id de la evaluacion
+						sea igual a el id que viene por parametro 
+					*/
+
+					/*
 					models.evaluacionUsuario.findOne({
 						where: { [Op.and]: [{usuarioCedula: req.params.idu}, {evaluacionId:req.params.id}] }
 					}).then(evaluacionUsuario => {
+						
 						models.usuario.findById(evaluacionUsuario.usuarioEvaluado).then(usuarioEvaluado => {
 							if (Usuario.nucleoCodigo == Evaluacion.nucleoCodigo && Usuario.unidadCodigo == Evaluacion.unidadCodigo) {
 								//res.send(Items);
@@ -36,6 +88,7 @@ exports.evaluacion = function(req, res) {
 							}	
 						})
 					})
+					*/
 				})
 			})
 		})
@@ -72,7 +125,11 @@ exports.procesarEval = function(req, res) {
 		calificacion: calificacion,
 		status: true
 	}, {
-		where: { [Op.and]: [{usuarioCedula: req.params.idu}, {evaluacionId:req.params.id}, {usuarioEvaluado: req.body.usuarioEvaluado}] }
+		where: { 
+			[Op.and]: [{usuarioCedula: req.params.idu}, 
+						{evaluacionId:req.params.id}, 
+						{usuarioEvaluado: req.params.idue}] 
+		}
 		//where: { usuarioCedula: req.params.idu }
 	}).then(evaluacionUsuario => {
 		console.log(isNumber);

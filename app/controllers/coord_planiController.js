@@ -207,7 +207,7 @@ exports.finiquitarEval = function(req, res) {
 					}
 				}
 				//res.send(Resto);
-				//res.redirect('/coord_plani');
+				res.redirect('/coord_plani');
 			});	
 		});
 	});
