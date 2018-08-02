@@ -33,6 +33,10 @@
 		<h3>No hay Evaluaciones</h3>
 	<%}%>
 
+	
+	<input type="hidden" name="fecha_actual" id="fecha_actual" value="<%= fecha_actual %>">
+	<%= fecha_actual %>
+
 	<!--
 	<table style="width:50%">
 	  	<tr>
@@ -87,7 +91,19 @@
 					<%}%>
 					<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
 					<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
-					<td><a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>"><%=evaluacionUsuario[i].evaluacion.nombre%></a></td>
+					<td>
+						<% if((fecha_actual >= evaluacionUsuario[i].evaluacion.fecha_i) && (fecha_actual <= evaluacionUsuario[i].evaluacion.fecha_f)) {%>
+							<h4>Si puede</h4>
+						<%} else{%>
+							<h4>Aun No Puede</h4>
+						<%}%>
+
+						<input type="hidden" name="fecha_i" id="fecha_i" value="<%=evaluacionUsuario[i].evaluacion.fecha_i%>">
+
+						<input type="hidden" name="fecha_f" id="fecha_f" value="<%=evaluacionUsuario[i].evaluacion.fecha_f%>">
+
+						<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>" id="evaluacion" onclick="comprobar("hola",5);"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
+					</td>
 			  	</tr>
 			<%}%>
 		<%}%>
@@ -111,6 +127,15 @@
 	<%}%>
 -->
 	
+	<script type="text/javascript">
+		function comprobar(a,b){
+			var fechaActual = document.getElementById("fecha_actual").value;
+			var fecha_i = document.getElementById('fecha_i').value;
+			var fecha_f = document.getElementById('fecha_f').value;
+
+			alert(a);
+		}
+	</script>
 	
 </body>
 </html>

@@ -17,12 +17,25 @@ exports.evaluacion = function(req, res) {
 				models.item.findAll({
 					where: { instrumentId: Evaluacion.instrumentId }
 				}).then(Items => {
-					if (Usuario.nucleoCodigo == Evaluacion.nucleoCodigo && Usuario.unidadCodigo == Evaluacion.unidadCodigo) {
-						//res.send(Items);
-						res.render('empleado/evaluacion/index', { Usuario, Evaluacion, instrumentFactor, Items });	
-					} else{
-						res.send('Negativo');
-					}	
+					models.evaluacionUsuario.findOne({
+						where: { [Op.and]: [{usuarioCedula: req.params.idu}, {evaluacionId:req.params.id}] }
+					}).then(evaluacionUsuario => {
+						models.usuario.findById(evaluacionUsuario.usuarioEvaluado).then(usuarioEvaluado => {
+							if (Usuario.nucleoCodigo == Evaluacion.nucleoCodigo && Usuario.unidadCodigo == Evaluacion.unidadCodigo) {
+								//res.send(Items);
+								res.render('empleado/evaluacion/index', { 
+									Usuario, 
+									Evaluacion, 
+									instrumentFactor, 
+									Items,
+									evaluacionUsuario,
+									usuarioEvaluado 
+								});	
+							} else{
+								res.send('Negativo');
+							}	
+						})
+					})
 				})
 			})
 		})
@@ -59,7 +72,7 @@ exports.procesarEval = function(req, res) {
 		calificacion: calificacion,
 		status: true
 	}, {
-		where: { [Op.and]: [{usuarioCedula: req.params.idu}, {evaluacionId:req.params.id}] }
+		where: { [Op.and]: [{usuarioCedula: req.params.idu}, {evaluacionId:req.params.id}, {usuarioEvaluado: req.body.usuarioEvaluado}] }
 		//where: { usuarioCedula: req.params.idu }
 	}).then(evaluacionUsuario => {
 		console.log(isNumber);

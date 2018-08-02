@@ -10,18 +10,6 @@
 		}
 	</style>
 
-	<script>
-		var cifra=""; //inicializamos la variable como una cadena vacia 
-		//funcion que se activara cuando hagamos click en un numero
-	  	function display_numero(numero){
-	    	//alert("ejecutandose");
-	    	document.getElementById("display").value=cifra+numero; //asignamos un valor a la pantalla de la calculadora
-
-	    	//cifra=document.getElementById("display").value; //cambiamos el valor de la variable cifra x el valor que tiene la pantalla de la calculadora actualmente
-	  	}
-	</script>
-
-
 </head>
 <body>
 	<h2>CREDIUDO | Evaluación</h2>
@@ -32,13 +20,21 @@
 	
 	<h3><%=Evaluacion.nombre%></h3>
 	<br>
+	<!--INFORMACION DE LA PERSONA A SER EVALUADA-->
+	<h4>
+		<% if(evaluacionUsuario.usuarioEvaluado == usuarioEvaluado.cedula) {%>
+			Persona Evaluada: <%= usuarioEvaluado.nombre %> <%= usuarioEvaluado.apellido %> 	
+		<%}%>
+		 		
+	</h4>
+	<!---->
 	<h4>Nombre o Titulo del Instrumento de Eval: <%=Evaluacion.instrument.titulo%></h4>
 
 	<form method="post" action="/dashboard/evaluacion/<%=Evaluacion.id%>/u/<%=Usuario.cedula%>" id="formEvaluacion">
 		<input type="hidden" name="factores" value=<%=instrumentFactor.length%>>
 		<input type="hidden" name="items" value="<%=Items.length%>">
 		<input type="hidden" name="instrumentId" value="<%=Evaluacion.instrumentId%>">
-		<input type="text" name="display" id="display">
+		<input type="hidden" name="usuarioEvaluado" value="<%= usuarioEvaluado.cedula %>">
 
 		<table style="width:80%">
 			<% var k=0 %>

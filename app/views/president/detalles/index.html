@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Presidente</title>
+
+	<style type="text/css">
+		table, th, td {
+		    border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<h3>Detalles | Evaluación</h3>
+	
+	<br><br>
+
+	<h4>Total Examenes: <%= usuario.length %></h4>
+	<h4>
+		Examenes realizados:
+		<% var examen_true = 0 %>
+		<% for(var i = 0; i < usuario.length; i ++) {%>
+			<% if(usuario[i].status == true) {%>
+				<% examen_true = examen_true + 1 %>
+			<%}%>
+		<%}%>
+		<%= examen_true %> 
+	</h4>
+
+	<h4>Personal adscrito en esta unidad:</h4>
+
+	<table style="width:50%">
+		<tr>
+	    	<th>Nombre</th>
+	    	<th>Apellido</th> 
+	    	<th>Cedula</th>
+	    	<th>Evaluar</th>
+	  	</tr>
+
+	  	<% for(var j = 0; j < Empleados.length; j ++) {%>
+			<tr>
+				<td><%= Empleados[j].nombre %></td>
+				<td><%= Empleados[j].apellido %></td>
+				<td><%= Empleados[j].cedula %></td>
+			</tr>
+	  	<%}%>
+	</table>
+</body>
+</html>

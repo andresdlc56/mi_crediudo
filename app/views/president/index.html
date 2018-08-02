@@ -3,8 +3,43 @@
 <head>
 	<meta charset="UTF-8">
 	<title>CREDIUDO | Presidente</title>
+
+	<style type="text/css">
+		table, th, td {
+		    border: 1px solid black;
+		}
+	</style>
 </head>
 <body>
 	<h3>Index | Presidente</h3>
+	<h4>Bienvenido(a): <%= presidente.nombre %> <%= presidente.apellido %> </h4>
+	<a href="/logout">Logout</a>
+	<hr>
+
+	<h3>Evaluaciones en Curso: </h3>
+
+	<% if(evaluacion && evaluacion.length > 0) {%>
+		<table style="width:50%">
+			<tr>
+		    	<th>Nombre de Eval.</th>
+		    	<th>Nucleo</th> 
+		    	<th>Unidad</th>
+		    	
+		    	<th>Accion</th>
+		  	</tr>
+			
+			<% for(var i = 0; i < evaluacion.length; i ++) {%>
+				<% if(fecha_actual => evaluacion[i].fecha_i && fecha_actual <= evaluacion[i].fecha_f ) {%>
+				  	<tr>
+				  		<td><%= evaluacion[i].nombre %></td>
+				  		<td><%= evaluacion[i].nucleo.nombre %></td>
+				  		<td><%= evaluacion[i].unidad.nombre %></td>
+				  		
+						<td><a href="/president/detalles/<%= evaluacion[i].id %>">Ver Detalles</a></td>
+				  	</tr>
+				<%}%>  
+			<%}%>	
+		</table>
+	<%}%>
 </body>
 </html>

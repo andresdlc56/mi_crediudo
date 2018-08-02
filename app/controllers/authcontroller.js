@@ -14,6 +14,7 @@ exports.signin = function(req, res) {
 
 exports.dashboard = function(req, res) {
 	var usuario = req.user;
+	var fecha_actual = new Date();
 
 	//si el rol del usuario es 1 (admin)
 	if (usuario.rolId == 1) {
@@ -29,7 +30,7 @@ exports.dashboard = function(req, res) {
 		res.redirect('/coord_ev');
 		//res.status(201).send('Bienvenido Coord Evaluación');
 	} else if(usuario.rolId == 5) {
-		var fecha_actual = new Date();
+		
 
 		models.evaluacion.findAll({
 			where: { [Op.and]: [{nucleoCodigo:usuario.nucleoCodigo}, {unidadCodigo:usuario.unidadCodigo}] }
@@ -55,7 +56,13 @@ exports.dashboard = function(req, res) {
 							}
 						}).then(jefeSubordinado => {
 							console.log(Usuario.cargoId);
-							res.render('empleado/index', { Evaluacion, Usuario, evaluacionUsuario, jefeSubordinado, subordinados });
+							res.render('empleado/index', { 
+								Evaluacion, Usuario, 
+								evaluacionUsuario, 
+								jefeSubordinado, 
+								subordinados,
+								fecha_actual
+							});
 							//res.send(evaluacionUsuario);	
 						})	
 					} 
@@ -74,7 +81,14 @@ exports.dashboard = function(req, res) {
 						}).then(subordinados => {
 							//res.send(subordinados);
 							console.log(fecha_actual);
-							res.render('empleado/index', { Evaluacion, Usuario, evaluacionUsuario, jefeSubordinado, subordinados });
+							res.render('empleado/index', { 
+								Evaluacion, 
+								Usuario, 
+								evaluacionUsuario, 
+								jefeSubordinado, 
+								subordinados,
+								fecha_actual 
+							});
 						})
 					}
 
