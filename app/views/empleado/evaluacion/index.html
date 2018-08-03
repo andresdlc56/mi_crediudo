@@ -15,22 +15,26 @@
 	<h2>CREDIUDO | Evaluación</h2>
 	<h4>Bienvendio <%= Usuario.nombre %></h4>
 	<a href="/logout">Cerrar Sesion</a>
-
-	<br><br>
+	<hr>
 	
-	<h3><%=Evaluacion.nombre%></h3>
 	<br>
+	<h3><%=Evaluacion.instrument.titulo%></h3>
+	<br>
+	
+	<h3>Datos de la Depencia:</h3>
+	<h4>Nucleo: <%=Evaluacion.nucleo.nombre%></h4>
+	<h4>Nucleo: <%=Evaluacion.unidad.nombre%></h4>
+	<h4>Nombre del Supervisor Inmediato: <%=Usuario.nombre%> <%=Usuario.apellido%></h4>
+
+	<br>
+	<h3>Datos del Trabajador</h3>
+	<h4>Nombre y Apellido: <%= evaluacionUsuario.usuarioEvaluado %></h4>
+	<h4>Cedula de Identidad: <%= evaluacionUsuario.usuarioEvaluado %></h4>
+	<h4>Profesión: </h4>
+	<h4>Cargo Actual: </h4>
 	<!--INFORMACION DE LA PERSONA A SER EVALUADA-->
-	<h4>
-		<% for(let k = 0; k < usuariosTodos.length; k ++) {%>
-			<% if(evaluacionUsuario.usuarioEvaluado == usuariosTodos[k].cedula) {%>
-				Usuario Evaluado: <%= evaluacionUsuario.usuarioEvaluado %>
-			<%}%>
-		<%}%>
-		 		
-	</h4>
+	
 	<!---->
-	<h4>Nombre o Titulo del Instrumento de Eval: <%=Evaluacion.instrument.titulo%></h4>
 
 	<form method="post" action="/dashboard/evaluacion/<%=Evaluacion.id%>/u/<%=Usuario.cedula%>/ue/<%= evaluacionUsuario.usuarioEvaluado %>" id="formEvaluacion">
 		<input type="hidden" name="factores" value=<%=instrumentFactor.length%>>

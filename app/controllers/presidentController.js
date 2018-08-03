@@ -25,8 +25,12 @@ exports.index = function(req, res) {
 	});
 }
 
+/*
 exports.detalles = function(req, res) {
-	models.evaluacion.findById(req.params.id).then(Evaluacion => {
+	models.evaluacion.findOne({
+		where: { id: req.params.id },
+		include: [models.instrument]
+	}).then(Evaluacion => {
 		models.evaluacionUsuario.findAll({
 			where: { 
 				evaluacionId:req.params.id 
@@ -39,10 +43,40 @@ exports.detalles = function(req, res) {
 						{unidadCodigo: Evaluacion.unidadCodigo}] 
 				}
 			}).then(Empleados => {
-				//res.send(Empleados);
-				res.render('president/detalles/index', { usuario, Empleados });	
+				res.send(Evaluacion);
+				//res.render('president/detalles/index', { usuario, Empleados });	
 			});	
 		});
-	})
-	
+	})	
+}
+*/
+
+exports.detalles = function(req, res) {
+	models.evaluacion.findOne({
+		where: { id: req.params.id },
+		include: [models.instrument]
+	}).then(Evaluacion => {
+		if(Evaluacion.instrument.tipoEvalId == 3) {
+			console.log('===========Evaluacion de Jefe para Subordinados=============');
+			//res.send(Evaluacion);
+
+			models.usuario.findAll({
+				where: { 
+					[Op.and]: [
+						{nucleoCodigo: Evaluacion.nucleoCodigo}, 
+						{unidadCodigo: Evaluacion.unidadCodigo},
+						{rolId: 5},
+						{cargoId: 3}
+					] 
+				}
+			}).then(Usuario => {
+				models.evaluacionUsuario.findAll({
+					where: { evaluacionId: req.params.id }
+				}).then(dataEvaluacion => {
+					//res.send(evaluacionUsuario);
+					res.render('president/detalles/index', { dataEvaluacion });
+				})
+			})
+		}
+	})	
 }

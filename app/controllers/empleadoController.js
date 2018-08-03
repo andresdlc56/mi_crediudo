@@ -9,7 +9,7 @@ exports.evaluacion = function(req, res) {
 	models.usuario.findById(req.params.idu).then(Usuario => {
 		//busca una evaluacion que tenga como id el id que viene por parametro 
 		models.evaluacion.findOne({
-			include: [models.instrument],
+			include: [models.instrument, models.nucleo, models.unidad],
 			where: { id: req.params.id }
 		}).then(Evaluacion => {
 			/*
@@ -55,40 +55,6 @@ exports.evaluacion = function(req, res) {
 							}	
 						})
 					})
-
-
-
-
-
-
-					/*
-						busca un usuario que este relacionado con esta evaluacion donde la cedula
-						del usuario sea igual a la cedula que viene por parametro y el id de la evaluacion
-						sea igual a el id que viene por parametro 
-					*/
-
-					/*
-					models.evaluacionUsuario.findOne({
-						where: { [Op.and]: [{usuarioCedula: req.params.idu}, {evaluacionId:req.params.id}] }
-					}).then(evaluacionUsuario => {
-						
-						models.usuario.findById(evaluacionUsuario.usuarioEvaluado).then(usuarioEvaluado => {
-							if (Usuario.nucleoCodigo == Evaluacion.nucleoCodigo && Usuario.unidadCodigo == Evaluacion.unidadCodigo) {
-								//res.send(Items);
-								res.render('empleado/evaluacion/index', { 
-									Usuario, 
-									Evaluacion, 
-									instrumentFactor, 
-									Items,
-									evaluacionUsuario,
-									usuarioEvaluado 
-								});	
-							} else{
-								res.send('Negativo');
-							}	
-						})
-					})
-					*/
 				})
 			})
 		})
@@ -112,6 +78,45 @@ exports.procesarEval = function(req, res) {
 	var tipo = typeof(req.body.item);
 	var tipoFactor = typeof(factores);
 
+	models.item.findAll({
+		where: { instrumentId: req.body.instrumentId }
+	}).then(Item => {
+		var numItems = Item.length;
+		
+		for(let i = 0; i < numItems; i ++) {
+			arreglo[i] = parseInt(req.body.item[i]);
+			acomulador = acomulador + arreglo[i];
+
+			models.itemUsuario.create({
+				calificacion: arreglo[i], 
+				itemId: Item[i].id,
+				usuarioId: req.params.idue
+			}).then(itemUsuario => {
+				console.log('itemUsuario Creado');
+			});
+		}
+
+		var calificacion = acomulador/isNumber;
+
+		models.evaluacionUsuario.update({
+			calificacion: calificacion,
+			status: true
+		}, {
+			where: { 
+				[Op.and]: [
+					{usuarioCedula: req.params.idu}, 
+					{evaluacionId:req.params.id}, 
+					{usuarioEvaluado: req.params.idue}
+				] 
+			}
+			//where: { usuarioCedula: req.params.idu }
+		}).then(evaluacionUsuario => {
+			res.redirect('/dashboard');
+		});
+	});
+
+
+	/*
 	for(var i = 0; i < isNumber; i ++){
 		arreglo[i] = parseInt(req.body.item[i]);
 		acomulador = acomulador + arreglo[i];
@@ -132,6 +137,7 @@ exports.procesarEval = function(req, res) {
 		}
 		//where: { usuarioCedula: req.params.idu }
 	}).then(evaluacionUsuario => {
+		
 		console.log(isNumber);
 		console.log(tipo);
 		
@@ -148,4 +154,5 @@ exports.procesarEval = function(req, res) {
 
 	//res.send(isNumber);
 	//res.render('empleado/evaluacion/finalizado', { isNumber })
+	*/
 }
