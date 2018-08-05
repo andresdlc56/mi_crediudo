@@ -80,3 +80,49 @@ exports.detalles = function(req, res) {
 		}
 	})	
 }
+
+exports.culminado = function(req, res) {
+	console.log('================Examen Culminado==================');
+
+	models.evaluacion.findById(req.params.id).then(Evaluacion => {
+		models.instrumentFactor.findAll({
+			include: [models.factor],
+			where: { instrumentId: Evaluacion.instrumentId }
+		}).then(instrumentFactor => {
+			models.itemUsuario.findAll({
+				include: [models.item],
+				where: { usuarioId: req.params.idu }
+			}).then(Item => {
+
+
+				var calificacionGeneral;
+
+
+				var acomulador = [];
+				var calificacionFactor = [];
+
+				for(let i = 0; i < instrumentFactor.length; i ++) {
+					acomulador[i] = 0;
+					
+					var n = 0;
+					console.log('================Nombre Factor: '+instrumentFactor[i].factor.nombre+'====================');
+					for(let j = 0; j < Item.length; j ++) {
+						
+						if(Item[j].item.factorId == instrumentFactor[i].factorId) {
+							n = n + 1;
+							//console.log(Item[j].item.nombre);
+							acomulador[i] = acomulador[i] + Item[j].calificacion;
+							console.log('Acomulador'+[i]+': '+acomulador[i]);
+						}
+						
+						calificacionFactor[i] = acomulador[i]/n;
+					}
+					console.log('calificacion factor '+instrumentFactor[i].factor.nombre+': '+calificacionFactor[i]);
+					console.log('nro. de preguntas: '+n);
+				}
+				//res.send(Item);
+				res.render('president/detalles/culminado/index', { Evaluacion, instrumentFactor, Item, calificacionFactor });	
+			})		
+		})
+	})
+}

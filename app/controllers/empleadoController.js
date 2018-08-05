@@ -61,6 +61,7 @@ exports.evaluacion = function(req, res) {
 	})
 }
 
+
 exports.procesarEval = function(req, res) {
 	var factores = req.body.factores;
 	var items = req.body.items; //esta siendo tratado como un string
@@ -154,5 +155,89 @@ exports.procesarEval = function(req, res) {
 
 	//res.send(isNumber);
 	//res.render('empleado/evaluacion/finalizado', { isNumber })
-	*/
+	
+}
+*/
+/*
+exports.procesarEval = function(req, res) {
+	console.log('=====================Procesando Evaluacion===================');
+	var factores = req.body.factores;
+	var items = req.body.items; //esta siendo tratado como un string
+	var acomulador = 0;
+
+	var arreglo = [];
+
+	var calificacionFactor = 0;
+
+	var numItems = parseInt(items);
+	var numFactores = parseInt(factores);
+
+	//var tipo = typeof(req.body.item[0][0]);
+	var tipoFactor = typeof(factores);
+
+	models.instrumentFactor.findAll({
+		include: [models.factor],
+		where: { instrumentId: req.body.instrumentId }
+	}).then(instrumentFactor => {
+		for(let i = 0; i < 6; i ++) {
+			models.item.findAll({
+				where: {
+					[Op.and]: [
+						{factorId: instrumentFactor[i].factorId}, 
+						{instrumentId: req.body.instrumentId}
+					]
+				}
+			}).then(Item => {
+				for(let j = 0; j < 25; j ++) {
+					arreglo[ j ] = parseInt(req.body.item[ j ][ i ]);
+
+					
+				} 
+			});
+		}
+	});
+
+
+
+
+
+	/*
+	for(var i = 0; i < isNumber; i ++){
+		arreglo[i] = parseInt(req.body.item[i]);
+		acomulador = acomulador + arreglo[i];
+	}
+	
+	//res.send(req.body.item[0] + req.body.item[1]);
+	
+	var calificacion = acomulador/isNumber;
+
+	models.evaluacionUsuario.update({
+		calificacion: calificacion,
+		status: true
+	}, {
+		where: { 
+			[Op.and]: [{usuarioCedula: req.params.idu}, 
+						{evaluacionId:req.params.id}, 
+						{usuarioEvaluado: req.params.idue}] 
+		}
+		//where: { usuarioCedula: req.params.idu }
+	}).then(evaluacionUsuario => {
+		
+		console.log(isNumber);
+		console.log(tipo);
+		
+		console.log(acomulador);
+		console.log(calificacion);
+
+		console.log(evaluacionUsuario);
+
+		res.redirect('/dashboard');
+	});
+
+	
+	
+
+	//res.send(isNumber);
+	//res.render('empleado/evaluacion/finalizado', { isNumber })
+	*/	
 }

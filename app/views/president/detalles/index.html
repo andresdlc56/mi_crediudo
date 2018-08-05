@@ -29,7 +29,7 @@
 					<% if(dataEvaluacion[i].status == false) {%>
 						En Proceso
 					<%} else {%>
-						<a href="">Culminada</a>
+						<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>">Culminada</a>
 					<%}%>
 				</td>
 			</tr>

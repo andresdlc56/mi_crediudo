@@ -9,6 +9,8 @@ module.exports = function(app) {
 
     app.get('/president/detalles/:id',isLoggedIn, presidentController.detalles);
 
+    app.get('/president/culminado/:id/u/:idu',isLoggedIn, presidentController.culminado);
+
     //app.get('/admin/asignar-coordP', isLoggedIn, adminController.asignarCoordP);
 
     //app.get('/admin/asignar-coordE', isLoggedIn, adminController.asignarCoordE);
