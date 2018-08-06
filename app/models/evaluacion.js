@@ -20,6 +20,7 @@ module.exports = function(sequelize, Sequelize) {
         Evaluacion.belongsTo(models.instrument); //una Evaluacion pertenece a un Instrumento
         //Evaluacion.belongsToMany(models.usuario, {through: 'evaluacionUsuario'});
         Evaluacion.hasMany(models.evaluacionUsuario);
+        //Evaluacion.belongsToMany(models.usuario, {through: 'itemUsuario', foreignKey: 'evaluacionId'});
     };
  
     return Evaluacion;

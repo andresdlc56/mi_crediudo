@@ -1,4 +1,4 @@
-var exports = module.exports = {}
+	var exports = module.exports = {}
 
 var models = require('../models');
 var Sequelize = require('sequelize');
@@ -61,7 +61,7 @@ exports.evaluacion = function(req, res) {
 	})
 }
 
-
+/*
 exports.procesarEval = function(req, res) {
 	var factores = req.body.factores;
 	var items = req.body.items; //esta siendo tratado como un string
@@ -91,7 +91,8 @@ exports.procesarEval = function(req, res) {
 			models.itemUsuario.create({
 				calificacion: arreglo[i], 
 				itemId: Item[i].id,
-				usuarioId: req.params.idue
+				usuarioId: req.params.idue,
+				evaluacionId: req.params.id
 			}).then(itemUsuario => {
 				console.log('itemUsuario Creado');
 			});
@@ -115,129 +116,69 @@ exports.procesarEval = function(req, res) {
 			res.redirect('/dashboard');
 		});
 	});
-
-
-	/*
-	for(var i = 0; i < isNumber; i ++){
-		arreglo[i] = parseInt(req.body.item[i]);
-		acomulador = acomulador + arreglo[i];
-	}
-	
-	//res.send(req.body.item[0] + req.body.item[1]);
-	
-	var calificacion = acomulador/isNumber;
-
-	models.evaluacionUsuario.update({
-		calificacion: calificacion,
-		status: true
-	}, {
-		where: { 
-			[Op.and]: [{usuarioCedula: req.params.idu}, 
-						{evaluacionId:req.params.id}, 
-						{usuarioEvaluado: req.params.idue}] 
-		}
-		//where: { usuarioCedula: req.params.idu }
-	}).then(evaluacionUsuario => {
-		
-		console.log(isNumber);
-		console.log(tipo);
-		
-		console.log(acomulador);
-		console.log(calificacion);
-
-		console.log(evaluacionUsuario);
-
-		res.redirect('/dashboard');
-	});
-
-	
-	
-
-	//res.send(isNumber);
-	//res.render('empleado/evaluacion/finalizado', { isNumber })
-	
 }
 */
-/*
+
 exports.procesarEval = function(req, res) {
-	console.log('=====================Procesando Evaluacion===================');
-	var factores = req.body.factores;
-	var items = req.body.items; //esta siendo tratado como un string
-	var acomulador = 0;
+	console.log('=================Procesando Evaluacion===================');
+	//numero de factores
+	var numFactores = req.body.factores;
+	//cambiando el numFactores a number
+	var numberF = parseInt(numFactores);
 
-	var arreglo = [];
+	//numero de items
+	var numItems = req.body.items;
+	//cambiando el numItems a number
+	var numberI = parseInt(numItems);
 
-	var calificacionFactor = 0;
-
-	var numItems = parseInt(items);
-	var numFactores = parseInt(factores);
-
-	//var tipo = typeof(req.body.item[0][0]);
-	var tipoFactor = typeof(factores);
+	console.log('Numero de factores: '+numberF);
+	console.log('Numero de items: '+numberI);
 
 	models.instrumentFactor.findAll({
 		include: [models.factor],
-		where: { instrumentId: req.body.instrumentId }
-	}).then(instrumentFactor => {
-		for(let i = 0; i < 6; i ++) {
+		where: {
+			instrumentId: req.body.instrumentId
+		}
+	}).then(Factores => {
+
+		var acomulado = [];
+		var acomuladoGeneral = 0;
+		var calificacionFinal = 0;
+
+		for(let j = 0; j < Factores.length; j ++) {
+			acomulado[j] = 0;
+			
 			models.item.findAll({
 				where: {
 					[Op.and]: [
-						{factorId: instrumentFactor[i].factorId}, 
+						{factorId: Factores[j].factorId}, 
 						{instrumentId: req.body.instrumentId}
 					]
 				}
-			}).then(Item => {
-				for(let j = 0; j < 25; j ++) {
-					arreglo[ j ] = parseInt(req.body.item[ j ][ i ]);
-
-					
-				} 
+			}).then(Items => {
+				//obteniendo la calificacion por cada factor
+				console.log('======='+Factores[j].factor.nombre+'========');
+				//console.log(Items.length);
+				for(let k = 0; k < Items.length; k ++) {
+					acomulado[j] = acomulado[j] + parseInt(req.body.item[k]);
+				}
+				console.log('calificación: '+acomulado[j]/Items.length);
+				//ontenido el valor de cada item
+				//console.log('calificación General: '+acomuladoGeneral/numberI);
 			});
 		}
-	});
 
-
-
-
-
-	/*
-	for(var i = 0; i < isNumber; i ++){
-		arreglo[i] = parseInt(req.body.item[i]);
-		acomulador = acomulador + arreglo[i];
-	}
-	
-	//res.send(req.body.item[0] + req.body.item[1]);
-	
-	var calificacion = acomulador/isNumber;
-
-	models.evaluacionUsuario.update({
-		calificacion: calificacion,
-		status: true
-	}, {
-		where: { 
-			[Op.and]: [{usuarioCedula: req.params.idu}, 
-						{evaluacionId:req.params.id}, 
-						{usuarioEvaluado: req.params.idue}] 
+		//obteniendo en la calificacion general
+		for(let i = 0; i < numberI; i ++) {
+			//acomulado[j] = acomulado[j] + parseInt(req.body.item[i]);
+			acomuladoGeneral = acomuladoGeneral + parseInt(req.body.item[i]);
+			calificacionFinal = acomuladoGeneral / numberI;
+					 
+			//console.log('Valor del Item['+i+']: '+req.body.item[i]);
 		}
-		//where: { usuarioCedula: req.params.idu }
-	}).then(evaluacionUsuario => {
-		
-		console.log(isNumber);
-		console.log(tipo);
-		
-		console.log(acomulador);
-		console.log(calificacion);
 
-		console.log(evaluacionUsuario);
-
-		res.redirect('/dashboard');
+		console.log('calificación General: '+calificacionFinal);
 	});
 
-	
-	
-
-	//res.send(isNumber);
-	//res.render('empleado/evaluacion/finalizado', { isNumber })
-	*/	
+	//res.send(numberF);
 }

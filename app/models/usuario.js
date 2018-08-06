@@ -42,6 +42,7 @@ module.exports = function(sequelize, Sequelize) {
         Usuario.belongsTo(models.cargo);
         //Usuario.hasMany(models.evaluacionUsuario);
         Usuario.belongsToMany(models.item, {through: 'itemUsuario', foreignKey: 'usuarioId'});
+        //Usuario.belongsToMany(models.evaluacion, {through: 'itemUsuario', foreignKey: 'usuarioId'});
     };
         
     return Usuario;

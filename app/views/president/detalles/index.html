@@ -26,6 +26,8 @@
 			<th>Evaluación</th>
 		</tr>
 
+		<% var n = 0 %>
+
 		<% for(let i = 0; i < dataEvaluacion.length; i ++) {%>
 			<tr>
 				<td><%= dataEvaluacion[i].usuarioEvaluado %></td>
@@ -34,12 +36,38 @@
 					<% if(dataEvaluacion[i].status == false) {%>
 						En Proceso
 					<%} else {%>
+						<% n = n + 1 %>
 						<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>">Culminada</a>
 					<%}%>
 				</td>
 			</tr>
 		<%}%>	
 	</table>
+
+	<br>
+	
+	<% if(n == dataEvaluacion.length) {%>
+		<table style="width:20%">
+			<th>Calificación General</th>
+
+			<tr>
+				<td>
+					<h1>
+						<% var calificacionGeneral = 0 %>
+						<% var acomulado = 0 %>
+						<% for(let j = 0; j < dataEvaluacion.length; j ++) {%>
+							<% 
+								acomulado = acomulado + dataEvaluacion[j].calificacion;
+								calificacionGeneral = acomulado / dataEvaluacion.length;
+							%>
+						<%}%>
+						<%= calificacionGeneral %> Ptos
+					</h1>
+				</td>
+			</tr>
+
+		</table>	
+	<%}%>
 	
 </body>
 </html>

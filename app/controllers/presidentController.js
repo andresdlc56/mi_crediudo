@@ -13,7 +13,7 @@ exports.index = function(req, res) {
 					{nucleoCodigo:1}, 
 					{unidadCodigo:12},
 					{rolId:2}
-				] 
+			] 
 		}
 	}).then(presidente => {
 		models.evaluacion.findAll({
@@ -75,6 +75,7 @@ exports.detalles = function(req, res) {
 				models.evaluacionUsuario.findAll({
 					where: { evaluacionId: req.params.id }
 				}).then(dataEvaluacion => {
+					
 					//res.send(evaluacionUsuario);
 					res.render('president/detalles/index', { dataEvaluacion, evalJefe });
 				})
@@ -119,34 +120,46 @@ exports.culminado = function(req, res) {
 				where: { usuarioId: req.params.idu }
 			}).then(Item => {
 
-
-				var calificacionGeneral;
-
-
-				var acomulador = [];
-				var calificacionFactor = [];
-
-				for(let i = 0; i < instrumentFactor.length; i ++) {
-					acomulador[i] = 0;
-					
-					var n = 0;
-					console.log('================Nombre Factor: '+instrumentFactor[i].factor.nombre+'====================');
-					for(let j = 0; j < Item.length; j ++) {
-						
-						if(Item[j].item.factorId == instrumentFactor[i].factorId) {
-							n = n + 1;
-							//console.log(Item[j].item.nombre);
-							acomulador[i] = acomulador[i] + Item[j].calificacion;
-							console.log('Acomulador'+[i]+': '+acomulador[i]);
-						}
-						
-						calificacionFactor[i] = acomulador[i]/n;
+				models.evaluacionUsuario.findOne({
+					where: {
+						[Op.and]: [
+							{usuarioEvaluado: req.params.idu}, 
+							{evaluacionId: req.params.id},
+							{status: true}
+						]
 					}
-					console.log('calificacion factor '+instrumentFactor[i].factor.nombre+': '+calificacionFactor[i]);
-					console.log('nro. de preguntas: '+n);
-				}
-				//res.send(Item);
-				res.render('president/detalles/culminado/index', { Evaluacion, instrumentFactor, Item, calificacionFactor });	
+				}).then(dataEvaluacion => {
+					var acomulador = [];
+					var calificacionFactor = [];
+
+					for(let i = 0; i < instrumentFactor.length; i ++) {
+						acomulador[i] = 0;
+						
+						var n = 0;
+						console.log('================Nombre Factor: '+instrumentFactor[i].factor.nombre+'====================');
+						for(let j = 0; j < Item.length; j ++) {
+							
+							if(Item[j].item.factorId == instrumentFactor[i].factorId) {
+								n = n + 1;
+								//console.log(Item[j].item.nombre);
+								acomulador[i] = acomulador[i] + Item[j].calificacion;
+								console.log('Acomulador'+[i]+': '+acomulador[i]);
+							}
+							
+							calificacionFactor[i] = acomulador[i]/n;
+						}
+						console.log('calificacion factor '+instrumentFactor[i].factor.nombre+': '+calificacionFactor[i]);
+						console.log('nro. de preguntas: '+n);
+					}
+					//res.send(dataEvaluacion);
+					res.render('president/detalles/culminado/index', { 
+						Evaluacion, 
+						instrumentFactor, 
+						Item, 
+						calificacionFactor,
+						dataEvaluacion 
+					});
+				})	
 			})		
 		})
 	})
