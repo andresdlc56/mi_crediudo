@@ -58,6 +58,8 @@ exports.detalles = function(req, res) {
 	}).then(Evaluacion => {
 		if(Evaluacion.instrument.tipoEvalId == 3) {
 			console.log('===========Evaluacion de Jefe para Subordinados=============');
+			var evalSubor = true;
+			var evalJefe = false;
 			//res.send(Evaluacion);
 
 			models.usuario.findAll({
@@ -74,7 +76,30 @@ exports.detalles = function(req, res) {
 					where: { evaluacionId: req.params.id }
 				}).then(dataEvaluacion => {
 					//res.send(evaluacionUsuario);
-					res.render('president/detalles/index', { dataEvaluacion });
+					res.render('president/detalles/index', { dataEvaluacion, evalJefe });
+				})
+			})
+		} else if(Evaluacion.instrument.tipoEvalId == 4) {
+			console.log('===========Evaluacion de Subordinados para Jefes=============');
+			//res.send(Evaluacion);
+			var evalSubor = false;
+			var evalJefe = true;
+
+			models.usuario.findOne({
+				where: { 
+					[Op.and]: [
+						{nucleoCodigo: Evaluacion.nucleoCodigo}, 
+						{unidadCodigo: Evaluacion.unidadCodigo},
+						{rolId: 5},
+						{cargoId: 2}
+					] 
+				}
+			}).then(Usuario => {
+				models.evaluacionUsuario.findAll({
+					where: { evaluacionId: req.params.id }
+				}).then(dataEvaluacion => {
+					//res.send(evaluacionUsuario);
+					res.render('president/detalles/index', { dataEvaluacion, evalJefe });
 				})
 			})
 		}

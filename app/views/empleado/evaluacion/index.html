@@ -10,6 +10,13 @@
 		}
 	</style>
 
+	<!--estilo a mensaje de error-->
+        <style type="text/css">
+          label.error{
+            color: red;
+          }
+        </style>
+
 </head>
 <body>
 	<h2>CREDIUDO | Evaluación</h2>
@@ -61,19 +68,19 @@
 					    	<td width="5%"><%= k=k+1 %></td>
 					    	<td><%=Items[j].nombre%></td> 
 					    	<td>
-					    		<input type="radio" name="item[<%= k %>][<%= i %>]" value=2 id="item_[<%= j %>]">
+					    		<input type="radio" name="item[<%= k %>]" value=2 id="item" required>
 					    	</td>
 					    	<td>
-					    		<input type="radio" name="item[<%= k %>][<%= i %>]" value=4 id="item_[<%= j %>]">
+					    		<input type="radio" name="item[<%= k %>]" value=4 id="item" required>
 					    	</td>
 					    	<td>
-					    		<input type="radio" name="item[<%= k %>]<%= i %>" value=6 id="item_[<%= j %>]">
+					    		<input type="radio" name="item[<%= k %>]" value=6 id="item" required>
 					    	</td>
 					    	<td>
-					    		<input type="radio" name="item[<%= k %>][<%= i %>]" value=8 id="item_[<%= j %>]">
+					    		<input type="radio" name="item[<%= k %>]" value=8 id="item" required>
 					    	</td>
 					    	<td>
-					    		<input type="radio" name="item[<%= k %>][<%= i %>]" value=10 id="item_[<%= j %>]">
+					    		<input type="radio" name="item[<%= k %>]" value=10 id="item" required>
 					    	</td>
 					  	</tr>					
 					<%}%>
@@ -85,6 +92,9 @@
 		<input type="submit" name="enviar" value="Enviar">
 	</form>
 	
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
 </body>
 </html>

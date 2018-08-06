@@ -12,19 +12,24 @@
 </head>
 <body>
 	<h3>Detalles | Evaluación</h3>
-		
-	<h3>Evaluador: <%= dataEvaluacion[0].usuarioCedula %></h3>
+	<% if(evalJefe == false) {%>
+		<h3>Evaluador: <%= dataEvaluacion[0].usuarioCedula %></h3>
+	<%} else if(evalJefe == true) {%>
+		<p>Hola</p>
+	<%}%>	
 	<br><br>
 
 	<table style="width:50%">
 		<tr>
 			<th>Evaluado</th>
+			<th>Evaluador</th>
 			<th>Evaluación</th>
 		</tr>
 
 		<% for(let i = 0; i < dataEvaluacion.length; i ++) {%>
 			<tr>
 				<td><%= dataEvaluacion[i].usuarioEvaluado %></td>
+				<td><%= dataEvaluacion[i].usuarioCedula %></td>
 				<td>
 					<% if(dataEvaluacion[i].status == false) {%>
 						En Proceso
