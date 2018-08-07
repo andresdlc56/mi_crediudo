@@ -50,39 +50,40 @@
 		<input type="hidden" name="usuarioEvaluado" value="<%= evaluacionUsuario.usuarioEvaluado %>">
 
 		<table style="width:80%">
-			<% var k=0 %>
+			
 			<% var n=0 %>
 			<% var k=-1 %>
 			<% var item = [] %>
 
-			<%for(let i = 0; i < instrumentFactor.length; i++){%>
+			<%for(var i = 0; i < instrumentFactor.length; i ++){%>
 				<tr>
 			    	<td width="5%"></td>
 			    	<td><%=instrumentFactor[i].factor.nombre%></td> 
 			    	<td colspan="5"></td>
 			  	</tr>
-
-			  	<% for(let j = 0; j < Items.length; j++) {%>
+				<% var k=0 %>
+			  	<% for(var j = 0; j < Items.length; j ++) {%>
 					<%if(Items[j].factorId == instrumentFactor[i].factorId){%>
 						<tr>
-					    	<td width="5%"><%= k=k+1 %></td>
+					    	<td width="5%"></td>
 					    	<td><%=Items[j].nombre%></td> 
 					    	<td>
-					    		<input type="radio" name="item[<%= k %>]" value=2 id="item" required>
+					    		<input type="radio" name="item[<%= k %>][<%= i %>]" value=2 id="item" required>
 					    	</td>
 					    	<td>
-					    		<input type="radio" name="item[<%= k %>]" value=4 id="item" required>
+					    		<input type="radio" name="item[<%= k %>][<%= i %>]" value=4 id="item" required>
 					    	</td>
 					    	<td>
-					    		<input type="radio" name="item[<%= k %>]" value=6 id="item" required>
+					    		<input type="radio" name="item[<%= k %>][<%= i %>]" value=6 id="item" required>
 					    	</td>
 					    	<td>
-					    		<input type="radio" name="item[<%= k %>]" value=8 id="item" required>
+					    		<input type="radio" name="item[<%= k %>][<%= i %>]" value=8 id="item" required>
 					    	</td>
 					    	<td>
-					    		<input type="radio" name="item[<%= k %>]" value=10 id="item" required>
+					    		<input type="radio" name="item[<%= k %>][<%= i %>]" value=10 id="item" required>
 					    	</td>
-					  	</tr>					
+					  	</tr>
+					  	<% k=k+1 %>					
 					<%}%>
 			  	<%}%>	
 			<%}%>

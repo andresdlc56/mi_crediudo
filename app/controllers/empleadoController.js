@@ -141,9 +141,10 @@ exports.procesarEval = function(req, res) {
 		}
 	}).then(Factores => {
 
+		var cantidadItems = 0;
 		var acomulado = [];
 		var acomuladoGeneral = 0;
-		var calificacionFinal = 0;
+		var calificacionFinal;
 
 		for(let j = 0; j < Factores.length; j ++) {
 			acomulado[j] = 0;
@@ -158,27 +159,52 @@ exports.procesarEval = function(req, res) {
 			}).then(Items => {
 				//obteniendo la calificacion por cada factor
 				console.log('======='+Factores[j].factor.nombre+'========');
-				//console.log(Items.length);
 				for(let k = 0; k < Items.length; k ++) {
-					acomulado[j] = acomulado[j] + parseInt(req.body.item[k]);
+					acomulado[j] = acomulado[j] + parseInt(req.body.item[k][j]);
+					acomuladoGeneral = acomuladoGeneral + parseInt(req.body.item[k][j]);	
 				}
-				console.log('calificación: '+acomulado[j]/Items.length);
-				//ontenido el valor de cada item
-				//console.log('calificación General: '+acomuladoGeneral/numberI);
+				console.log('calificación: '+ acomulado[j] / Items.length);
+				calificacionFinal = acomuladoGeneral / numberI;
+				console.log('calificación General: '+calificacionFinal);
+
+				models.evaluacionUsuario.update({
+					calificacion: calificacionFinal,
+					status: true
+				}, {
+					where: { 
+						[Op.and]: [
+							{usuarioCedula: req.params.idu}, 
+							{evaluacionId:req.params.id}, 
+							{usuarioEvaluado: req.params.idue}
+						] 
+					}
+				}).then(evaluacionUsuario => {
+					models.factorUsuario.create({
+						calificacion: acomulado[j] / Items.length,
+						evaluacionId: req.params.id,
+						usuarioEvaluador: req.params.idu,
+						usuarioEvaluado: req.params.idue,
+						factorId: Factores[j].factorId
+					}).then(factorUsuario => {
+						console.log('factorUsuario creado');
+					})
+				})
 			});
 		}
 
 		//obteniendo en la calificacion general
-		for(let i = 0; i < numberI; i ++) {
+		/*for(let i = 0; i < numberI; i ++) {
 			//acomulado[j] = acomulado[j] + parseInt(req.body.item[i]);
 			acomuladoGeneral = acomuladoGeneral + parseInt(req.body.item[i]);
 			calificacionFinal = acomuladoGeneral / numberI;
 					 
 			//console.log('Valor del Item['+i+']: '+req.body.item[i]);
-		}
+		}*/
+		
+		//calificacionFinal = acomuladoGeneral / cantidadItems;
 
-		console.log('calificación General: '+calificacionFinal);
+		res.redirect('/dashboard');
 	});
 
-	//res.send(numberF);
+	
 }
