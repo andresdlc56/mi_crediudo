@@ -117,7 +117,7 @@ exports.procesarEval = function(req, res) {
 		});
 	});
 }
-*/
+
 
 exports.procesarEval = function(req, res) {
 	console.log('=================Procesando Evaluacion===================');
@@ -140,7 +140,7 @@ exports.procesarEval = function(req, res) {
 			instrumentId: req.body.instrumentId
 		}
 	}).then(Factores => {
-
+		var valorItem = [];
 		var cantidadItems = 0;
 		var acomulado = [];
 		var acomuladoGeneral = 0;
@@ -160,14 +160,20 @@ exports.procesarEval = function(req, res) {
 				//obteniendo la calificacion por cada factor
 				console.log('======='+Factores[j].factor.nombre+'========');
 				for(let k = 0; k < Items.length; k ++) {
-					acomulado[j] = acomulado[j] + parseInt(req.body.item[k][j]);
+					valorItem[k] = parseInt(req.body.item[k][j]);
+					console.log('item['+k+']['+j+']:'+valorItem[k]);
+					//console.log(valorItem[k]);
+					acomulado[j] = acomulado[j] + valorItem[k];
 					acomuladoGeneral = acomuladoGeneral + parseInt(req.body.item[k][j]);	
-				}
-				console.log('calificación: '+ acomulado[j] / Items.length);
-				calificacionFinal = acomuladoGeneral / numberI;
-				console.log('calificación General: '+calificacionFinal);
 
-				models.evaluacionUsuario.update({
+
+				}
+				//console.log(j);
+				//console.log('calificación: '+ acomulado[j] / Items.length);
+				//calificacionFinal = acomuladoGeneral / numberI;
+				//console.log('calificación General: '+calificacionFinal);
+
+				/*models.evaluacionUsuario.update({
 					calificacion: calificacionFinal,
 					status: true
 				}, {
@@ -199,12 +205,54 @@ exports.procesarEval = function(req, res) {
 			calificacionFinal = acomuladoGeneral / numberI;
 					 
 			//console.log('Valor del Item['+i+']: '+req.body.item[i]);
-		}*/
+		}
 		
 		//calificacionFinal = acomuladoGeneral / cantidadItems;
 
+		//res.redirect('/dashboard');
+	});
+}
+*/
+exports.procesarEval = function(req, res) {
+	console.log('=================Procesando Evaluacion===================');
+	var item = [];
+	var acomulado = 0;
+	var calificacionFinal = 0;
+	console.log('========Buscando Items==========');
+	models.item.findAll({
+		where: { instrumentId: req.body.instrumentId }
+	}).then(Items => {
+		for(let i = 0; i < Items.length; i ++) {
+			item[i] = parseInt(req.body.item[i]); 
+			acomulado = acomulado + item[i];
+			console.log(Items[i].nombre+': '+item[i]);
+
+			models.itemUsuario.create({
+				calificacion: item[i],
+				evaluacionId: req.params.id,
+				itemId: Items[i].id,
+				evaluado: req.params.idue,
+				evaluador: req.params.idu
+			}).then(itemUsuario => {
+				console.log('====Respuesta Almacenada=====');
+			})
+		}
+
+		calificacionFinal = acomulado / Items.length;
+		console.log('Calificacion Final: '+calificacionFinal);
+
+		models.evaluacionUsuario.update({
+			calificacion: calificacionFinal,
+			status: true
+		}, {
+			where: {
+				usuarioEvaluado: req.params.idue,
+				evaluacionId: req.params.id,
+				usuarioCedula: req.params.idu
+			}
+		}).then(evaluacionUsuario => {
+			console.log('Calificacion final Almacenada Exitosamente');
+		});
 		res.redirect('/dashboard');
 	});
-
-	
 }

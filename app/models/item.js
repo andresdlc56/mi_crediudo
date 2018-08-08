@@ -15,7 +15,7 @@ module.exports = function(sequelize, Sequelize) {
         Item.belongsTo(models.factor);
         //Rol.hasMany(models.usuario);
         //Cargo.belongsToMany(models.empleado, {through: 'empleadoCargo', foreignKey: 'cargoId'});
-        Item.belongsToMany(models.usuario, {through: 'itemUsuario', foreignKey: 'itemId'});
+        //Item.belongsToMany(models.usuario, {through: 'itemUsuario', foreignKey: 'itemId'});
     };
 
     module.exports.Item = Item; 

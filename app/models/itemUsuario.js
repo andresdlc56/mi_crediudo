@@ -11,12 +11,22 @@ module.exports = function(sequelize, Sequelize) {
         },
         evaluacionId: {
             type: Sequelize.INTEGER
+        },
+        evaluado: {
+          type: Sequelize.INTEGER  
+        },
+        evaluador: {
+          type: Sequelize.INTEGER  
+        },
+        itemId: {
+            type: Sequelize.INTEGER
         }
+
     });
     // Class Method
     itemUsuario.associate = function (models) {
-        itemUsuario.belongsTo(models.item);
-        itemUsuario.belongsTo(models.usuario);
+        //itemUsuario.belongsTo(models.item);
+        //itemUsuario.belongsTo(models.usuario);
         //itemUsuario.belongsTo(models.evaluacion);
     };
  
