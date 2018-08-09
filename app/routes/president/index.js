@@ -10,7 +10,7 @@ module.exports = function(app) {
     app.get('/president/detalles/:id',isLoggedIn, presidentController.detalles);
 
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Subordinado"
-    app.get('/president/culminado/:id/u/:idu',isLoggedIn, presidentController.culminado);
+    app.get('/president/culminado/:id/u/:idu/ue/:idue',isLoggedIn, presidentController.culminado);
 
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Jefe"
     //app.get('/president/culminado/:id/u/:idu',isLoggedIn, presidentController.culminado_b);

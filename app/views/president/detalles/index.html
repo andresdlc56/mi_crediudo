@@ -35,9 +35,11 @@
 				<td>
 					<% if(dataEvaluacion[i].status == false) {%>
 						En Proceso
-					<%} else {%>
+					<%} else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 4) {%>
 						<% n = n + 1 %>
-						<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>">Culminada</a>
+						<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>/ue/<%=dataEvaluacion[i].usuarioCedula%>">Culminada</a>
+					<%} else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 3) {%>
+						<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>/ue/<%=dataEvaluacion[i].usuarioCedula%>">Culminada</a>
 					<%}%>
 				</td>
 			</tr>

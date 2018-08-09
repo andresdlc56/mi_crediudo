@@ -13,7 +13,7 @@ exports.index = function(req, res) {
 					{nucleoCodigo:1}, 
 					{unidadCodigo:12},
 					{rolId:2}
-			] 
+			]
 		}
 	}).then(presidente => {
 		models.evaluacion.findAll({
@@ -77,7 +77,7 @@ exports.detalles = function(req, res) {
 				}).then(dataEvaluacion => {
 					
 					//res.send(evaluacionUsuario);
-					res.render('president/detalles/index', { dataEvaluacion, evalJefe });
+					res.render('president/detalles/index', { dataEvaluacion, evalJefe, Evaluacion });
 				})
 			})
 		} else if(Evaluacion.instrument.tipoEvalId == 4) {
@@ -97,10 +97,11 @@ exports.detalles = function(req, res) {
 				}
 			}).then(Usuario => {
 				models.evaluacionUsuario.findAll({
+					include: [ models.evaluacion ],
 					where: { evaluacionId: req.params.id }
 				}).then(dataEvaluacion => {
-					//res.send(evaluacionUsuario);
-					res.render('president/detalles/index', { dataEvaluacion, evalJefe });
+					//res.send(dataEvaluacion);
+					res.render('president/detalles/index', { dataEvaluacion, evalJefe, Evaluacion });
 				})
 			})
 		}
@@ -117,7 +118,12 @@ exports.culminado = function(req, res) {
 		}).then(instrumentFactor => {
 			models.itemUsuario.findAll({
 				include: [models.item],
-				where: { usuarioId: req.params.idu }
+				where: {
+					[Op.and]: [
+						{evaluado: req.params.idu}, 
+						{evaluador: req.params.idue}
+					]
+				}
 			}).then(Item => {
 
 				models.evaluacionUsuario.findOne({
