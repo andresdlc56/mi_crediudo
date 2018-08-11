@@ -39,6 +39,7 @@
 						<% n = n + 1 %>
 						<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>/ue/<%=dataEvaluacion[i].usuarioCedula%>">Culminada</a>
 					<%} else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 3) {%>
+						<% n = n + 1 %>
 						<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>/ue/<%=dataEvaluacion[i].usuarioCedula%>">Culminada</a>
 					<%}%>
 				</td>
@@ -48,28 +49,56 @@
 
 	<br>
 	
-	<% if(n == dataEvaluacion.length) {%>
-		<table style="width:20%">
-			<th>Calificación General</th>
+	<% if(instrumentFactor) {%>
+		<% if(n == dataEvaluacion.length) {%>
+			<table style="width:20%">
+				<th>Calificación General</th>
 
-			<tr>
-				<td>
-					<h1>
-						<% var calificacionGeneral = 0 %>
-						<% var acomulado = 0 %>
-						<% for(let j = 0; j < dataEvaluacion.length; j ++) {%>
-							<% 
-								acomulado = acomulado + dataEvaluacion[j].calificacion;
-								calificacionGeneral = acomulado / dataEvaluacion.length;
-							%>
-						<%}%>
-						<%= calificacionGeneral %> Ptos
-					</h1>
-				</td>
-			</tr>
+				<tr>
+					<td>
+						<h1>
+							<% var calificacionGeneral = 0 %>
+							<% var acomulado = 0 %>
+							<% for(let j = 0; j < dataEvaluacion.length; j ++) {
+								
+									acomulado = acomulado + parseInt(dataEvaluacion[j].calificacion);
+									calificacionGeneral = acomulado / dataEvaluacion.length;
+								
+							}%>
+							<%= calificacionGeneral %> Ptos
+						</h1>
+					</td>
+				</tr>
+			</table>
 
-		</table>	
+			<br>
+
+			<table style="width:70%">
+				<th>Factor</th>
+				<th>Calificaión</th>
+				<% for(let k = 0; k < instrumentFactor.length; k ++) {%>
+					<tr>
+						<td><%= instrumentFactor[k].factor.nombre %></td>
+						<td></td>
+					</tr>
+				<%}%>
+			</table>
+
+			<br>
+
+			<form method="post" action="">
+				<label for="ovbeservacion">Observación:</label>
+				<br>
+				<textarea name="observacion" cols="100" rows="10">			
+				</textarea>
+
+				<br>
+		
+				<input type="submit" name="enviar" value="Enviar">	
+			</form>
+		<%}%>
 	<%}%>
+	
 	
 </body>
 </html>

@@ -52,6 +52,8 @@ exports.detalles = function(req, res) {
 */
 
 exports.detalles = function(req, res) {
+	var instrumentFactor = false;
+
 	models.evaluacion.findOne({
 		where: { id: req.params.id },
 		include: [models.instrument]
@@ -77,7 +79,7 @@ exports.detalles = function(req, res) {
 				}).then(dataEvaluacion => {
 					
 					//res.send(evaluacionUsuario);
-					res.render('president/detalles/index', { dataEvaluacion, evalJefe, Evaluacion });
+					res.render('president/detalles/index', { dataEvaluacion, evalJefe, Evaluacion, instrumentFactor });
 				})
 			})
 		} else if(Evaluacion.instrument.tipoEvalId == 4) {
@@ -100,10 +102,19 @@ exports.detalles = function(req, res) {
 					include: [ models.evaluacion ],
 					where: { evaluacionId: req.params.id }
 				}).then(dataEvaluacion => {
-					//res.send(dataEvaluacion);
-					res.render('president/detalles/index', { dataEvaluacion, evalJefe, Evaluacion });
+					models.instrumentFactor.findAll({
+						include: [models.factor],
+						where: { instrumentId: Evaluacion.instrumentId }
+					}).then(instrumentFactor => {
+						//res.send(dataEvaluacion);
+						res.render('president/detalles/index', { dataEvaluacion, evalJefe, Evaluacion, instrumentFactor });	
+					})
+					
 				})
 			})
+		} else if(Evaluacion.instrument.tipoEvalId == 2) {
+			console.log('===========Evaluacion entre compañeros (Co-Evaluación)=============');
+			res.send('Co-Evaluación');
 		}
 	})	
 }
@@ -111,7 +122,10 @@ exports.detalles = function(req, res) {
 exports.culminado = function(req, res) {
 	console.log('================Examen Culminado==================');
 
-	models.evaluacion.findById(req.params.id).then(Evaluacion => {
+	models.evaluacion.findOne({
+		include: [ models.instrument ],
+		where: { id: req.params.id }
+	}).then(Evaluacion => {
 		models.instrumentFactor.findAll({
 			include: [models.factor],
 			where: { instrumentId: Evaluacion.instrumentId }
@@ -131,40 +145,70 @@ exports.culminado = function(req, res) {
 						[Op.and]: [
 							{usuarioEvaluado: req.params.idu}, 
 							{evaluacionId: req.params.id},
+							{usuarioCedula: req.params.idue},
 							{status: true}
 						]
 					}
 				}).then(dataEvaluacion => {
-					var acomulador = [];
-					var calificacionFactor = [];
+					
 
-					for(let i = 0; i < instrumentFactor.length; i ++) {
-						acomulador[i] = 0;
-						
-						var n = 0;
-						console.log('================Nombre Factor: '+instrumentFactor[i].factor.nombre+'====================');
-						for(let j = 0; j < Item.length; j ++) {
+						var acomulador = [];
+						var calificacionFactor = [];
+
+						for(let i = 0; i < instrumentFactor.length; i ++) {
+							acomulador[i] = 0;
 							
-							if(Item[j].item.factorId == instrumentFactor[i].factorId) {
-								n = n + 1;
-								//console.log(Item[j].item.nombre);
-								acomulador[i] = acomulador[i] + Item[j].calificacion;
-								console.log('Acomulador'+[i]+': '+acomulador[i]);
+							var n = 0;
+							console.log('================Nombre Factor: '+instrumentFactor[i].factor.nombre+'====================');
+							for(let j = 0; j < Item.length; j ++) {
+								
+								if(Item[j].item.factorId == instrumentFactor[i].factorId) {
+									n = n + 1;
+									//console.log(Item[j].item.nombre);
+									acomulador[i] = acomulador[i] + Item[j].calificacion;
+									console.log('Acomulador'+[i]+': '+acomulador[i]);
+								}
+								
+								calificacionFactor[i] = acomulador[i]/n;
 							}
-							
-							calificacionFactor[i] = acomulador[i]/n;
+							console.log('calificacion factor '+instrumentFactor[i].factor.nombre+': '+calificacionFactor[i]);
+							console.log('nro. de preguntas: '+n);
 						}
-						console.log('calificacion factor '+instrumentFactor[i].factor.nombre+': '+calificacionFactor[i]);
-						console.log('nro. de preguntas: '+n);
-					}
-					//res.send(dataEvaluacion);
-					res.render('president/detalles/culminado/index', { 
-						Evaluacion, 
-						instrumentFactor, 
-						Item, 
-						calificacionFactor,
-						dataEvaluacion 
-					});
+						
+						if(Evaluacion.instrument.tipoEvalId == 3) {
+							var observacion = true;
+							//res.send(dataEvaluacion);
+							res.render('president/detalles/culminado/index', { 
+								Evaluacion, 
+								instrumentFactor, 
+								Item, 
+								calificacionFactor,
+								dataEvaluacion,
+								observacion 
+							});
+						} else if(Evaluacion.instrument.tipoEvalId == 4) {
+							observacion = false;
+							//res.send(dataEvaluacion);
+							res.render('president/detalles/culminado/index', { 
+								Evaluacion, 
+								instrumentFactor, 
+								Item, 
+								calificacionFactor,
+								dataEvaluacion,
+								observacion 
+							});
+						} else if(Evaluacion.instrument.tipoEvalId == 2) {
+							observacion = false;
+							//res.send(dataEvaluacion);
+							res.render('president/detalles/culminado/index', { 
+								Evaluacion, 
+								instrumentFactor, 
+								Item, 
+								calificacionFactor,
+								dataEvaluacion,
+								observacion 
+							});
+						}	
 				})	
 			})		
 		})
