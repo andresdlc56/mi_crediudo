@@ -107,14 +107,38 @@ exports.detalles = function(req, res) {
 						where: { instrumentId: Evaluacion.instrumentId }
 					}).then(instrumentFactor => {
 						//res.send(dataEvaluacion);
-						res.render('president/detalles/index', { dataEvaluacion, evalJefe, Evaluacion, instrumentFactor });	
+						res.render('president/detalles/index', { 
+							dataEvaluacion, 
+							evalJefe, 
+							Evaluacion, 
+							instrumentFactor 
+						});	
 					})
-					
 				})
 			})
 		} else if(Evaluacion.instrument.tipoEvalId == 2) {
 			console.log('===========Evaluacion entre compañeros (Co-Evaluación)=============');
-			res.send('Co-Evaluación');
+			//res.send(Evaluacion);
+			models.evaluacionUsuario.findAll({
+				include: [ models.evaluacion ],
+				where: {
+					[Op.and]: [
+						{evaluacionId: req.params.id}, 
+						{status: false}
+					]
+				}
+			}).then(evalUsuario => {
+				models.usuario.findAll({
+					where: {
+						[Op.and]: [
+							{ cargoId: 3 },
+							{ rolId: 5 }
+						]
+					}
+				}).then(Usuario => {
+					res.render('president/detalles/index_2', { evalUsuario, Usuario });
+				})
+			})
 		}
 	})	
 }

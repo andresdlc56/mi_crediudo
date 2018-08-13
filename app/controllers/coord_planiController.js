@@ -5,22 +5,25 @@ var Sequelize = require('sequelize');
 var Op = Sequelize.Op;
 
 exports.index = function(req, res) {
+	//buscando todas las evalucaiones 
 	models.evaluacion.findAll({
 		include: [models.categoria, models.nucleo, models.unidad, models.instrument],
 	}).then(Evaluaciones => {
+		//buscando todos los tipos de valuaciones
 		models.tipoEval.findAll({
 
 		}).then(tipoEval => {
-			//res.send(Evaluaciones);
 			res.render('coord_plani/index', { Evaluaciones, tipoEval });	
 		});
 	});
 }
 
 exports.planiEval = function(req, res) {
+	//buscando todas las categorias
 	models.categoria.findAll({
 
 	}).then(Categorias => {
+		//buscando todos los nucleos
 		models.nucleo.findAll({
 
 		}).then(Nucleos => {
@@ -30,6 +33,7 @@ exports.planiEval = function(req, res) {
 }
 
 exports.addEval = function(req, res) {
+	//creando una nueva evaluación 
 	models.evaluacion.create({
 		nombre: undefined,
 		categoriumId: req.body.categoria,
@@ -38,23 +42,29 @@ exports.addEval = function(req, res) {
 		fecha_f: undefined,
 		unidadCodigo: undefined
 	}).then(Evaluacion => {
+		//buscando la evaluacion recien creada
 		models.evaluacion.findById(Evaluacion.id).then(Evaluacion => {
 			res.redirect('/coord_plani/plani_eval/'+Evaluacion.id+'/n/'+Evaluacion.nucleoCodigo);
-			//res.send(Evaluacion);	
 		})
 	});
 }
 
 exports.addEval_b = function(req, res) {
+	//buscando todas las unidades pertenecientes al nucleo que elejimos anteriormente
 	models.unidad.findAll({
 		where: { nucleoCodigo: req.params.idn }
 	}).then(Unidades => {
+		//buscando una evaluacion especifica 
 		models.evaluacion.findById(req.params.id).then(Evaluacion => {
+			//buscando un bucleo en especifico 
 			models.nucleo.findById(req.params.idn).then(Nucleo => {
+				/*
+				buscando todos los instrumentos donde la categoria sea igual a la que elejimos 
+				en el controlador anterior
+				*/ 
 				models.instrument.findAll({
 					where: { categoriumId: Evaluacion.categoriumId }
 				}).then(Instrumentos => {
-					//res.send(Instrumentos);
 					res.render('coord_plani/evaluacion/planificar_b', { Unidades, Evaluacion, Nucleo, Instrumentos });
 				})	
 			});
@@ -62,8 +72,8 @@ exports.addEval_b = function(req, res) {
 	});
 }
 
-
 exports.finiquitarEval = function(req, res) {
+	//actualizando una evalucion donde su id sea igual al id que viene por parametro
 	models.evaluacion.update({
 		nombre: req.body.nombre,
 		fecha_i: req.body.fecha_i,

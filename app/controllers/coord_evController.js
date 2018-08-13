@@ -8,11 +8,10 @@ exports.index = function(req, res) {
 
 exports.factor = function(req, res) {
 	res.render('coord_ev/factor/index');
-	//res.send('Factor');
 }
 
+//agregando un nuevo factor
 exports.addFactor = function(req, res) {
-	
 	models.factor.findOne({
 		where: { nombre: req.body.nombre }
 	}).then(Factor => {
@@ -29,21 +28,21 @@ exports.addFactor = function(req, res) {
 	});
 }
 
-exports.instrument = function(req, res) {
-	
+//buscando todos los intrumentos
+exports.instrument = function(req, res) {	
 	models.instrument.findAll({
 		include: [models.categoria, models.tipoEval],
 	}).then(Instruments => {
-		//res.send(Instruments);
 		res.render('coord_ev/instrumento/index', { Instruments });
 	})
 }
 
 exports.addInstrument = function(req, res) {
-
+	//buscando todas las categorias
 	models.categoria.findAll({
 
 	}).then(Categorias => {
+		//buscando todos los tipos de evaluación
 		models.tipoEval.findAll({
 
 		}).then(tipoEval => {
@@ -52,8 +51,8 @@ exports.addInstrument = function(req, res) {
 	})
 }
 
+//creando un nuevo instrumento de evaluacion
 exports.createInstrument = function(req, res) {
-
 	models.instrument.create({
 		titulo: req.body.titulo,
 		categoriumId: req.body.categoria,
@@ -65,103 +64,30 @@ exports.createInstrument = function(req, res) {
 }
 
 exports.verInstrument = function(req, res) {
-
+	//buscando un instrumento en especifico
 	models.instrument.findById(req.params.id).then(Instruments => {
+		//buscando todos los factores
 		models.factor.findAll({
 
 		}).then(Factores => {
+			//buscando todos los items que pertenecen al instrumento que inicialmente buscamos
 			models.item.findAll({
 				include: [models.factor],
 				where: { instrumentId: req.params.id }
 			}).then(Items => {
-				//res.send(Items);
 				res.render('coord_ev/instrumento/ver', { Instruments, Factores, Items });	
 			})
 		});
 	});
 }
-/*
-exports.addItem = function(req, res) {
 
-	models.item.create({
-		nombre: req.body.nombre,
-		valor: 0,
-		factorId: req.body.factor,
-		instrumentId: req.params.id
-	}).then(Item => {
-		res.redirect('/coord_ev/instrument/'+req.params.id);
-	});
-}
-*/
-
-/*
-//SIRVE A MEDIAS
+//agregando Item
 exports.addItem = function(req, res) {
 	var Factor = req.body.factor;
 
+	//buscando todos los Factores asociados asociados a instrumentos en la tabla instrumentFactor
 	models.instrumentFactor.findAll({
-		where: { factorId: Factor }
-	}).then(instrumentFactor => {
-		if (instrumentFactor.length > 0) {
-			//res.send(instrumentFactor);
-			for(var i = 0; i < instrumentFactor.length; i ++){
-				if (instrumentFactor[i].factorId == Factor) {
-					if (instrumentFactor[i].instrumentId != req.params.id) {
-						//res.send('excelente');
-						models.instrumentFactor.create({
-							factorId: req.body.factor,
-							instrumentId: req.params.id
-						}).then(instrumentFactor => {
-							models.item.create({
-								nombre: req.body.nombre,
-								valor: 0,
-								factorId: req.body.factor,
-								instrumentId: req.params.id
-							}).then(Item => {
-								//
-							});
-						});
-						res.redirect('/coord_ev/instrument/'+req.params.id);
-					} else {
-						//res.send('no procede');
-						models.item.create({
-							nombre: req.body.nombre,
-							valor: 0,
-							factorId: req.body.factor,
-							instrumentId: req.params.id
-						}).then(Item => {
-							res.redirect('/coord_ev/instrument/'+req.params.id);
-						})
-						res.redirect('/coord_ev/instrument/'+req.params.id);	
-					}
-				}
-			}
-		} else {
-			//res.send('No Tiene conetenido');
-			models.instrumentFactor.create({
-				factorId: req.body.factor,
-				instrumentId: req.params.id
-			}).then(instrumentFactor => {
-				models.item.create({
-					nombre: req.body.nombre,
-					valor: 0,
-					factorId: req.body.factor,
-					instrumentId: req.params.id
-				}).then(Item => {
-					res.redirect('/coord_ev/instrument/'+req.params.id);
-				});
-			});
-		}
-	})
-}
-*/
-
-exports.addItem = function(req, res) {
-	var Factor = req.body.factor;
-
-	models.instrumentFactor.findAll({
-		//where: { [Op.and]: [{factorId: Factor}, {instrumentId:req.params.id}] }
-		//where: { factorId: Factor }
+		
 	}).then(instrumentFactor => {
 		if (instrumentFactor.length > 0) {
 			//res.send(instrumentFactor);
@@ -192,9 +118,6 @@ exports.addItem = function(req, res) {
 						});
 					});
 				}
-
-					
-				
 			}
 		} else {
 			//res.send('No Tiene conetenido');
