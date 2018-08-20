@@ -17,6 +17,7 @@
 	<table style="width:50%">
 		<tr>
 			<th>Evaluador</th>
+			<th>Evaluado</th>
 			<th>Evaluación</th>
 		</tr>
 
@@ -30,6 +31,13 @@
 								<% if(evalUsuario[i].usuarioEvaluado == Usuario[k].cedula) {%>
 									<%= Usuario[k].nombre %> <%= Usuario[k].apellido %>
 								<%}%>
+							<%}%>
+						</td>
+						<td>
+							<% if(evalUsuario[i].status == false) {%>
+								En Proceso...
+							<%} else if(evalUsuario[i].status == true) {%>
+								<a href="">Culminado</a>
 							<%}%>
 						</td>
 					</tr>

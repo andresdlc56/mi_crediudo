@@ -4,6 +4,9 @@
 	<meta charset="UTF-8">
 	<title>CREDIUDO | Presidente</title>
 
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 	<style type="text/css">
 		table, th, td {
 		    border: 1px solid black;
@@ -11,6 +14,181 @@
 	</style>
 </head>
 <body>
+	<div class="container">
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
+
+		<%- include('../partials/president/navbar.html') %>
+
+		<!--=======MIGAS DE PAN=========-->
+		<nav aria-label="breadcrumb" style="margin-top: 1%">
+			<ol class="breadcrumb">
+			    <li class="breadcrumb-item active" aria-current="page">Home</li>
+			</ol>
+		</nav>
+		<!--=======FIN MIGAS DE PAN=========-->
+
+		<div class="row">
+			<div class="col-md-3">
+				<div class="card">
+				  	<div class="card-header">
+				    	Datos Personales:
+				  	</div>
+				  
+				  	<div class="card-body">
+				    	<div class="form-group">
+				    		<p><b>Nombre: </b></p>
+				    		<p><b>Apellido: </b></p>
+				    		<p><b>Nucleo: </b></p>
+				    		<p><b>Unidad: </b></p>
+				    	</div>
+				  	</div>
+				</div>
+
+				<br>
+			</div>
+
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="jumbotron jumbotron-fluid">
+							<div class="container">
+						    	<h1 class="display-5">Bienvenido(a) <%= presidente.nombre %></h1>
+						    	<p class="lead">Presidente(a) de CREDIUDO</p>
+						  	</div>
+						</div>
+						<hr>
+						<div class="col-md-12">
+							<h3>Evaluaciones En Curso</h3>
+							<br>
+							<% if(evaluacion && evaluacion.length > 0) {%>
+								<table class="table">
+									<thead class="thead-dark">
+									    <tr>
+									      	<th scope="col">Nombre de Eval</th>
+									      	<th scope="col">Nucleo</th>
+									      	<th scope="col">Unidad</th>
+									      	<th scope="col">Acción</th>
+									    </tr>
+								  	</thead>
+								  	<tbody>
+										<% for(var i = 0; i < evaluacion.length; i ++) {%>
+									    	<% if(fecha_actual => evaluacion[i].fecha_i && fecha_actual <= evaluacion[i].fecha_f ) {%>
+										    	<tr>
+										      		<td><%= evaluacion[i].nombre %></td>
+										      		<td><%= evaluacion[i].nucleo.nombre %></td>
+										      		<td><%= evaluacion[i].unidad.nombre %></td>
+										      		<td><a href="/president/detalles/<%= evaluacion[i].id %>">Ver Detalles</a></td>
+										    	</tr>
+											<%}%>
+										<%}%>
+								  	</tbody>
+								</table>
+							<%}%>		
+						</div>		
+					</div>
+
+				</div>
+				
+				
+				
+				<!--
+				<a href="/president/auto" class="btn btn-light" style="width: 24%; height: 30%; padding-top: 3%">
+					<i class="fa fa-edit" style="font-size: 25pt;"></i>
+					<br>
+					<b>
+						Auto-Evaluación
+						<br>
+						<span class="badge badge-light">
+							<% let z = 0 %>
+							<% for(let i = 0; i < evaluacion.length; i ++) {%>
+								<% if(evaluacion[i].instrument.tipoEvalId == 1) {%>
+									<% z = z + 1 %>
+									<%= z %>
+								<%}%>
+							<%}%>
+						</span>
+  						<span class="sr-only">unread messages</span>
+  					</b>
+				</a>
+
+				<a href="#" class="btn btn-light" style="width: 24%; height: 30%; padding-top: 3%">
+					<i class="fa fa fa-users" style="font-size: 25pt;"></i>
+					<br>
+					<b>
+						Co-Evaluación 
+						<br>
+						<span class="badge badge-light">
+							<% let f = 0 %>
+							<% for(let i = 0; i < evaluacion.length; i ++) {%>
+								<% if(evaluacion[i].instrument.tipoEvalId == 2) {%>
+									<% f = f + 1 %>
+									<%= f %>
+								<%}%>
+							<%}%>
+						</span>
+ 	 					<span class="sr-only">unread messages</span>
+ 	 				</b>
+				</a>
+
+				<a href="#" class="btn btn-light" style="width: 24%; height: 30%; padding-top: 3%">
+					<i class="fa fa fa-users" style="font-size: 25pt;"></i>
+					<br>
+					<b>
+						Evaluación-Subordinado  
+						<br>
+						<span class="badge badge-light">
+							<% let l = 0 %>
+							<% for(let i = 0; i < evaluacion.length; i ++) {%>
+								<% if(evaluacion[i].instrument.tipoEvalId == 2) {%>
+									<% l = l + 1 %>
+									<%= l %>
+								<%}%>
+							<%}%>
+						</span>
+  						<span class="sr-only">unread messages</span>
+					</b>
+				</a>
+
+				<a href="#" class="btn btn-light" style="width: 24%; height: 30%; padding-top: 3%">
+					<i class="fa fa-user-secret" style="font-size: 25pt;"></i>
+					<br>
+					<b>
+						Evaluación-Jefe 
+						<br>
+						<span class="badge badge-light">
+							<% let k = 0 %>
+							<% for(let i = 0; i < evaluacion.length; i ++) {%>
+								<% if(evaluacion[i].instrument.tipoEvalId == 2) {%>
+									<% k = k + 1 %>
+									<%= k %>
+								<%}%>
+							<%}%>
+						</span>
+  						<span class="sr-only">unread messages</span>
+					</b>
+				</a>
+				-->
+			</div>
+		</div>
+		
+		<br><br>
+
+		<footer class="footer" style="background: #BEBCB0">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
+	
+	<!--
 	<h3>Index | Presidente</h3>
 	<h4>Bienvenido(a): <%= presidente.nombre %> <%= presidente.apellido %> </h4>
 	<a href="/logout">Logout</a>
@@ -41,5 +219,7 @@
 			<%}%>	
 		</table>
 	<%}%>
+-->
+
 </body>
 </html>

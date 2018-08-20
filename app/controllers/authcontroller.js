@@ -9,7 +9,9 @@ exports.signup = function(req, res) {
 }
 
 exports.signin = function(req, res) {
-    res.render('index/login');
+    res.render('index/login', {
+    	error: req.flash('error') 
+    });
 }
 
 exports.dashboard = function(req, res) {

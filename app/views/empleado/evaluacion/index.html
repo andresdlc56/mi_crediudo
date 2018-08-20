@@ -1,101 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>CREDIUDO | Dashboard</title>
+	<head>
+		<meta charset="UTF-8">
+		<title>CREDIUDO | Dashboard</title>
 
-	<style type="text/css">
-		table, th, td {
-		    border: 1px solid black;
-		}
-	</style>
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 
-	<!--estilo a mensaje de error-->
-        <style type="text/css">
-          label.error{
-            color: red;
-          }
-        </style>
+		<!--estilo a mensaje de error-->
+	    <style type="text/css">
+	        label.error{
+	            color: red;
+	        }
 
-</head>
-<body>
-	<h2>CREDIUDO | Evaluación</h2>
-	<h4>Bienvendio <%= Usuario.nombre %></h4>
-	<a href="/logout">Cerrar Sesion</a>
-	<hr>
-	
-	<br>
-	<h3><%=Evaluacion.instrument.titulo%></h3>
-	<br>
-	
-	<h3>Datos de la Depencia:</h3>
-	<h4>Nucleo: <%=Evaluacion.nucleo.nombre%></h4>
-	<h4>Nucleo: <%=Evaluacion.unidad.nombre%></h4>
-	<h4>Nombre del Supervisor Inmediato: <%=Usuario.nombre%> <%=Usuario.apellido%></h4>
+	        table, th, td {
+			    border: 1px solid black;
+			}
+	    </style>
+	</head>
 
-	<br>
-	<h3>Datos del Trabajador</h3>
-	<h4>Nombre y Apellido: <%= evaluacionUsuario.usuarioEvaluado %></h4>
-	<h4>Cedula de Identidad: <%= evaluacionUsuario.usuarioEvaluado %></h4>
-	<h4>Profesión: </h4>
-	<h4>Cargo Actual: </h4>
-	<!--INFORMACION DE LA PERSONA A SER EVALUADA-->
-	
-	<!---->
+	<body>
+		<div class="container">
+			<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+				<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+			</div>	
 
-	<form method="post" action="/dashboard/evaluacion/<%=Evaluacion.id%>/u/<%=Usuario.cedula%>/ue/<%= evaluacionUsuario.usuarioEvaluado %>" id="formEvaluacion">
-		<input type="hidden" name="factores" value=<%=instrumentFactor.length%>>
-		<input type="hidden" name="items" value="<%=Items.length%>">
-		<input type="hidden" name="instrumentId" value="<%=Evaluacion.instrumentId%>">
-		<input type="hidden" name="usuarioEvaluado" value="<%= evaluacionUsuario.usuarioEvaluado %>">
+			<%- include('../../partials/empleado/navbar.html') %>
 
-		<table style="width:80%">
-			
-			<% var n=0 %>
-			<% var k=-1 %>
-			<% var item = [] %>
+			<!--=======MIGAS DE PAN=========-->
+			<nav aria-label="breadcrumb" style="margin-top: 1%">
+				<ol class="breadcrumb">
+				    <li class="breadcrumb-item" aria-current="page"><a href="/dashboard">Home</a></li>
+				    <li class="breadcrumb-item" aria-current="page"><a href="">Evaluación</a></li>
+				</ol>
+			</nav>
+			<!--=======FIN MIGAS DE PAN=========-->
 
-			<%for(var i = 0; i < instrumentFactor.length; i ++){%>
-				<tr>
-			    	<td width="5%"></td>
-			    	<td><%=instrumentFactor[i].factor.nombre%></td> 
-			    	<td colspan="5"></td>
-			  	</tr>
-				<% var k=0 %>
-			  	<% for(var j = 0; j < Items.length; j ++) {%>
-					<%if(Items[j].factorId == instrumentFactor[i].factorId){%>
-						<tr>
-					    	<td width="5%"></td>
-					    	<td><%=Items[j].nombre%></td> 
-					    	<td>
-					    		<input type="radio" name="item[<%= j %>]" value=2 id="item" required>
-					    	</td>
-					    	<td>
-					    		<input type="radio" name="item[<%= j %>]" value=4 id="item" required>
-					    	</td>
-					    	<td>
-					    		<input type="radio" name="item[<%= j %>]" value=6 id="item" required>
-					    	</td>
-					    	<td>
-					    		<input type="radio" name="item[<%= j %>]" value=8 id="item" required>
-					    	</td>
-					    	<td>
-					    		<input type="radio" name="item[<%= j %>]" value=10 id="item" required>
-					    	</td>
-					  	</tr>
-					  	<% k=k+1 %>					
-					<%}%>
-			  	<%}%>	
-			<%}%>
-		</table>
+			<div class="row">
+				<div class="col-md-3">
+					<div class="card">
+					  	<div class="card-header">
+					    	Datos Personales:
+					  	</div>
+					  
+					  	<div class="card-body">
+					    	<div class="form-group">
+					    		<p><b>Nombre: </b></p>
+					    		<p><b>Apellido: </b></p>
+					    		<p><b>Nucleo: </b></p>
+					    		<p><b>Unidad: </b></p>
+					    	</div>
+					  	</div>
+					</div>
+
+					<br>
+
+					<div class="card">
+					  	<div class="card-header">
+					    	¿Sabes como Evaluar?
+					  	</div>
+					  
+					  	<div class="card-body">
+					    	<div class="form-group">
+					    		<p><b>Nombre: </b></p>
+					    		<p><b>Apellido: </b></p>
+					    		<p><b>Nucleo: </b></p>
+					    		<p><b>Unidad: </b></p>
+					    	</div>
+					  	</div>
+					</div>
+				</div>
+
+				<div class="col-md-9">
+					<form method="post" action="/dashboard/evaluacion/<%=Evaluacion.id%>/u/<%=Usuario.cedula%>/ue/<%= evaluacionUsuario.usuarioEvaluado %>" id="formEvaluacion">
+						<input type="hidden" name="factores" value=<%=instrumentFactor.length%>>
+						<input type="hidden" name="items" value="<%=Items.length%>">
+						<input type="hidden" name="instrumentId" value="<%=Evaluacion.instrumentId%>">
+						<input type="hidden" name="usuarioEvaluado" value="<%= evaluacionUsuario.usuarioEvaluado %>">
+
+						<table class="table">
+							<% var n=0 %>
+							<% var k=-1 %>
+							<% var item = [] %>
+							
+							<%for(var i = 0; i < instrumentFactor.length; i ++){%>
+						    	<tr class="thead-dark">
+						      		<th width="5%">#</th>
+						      		<th scope="col"><%=instrumentFactor[i].factor.nombre%></th>
+						      		<th>2 ptos</th>
+						      		<th>4 ptos</th>
+						      		<th>6 ptos</th>
+						      		<th>8 ptos</th>
+						      		<th>10 ptos</th>
+						    	</tr>
+						    	<% var k=0 %>
+						    	<% for(var j = 0; j < Items.length; j ++) {%>
+									<%if(Items[j].factorId == instrumentFactor[i].factorId){%>
+										<tr>
+									    	<td width="5%"></td>
+									    	<td><%=Items[j].nombre%></td> 
+									    	<td>
+									    		<input type="radio" name="item[<%= j %>]" value=2 id="item" required>
+									    	</td>
+									    	<td>
+									    		<input type="radio" name="item[<%= j %>]" value=4 id="item" required>
+									    	</td>
+									    	<td>
+									    		<input type="radio" name="item[<%= j %>]" value=6 id="item" required>
+									    	</td>
+									    	<td>
+									    		<input type="radio" name="item[<%= j %>]" value=8 id="item" required>
+									    	</td>
+									    	<td>
+									    		<input type="radio" name="item[<%= j %>]" value=10 id="item" required>
+									    	</td>
+									  	</tr>
+									  	<% k=k+1 %>
+									<%}%>
+						    	<%}%>
+						  	<%}%>
+						</table>
+						<hr>
+						<input type="submit" class="btn btn-primary btn-lg btn-block" name="enviar" value="Finalizar">
+					</form>
+				</div>
+			</div>
+
+			<br>
+
+			<footer class="footer" style="background: #BEBCB0">
+				<div class="container">
+					<span class="text-muted">Pie de Pagina</span>
+				</div>
+			</footer>
+		</div>
+		<!--
+		<h2>CREDIUDO | Evaluación</h2>
+		<h4>Bienvendio <%= Usuario.nombre %></h4>
+		<a href="/logout">Cerrar Sesion</a>
+		<hr>
+		
+		<br>
+		<h3><%=Evaluacion.instrument.titulo%></h3>
+		<br>
+		
+		<h3>Datos de la Depencia:</h3>
+		<h4>Nucleo: <%=Evaluacion.nucleo.nombre%></h4>
+		<h4>Nucleo: <%=Evaluacion.unidad.nombre%></h4>
+		<h4>Nombre del Supervisor Inmediato: <%=Usuario.nombre%> <%=Usuario.apellido%></h4>
 
 		<br>
-		<input type="submit" name="enviar" value="Enviar">
-	</form>
-	
+		<h3>Datos del Trabajador</h3>
+		<h4>Nombre y Apellido: <%= evaluacionUsuario.usuarioEvaluado %></h4>
+		<h4>Cedula de Identidad: <%= evaluacionUsuario.usuarioEvaluado %></h4>
+		<h4>Profesión: </h4>
+		<h4>Cargo Actual: </h4>
+		<!--INFORMACION DE LA PERSONA A SER EVALUADA
+		
+		
 
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="/js/jquery.validate.min.js"></script>
-	<script src="/js/main.js"></script>
-</body>
+		<form method="post" action="/dashboard/evaluacion/<%=Evaluacion.id%>/u/<%=Usuario.cedula%>/ue/<%= evaluacionUsuario.usuarioEvaluado %>" id="formEvaluacion">
+			<input type="hidden" name="factores" value=<%=instrumentFactor.length%>>
+			<input type="hidden" name="items" value="<%=Items.length%>">
+			<input type="hidden" name="instrumentId" value="<%=Evaluacion.instrumentId%>">
+			<input type="hidden" name="usuarioEvaluado" value="<%= evaluacionUsuario.usuarioEvaluado %>">
+
+			<table style="width:80%">
+				
+				<% var n=0 %>
+				<% var k=-1 %>
+				<% var item = [] %>
+
+				<%for(var i = 0; i < instrumentFactor.length; i ++){%>
+					<tr>
+				    	<td width="5%"></td>
+				    	<td><h4><%=instrumentFactor[i].factor.nombre%></h4></td> 
+				    	<td colspan="5"></td>
+				  	</tr>
+					<% var k=0 %>
+				  	<% for(var j = 0; j < Items.length; j ++) {%>
+						<%if(Items[j].factorId == instrumentFactor[i].factorId){%>
+							<tr>
+						    	<td width="5%"></td>
+						    	<td><%=Items[j].nombre%></td> 
+						    	<td>
+						    		<input type="radio" name="item[<%= j %>]" value=2 id="item" required>
+						    	</td>
+						    	<td>
+						    		<input type="radio" name="item[<%= j %>]" value=4 id="item" required>
+						    	</td>
+						    	<td>
+						    		<input type="radio" name="item[<%= j %>]" value=6 id="item" required>
+						    	</td>
+						    	<td>
+						    		<input type="radio" name="item[<%= j %>]" value=8 id="item" required>
+						    	</td>
+						    	<td>
+						    		<input type="radio" name="item[<%= j %>]" value=10 id="item" required>
+						    	</td>
+						  	</tr>
+						  	<% k=k+1 %>					
+						<%}%>
+				  	<%}%>	
+				<%}%>
+			</table>
+
+			<br>
+			<input type="submit" name="enviar" value="Enviar">
+		</form>
+		-->
+
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="/js/jquery.validate.min.js"></script>
+		<script src="/js/main.js"></script>
+	</body>
 </html>

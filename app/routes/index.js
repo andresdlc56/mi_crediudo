@@ -18,7 +18,8 @@ module.exports = function(app,passport) {
     //RUTA PARA EL PROCESAMIENTO DE LOS USUARIOS QUE INTENTAN LOGEARSE 
     app.post('/login', passport.authenticate('local-signin', {
 	        successRedirect: '/dashboard',
-	        failureRedirect: '/login'
+	        failureRedirect: '/login',
+            failureFlash: 'Cedula o Password Incorrecto'
 	    }
 	));
 

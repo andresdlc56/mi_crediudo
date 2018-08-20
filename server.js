@@ -5,6 +5,7 @@ var session    = require('express-session');
 var bodyParser = require('body-parser');
 var env = require('dotenv').load();
 var path =require('path');
+var flash = require('connect-flash');
 
 //For BodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,6 +16,7 @@ app.use(session({ secret: 'keyboard cat',resave: true, saveUninitialized:true}))
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
+app.use(flash());
 app.use(express.static(path.join(__dirname, 'public'))); // lo declaramos para utilizar archivos estaticos dentro de la aplicacion.
 app.set('views', './app/views')
 app.engine('html', require('ejs').renderFile);// para usar html en vez de jade como motor de plantilla

@@ -17,7 +17,7 @@ exports.index = function(req, res) {
 		}
 	}).then(presidente => {
 		models.evaluacion.findAll({
-			include: [models.nucleo, models.unidad],
+			include: [models.nucleo, models.unidad, models.instrument],
 		}).then(evaluacion => {
 			//res.send(presidente);
 			res.render('president/index', { presidente, evaluacion, fecha_actual });	
@@ -25,31 +25,14 @@ exports.index = function(req, res) {
 	});
 }
 
-/*
-exports.detalles = function(req, res) {
-	models.evaluacion.findOne({
-		where: { id: req.params.id },
-		include: [models.instrument]
+exports.autoEval = function(req, res) {
+	models.evaluacion.findAll({
+		include: [ models.instrument, models.nucleo, models.unidad ]
 	}).then(Evaluacion => {
-		models.evaluacionUsuario.findAll({
-			where: { 
-				evaluacionId:req.params.id 
-			}
-		}).then(usuario => {
-			models.usuario.findAll({
-				where: { 
-					[Op.and]: [ 
-						{nucleoCodigo: Evaluacion.nucleoCodigo}, 
-						{unidadCodigo: Evaluacion.unidadCodigo}] 
-				}
-			}).then(Empleados => {
-				res.send(Evaluacion);
-				//res.render('president/detalles/index', { usuario, Empleados });	
-			});	
-		});
-	})	
+		//res.send(Evaluacion);
+		res.render('president/detalles/autoEval/index', { Evaluacion });
+	});
 }
-*/
 
 exports.detalles = function(req, res) {
 	var instrumentFactor = false;
@@ -123,8 +106,7 @@ exports.detalles = function(req, res) {
 				include: [ models.evaluacion ],
 				where: {
 					[Op.and]: [
-						{evaluacionId: req.params.id}, 
-						{status: false}
+						{evaluacionId: req.params.id}
 					]
 				}
 			}).then(evalUsuario => {

@@ -7,6 +7,8 @@ module.exports = function(app) {
 
     app.get('/president',isLoggedIn, presidentController.index);
 
+    app.get('/president/auto', isLoggedIn, presidentController.autoEval);
+
     app.get('/president/detalles/:id',isLoggedIn, presidentController.detalles);
 
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Subordinado"

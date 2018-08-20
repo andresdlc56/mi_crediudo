@@ -56,7 +56,7 @@ exports.addEval_b = function(req, res) {
 	}).then(Unidades => {
 		//buscando una evaluacion especifica 
 		models.evaluacion.findById(req.params.id).then(Evaluacion => {
-			//buscando un bucleo en especifico 
+			//buscando un nucleo en especifico 
 			models.nucleo.findById(req.params.idn).then(Nucleo => {
 				/*
 				buscando todos los instrumentos donde la categoria sea igual a la que elejimos 

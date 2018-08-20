@@ -4,6 +4,9 @@
 	<meta charset="UTF-8">
 	<title>CREDIUDO | Inicio</title>
 
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 	<style type="text/css">
 		table, th, td {
 		    border: 1px solid black;
@@ -11,131 +14,129 @@
 	</style>
 </head>
 <body>
-	<h2>CREDIUDO | Inicio</h2>
-	<h4>Bienvendio <%= Usuario.nombre %> <%= Usuario.apellido %></h4>
-	<h5>Nucleo: <%= Usuario.nucleo.nombre %></h5>
-	<h5>Unidad: <%= Usuario.unidad.nombre %></h5>
-	<a href="/logout">Cerrar Sesion</a>
+	<div class="container">
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
 
-	<br><br>
-	
-	<!--
-	<% if(subordinados && jefeSubordinado == false) {%>
-		<h4>Subordinados: </h4>
-	<%} else if(subordinados == false && jefeSubordinado) {%>
-		<h4>Jefe: </h4>
-	<%}%>
-	-->
+		<%- include('../partials/empleado/navbar.html') %>
 
-	<%if(evaluacionUsuario && evaluacionUsuario.length > 0) {%>
-		<h4>Evaluaciones Disponibles: </h4>
-	<%} else{%>
-		<h3>No hay Evaluaciones</h3>
-	<%}%>
+		<!--=======MIGAS DE PAN=========-->
+		<nav aria-label="breadcrumb" style="margin-top: 1%">
+			<ol class="breadcrumb">
+			    <li class="breadcrumb-item active" aria-current="page">Home</li>
+			</ol>
+		</nav>
+		<!--=======FIN MIGAS DE PAN=========-->
 
-	
-	<input type="hidden" name="fecha_actual" id="fecha_actual" value="<%= fecha_actual %>">
-	<%= fecha_actual %>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="card">
+				  	<div class="card-header">
+				    	Datos Personales:
+				  	</div>
+				  
+				  	<div class="card-body">
+				    	<div class="form-group">
+				    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
+				    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
+				    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
+				    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
+				    	</div>
+				  	</div>
+				</div>
 
-	<!--
-	<table style="width:50%">
-	  	<tr>
-	    	<th>Nombre</th>
-	    	<th>Apellido</th> 
-	    	<th>Cedula</th>
-	    	<th>Evaluar</th>
-	  	</tr>
-	  	<%if(subordinados == false && jefeSubordinado) {%>
-			<tr>
-				<td><%= jefeSubordinado.nombre %></td>
-				<td><%= jefeSubordinado.apellido %></td>
-				<td><%= jefeSubordinado.cedula %></td>
-				<td>
-					
-				</td>
-			</tr>
-	  	<%} else if(subordinados && jefeSubordinado == false) {%>
-			<% for(var k = 0; k < subordinados.length; k ++) {%>
-				<tr>
-					<td><%= subordinados[k].nombre %></td>
-					<td><%= subordinados[k].apellido %></td>
-					<td><%= subordinados[k].cedula %></td>
-					<td></td>
-				</tr>
-			<%}%>
-	  	<%}%>
-	</table>
-	-->
+				<br>
 
+				<div class="card">
+				  	<div class="card-header">
+				    	¿Sabes como Evaluar?
+				  	</div>
+				  
+				  	<div class="card-body">
+				    	<div class="form-group">
+				    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
+				    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
+				    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
+				    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
+				    	</div>
+				  	</div>
+				</div>
+			</div>
 
-	<br><br>
+			<div class="col-md-9">
+				<div class="jumbotron jumbotron-fluid">
+					<div class="container">
+				    	<h1 class="display-5">Bienvenido(a) <%= Usuario.nombre %></h1>
+				    	<p class="lead">Tienes n Evaluaciones Disponibles</p>
+				  	</div>
+				</div>
 
-<%if(evaluacionUsuario && evaluacionUsuario.length > 0) {%>
-	<table style="width:50%">
-		<tr>
-	    	<th>Nombre</th>
-	    	<th>Apellido</th> 
-	    	<th>Cedula</th>
-	    	<th>Evaluar</th>
-	  	</tr>
-	  	<!--BUSQUEDA PARA IR COMPARANDO CEDULAS E IMPRIMIR LOS NOMBRES Y APELLIDOS DE LOS USUARIOS A SER EVALUADOS-->
-		<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
-			<% if(Usuario.cargoId == 2 || Usuario.cargoId == 3) {%>
-			  	<tr>
-					<% for(var j = 0; j < subordinados.length; j ++) {%>
-						<% if(evaluacionUsuario[i].usuarioEvaluado == subordinados[j].cedula) {%>
-				  		<td>
-				  			<%= subordinados[j].nombre %>		
-				  		</td>
-				  		<%}%>
-					<%}%>
-					<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
-					<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
-					<td>
-						<% if((fecha_actual >= evaluacionUsuario[i].evaluacion.fecha_i) && (fecha_actual <= evaluacionUsuario[i].evaluacion.fecha_f)) {%>
-							<h4>Si puede</h4>
-						<%} else{%>
-							<h4>Aun No Puede</h4>
+				<table class="table">
+				  	<thead class="thead-dark">
+				    	<tr>
+				      		<th scope="col">Nombre</th>
+				      		<th scope="col">Apellido</th>
+				      		<th scope="col">Cedula</th>
+				      		<th scope="col">Evaluación</th>
+				    	</tr>
+				  </thead>
+				  	<tbody>
+				  		<!--BUSQUEDA PARA IR COMPARANDO CEDULAS E IMPRIMIR LOS NOMBRES Y APELLIDOS DE LOS USUARIOS A SER EVALUADOS-->
+						<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
+							<% if(Usuario.cargoId == 2 || Usuario.cargoId == 3) {%>
+							  	<tr>
+									<% for(var j = 0; j < subordinados.length; j ++) {%>
+										<% if(evaluacionUsuario[i].usuarioEvaluado == subordinados[j].cedula) {%>
+									  		<td>
+									  			<%= subordinados[j].nombre %>
+
+									  		</td>
+								  		<%} else {%>
+											<td>
+									  			hola
+
+									  		</td>
+								  		<%}%>
+									<%}%>
+									<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
+									<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
+									
+									<td>
+										<% if((fecha_actual >= evaluacionUsuario[i].evaluacion.fecha_i) && (fecha_actual <= evaluacionUsuario[i].evaluacion.fecha_f)) {%>
+											<h4>Si puede</h4>
+										<%} else{%>
+											<h4>Aun No Puede</h4>
+										<%}%>
+
+										<input type="hidden" name="fecha_i" id="fecha_i" value="<%=evaluacionUsuario[i].evaluacion.fecha_i%>">
+
+										<input type="hidden" name="fecha_f" id="fecha_f" value="<%=evaluacionUsuario[i].evaluacion.fecha_f%>">
+
+										<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>/ue/<%=evaluacionUsuario[i].usuarioEvaluado%>" id="evaluacion"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
+									</td>
+							  	</tr>
+							<%}%>
 						<%}%>
+						<!-- FIN -->
+				  	</tbody>
+				</table>
+			</div>
+		</div>
 
-						<input type="hidden" name="fecha_i" id="fecha_i" value="<%=evaluacionUsuario[i].evaluacion.fecha_i%>">
+		<br>
 
-						<input type="hidden" name="fecha_f" id="fecha_f" value="<%=evaluacionUsuario[i].evaluacion.fecha_f%>">
+		<footer class="footer" style="background: #BEBCB0">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
+	</div>
 
-						<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>/ue/<%=evaluacionUsuario[i].usuarioEvaluado%>" id="evaluacion" onclick="comprobar("hola",5);"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
-					</td>
-			  	</tr>
-			<%}%>
-		<%}%>
-		<!-- FIN -->
-	</table>
-<%}%>
-
-	<br><br>
-
-<!--
-	<%if(evaluacionUsuario && evaluacionUsuario.length > 0) {%>
-		<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
-			<% if(Usuario.cargoId == 2 || Usuario.cargoId == 3) {%>
-				<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>"><%=evaluacionUsuario[i].evaluacion.nombre%></a>	
-			<%} else{%>
-				Usted No tiene Evaluaciones Disponibles
-			<%}%>
-		<%}%>
-	<%} else{%>
-		<h3>No hay Evaluaciones</h3>
-	<%}%>
--->
-	
-	<script type="text/javascript">
-		function comprobar(a,b){
-			var fechaActual = document.getElementById("fecha_actual").value;
-			var fecha_i = document.getElementById('fecha_i').value;
-			var fecha_f = document.getElementById('fecha_f').value;
-
-			alert(a);
-		}
-	</script>
-	
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
 </body>
 </html>
