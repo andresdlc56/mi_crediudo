@@ -5,6 +5,7 @@ var Sequelize = require('sequelize');
 var Op = Sequelize.Op;
 
 exports.evaluacion = function(req, res) {
+	var user = req.user;
 	//busca un usuario que tenga como cedula el id que viene por parametro
 	models.usuario.findById(req.params.idu).then(Usuario => {
 		//busca una evaluacion que tenga como id el id que viene por parametro 
@@ -48,7 +49,8 @@ exports.evaluacion = function(req, res) {
 									instrumentFactor, 
 									Items,
 									evaluacionUsuario,
-									usuariosTodos 
+									usuariosTodos,
+									user
 								});
 							} else{
 								res.send('Negativo');
@@ -101,6 +103,7 @@ exports.procesarEval = function(req, res) {
 		}).then(evaluacionUsuario => {
 			console.log('Calificacion final Almacenada Exitosamente');
 		});
+		req.flash('info', 'Gracias por su tiempo, Sus respuestas se han enviado Exitosamente!');
 		res.redirect('/dashboard');
 	});
 }

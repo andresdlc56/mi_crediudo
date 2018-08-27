@@ -38,10 +38,10 @@
 				  
 				  	<div class="card-body">
 				    	<div class="form-group">
-				    		<p><b>Nombre: </b></p>
-				    		<p><b>Apellido: </b></p>
-				    		<p><b>Nucleo: </b></p>
-				    		<p><b>Unidad: </b></p>
+				    		<p><b>Nombre: </b><%= usuario.nombre %></p>
+				    		<p><b>Apellido: </b><%= usuario.apellido %></p>
+				    		<p><b>Nucleo: </b><%= usuario.nucleoCodigo %></p>
+				    		<p><b>Unidad: </b><%= usuario.unidadCodigo %></p>
 				    	</div>
 				  	</div>
 				</div>
@@ -79,7 +79,7 @@
 										      		<td><%= evaluacion[i].nombre %></td>
 										      		<td><%= evaluacion[i].nucleo.nombre %></td>
 										      		<td><%= evaluacion[i].unidad.nombre %></td>
-										      		<td><a href="/president/detalles/<%= evaluacion[i].id %>"><i class="fa fa-eye" style="font-size: 18pt;"></i></a></td>
+										      		<td><a href="/president/detalles/<%= evaluacion[i].id %>"><i class="fa fa-eye" style="font-size: 18pt;" title="Ver Detalles"></i></a></td>
 										    	</tr>
 											<%}%>
 										<%}%>
@@ -88,7 +88,6 @@
 							<%}%>		
 						</div>		
 					</div>
-
 				</div>
 				
 				

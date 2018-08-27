@@ -6,6 +6,7 @@ var Op = Sequelize.Op;
 
 exports.index = function(req, res) {
 	var fecha_actual = new Date();
+	var usuario = req.user;
 
 	models.usuario.findOne({
 		where: { 
@@ -20,7 +21,7 @@ exports.index = function(req, res) {
 			include: [models.nucleo, models.unidad, models.instrument],
 		}).then(evaluacion => {
 			//res.send(presidente);
-			res.render('president/index', { presidente, evaluacion, fecha_actual });	
+			res.render('president/index', { presidente, evaluacion, fecha_actual, usuario });	
 		});	
 	});
 }
@@ -36,10 +37,11 @@ exports.autoEval = function(req, res) {
 
 exports.detalles = function(req, res) {
 	var instrumentFactor = false;
+	var usuario = req.user;
 
 	models.evaluacion.findOne({
 		where: { id: req.params.id },
-		include: [models.instrument]
+		include: [models.instrument, models.nucleo, models.unidad]
 	}).then(Evaluacion => {
 		if(Evaluacion.instrument.tipoEvalId == 3) {
 			console.log('===========Evaluacion de Jefe para Subordinados=============');
@@ -62,7 +64,12 @@ exports.detalles = function(req, res) {
 				}).then(dataEvaluacion => {
 					
 					//res.send(evaluacionUsuario);
-					res.render('president/detalles/index', { dataEvaluacion, evalJefe, Evaluacion, instrumentFactor });
+					res.render('president/detalles/index', { 
+						dataEvaluacion, 
+						evalJefe, 
+						Evaluacion, 
+						instrumentFactor 
+					});
 				})
 			})
 		} else if(Evaluacion.instrument.tipoEvalId == 4) {
@@ -89,16 +96,33 @@ exports.detalles = function(req, res) {
 						include: [models.factor],
 						where: { instrumentId: Evaluacion.instrumentId }
 					}).then(instrumentFactor => {
-						//res.send(dataEvaluacion);
-						res.render('president/detalles/index', { 
-							dataEvaluacion, 
-							evalJefe, 
-							Evaluacion, 
-							instrumentFactor 
-						});	
-					})
-				})
-			})
+						models.usuario.findAll({
+							where: { 
+								[Op.and]: [
+									{nucleoCodigo: Evaluacion.nucleoCodigo}, 
+									{unidadCodigo: Evaluacion.unidadCodigo}
+								] 
+							}
+						}).then(Empleado => {
+							models.itemUsuario.findAll({
+								include: [ models.item ],
+								where: { evaluacionId: req.params.id }
+							}).then(itemUsuario => {
+								//res.send(itemUsuario);
+								res.render('president/detalles/index', { 
+									dataEvaluacion, 
+									evalJefe, 
+									Evaluacion, 
+									instrumentFactor,
+									Empleado,
+									usuario,
+									itemUsuario
+								});
+							})
+						});
+					});
+				});
+			});
 		} else if(Evaluacion.instrument.tipoEvalId == 2) {
 			console.log('===========Evaluacion entre compañeros (Co-Evaluación)=============');
 			//res.send(Evaluacion);
@@ -126,6 +150,8 @@ exports.detalles = function(req, res) {
 }
 
 exports.culminado = function(req, res) {
+	var usuario = req.user;
+
 	console.log('================Examen Culminado==================');
 
 	models.evaluacion.findOne({
@@ -145,7 +171,6 @@ exports.culminado = function(req, res) {
 					]
 				}
 			}).then(Item => {
-
 				models.evaluacionUsuario.findOne({
 					where: {
 						[Op.and]: [
@@ -156,8 +181,9 @@ exports.culminado = function(req, res) {
 						]
 					}
 				}).then(dataEvaluacion => {
-					
+					models.usuario.findAll({
 
+					}).then(Empleado => {
 						var acomulador = [];
 						var calificacionFactor = [];
 
@@ -190,7 +216,9 @@ exports.culminado = function(req, res) {
 								Item, 
 								calificacionFactor,
 								dataEvaluacion,
-								observacion 
+								observacion,
+								usuario,
+								Empleado
 							});
 						} else if(Evaluacion.instrument.tipoEvalId == 4) {
 							observacion = false;
@@ -201,7 +229,9 @@ exports.culminado = function(req, res) {
 								Item, 
 								calificacionFactor,
 								dataEvaluacion,
-								observacion 
+								observacion,
+								usuario,
+								Empleado
 							});
 						} else if(Evaluacion.instrument.tipoEvalId == 2) {
 							observacion = false;
@@ -212,11 +242,14 @@ exports.culminado = function(req, res) {
 								Item, 
 								calificacionFactor,
 								dataEvaluacion,
-								observacion 
+								observacion,
+								usuario,
+								Empleado 
 							});
-						}	
-				})	
-			})		
-		})
-	})
+						}
+					});			
+				});	
+			});		
+		});
+	});
 }

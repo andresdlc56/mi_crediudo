@@ -65,6 +65,18 @@
 			</div>
 
 			<div class="col-md-9">
+				<!--=======mensaje de alerta==========-->
+				<% if(message == false) {%>
+
+				<%} else {%>
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+			            <%= message %>
+			            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+			        </div>
+				<%}%>
+				<!--=======fin mensaje de alerta==========-->
 				<div class="jumbotron jumbotron-fluid">
 					<div class="container">
 				    	<h1 class="display-5">Bienvenido(a) <%= Usuario.nombre %></h1>
@@ -86,20 +98,20 @@
 						<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
 							<% if(Usuario.cargoId == 2 || Usuario.cargoId == 3) {%>
 							  	<tr>
-									<% for(var j = 0; j < subordinados.length; j ++) {%>
-										<% if(evaluacionUsuario[i].usuarioEvaluado == subordinados[j].cedula) {%>
-									  		<td>
-									  			<%= subordinados[j].nombre %>
-
-									  		</td>
-								  		<%} else {%>
-											<td>
-									  			hola
-
-									  		</td>
-								  		<%}%>
-									<%}%>
-									<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
+							  		<td>
+										<% for(var j = 0; j < Empleado.length; j ++) {%>
+											<% if(evaluacionUsuario[i].usuarioEvaluado == Empleado[j].cedula) {%>
+										  		<%= Empleado[j].nombre %>
+									  		<%}%>
+										<%}%>
+									</td>
+									<td>
+										<% for(var j = 0; j < Empleado.length; j ++) {%>
+											<% if(evaluacionUsuario[i].usuarioEvaluado == Empleado[j].cedula) {%>
+										  		<%= Empleado[j].apellido %>
+									  		<%}%>
+										<%}%>
+									</td>
 									<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
 									
 									<td>
