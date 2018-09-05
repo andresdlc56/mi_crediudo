@@ -6,6 +6,8 @@
 
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Custom styles for this template -->
+    <link href="css/sticky-footer-navbar.css" rel="stylesheet">
 
 	<style type="text/css">
 		table, th, td {
@@ -14,136 +16,140 @@
 	</style>
 </head>
 <body>
-	<div class="container">
-		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
 			<img src="images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
 		</div>	
 
 		<%- include('../partials/empleado/navbar.html') %>
 
-		<!--=======MIGAS DE PAN=========-->
-		<nav aria-label="breadcrumb" style="margin-top: 1%">
-			<ol class="breadcrumb">
-			    <li class="breadcrumb-item active" aria-current="page">Home</li>
-			</ol>
-		</nav>
-		<!--=======FIN MIGAS DE PAN=========-->
+	<div class="container-fluid">
+		<div class="row justify-content-md-center">
+			<div class="col-md-10">
+				<div class="row">
+					<div class="col-md-12">
+						<!--=======MIGAS DE PAN=========-->
+						<nav aria-label="breadcrumb" style="margin-top: 1%">
+							<ol class="breadcrumb">
+							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							</ol>
+						</nav>
+						<!--=======FIN MIGAS DE PAN=========-->				
+					</div>
 
-		<div class="row">
-			<div class="col-md-3">
-				<div class="card">
-				  	<div class="card-header">
-				    	Datos Personales:
-				  	</div>
-				  
-				  	<div class="card-body">
-				    	<div class="form-group">
-				    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
-				    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
-				    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
-				    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
-				    	</div>
-				  	</div>
-				</div>
+					<div class="col-md-2">
+						<div class="card">
+						  	<div class="card-header">
+						    	Datos Personales:
+						  	</div>
+						  
+						  	<div class="card-body">
+						    	<div class="form-group">
+						    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
+						    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
+						    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
+						    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
+						    	</div>
+						  	</div>
+						</div>
 
-				<br>
+						<br>
 
-				<div class="card">
-				  	<div class="card-header">
-				    	¿Sabes como Evaluar?
-				  	</div>
-				  
-				  	<div class="card-body">
-				    	<div class="form-group">
-				    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
-				    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
-				    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
-				    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
-				    	</div>
-				  	</div>
-				</div>
-			</div>
+						<div class="card">
+						  	<div class="card-header">
+						    	¿Sabes como Evaluar?
+						  	</div>
+						  
+						  	<div class="card-body">
+						    	<div class="form-group">
+						    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
+						    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
+						    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
+						    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
+						    	</div>
+						  	</div>
+						</div>
+					</div>
 
-			<div class="col-md-9">
-				<!--=======mensaje de alerta==========-->
-				<% if(message == false) {%>
+					<div class="col-md-10">
+						<!--=======mensaje de alerta==========-->
+						<% if(message == false) {%>
 
-				<%} else {%>
-					<div class="alert alert-success alert-dismissible fade show" role="alert">
-			            <%= message %>
-			            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-			        </div>
-				<%}%>
-				<!--=======fin mensaje de alerta==========-->
-				<div class="jumbotron jumbotron-fluid">
-					<div class="container">
-				    	<h1 class="display-5">Bienvenido(a) <%= Usuario.nombre %></h1>
-				    	<p class="lead">Tienes n Evaluaciones Disponibles</p>
-				  	</div>
-				</div>
-
-				<table class="table">
-				  	<thead class="thead-dark">
-				    	<tr>
-				      		<th scope="col">Nombre</th>
-				      		<th scope="col">Apellido</th>
-				      		<th scope="col">Cedula</th>
-				      		<th scope="col">Evaluación</th>
-				    	</tr>
-				  </thead>
-				  	<tbody>
-				  		<!--BUSQUEDA PARA IR COMPARANDO CEDULAS E IMPRIMIR LOS NOMBRES Y APELLIDOS DE LOS USUARIOS A SER EVALUADOS-->
-						<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
-							<% if(Usuario.cargoId == 2 || Usuario.cargoId == 3) {%>
-							  	<tr>
-							  		<td>
-										<% for(var j = 0; j < Empleado.length; j ++) {%>
-											<% if(evaluacionUsuario[i].usuarioEvaluado == Empleado[j].cedula) {%>
-										  		<%= Empleado[j].nombre %>
-									  		<%}%>
-										<%}%>
-									</td>
-									<td>
-										<% for(var j = 0; j < Empleado.length; j ++) {%>
-											<% if(evaluacionUsuario[i].usuarioEvaluado == Empleado[j].cedula) {%>
-										  		<%= Empleado[j].apellido %>
-									  		<%}%>
-										<%}%>
-									</td>
-									<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
-									
-									<td>
-										<% if((fecha_actual >= evaluacionUsuario[i].evaluacion.fecha_i) && (fecha_actual <= evaluacionUsuario[i].evaluacion.fecha_f)) {%>
-											<h4>Si puede</h4>
-										<%} else{%>
-											<h4>Aun No Puede</h4>
-										<%}%>
-
-										<input type="hidden" name="fecha_i" id="fecha_i" value="<%=evaluacionUsuario[i].evaluacion.fecha_i%>">
-
-										<input type="hidden" name="fecha_f" id="fecha_f" value="<%=evaluacionUsuario[i].evaluacion.fecha_f%>">
-
-										<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>/ue/<%=evaluacionUsuario[i].usuarioEvaluado%>" id="evaluacion"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
-									</td>
-							  	</tr>
-							<%}%>
+						<%} else {%>
+							<div class="alert alert-success alert-dismissible fade show" role="alert">
+					            <%= message %>
+					            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+					        </div>
 						<%}%>
-						<!-- FIN -->
-				  	</tbody>
-				</table>
+						<!--=======fin mensaje de alerta==========-->
+						<div class="jumbotron jumbotron-fluid">
+							<div class="container">
+						    	<h1 class="display-5">Bienvenido(a) <%= Usuario.nombre %></h1>
+						    	<p class="lead">Tienes n Evaluaciones Disponibles</p>
+						  	</div>
+						</div>
+
+						<table class="table">
+						  	<thead class="thead-dark">
+						    	<tr>
+						      		<th scope="col">Nombre</th>
+						      		<th scope="col">Apellido</th>
+						      		<th scope="col">Cedula</th>
+						      		<th scope="col">Evaluación</th>
+						    	</tr>
+						  </thead>
+						  	<tbody>
+						  		<!--BUSQUEDA PARA IR COMPARANDO CEDULAS E IMPRIMIR LOS NOMBRES Y APELLIDOS DE LOS USUARIOS A SER EVALUADOS-->
+								<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
+									<% if(Usuario.cargoId == 2 || Usuario.cargoId == 3) {%>
+									  	<tr>
+									  		<td>
+												<% for(var j = 0; j < Empleado.length; j ++) {%>
+													<% if(evaluacionUsuario[i].usuarioEvaluado == Empleado[j].cedula) {%>
+												  		<%= Empleado[j].nombre %>
+											  		<%}%>
+												<%}%>
+											</td>
+											<td>
+												<% for(var j = 0; j < Empleado.length; j ++) {%>
+													<% if(evaluacionUsuario[i].usuarioEvaluado == Empleado[j].cedula) {%>
+												  		<%= Empleado[j].apellido %>
+											  		<%}%>
+												<%}%>
+											</td>
+											<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
+											
+											<td>
+												<% if((fecha_actual >= evaluacionUsuario[i].evaluacion.fecha_i) && (fecha_actual <= evaluacionUsuario[i].evaluacion.fecha_f)) {%>
+													<h4>Si puede</h4>
+												<%} else{%>
+													<h4>Aun No Puede</h4>
+												<%}%>
+
+												<input type="hidden" name="fecha_i" id="fecha_i" value="<%=evaluacionUsuario[i].evaluacion.fecha_i%>">
+
+												<input type="hidden" name="fecha_f" id="fecha_f" value="<%=evaluacionUsuario[i].evaluacion.fecha_f%>">
+
+												<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>/ue/<%=evaluacionUsuario[i].usuarioEvaluado%>" id="evaluacion"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
+											</td>
+									  	</tr>
+									<%}%>
+								<%}%>
+								<!-- FIN -->
+						  	</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
-
-		<br>
-
-		<footer class="footer" style="background: #BEBCB0">
-			<div class="container">
-				<span class="text-muted">Pie de Pagina</span>
-			</div>
-		</footer>
 	</div>
+
+	<footer class="footer" style="background: #BEBCB0;">
+		<div class="container">
+			<span class="text-muted">Pie de Pagina</span>
+		</div>
+	</footer>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

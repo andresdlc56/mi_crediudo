@@ -35,4 +35,33 @@ $(document).ready(function() {
 		}
 	});
 
+	$("#plani_eval").validate({
+		//REGLAS DE VALIDACION
+		rules:{
+			nombre:{
+				required:true
+			},
+			instrumento:{
+				required:true
+			},
+			unidad:{
+				required:true
+			},
+			fecha_i:{
+				required:true
+			},
+			fecha_f:{
+				required:true
+			}
+		},//FIN REGLAS
+
+		messages:{
+			nombre: "Campo Obligatorio",
+			instrumento: "Campo Obligatorio",
+			unidad: "Campo Obligatorio",
+			fecha_i: "Campo Obligatorio",
+			fecha_f: "Campo Obligatorio",
+		}
+	});
+
 });

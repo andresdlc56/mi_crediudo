@@ -62,13 +62,23 @@ exports.detalles = function(req, res) {
 				models.evaluacionUsuario.findAll({
 					where: { evaluacionId: req.params.id }
 				}).then(dataEvaluacion => {
-					
-					//res.send(evaluacionUsuario);
-					res.render('president/detalles/index', { 
-						dataEvaluacion, 
-						evalJefe, 
-						Evaluacion, 
-						instrumentFactor 
+					models.usuario.findAll({
+						where: { 
+							[Op.and]: [
+								{nucleoCodigo: Evaluacion.nucleoCodigo}, 
+								{unidadCodigo: Evaluacion.unidadCodigo}
+							] 
+						}
+					}).then(Empleado => {
+						//res.send(evaluacionUsuario);
+						res.render('president/detalles/index', { 
+							dataEvaluacion, 
+							evalJefe, 
+							Evaluacion, 
+							usuario,
+							Empleado,
+							instrumentFactor 
+						});
 					});
 				})
 			})
@@ -141,10 +151,29 @@ exports.detalles = function(req, res) {
 							{ rolId: 5 }
 						]
 					}
-				}).then(Usuario => {
+				}).then(usuario => {
 					res.render('president/detalles/index_2', { evalUsuario, Usuario });
 				})
 			})
+		} else if(Evaluacion.instrument.tipoEvalId == 1) {
+			console.log('===========Auto-Evaluación=============');
+			var instrumentFactor = false;
+			models.evaluacionUsuario.findAll({
+				include: [ models.evaluacion ],
+				where: { evaluacionId: req.params.id }
+			}).then(dataEvaluacion => {
+				models.usuario.findAll({
+					where: {
+						[Op.and]: [
+							{ nucleoCodigo: dataEvaluacion[0].evaluacion.nucleoCodigo },
+							{ unidadCodigo: dataEvaluacion[0].evaluacion.unidadCodigo }
+						]
+					}
+				}).then(Empleado => {
+					//res.send(Usuario);
+					res.render('president/detalles/index', { dataEvaluacion, Empleado, Evaluacion, usuario, instrumentFactor });
+				});
+			});
 		}
 	})	
 }
@@ -234,6 +263,19 @@ exports.culminado = function(req, res) {
 								Empleado
 							});
 						} else if(Evaluacion.instrument.tipoEvalId == 2) {
+							observacion = false;
+							//res.send(dataEvaluacion);
+							res.render('president/detalles/culminado/index', { 
+								Evaluacion, 
+								instrumentFactor, 
+								Item, 
+								calificacionFactor,
+								dataEvaluacion,
+								observacion,
+								usuario,
+								Empleado 
+							});
+						} else if(Evaluacion.instrument.tipoEvalId == 1) {
 							observacion = false;
 							//res.send(dataEvaluacion);
 							res.render('president/detalles/culminado/index', { 

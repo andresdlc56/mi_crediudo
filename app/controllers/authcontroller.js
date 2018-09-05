@@ -94,10 +94,12 @@ exports.dashboard = function(req, res) {
 								res.render('empleado/index', { 
 									Evaluacion, 
 									Usuario, 
+									Empleado,
 									evaluacionUsuario, 
 									jefeSubordinado, 
 									subordinados,
-									fecha_actual 
+									fecha_actual,
+									message: req.flash('info')
 								});
 							})
 						}

@@ -3,48 +3,132 @@
 <head>
 	<meta charset="UTF-8">
 	<title>CREDIUDO | Coord. Planificación</title>
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+
+	<!--======estilo para el error=====-->
+	<style>
+        label.error{
+            color: red;
+        }
+	</style>
+	<!--======fin estilo para el error=====-->    
 </head>
 <body>
-	<h3>Finiquitar Planificación de Evaluación</h3>
-	<br>
+	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+	</div>	
+
+	<%- include('../../partials/president/navbar.html') %>
+
+	<div class="container-fluid">
+		<div class="row justify-content-md-center">
+			<div class="col-md-10">
+				<div class="row">
+					<div class="col-md-12">
+						<!--=======MIGAS DE PAN=========-->
+						<nav aria-label="breadcrumb" style="margin-top: 1%">
+							<ol class="breadcrumb">
+							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							</ol>
+						</nav>
+						<!--=======FIN MIGAS DE PAN=========-->
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-2">
+						<div class="card">
+						  	<div class="card-header">
+						    	Datos Personales:
+						  	</div>
+						  
+						  	<div class="card-body">
+						    	<div class="form-group">
+						    		<p><b>Nombre: </b></p>
+						    		<p><b>Apellido: </b></p>
+						    		<p><b>Nucleo: </b></p>
+						    		<p><b>Unidad: </b></p>
+						    	</div>
+						  	</div>
+						</div>
+					</div>
+
+					<div class="col-md-10">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-header">
+										Finiquitar Evaluación
+									</div>
+
+									<div class="card-body">
+										<form method="post" action="/coord_plani/plani_eval/<%=Evaluacion.id%>/n/<%=Nucleo.codigo%>" id="plani_eval">
+											<div class="form-group">
+												<label>Nombre de la Evaluación:</label>
+												<input type="text" name="nombre" placeholder="Nombre o Titulo de la Evaluación" class="form-control" autofocus>	
+											</div>
+
+											<div class="form-row">
+												<div class="form-group col-md-6">
+													<label for="isntrumento">Instrumento de Evaluación: </label>
+													<select name="instrumento" id="instrumento" class="form-control">
+														<option value=""> --Seleccione una Opción-- </option>
+														<% for(var j = 0; j < Instrumentos.length; j ++) {%>
+															<option value="<%= Instrumentos[j].id %>"><%= Instrumentos[j].titulo %></option>
+														<%}%>
+													</select>
+												</div>
+
+												<div class="form-group col-md-6">
+													<label for="unidad">Unidad</label>
+													<select name="unidad" class="form-control">
+														<option value=""> --Seleccione una Opción-- </option>
+														<% for(var i = 0; i < Unidades.length; i ++) {%>
+															<option value="<%= Unidades[i].codigo %>"><%= Unidades[i].nombre %></option>
+														<%}%>
+													</select>
+												</div>
+											</div>					
+
+											<div class="form-row">
+												<div class="form-group col-md-6">
+													<label>Fecha de Inicio:</label>
+													<input type="date" name="fecha_i" class="form-control">
+												</div>
+
+												<div class="form-group col-md-6">
+													<label>Fecha de Fin:</label>
+													<input type="date" name="fecha_f" class="form-control">
+												</div>
+											</div>
+
+											<br><br>
+
+											<input type="submit" name="guardar" value="Guardar">	
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	
-	<form method="post" action="/coord_plani/plani_eval/<%=Evaluacion.id%>/n/<%=Nucleo.codigo%>" id="formEvaluacion">
-		
-		<label>Nombre de la Evaluación:</label>
-		<input type="text" name="nombre" placeholder="Nombre o Titulo de la Evaluación">
+	<footer class="footer" style="background: #BEBCB0;">
+		<div class="container">
+			<span class="text-muted">Pie de Pagina</span>
+		</div>
+	</footer>
 
-		<br><br>
-
-		<label for="isntrumento">Insttumento de Evaluación: </label>
-		<select name="instrumento" id="instrumento">
-			<option value=""> --Seleccione una Opción-- </option>
-			<% for(var j = 0; j < Instrumentos.length; j ++) {%>
-				<option value="<%= Instrumentos[j].id %>"><%= Instrumentos[j].titulo %></option>
-			<%}%>
-		</select>
-
-		<br><br>
-
-		<label for="unidad">Unidad</label>
-		<select name="unidad">
-			<option value=""> --Seleccione una Opción-- </option>
-			<% for(var i = 0; i < Unidades.length; i ++) {%>
-				<option value="<%= Unidades[i].codigo %>"><%= Unidades[i].nombre %></option>
-			<%}%>
-		</select>
-
-		<br><br>
-
-		<label>Fecha de Inicio:</label>
-		<input type="date" name="fecha_i">
-
-		<label>Fecha de Fin:</label>
-		<input type="date" name="fecha_f">
-		
-		<br><br>
-
-		<input type="submit" name="guardar" value="Guardar">	
-	</form>
-	
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
 </body>
 </html>

@@ -5,6 +5,7 @@ var Sequelize = require('sequelize');
 var Op = Sequelize.Op;
 
 exports.index = function(req, res) {
+	var usuario = req.user;
 	//buscando todas las evalucaiones 
 	models.evaluacion.findAll({
 		include: [models.categoria, models.nucleo, models.unidad, models.instrument],
@@ -13,7 +14,12 @@ exports.index = function(req, res) {
 		models.tipoEval.findAll({
 
 		}).then(tipoEval => {
-			res.render('coord_plani/index', { Evaluaciones, tipoEval });	
+			res.render('coord_plani/index', { 
+				Evaluaciones, 
+				tipoEval,
+				usuario,
+				message: req.flash('info')
+			});	
 		});
 	});
 }
@@ -217,8 +223,34 @@ exports.finiquitarEval = function(req, res) {
 					}
 				}
 				//res.send(Resto);
+				req.flash('info', 'Evaluación planificada Exitosamente!');
 				res.redirect('/coord_plani');
 			});	
 		});
+	});
+}
+
+exports.eval_encurso = function(req, res) {
+	var usuario = req.user;
+	var fecha_actual = new Date();
+	models.evaluacion.findAll({
+		where: {
+			[Op.and]: {
+				fecha_i: {
+					[Op.lte]: fecha_actual
+				},
+				fecha_f: {
+					[Op.gte]: fecha_actual
+				}	
+			}
+			
+		}
+	}).then(Evaluacion => {
+		res.render('coord_plani/evaluacion/eval_encurso', { 
+			usuario,
+			Evaluacion, 
+			fecha_actual,
+			message: req.flash('info') 
+		});	
 	});
 }

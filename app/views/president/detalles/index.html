@@ -5,321 +5,310 @@
 		<title>CREDIUDO | Presidente</title>
 
 		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">	
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<!-- Custom styles for this template -->
+    	<link href="/css/sticky-footer-navbar.css" rel="stylesheet">	
+
 	</head>
 	<body>
-		<div class="container">
-			<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
-				<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
-			</div>	
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
 
-			<%- include('../../partials/president/navbar.html') %>
-
-			<!--=======MIGAS DE PAN=========-->
-			<nav aria-label="breadcrumb" style="margin-top: 1%">
-				<ol class="breadcrumb">
-				    <li class="breadcrumb-item active" aria-current="page">Home</li>
-				    <li class="breadcrumb-item active" aria-current="page">Detalles</li>
-				</ol>
-			</nav>
-			<!--=======FIN MIGAS DE PAN=========-->
-
-			<div class="row">
-				<div class="col-md-3">
-					<div class="card">
-					  	<div class="card-header">
-					    	Datos Personales:
-					  	</div>
-					  
-					  	<div class="card-body">
-					    	<div class="form-group">
-					    		<p><b>Nombre: </b><%= usuario.nombre %></p>
-					    		<p><b>Apellido: </b><%= usuario.apellido %></p>
-					    		<p><b>Nucleo: </b><%= usuario.nucleoCodigo %></p>
-					    		<p><b>Unidad: </b><%= usuario.unidadCodigo %></p>
-					    	</div>
-					  	</div>
-					</div>
-					<br>
-				</div>
-
-				<div class="col-md-9">
+		<%- include('../../partials/president/navbar.html') %>
+		<div class="container-fluid">	
+			<div class="row justify-content-md-center">
+				<div class="col-md-10">
 					<div class="row">
 						<div class="col-md-12">
-							<h2 class="text-center"><%= Evaluacion.nombre %></h2>
-							<h3 class="text-center"><%= Evaluacion.nucleo.nombre %> - <%= Evaluacion.unidad.nombre %></h3>
-							<hr>
+							<!--=======MIGAS DE PAN=========-->
+							<nav aria-label="breadcrumb" style="margin-top: 1%">
+								<ol class="breadcrumb">
+								    <li class="breadcrumb-item active" aria-current="page">Home</li>
+								    <li class="breadcrumb-item active" aria-current="page">Detalles</li>
+								</ol>
+							</nav>
+							<!--=======FIN MIGAS DE PAN=========-->		
 						</div>
-						<% var n = 0 %>
-						<% for(let i = 0; i < dataEvaluacion.length; i ++) {%>
-							<% if(dataEvaluacion[i].status == false) {%>
-								<div class="col-md-6">
-									<div class="card">
-										<div class="card-body">
-											<div class="row">
-												<div class="col-md-4 text-center">
-													<i class="fa fa-pencil-square-o" style="font-size: 60pt;"></i>
-												</div>
-
-												<div class="col-md-8">
-													<table style="width: 100%">
-														<tr>
-															<td style="width: 40%"><b>Evaluador: </b></td>
-															<td>
-																<% for(let j = 0; j < Empleado.length; j ++) {%>
-																	<% if(dataEvaluacion[i].usuarioCedula == Empleado[j].cedula) {%>
-																		<%= Empleado[j].nombre %> <%= Empleado[j].apellido %>
-																	<%}%>	
-																<%}%>
-															</td>
-														</tr>
-														<tr>
-															<td style="width: 40%"><b>Evaluado: </b></td>
-															<td>
-																<% for(let j = 0; j < Empleado.length; j ++) {%>
-																	<% if(dataEvaluacion[i].usuarioEvaluado == Empleado[j].cedula) {%>
-																		<%= Empleado[j].nombre %> <%= Empleado[j].apellido %>
-																	<%}%>	
-																<%}%>	
-															</td>
-														</tr>
-													</table>
-													<hr>
-													En Proceso...
-												</div>
-											</div>
-										</div>
-									</div>
-									<br>
-								</div>
-							<%} else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 4) {%>
-								<% n = n + 1 %>
-								<div class="col-md-6">
-									<div class="card">
-										<div class="card-body">
-											<div class="row">
-												<div class="col-md-4">
-													<i class="fa fa-pencil-square-o" style="font-size: 60pt;"></i>
-												</div>
-
-												<div class="col-md-8">
-													<table style="width: 100%">
-														<tr>
-															<td style="width: 40%"><b>Evaluador: </b></td>
-															<td>
-																<% for(let j = 0; j < Empleado.length; j ++) {%>
-																	<% if(dataEvaluacion[i].usuarioCedula == Empleado[j].cedula) {%>
-																		<%= Empleado[j].nombre %> <%= Empleado[j].apellido %>
-																	<%}%>	
-																<%}%>	
-															</td>
-														</tr>
-														<tr>
-															<td style="width: 40%"><b>Evaluado: </b></td>
-															<td>
-																<% for(let j = 0; j < Empleado.length; j ++) {%>
-																	<% if(dataEvaluacion[i].usuarioEvaluado == Empleado[j].cedula) {%>
-																		<%= Empleado[j].nombre %> <%= Empleado[j].apellido %>
-																	<%}%>	
-																<%}%>	
-															</td>
-														</tr>
-													</table>
-													<hr>
-													<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>/ue/<%=dataEvaluacion[i].usuarioCedula%>" class="btn btn-primary btn-block">Culminado</a>
-												</div>
-											</div>
-										</div>
-									</div>
-									<br>
-								</div>
-							<%} else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 3) {%>
-								<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>/ue/<%=dataEvaluacion[i].usuarioCedula%>">Culminada</a>
-							<%}%>
-						<%}%>
 					</div>
 
-					<hr>
-
 					<div class="row">
-						<div class="col-md-12">
-							<% if(instrumentFactor) {%>
-								<% if(n == dataEvaluacion.length) {%>
-									<div class="card">
-										<div class="card-body">
-											<table style="width:100%">
-												<tr>
-													<td style="width:40%">
-														<h2>Calificación General: </h2> 
-													</td>
-													<td style="padding: 5px">
-														<% var calificacionGeneral = 0 %>
-														<% var acomulado = 0 %>
-
-														<% for(let j = 0; j < dataEvaluacion.length; j ++) {			
-															acomulado = acomulado + parseInt(dataEvaluacion[j].calificacion);
-															calificacionGeneral = acomulado / dataEvaluacion.length;	
-														}%>
-														<div class="progress">
-														  	<div class="progress-bar" role="progressbar" style="width: <%= calificacionGeneral * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= calificacionGeneral %> Ptos</b></div>
-														</div>
-													</td>
-												</tr>
-											</table>
-										</div>
-									</div>
-								<%}%>
-							<%}%>
+						<div class="col-md-2">
+							<div class="card">
+							  	<div class="card-header">
+							    	Datos Personales:
+							  	</div>
+							  
+							  	<div class="card-body">
+							    	<div class="form-group">
+							    		<p><b>Nombre: </b><%= usuario.nombre %></p>
+							    		<p><b>Apellido: </b><%= usuario.apellido %></p>
+							    		<p><b>Nucleo: </b><%= usuario.nucleoCodigo %></p>
+							    		<p><b>Unidad: </b><%= usuario.unidadCodigo %></p>
+							    	</div>
+							  	</div>
+							</div>
 							<br>
 						</div>
 
-						<div class="col-md-12">
-							<div class="card">
-								<div class="card-body">
-									<table style="width:100%">
-										<th style="width:40%">Factor</th>
-										<th style="padding: 5px">Calificaión</th>
-										<% var n = [] %>
-										<% for(let k = 0; k < instrumentFactor.length; k ++) {%>
-											<% var acomulado_b = 0 %>
-											<% n[k] = 0 %>
-											<tr>
-												<td><%= instrumentFactor[k].factor.nombre %></td>
-												<td>
-													<% for(let i = 0; i < itemUsuario.length; i ++) {%>
-														<% if(instrumentFactor[k].factorId == itemUsuario[i].item.factorId) {%>
-															<% acomulado_b = acomulado_b + itemUsuario[i].calificacion %>
-															<% n[k] = n[k] + 1 %>
-														<%}%>
-													<%}%>
-													<div class="progress">
-														<div class="progress-bar" role="progressbar" style="width: <%= (acomulado_b / n[k]) * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= acomulado_b / n[k] %> Ptos</b></div>
+						<div class="col-md-10">
+							<div class="row">
+								<div class="col-md-12">
+									<h2 class="text-center"><%= Evaluacion.nombre %></h2>
+									<h3 class="text-center"><%= Evaluacion.nucleo.nombre %> - <%= Evaluacion.unidad.nombre %></h3>
+									<hr>
+								</div>
+								<% var n = 0 %>
+								<% for(let i = 0; i < dataEvaluacion.length; i ++) {%>
+									<% if(dataEvaluacion[i].status == false) {%>
+										<div class="col-md-6">
+											<div class="card">
+												<div class="card-body">
+													<div class="row">
+														<div class="col-md-4 text-center">
+															<i class="fa fa-pencil-square-o" style="font-size: 60pt;"></i>
+														</div>
+
+														<div class="col-md-8">
+															<table style="width: 100%">
+																<tr>
+																	<td style="width: 40%"><b>Evaluador: </b></td>
+																	<td>
+																		<% for(let j = 0; j < Empleado.length; j ++) {%>
+																			<% if(dataEvaluacion[i].usuarioCedula == Empleado[j].cedula) {%>
+																				<%= Empleado[j].nombre %> <%= Empleado[j].apellido %>
+																			<%}%>	
+																		<%}%>
+																	</td>
+																</tr>
+																<tr>
+																	<td style="width: 40%"><b>Evaluado: </b></td>
+																	<td>
+																		<% for(let j = 0; j < Empleado.length; j ++) {%>
+																			<% if(dataEvaluacion[i].usuarioEvaluado == Empleado[j].cedula) {%>
+																				<%= Empleado[j].nombre %> <%= Empleado[j].apellido %>
+																			<%}%>	
+																		<%}%>	
+																	</td>
+																</tr>
+															</table>
+															<hr>
+															En Proceso...
+														</div>
 													</div>
-													
-												</td>
-											</tr>
+												</div>
+											</div>
+											<br>
+										</div>
+									<%} else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 4) {%>
+										<% n = n + 1 %>
+										<div class="col-md-6">
+											<div class="card">
+												<div class="card-body">
+													<div class="row">
+														<div class="col-md-4">
+															<i class="fa fa-pencil-square-o" style="font-size: 60pt;"></i>
+														</div>
+
+														<div class="col-md-8">
+															<table style="width: 100%">
+																<tr>
+																	<td style="width: 40%"><b>Evaluador: </b></td>
+																	<td>
+																		<% for(let j = 0; j < Empleado.length; j ++) {%>
+																			<% if(dataEvaluacion[i].usuarioCedula == Empleado[j].cedula) {%>
+																				<%= Empleado[j].nombre %> <%= Empleado[j].apellido %>
+																			<%}%>	
+																		<%}%>	
+																	</td>
+																</tr>
+																<tr>
+																	<td style="width: 40%"><b>Evaluado: </b></td>
+																	<td>
+																		<% for(let j = 0; j < Empleado.length; j ++) {%>
+																			<% if(dataEvaluacion[i].usuarioEvaluado == Empleado[j].cedula) {%>
+																				<%= Empleado[j].nombre %> <%= Empleado[j].apellido %>
+																			<%}%>	
+																		<%}%>	
+																	</td>
+																</tr>
+															</table>
+															<hr>
+															<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>/ue/<%=dataEvaluacion[i].usuarioCedula%>" class="btn btn-primary btn-block">Culminado</a>
+														</div>
+													</div>
+												</div>
+											</div>
+											<br>
+										</div>
+									<%} else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 1) {%>
+										<% n = n + 1 %>
+										<div class="col-md-6">
+											<div class="card">
+												<div class="card-body">
+													<div class="row">
+														<div class="col-md-4">
+															<i class="fa fa-pencil-square-o" style="font-size: 60pt;"></i>
+														</div>
+
+														<div class="col-md-8">
+															<table style="width: 100%">
+																<tr>
+																	<td style="width: 40%"><b>Evaluador: </b></td>
+																	<td>
+																		<% for(let j = 0; j < Empleado.length; j ++) {%>
+																			<% if(dataEvaluacion[i].usuarioCedula == Empleado[j].cedula) {%>
+																				<%= Empleado[j].nombre %> <%= Empleado[j].apellido %>
+																			<%}%>	
+																		<%}%>	
+																	</td>
+																</tr>
+																<tr>
+																	<td style="width: 40%"><b>Evaluado: </b></td>
+																	<td>
+																		<% for(let j = 0; j < Empleado.length; j ++) {%>
+																			<% if(dataEvaluacion[i].usuarioEvaluado == Empleado[j].cedula) {%>
+																				<%= Empleado[j].nombre %> <%= Empleado[j].apellido %>
+																			<%}%>	
+																		<%}%>	
+																	</td>
+																</tr>
+															</table>
+															<hr>
+															<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>/ue/<%=dataEvaluacion[i].usuarioCedula%>" class="btn btn-primary btn-block">Culminado</a>
+														</div>
+													</div>
+												</div>
+											</div>
+											<br>
+										</div>
+									<%} else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 3) {%>
+										<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>/ue/<%=dataEvaluacion[i].usuarioCedula%>">Culminada</a>
+									<%}%>
+								<%}%>
+							</div>
+
+							<div class="row">
+								<div class="col-md-12">
+									<% if(instrumentFactor) {%>
+										<% if(n == dataEvaluacion.length) {%>
+											<!--=========BOTON MODAL========-->
+											<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+											    Ver Resumen
+											</button>
+											<!--=========FIN BOTON MODAL========-->
+
+											<!--=======MODAL=======-->
+											<div class="modal fade" id="myModal">
+											    <form method="post" action="#">
+												    <div class="modal-dialog modal-lg">
+												    	<div class="modal-content">
+													        <!-- Modal Header -->
+													        <div class="modal-header">
+													          	<h4 class="modal-title">Resumen</h4>
+													          	<button type="button" class="close" data-dismiss="modal">&times;</button>
+													        </div>
+												        
+													        <!-- Modal body -->
+													        <div class="modal-body">
+													          	<div class="card">
+																	<div class="card-body">
+																		<table style="width:100%">
+																			<tr>
+																				<td style="width:40%">
+																					<h2>Calificación General: </h2> 
+																				</td>
+																				<td style="padding: 5px">
+																					<% var calificacionGeneral = 0 %>
+																					<% var acomulado = 0 %>
+
+																					<% for(let j = 0; j < dataEvaluacion.length; j ++) {			
+																						acomulado = acomulado + parseInt(dataEvaluacion[j].calificacion);
+																						calificacionGeneral = acomulado / dataEvaluacion.length;	
+																					}%>
+																					<div class="progress">
+																						<div class="progress-bar" role="progressbar" style="width: <%= calificacionGeneral * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= calificacionGeneral %> Ptos</b></div>
+																					</div>
+																				</td>
+																			</tr>
+																		</table>
+																	</div>
+																</div>
+																
+																<br>
+
+																<div class="card">
+																	<div class="card-body">
+																		<table style="width:100%">
+																			<th style="width:40%">Factor</th>
+																			<th style="padding: 5px">Calificaión</th>
+																			<% var n = [] %>
+																			<% for(let k = 0; k < instrumentFactor.length; k ++) {%>
+																				<% var acomulado_b = 0 %>
+																				<% n[k] = 0 %>
+																				<tr>
+																					<td><%= instrumentFactor[k].factor.nombre %></td>
+																					<td>
+																						<% for(let i = 0; i < itemUsuario.length; i ++) {%>
+																							<% if(instrumentFactor[k].factorId == itemUsuario[i].item.factorId) {%>
+																								<% acomulado_b = acomulado_b + itemUsuario[i].calificacion %>
+																								<% n[k] = n[k] + 1 %>
+																							<%}%>
+																						<%}%>
+																						<div class="progress">
+																							<div class="progress-bar" role="progressbar" style="width: <%= (acomulado_b / n[k]) * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= acomulado_b / n[k] %> Ptos</b></div>
+																						</div>
+																						
+																					</td>
+																				</tr>
+																			<%}%>
+																		</table>
+																	</div>
+																</div>
+
+																<hr>
+																
+																<div class="form-group">
+																	<label for="comment">Observación:</label>
+																	<textarea class="form-control" rows="5" id="comment"></textarea>
+																</div>	
+													        </div>
+												        
+													        <!-- Modal footer -->
+													        <div class="modal-footer">
+													        	<button type="button" class="btn btn-primary">Enviar</button>
+													          	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+													        </div>
+												      	</div>
+												    </div>
+												</form>
+											</div>
+											<!--======FIN MODAL=====-->
 										<%}%>
-									</table>
+									<%} else {%>
+										<h3>hola</h3>
+									<%}%>
 								</div>
 							</div>
-						</div>
-					</div>
-					
-					<hr>
+							
+							<!--
+							<hr>
 
-					<div class="row">
-						<div class="col-md-12">
-							<form method="post" action="">
-								<label for="ovbeservacion">Observación:</label>
-								<br>
-								<textarea name="observacion" cols="100" rows="10">			
-								</textarea>
-
-								<br>
-						
-								<input type="submit" name="enviar" value="Enviar">	
-							</form>
+							
+							-->
 						</div>
-					</div>
+					</div>		
 				</div>
 			</div>
-
-			<footer class="footer" style="background: #BEBCB0">
-				<div class="container">
-					<span class="text-muted">Pie de Pagina</span>
-				</div>
-			</footer>
 		</div>
+
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
 		
-		<!--
-		<h3>Detalles | Evaluación</h3>
-		<% if(evalJefe == false) {%>
-			<h3>Evaluador: <%= dataEvaluacion[0].usuarioCedula %></h3>
-		<%} else if(evalJefe == true) {%>
-			<p>Hola</p>
-		<%}%>	
-		<br><br>
-
-		<table style="width:50%">
-			<tr>
-				<th>Evaluado</th>
-				<th>Evaluador</th>
-				<th>Evaluación</th>
-			</tr>
-
-			<% var n = 0 %>
-
-			<% for(let i = 0; i < dataEvaluacion.length; i ++) {%>
-				<tr>
-					<td><%= dataEvaluacion[i].usuarioEvaluado %></td>
-					<td><%= dataEvaluacion[i].usuarioCedula %></td>
-					<td>
-						<% if(dataEvaluacion[i].status == false) {%>
-							En Proceso
-						<%} else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 4) {%>
-							<% n = n + 1 %>
-							<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>/ue/<%=dataEvaluacion[i].usuarioCedula%>">Culminada</a>
-						<%} else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 3) {%>
-							<% n = n + 1 %>
-							<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>/ue/<%=dataEvaluacion[i].usuarioCedula%>">Culminada</a>
-						<%}%>
-					</td>
-				</tr>
-			<%}%>	
-		</table>
-
-		<br>
-		
-		<% if(instrumentFactor) {%>
-			<% if(n == dataEvaluacion.length) {%>
-				<table style="width:20%">
-					<th>Calificación General</th>
-
-					<tr>
-						<td>
-							<h1>
-								<% var calificacionGeneral = 0 %>
-								<% var acomulado = 0 %>
-								<% for(let j = 0; j < dataEvaluacion.length; j ++) {
-									
-										acomulado = acomulado + parseInt(dataEvaluacion[j].calificacion);
-										calificacionGeneral = acomulado / dataEvaluacion.length;
-									
-								}%>
-								<%= calificacionGeneral %> Ptos
-							</h1>
-						</td>
-					</tr>
-				</table>
-
-				<br>
-
-				<table style="width:70%">
-					<th>Factor</th>
-					<th>Calificaión</th>
-					<% for(let k = 0; k < instrumentFactor.length; k ++) {%>
-						<tr>
-							<td><%= instrumentFactor[k].factor.nombre %></td>
-							<td></td>
-						</tr>
-					<%}%>
-				</table>
-
-				<br>
-
-				<form method="post" action="">
-					<label for="ovbeservacion">Observación:</label>
-					<br>
-					<textarea name="observacion" cols="100" rows="10">			
-					</textarea>
-
-					<br>
-			
-					<input type="submit" name="enviar" value="Enviar">	
-				</form>
-			<%}%>
-		<%}%>
-		-->
+	
 		
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

@@ -4,10 +4,10 @@
 	<meta charset="UTF-8">
 	<title>CREDIUDO | Coord. Planificación</title>
 
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- Custom styles for this template -->
-    <link href="css/sticky-footer-navbar.css" rel="stylesheet">
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
 
 	<style>
 		table, th, td {
@@ -17,10 +17,10 @@
 </head>
 <body>
 	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
-		<img src="images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
 	</div>	
 
-	<%- include('../partials/coord_plani/navbar.html') %>
+	<%- include('../../partials/coord_plani/navbar.html') %>
 
 	<div class="conatiner-fluid">
 		<div class="row justify-content-md-center">
@@ -31,6 +31,7 @@
 						<nav aria-label="breadcrumb" style="margin-top: 1%">
 							<ol class="breadcrumb">
 							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							    <li class="breadcrumb-item active" aria-current="page">Evaluaciones en Curso</li>
 							</ol>
 						</nav>
 						<!--=======FIN MIGAS DE PAN=========-->
@@ -76,6 +77,28 @@
 								    	<p class="lead">Coord. de Planificación</p>
 								  	</div>
 								</div>
+
+								<table class="table">
+									<thead class="thead-dark">
+										<tr>
+											<th scope="col">Nombre</th>
+								      		<th scope="col">Fecha I</th>
+								      		<th scope="col">Fecha F</th>
+								      		<th scope="col">Status</th>
+										</tr>
+
+										<% for(let i = 0; i < Evaluacion.length; i ++) {%>
+											<tr>
+												<td><%= Evaluacion[i].nombre %></td>
+												<td><%= Evaluacion[i].fecha_i.getDate() %>/<%= Evaluacion[i].fecha_i.getMonth() + 1 %>/<%= Evaluacion[i].fecha_i.getFullYear() %></td>
+												<td><%= Evaluacion[i].fecha_f.getDate() %>/<%= Evaluacion[i].fecha_f.getMonth() + 1 %>/<%= Evaluacion[i].fecha_f.getFullYear() %></td>
+												<td>En Curso</td>
+											</tr>
+										<%}%>
+									</thead>
+								</table>
+
+								<h3><%= fecha_actual %></h3>
 							</div>
 						</div>
 					</div>
@@ -85,42 +108,7 @@
 			</div>
 		</div>
 	</div>
-	<!--
-	<h3>Index | Coord. Planificación</h3>
-	<a href="/coord_plani/plani_eval">Planificar Evaluacion</a>
-	
-	<br><br>
 
-	<table style="width:80%">
-		<tr>
-	    	<th>#</th>
-	    	<th>Nombre</th> 
-	    	<th>Categoria</th>
-	    	<th>Nucleo</th>
-	    	<th>Unidad a Evaluar</th>
-	    	<th>Tipo Eval.</th>
-	    	<th>Operación</th>
-	  	</tr>
-
-	  	<%for(let i = 0; i < Evaluaciones.length; i ++) {%>
-			<tr>
-		    	<td>1</td>
-		    	<td><%= Evaluaciones[i].nombre %></td> 
-		    	<td><%= Evaluaciones[i].categorium.nombre %></td>
-		    	<td><%= Evaluaciones[i].nucleo.nombre %></td>
-		    	<td><%= Evaluaciones[i].unidad.nombre %></td>
-		    	<td>
-		    		<%for(var j = 0; j < tipoEval.length; j ++) {%>
-						<% if(Evaluaciones[i].instrument.tipoEvalId == tipoEval[j].id) {%>
-							<%= tipoEval[j].nombre %>
-						<%}%>
-		    		<%}%>		
-		    	</td>
-		    	<td><a href="#">Ver</a></td>
-		  	</tr>
-	  	<%}%>
-	</table>
--->
 	<footer class="footer" style="background: #BEBCB0;">
 		<div class="container">
 			<span class="text-muted">Pie de Pagina</span>

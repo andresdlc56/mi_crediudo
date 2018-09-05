@@ -15,6 +15,8 @@ module.exports = function(app) {
 
     app.post('/coord_plani/plani_eval/:id/n/:idn', isLoggedIn, coord_planiController.finiquitarEval);
 
+    app.get('/coord_plani/eval_encurso', isLoggedIn, coord_planiController.eval_encurso);
+
     app.get('/logout',authController.logout);
 
 	function isLoggedIn(req, res, next) {
