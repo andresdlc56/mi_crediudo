@@ -17,6 +17,8 @@ module.exports = function(app) {
 
     app.get('/coord_plani/eval_encurso', isLoggedIn, coord_planiController.eval_encurso);
 
+    app.get('/coord_plani/eval_culminado', isLoggedIn, coord_planiController.eval_culminado);
+
     app.get('/logout',authController.logout);
 
 	function isLoggedIn(req, res, next) {

@@ -243,7 +243,6 @@ exports.eval_encurso = function(req, res) {
 					[Op.gte]: fecha_actual
 				}	
 			}
-			
 		}
 	}).then(Evaluacion => {
 		res.render('coord_plani/evaluacion/eval_encurso', { 
@@ -252,5 +251,20 @@ exports.eval_encurso = function(req, res) {
 			fecha_actual,
 			message: req.flash('info') 
 		});	
+	});
+}
+
+exports.eval_culminado = function(req, res) {
+	var usuario = req.user;
+	var fecha_actual = new Date();
+	models.evaluacion.findAll({
+		where: {
+			fecha_f: {
+				[Op.lt]: fecha_actual
+			}
+		}
+	}).then(Evaluacion => {
+		//res.send(Evaluacion);
+		res.render('coord_plani/evaluacion/eval_culminado', { Evaluacion, usuario });
 	});
 }
