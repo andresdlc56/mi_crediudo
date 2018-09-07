@@ -19,9 +19,35 @@ exports.index = function(req, res) {
 	}).then(presidente => {
 		models.evaluacion.findAll({
 			include: [models.nucleo, models.unidad, models.instrument],
+			where: {
+				[Op.and]: {
+					fecha_i: {
+						[Op.lte]: fecha_actual
+					},
+					fecha_f: {
+						[Op.gt]: fecha_actual
+					}	
+				}
+			}
 		}).then(evaluacion => {
-			//res.send(presidente);
-			res.render('president/index', { presidente, evaluacion, fecha_actual, usuario });	
+			models.evaluacion.findAll({
+				include: [models.nucleo, models.unidad, models.instrument],
+				where: {
+					fecha_f: {
+						[Op.lt]: fecha_actual
+					}
+				}
+			}).then(evalCulminada => {
+				//res.send(presidente);
+				res.render('president/index', { 
+					presidente, 
+					evaluacion,
+					evalCulminada, 
+					fecha_actual, 
+					usuario 
+				});	
+			})
+				
 		});	
 	});
 }
@@ -118,16 +144,25 @@ exports.detalles = function(req, res) {
 								include: [ models.item ],
 								where: { evaluacionId: req.params.id }
 							}).then(itemUsuario => {
-								//res.send(itemUsuario);
-								res.render('president/detalles/index', { 
-									dataEvaluacion, 
-									evalJefe, 
-									Evaluacion, 
-									instrumentFactor,
-									Empleado,
-									usuario,
-									itemUsuario
-								});
+								models.observacion.findAll({
+									where: {
+										evaluacionId: req.params.id
+									}
+								}).then(Observacion => {
+									//res.send(Observacion);
+									//console.log(typeof(Observacion));
+									res.render('president/detalles/index', { 
+										dataEvaluacion, 
+										evalJefe, 
+										Evaluacion, 
+										instrumentFactor,
+										Empleado,
+										usuario,
+										Usuario,
+										Observacion,
+										itemUsuario
+									});
+								})
 							})
 						});
 					});
@@ -179,18 +214,21 @@ exports.detalles = function(req, res) {
 }
 
 exports.culminado = function(req, res) {
+	/*Datos del Usuario Logeado*/
 	var usuario = req.user;
 
 	console.log('================Examen Culminado==================');
-
+	/*Buscar la Evaluación con el ID que viene por parametro*/
 	models.evaluacion.findOne({
 		include: [ models.instrument ],
 		where: { id: req.params.id }
 	}).then(Evaluacion => {
+		/*Buscar todos los Factores que usa el instrumento de eval usado en esta evaluacion*/
 		models.instrumentFactor.findAll({
 			include: [models.factor],
 			where: { instrumentId: Evaluacion.instrumentId }
 		}).then(instrumentFactor => {
+			/*Buscar todos los items respondido por el usuario que viene por parametro*/
 			models.itemUsuario.findAll({
 				include: [models.item],
 				where: {
@@ -200,6 +238,7 @@ exports.culminado = function(req, res) {
 					]
 				}
 			}).then(Item => {
+				/*Buscar una Evaluacion ligada a un usuario que viene identificado por parametro y su status sea true*/
 				models.evaluacionUsuario.findOne({
 					where: {
 						[Op.and]: [
@@ -210,6 +249,7 @@ exports.culminado = function(req, res) {
 						]
 					}
 				}).then(dataEvaluacion => {
+					/*Buscar todos los Usuarios*/
 					models.usuario.findAll({
 
 					}).then(Empleado => {
@@ -293,5 +333,16 @@ exports.culminado = function(req, res) {
 				});	
 			});		
 		});
+	});
+}
+
+exports.observacion = function(req, res) {
+	console.log('====================creando observacion===============');
+	models.observacion.create({
+		contenido: req.body.observacion,
+		evaluacionId: req.params.id,
+		usuarioCedula: req.body.cedula
+	}).then(Observacion => {
+		res.redirect('/president');
 	});
 }

@@ -33,7 +33,8 @@
 					</div>
 
 					<div class="row">
-						<div class="col-md-2">
+						<!--=========DATOS DEL USUARIO LOGUEADO=========-->
+						<div class="col-md-3">
 							<div class="card">
 							  	<div class="card-header">
 							    	Datos Personales:
@@ -50,8 +51,10 @@
 							</div>
 							<br>
 						</div>
-
-						<div class="col-md-10">
+						<!--=========FIN DATOS DEL USUARIO LOGUEADO=========-->
+						
+						<!--===========CONTENIDO=================-->
+						<div class="col-md-9">
 							<div class="row">
 								<div class="col-md-12">
 									<h2 class="text-center"><%= Evaluacion.nombre %></h2>
@@ -60,6 +63,7 @@
 								</div>
 								<% var n = 0 %>
 								<% for(let i = 0; i < dataEvaluacion.length; i ++) {%>
+									<!--SI STATUS DE LA EVALUACION ES FALSE-->
 									<% if(dataEvaluacion[i].status == false) {%>
 										<div class="col-md-6">
 											<div class="card">
@@ -100,7 +104,9 @@
 											</div>
 											<br>
 										</div>
-									<%} else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 4) {%>
+									<%} 
+									<!--SI STATUS DE LA EVALUACION ES TRUE Y LA EVALUACION ES DE TIPO EVAL-JEFE-->
+									else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 4) {%>
 										<% n = n + 1 %>
 										<div class="col-md-6">
 											<div class="card">
@@ -141,7 +147,9 @@
 											</div>
 											<br>
 										</div>
-									<%} else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 1) {%>
+									<%} 
+									<!--SI STATUS DE LA EVALUACION ES TRUE Y LA EVALUACION ES DE TIPO AUTO-EVAL-->
+									else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 1) {%>
 										<% n = n + 1 %>
 										<div class="col-md-6">
 											<div class="card">
@@ -182,7 +190,9 @@
 											</div>
 											<br>
 										</div>
-									<%} else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 3) {%>
+									<%} 
+									<!--SI STATUS DE LA EVALUACION ES TRUE Y LA EVALUACION ES DE TIPO EVAL-SUBORDINADO-->
+									else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 3) {%>
 										<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>/ue/<%=dataEvaluacion[i].usuarioCedula%>">Culminada</a>
 									<%}%>
 								<%}%>
@@ -190,7 +200,7 @@
 
 							<div class="row">
 								<div class="col-md-12">
-									<% if(instrumentFactor) {%>
+									<% if(instrumentFactor && Observacion.length == 0) {%>
 										<% if(n == dataEvaluacion.length) {%>
 											<!--=========BOTON MODAL========-->
 											<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
@@ -200,12 +210,13 @@
 
 											<!--=======MODAL=======-->
 											<div class="modal fade" id="myModal">
-											    <form method="post" action="#">
+											    <form method="post" action="/president/detalles/<%- Evaluacion.id %>">
+											    	<input type="hidden" name="cedula" value="<%- Usuario.cedula %>">
 												    <div class="modal-dialog modal-lg">
 												    	<div class="modal-content">
 													        <!-- Modal Header -->
 													        <div class="modal-header">
-													          	<h4 class="modal-title">Resumen</h4>
+													          	<h4 class="modal-title">Resumen <%- Usuario.nombre %> <%- Usuario.apellido %></h4>
 													          	<button type="button" class="close" data-dismiss="modal">&times;</button>
 													        </div>
 												        
@@ -270,13 +281,13 @@
 																
 																<div class="form-group">
 																	<label for="comment">Observación:</label>
-																	<textarea class="form-control" rows="5" id="comment"></textarea>
+																	<textarea class="form-control" rows="5" id="comment" name="observacion"></textarea>
 																</div>	
 													        </div>
 												        
 													        <!-- Modal footer -->
 													        <div class="modal-footer">
-													        	<button type="button" class="btn btn-primary">Enviar</button>
+													        	<button type="submit" class="btn btn-primary">Enviar</button>
 													          	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 													        </div>
 												      	</div>
@@ -290,13 +301,8 @@
 									<%}%>
 								</div>
 							</div>
-							
-							<!--
-							<hr>
-
-							
-							-->
 						</div>
+						<!--===========FIN CONTENIDO=================-->
 					</div>		
 				</div>
 			</div>

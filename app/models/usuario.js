@@ -42,7 +42,7 @@ module.exports = function(sequelize, Sequelize) {
         Usuario.belongsTo(models.cargo);
         //Usuario.hasMany(models.evaluacionUsuario);
         //Usuario.belongsToMany(models.item, {through: 'itemUsuario', foreignKey: 'usuarioId'});
-        
+        Usuario.hasMany(models.observacion);
     };
         
     return Usuario;

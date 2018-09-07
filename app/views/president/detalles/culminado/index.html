@@ -5,98 +5,108 @@
 	<title>CREDIUDO | Presidente</title>
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
 </head>
 	
 <body>
-	<div class="container">
-		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
-			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
-		</div>	
+	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+	</div>	
 
-		<%- include('../../../partials/president/navbar.html') %>
-
-		<!--=======MIGAS DE PAN=========-->
-		<nav aria-label="breadcrumb" style="margin-top: 1%">
-			<ol class="breadcrumb">
-			    <li class="breadcrumb-item active" aria-current="page">Home</li>
-			    <li class="breadcrumb-item active" aria-current="page">Detalles</li>
-			</ol>
-		</nav>
-		<!--=======FIN MIGAS DE PAN=========-->
-
-		<div class="row">
-			<div class="col-md-3">
-				<div class="card">
-				  	<div class="card-header">
-				    	Datos Personales:
-				  	</div>
-				  
-				  	<div class="card-body">
-				    	<div class="form-group">
-				    		<p><b>Nombre: </b><%= usuario.nombre %></p>
-				    		<p><b>Apellido: </b><%= usuario.apellido %></p>
-				    		<p><b>Nucleo: </b><%= usuario.nucleoCodigo %></p>
-				    		<p><b>Unidad: </b><%= usuario.unidadCodigo %></p>
-				    	</div>
-				  	</div>
+	<%- include('../../../partials/president/navbar.html') %>
+	
+	<div class="container-fluid">
+		<div class="row justify-content-md-center">
+			<div class="col-md-10">
+				<div class="row">
+					<div class="col-md-12">
+						<!--=======MIGAS DE PAN=========-->
+						<nav aria-label="breadcrumb" style="margin-top: 1%">
+							<ol class="breadcrumb">
+							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							    <li class="breadcrumb-item active" aria-current="page">Detalles</li>
+							</ol>
+						</nav>
+						<!--=======FIN MIGAS DE PAN=========-->				
+					</div>
 				</div>
-				<br>
-			</div>
 
-			<div class="col-md-9">
-				<div class="card">
-					<div class="card-body">
-						<h3>
-							<b>Evaluado: </b>
-							<% for(let i = 0; i < Empleado.length; i ++) {%>
-								<% if(dataEvaluacion.usuarioEvaluado == Empleado[i].cedula) {%>
-									<%= Empleado[i].nombre %> <%= Empleado[i].apellido %>
-								<%}%>
-							<%}%>
-						</h3>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="card">
+						  	<div class="card-header">
+						    	Datos Personales:
+						  	</div>
+						  
+						  	<div class="card-body">
+						    	<div class="form-group">
+						    		<p><b>Nombre: </b><%= usuario.nombre %></p>
+						    		<p><b>Apellido: </b><%= usuario.apellido %></p>
+						    		<p><b>Nucleo: </b><%= usuario.nucleoCodigo %></p>
+						    		<p><b>Unidad: </b><%= usuario.unidadCodigo %></p>
+						    	</div>
+						  	</div>
+						</div>
+						<br>
+					</div>
+
+					<div class="col-md-9">
+						<div class="card">
+							<div class="card-body">
+								<h3>
+									<b>Evaluado: </b>
+									<% for(let i = 0; i < Empleado.length; i ++) {%>
+										<% if(dataEvaluacion.usuarioEvaluado == Empleado[i].cedula) {%>
+											<%= Empleado[i].nombre %> <%= Empleado[i].apellido %>
+										<%}%>
+									<%}%>
+								</h3>
+								<hr>
+								<table style="width:100%">
+									<tr>
+										<th style="width: 40%">Factor</th>
+										<th>Calificación</th>
+									</tr>
+
+									<% for(let i = 0; i < instrumentFactor.length; i ++) {%>
+										<tr>
+											<td><%= instrumentFactor[i].factor.nombre %></td>
+											<td style="padding: 5px">
+												<div class="progress">
+												  	<div class="progress-bar" role="progressbar" style="width: <%= calificacionFactor[i] * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= calificacionFactor[i] %> Ptos</b></div>
+												</div>
+											</td>	
+										</tr>
+									<%}%>
+								</table>		
+							</div>
+						</div>
+
 						<hr>
-						<table style="width:100%">
-							<tr>
-								<th style="width: 40%">Factor</th>
-								<th>Calificación</th>
-							</tr>
+						
+						<div class="card">
+							<div class="card-body">
+								<table style="width: 100%">
+									<tr>
+										<td style="width: 40%"><h2>Calificación General: </h2></td>
+										<td>
+											<div class="progress">
+												<div class="progress-bar" role="progressbar" style="width: <%= dataEvaluacion.calificacion * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b> <%= dataEvaluacion.calificacion %> Ptos</b></div>
+											</div>
+										</td>
+									</tr>
+								</table>			
+							</div>
+						</div>
 
-							<% for(let i = 0; i < instrumentFactor.length; i ++) {%>
-								<tr>
-									<td><%= instrumentFactor[i].factor.nombre %></td>
-									<td style="padding: 5px">
-										<div class="progress">
-										  	<div class="progress-bar" role="progressbar" style="width: <%= calificacionFactor[i] * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= calificacionFactor[i] %> Ptos</b></div>
-										</div>
-									</td>	
-								</tr>
-							<%}%>
-						</table>		
+						<% if(observacion) {%>
+							<h3>obsevacion</h3>
+						<%} else{%>
+
+						<%}%>
 					</div>
 				</div>
-
-				<hr>
-				
-				<div class="card">
-					<div class="card-body">
-						<table style="width: 100%">
-							<tr>
-								<td style="width: 40%"><h2>Calificación General: </h2></td>
-								<td>
-									<div class="progress">
-										<div class="progress-bar" role="progressbar" style="width: <%= dataEvaluacion.calificacion * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b> <%= dataEvaluacion.calificacion %> Ptos</b></div>
-									</div>
-								</td>
-							</tr>
-						</table>			
-					</div>
-				</div>
-
-				<% if(observacion) {%>
-					<h3>obsevacion</h3>
-				<%} else{%>
-
-				<%}%>
 			</div>
 		</div>
 	</div>
@@ -145,5 +155,16 @@
 
 	<%}%>
 -->
+	<footer class="footer" style="background: #BEBCB0;">
+		<div class="container">
+			<span class="text-muted">Pie de Pagina</span>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
 </body>
 </html>
