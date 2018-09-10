@@ -107,3 +107,8 @@ exports.procesarEval = function(req, res) {
 		res.redirect('/dashboard');
 	});
 }
+
+exports.observaciones = function(req, res) {
+	//res.send('Observaciones');
+	res.render('empleado/observacion/index');
+}

@@ -52,57 +52,66 @@ exports.dashboard = function(req, res) {
 							] 
 						}
 					}).then(Empleado => {
-						if(Usuario.cargoId == 3) {
-							var subordinados = false;
-							models.usuario.findOne({
-								include: [models.nucleo, models.unidad],
-								where: { 
-									[Op.and]: [{cargoId: 2}, 
-									{nucleoCodigo: Usuario.nucleoCodigo}, 
-									{unidadCodigo: Usuario.unidadCodigo}, 
-									{rolId: Usuario.rolId}] 
-								}
-							}).then(jefeSubordinado => {
-								console.log(Usuario.cargoId);
-								res.render('empleado/index', { 
-									Evaluacion, Usuario, 
-									evaluacionUsuario, 
-									jefeSubordinado, 
-									subordinados,
-									fecha_actual,
-									Empleado,
-									message: req.flash('info')
-								});
-								//res.send(jefeSubordinado);	
-							})	
-						} 
+						models.observacion.findAll({
+							where: {
+								usuarioCedula: req.user.cedula
+							}
+						}).then(Observacion => {
+							if(Usuario.cargoId == 3) {
+								var subordinados = false;
+								models.usuario.findOne({
+									include: [models.nucleo, models.unidad],
+									where: { 
+										[Op.and]: [{cargoId: 2}, 
+										{nucleoCodigo: Usuario.nucleoCodigo}, 
+										{unidadCodigo: Usuario.unidadCodigo}, 
+										{rolId: Usuario.rolId}] 
+									}
+								}).then(jefeSubordinado => {
+									console.log(Usuario.cargoId);
+									res.render('empleado/index', { 
+										Evaluacion, Usuario, 
+										evaluacionUsuario, 
+										jefeSubordinado, 
+										subordinados,
+										fecha_actual,
+										Empleado,
+										Observacion,
+										message: req.flash('info')
+									});
+									//res.send(jefeSubordinado);	
+								})	
+							} 
 
-						if(Usuario.cargoId == 2) {
-							var jefeSubordinado = false;
+							if(Usuario.cargoId == 2) {
+								var jefeSubordinado = false;
 
-							models.usuario.findAll({
-								include: [models.nucleo, models.unidad],
-								where: { 
-									[Op.and]: [{cargoId: 3}, 
-									{nucleoCodigo: Usuario.nucleoCodigo}, 
-									{unidadCodigo: Usuario.unidadCodigo}, 
-									{rolId: Usuario.rolId}] 
-								}
-							}).then(subordinados => {
-								//res.send(subordinados);
-								console.log(fecha_actual);
-								res.render('empleado/index', { 
-									Evaluacion, 
-									Usuario, 
-									Empleado,
-									evaluacionUsuario, 
-									jefeSubordinado, 
-									subordinados,
-									fecha_actual,
-									message: req.flash('info')
-								});
-							})
-						}
+								models.usuario.findAll({
+									include: [models.nucleo, models.unidad],
+									where: { 
+										[Op.and]: [{cargoId: 3}, 
+										{nucleoCodigo: Usuario.nucleoCodigo}, 
+										{unidadCodigo: Usuario.unidadCodigo}, 
+										{rolId: Usuario.rolId}] 
+									}
+								}).then(subordinados => {
+									//res.send(subordinados);
+									console.log(fecha_actual);
+									res.render('empleado/index', { 
+										Evaluacion, 
+										Usuario, 
+										Empleado,
+										evaluacionUsuario, 
+										jefeSubordinado, 
+										subordinados,
+										fecha_actual,
+										Observacion,
+										message: req.flash('info')
+									});
+								})
+							}
+						})
+						
 					})		
 				})
 					

@@ -296,8 +296,14 @@
 											</div>
 											<!--======FIN MODAL=====-->
 										<%}%>
-									<%} else {%>
-										<h3>hola</h3>
+									<%} else if(instrumentFactor && Observacion.length > 0) {%>
+										<hr>
+										<form method="post" action="">
+											<div class="form-group">
+												<label for="comment"><b>Observación:</b></label>
+												<textarea class="form-control" rows="5" id="comment" name="observacion"><%= Observacion[0].contenido %></textarea>
+											</div>	
+										</form>
 									<%}%>
 								</div>
 							</div>

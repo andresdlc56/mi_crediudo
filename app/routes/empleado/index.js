@@ -9,6 +9,7 @@ module.exports = function(app) {
 
     app.post('/dashboard/evaluacion/:id/u/:idu/ue/:idue',isLoggedIn, empleadoController.procesarEval);
 
+    app.get('/dashboard/observaciones',isLoggedIn, empleadoController.observaciones);
 
 	function isLoggedIn(req, res, next) {
         if (req.isAuthenticated())

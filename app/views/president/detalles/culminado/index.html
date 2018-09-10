@@ -24,7 +24,7 @@
 						<!--=======MIGAS DE PAN=========-->
 						<nav aria-label="breadcrumb" style="margin-top: 1%">
 							<ol class="breadcrumb">
-							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							    <li class="breadcrumb-item" aria-current="page"><a href="">Home</a></li>
 							    <li class="breadcrumb-item active" aria-current="page">Detalles</li>
 							</ol>
 						</nav>
@@ -99,11 +99,24 @@
 								</table>			
 							</div>
 						</div>
+						
+						<br>
 
-						<% if(observacion) {%>
-							<h3>obsevacion</h3>
-						<%} else{%>
-
+						<% if(observacion && Observacion.length == 0) {%>
+						<form method="post" action="">
+							<div class="form-group">
+								<label for="comment"><b>Observación:</b></label>
+								<textarea class="form-control" rows="5" id="comment" name="observacion"></textarea>
+							</div>
+							<hr>
+							<input type="submit" name="enviar" value="Enviar" class="btn btn-primary btn-block">
+						</form>
+						<br>
+						<%} else if(observacion && Observacion.length > 0) {%>
+							<div class="form-group">
+								<label for="comment"><b>Observación:</b></label>
+								<textarea class="form-control" rows="5" id="comment" name="observacion">hola</textarea>
+							</div
 						<%}%>
 					</div>
 				</div>

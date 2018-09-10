@@ -96,13 +96,15 @@ exports.detalles = function(req, res) {
 							] 
 						}
 					}).then(Empleado => {
-						//res.send(evaluacionUsuario);
+						var Observacion = [];
+						//res.send(Observacion);
 						res.render('president/detalles/index', { 
 							dataEvaluacion, 
 							evalJefe, 
 							Evaluacion, 
 							usuario,
 							Empleado,
+							Observacion,
 							instrumentFactor 
 						});
 					});
@@ -278,17 +280,25 @@ exports.culminado = function(req, res) {
 						
 						if(Evaluacion.instrument.tipoEvalId == 3) {
 							var observacion = true;
-							//res.send(dataEvaluacion);
-							res.render('president/detalles/culminado/index', { 
-								Evaluacion, 
-								instrumentFactor, 
-								Item, 
-								calificacionFactor,
-								dataEvaluacion,
-								observacion,
-								usuario,
-								Empleado
-							});
+							models.observacion.findAll({
+								where: {
+									usuarioCedula: req.params.idu,
+									evaluacionId: req.params.id
+								}
+							}).then(Observacion => {
+								//res.send(Observacion);
+								res.render('president/detalles/culminado/index', { 
+									Evaluacion, 
+									instrumentFactor, 
+									Item, 
+									calificacionFactor,
+									dataEvaluacion,
+									observacion,
+									Observacion,
+									usuario,
+									Empleado
+								});
+							})
 						} else if(Evaluacion.instrument.tipoEvalId == 4) {
 							observacion = false;
 							//res.send(dataEvaluacion);
@@ -344,5 +354,17 @@ exports.observacion = function(req, res) {
 		usuarioCedula: req.body.cedula
 	}).then(Observacion => {
 		res.redirect('/president');
+	});
+}
+
+exports.historial = function(req, res) {
+	var usuario = req.user;
+
+	models.evaluacion.findAll({
+		include: [models.nucleo, models.unidad]
+
+	}).then(Evaluaciones => {
+		//res.send(Evaluaciones);
+		res.render('president/historial/index', { usuario, Evaluaciones });		
 	});
 }

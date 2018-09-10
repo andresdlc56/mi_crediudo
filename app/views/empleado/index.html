@@ -9,11 +9,7 @@
 	<!-- Custom styles for this template -->
     <link href="css/sticky-footer-navbar.css" rel="stylesheet">
 
-	<style type="text/css">
-		table, th, td {
-		    border: 1px solid black;
-		}
-	</style>
+	
 </head>
 <body>
 	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
@@ -36,7 +32,15 @@
 						<!--=======FIN MIGAS DE PAN=========-->				
 					</div>
 
-					<div class="col-md-2">
+					<div class="col-md-3">
+						<% if(Observacion && Observacion.length > 0) {%>
+							<a class="btn btn-primary btn-block" href="/dashboard/observaciones">
+							  	Observaciones <span class="badge badge-light"><%= Observacion.length %></span>
+							</a>
+						<%}%>
+
+						<br>
+
 						<div class="card">
 						  	<div class="card-header">
 						    	Datos Personales:
@@ -70,7 +74,7 @@
 						</div>
 					</div>
 
-					<div class="col-md-10">
+					<div class="col-md-9">
 						<!--=======mensaje de alerta==========-->
 						<% if(message == false) {%>
 
@@ -89,56 +93,63 @@
 						    	<p class="lead">Tienes n Evaluaciones Disponibles</p>
 						  	</div>
 						</div>
+						
+						<div class="card">
+							<div class="card-body">
+								<h3>Evaluaciones Pendientes</h3>
+								<hr>
+								<table class="table">
+								  	<thead>
+								    	<tr>
+								      		<th scope="col">Nombre</th>
+								      		<th scope="col">Apellido</th>
+								      		<th scope="col">Cedula</th>
+								      		<th scope="col">Evaluación</th>
+								    	</tr>
+								  	</thead>
+								  	<tbody>
+								  		<!--BUSQUEDA PARA IR COMPARANDO CEDULAS E IMPRIMIR LOS NOMBRES Y APELLIDOS DE LOS USUARIOS A SER EVALUADOS-->
+										<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
+											<% if(Usuario.cargoId == 2 || Usuario.cargoId == 3) {%>
+											  	<tr>
+											  		<td>
+														<% for(var j = 0; j < Empleado.length; j ++) {%>
+															<% if(evaluacionUsuario[i].usuarioEvaluado == Empleado[j].cedula) {%>
+														  		<%= Empleado[j].nombre %>
+													  		<%}%>
+														<%}%>
+													</td>
+													<td>
+														<% for(var j = 0; j < Empleado.length; j ++) {%>
+															<% if(evaluacionUsuario[i].usuarioEvaluado == Empleado[j].cedula) {%>
+														  		<%= Empleado[j].apellido %>
+													  		<%}%>
+														<%}%>
+													</td>
+													<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
+													
+													<td>
+														<% if((fecha_actual >= evaluacionUsuario[i].evaluacion.fecha_i) && (fecha_actual <= evaluacionUsuario[i].evaluacion.fecha_f)) {%>
+															<h4>Si puede</h4>
+														<%} else{%>
+															<h4>Aun No Puede</h4>
+														<%}%>
 
-						<table class="table">
-						  	<thead class="thead-dark">
-						    	<tr>
-						      		<th scope="col">Nombre</th>
-						      		<th scope="col">Apellido</th>
-						      		<th scope="col">Cedula</th>
-						      		<th scope="col">Evaluación</th>
-						    	</tr>
-						  </thead>
-						  	<tbody>
-						  		<!--BUSQUEDA PARA IR COMPARANDO CEDULAS E IMPRIMIR LOS NOMBRES Y APELLIDOS DE LOS USUARIOS A SER EVALUADOS-->
-								<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
-									<% if(Usuario.cargoId == 2 || Usuario.cargoId == 3) {%>
-									  	<tr>
-									  		<td>
-												<% for(var j = 0; j < Empleado.length; j ++) {%>
-													<% if(evaluacionUsuario[i].usuarioEvaluado == Empleado[j].cedula) {%>
-												  		<%= Empleado[j].nombre %>
-											  		<%}%>
-												<%}%>
-											</td>
-											<td>
-												<% for(var j = 0; j < Empleado.length; j ++) {%>
-													<% if(evaluacionUsuario[i].usuarioEvaluado == Empleado[j].cedula) {%>
-												  		<%= Empleado[j].apellido %>
-											  		<%}%>
-												<%}%>
-											</td>
-											<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
-											
-											<td>
-												<% if((fecha_actual >= evaluacionUsuario[i].evaluacion.fecha_i) && (fecha_actual <= evaluacionUsuario[i].evaluacion.fecha_f)) {%>
-													<h4>Si puede</h4>
-												<%} else{%>
-													<h4>Aun No Puede</h4>
-												<%}%>
+														<input type="hidden" name="fecha_i" id="fecha_i" value="<%=evaluacionUsuario[i].evaluacion.fecha_i%>">
 
-												<input type="hidden" name="fecha_i" id="fecha_i" value="<%=evaluacionUsuario[i].evaluacion.fecha_i%>">
+														<input type="hidden" name="fecha_f" id="fecha_f" value="<%=evaluacionUsuario[i].evaluacion.fecha_f%>">
 
-												<input type="hidden" name="fecha_f" id="fecha_f" value="<%=evaluacionUsuario[i].evaluacion.fecha_f%>">
-
-												<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>/ue/<%=evaluacionUsuario[i].usuarioEvaluado%>" id="evaluacion"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
-											</td>
-									  	</tr>
-									<%}%>
-								<%}%>
-								<!-- FIN -->
-						  	</tbody>
-						</table>
+														<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>/ue/<%=evaluacionUsuario[i].usuarioEvaluado%>" id="evaluacion"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
+													</td>
+											  	</tr>
+											<%}%>
+										<%}%>
+										<!-- FIN -->
+								  	</tbody>
+								</table>		
+							</div>
+						</div>
+						<br>
 					</div>
 				</div>
 			</div>
