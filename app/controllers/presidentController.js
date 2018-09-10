@@ -5,9 +5,16 @@ var Sequelize = require('sequelize');
 var Op = Sequelize.Op;
 
 exports.index = function(req, res) {
+	//obtener fecha actual
 	var fecha_actual = new Date();
+	
+	//obtener datos del usuario q inicio sesion
 	var usuario = req.user;
 
+	/*
+		buscar un usuario que pertenesca al nucleo "Rectorado", 
+		a la unidad "CREDIUDO" y tenga un rol "Presidente"
+	*/
 	models.usuario.findOne({
 		where: { 
 			[Op.and]: [
@@ -17,6 +24,9 @@ exports.index = function(req, res) {
 			]
 		}
 	}).then(presidente => {
+		/*
+			Buscar todas la evaluaciones donde la fecha Inicio >= fecha actual y fecha Final > fecha actual
+		*/
 		models.evaluacion.findAll({
 			include: [models.nucleo, models.unidad, models.instrument],
 			where: {
@@ -30,6 +40,9 @@ exports.index = function(req, res) {
 				}
 			}
 		}).then(evaluacion => {
+			/*
+				Buscar todas las Evaluaciones donde la fecha final sea menor a la fecha actual
+			*/
 			models.evaluacion.findAll({
 				include: [models.nucleo, models.unidad, models.instrument],
 				where: {
@@ -63,12 +76,20 @@ exports.autoEval = function(req, res) {
 
 exports.detalles = function(req, res) {
 	var instrumentFactor = false;
+
+	//obtener datos del usuario q inicio sesion
 	var usuario = req.user;
 
+	/*
+		Buscar una Evaluacion donde el id sea igual al que viene por parametro
+	*/
 	models.evaluacion.findOne({
 		where: { id: req.params.id },
 		include: [models.instrument, models.nucleo, models.unidad]
 	}).then(Evaluacion => {
+		/*
+			Si la Evaluacion encontrada usa un instrumento de tipo eval-subordinado
+		*/
 		if(Evaluacion.instrument.tipoEvalId == 3) {
 			console.log('===========Evaluacion de Jefe para Subordinados=============');
 			var evalSubor = true;
