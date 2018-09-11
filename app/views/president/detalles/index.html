@@ -58,6 +58,18 @@
 						
 						<!--===========CONTENIDO=================-->
 						<div class="col-md-9">
+							<!--=======mensaje de alerta==========-->
+							<% if(message == false) {%>
+
+							<%} else {%>
+								<div class="alert alert-success alert-dismissible fade show" role="alert">
+						            <%= message %>
+						            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+						        </div>
+							<%}%>
+							<!--=======fin mensaje de alerta==========-->
 							<div class="row">
 								<div class="col-md-12">
 									<h2 class="text-center"><%= Evaluacion.nombre %></h2>
@@ -300,13 +312,107 @@
 											<!--======FIN MODAL=====-->
 										<%}%>
 									<%} else if(instrumentFactor && Observacion.length > 0) {%>
-										<hr>
+										<!--BOTON MODAL CON OBESERVACION-->
+										<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalObserv">
+											Ver Resumen
+										</button>
+										<!--FIN BOTON MODAL CON OBESERVACION-->
+
+										<!--MODAL CON OBSERVACION-->
+										<div class="modal fade" id="modalObserv">
+											    <form method="post" action="/president/detalles/editObs/<%- Evaluacion.id %>">
+											    	<input type="hidden" name="cedula" value="<%- Usuario.cedula %>">
+												    <div class="modal-dialog modal-lg">
+												    	<div class="modal-content">
+													        <!-- Modal Header -->
+													        <div class="modal-header">
+													          	<h4 class="modal-title">Resumen <%- Usuario.nombre %> <%- Usuario.apellido %></h4>
+													          	<button type="button" class="close" data-dismiss="modal">&times;</button>
+													        </div>
+												        
+													        <!-- Modal body -->
+													        <div class="modal-body">
+													          	<div class="card">
+																	<div class="card-body">
+																		<table style="width:100%">
+																			<tr>
+																				<td style="width:40%">
+																					<h2>Calificación General: </h2> 
+																				</td>
+																				<td style="padding: 5px">
+																					<% var calificacionGeneral = 0 %>
+																					<% var acomulado = 0 %>
+
+																					<% for(let j = 0; j < dataEvaluacion.length; j ++) {			
+																						acomulado = acomulado + parseInt(dataEvaluacion[j].calificacion);
+																						calificacionGeneral = acomulado / dataEvaluacion.length;	
+																					}%>
+																					<div class="progress">
+																						<div class="progress-bar" role="progressbar" style="width: <%= calificacionGeneral * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= calificacionGeneral %> Ptos</b></div>
+																					</div>
+																				</td>
+																			</tr>
+																		</table>
+																	</div>
+																</div>
+																
+																<br>
+
+																<div class="card">
+																	<div class="card-body">
+																		<table style="width:100%">
+																			<th style="width:40%">Factor</th>
+																			<th style="padding: 5px">Calificaión</th>
+																			<% var n = [] %>
+																			<% for(let k = 0; k < instrumentFactor.length; k ++) {%>
+																				<% var acomulado_b = 0 %>
+																				<% n[k] = 0 %>
+																				<tr>
+																					<td><%= instrumentFactor[k].factor.nombre %></td>
+																					<td>
+																						<% for(let i = 0; i < itemUsuario.length; i ++) {%>
+																							<% if(instrumentFactor[k].factorId == itemUsuario[i].item.factorId) {%>
+																								<% acomulado_b = acomulado_b + itemUsuario[i].calificacion %>
+																								<% n[k] = n[k] + 1 %>
+																							<%}%>
+																						<%}%>
+																						<div class="progress">
+																							<div class="progress-bar" role="progressbar" style="width: <%= (acomulado_b / n[k]) * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= acomulado_b / n[k] %> Ptos</b></div>
+																						</div>
+																						
+																					</td>
+																				</tr>
+																			<%}%>
+																		</table>
+																	</div>
+																</div>
+
+																<hr>
+																
+																<div class="form-group">
+																	<label for="comment">Observación:</label>
+																	<textarea class="form-control" rows="5" id="comment" name="observacion"><%= Observacion[0].contenido %></textarea>
+																</div>	
+													        </div>
+												        
+													        <!-- Modal footer -->
+													        <div class="modal-footer">
+													        	<button type="submit" class="btn btn-primary">Editar</button>
+													          	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+													        </div>
+												      	</div>
+												    </div>
+												</form>
+										</div>
+										<!--FIN MODAL CON OBSERVACION-->
+										<!--
 										<form method="post" action="">
 											<div class="form-group">
 												<label for="comment"><b>Observación:</b></label>
 												<textarea class="form-control" rows="5" id="comment" name="observacion"><%= Observacion[0].contenido %></textarea>
 											</div>	
 										</form>
+										-->
 									<%}%>
 								</div>
 							</div>

@@ -106,7 +106,8 @@
 						<br>
 
 						<% if(observacion && Observacion.length == 0) {%>
-						<form method="post" action="">
+						<form method="post" action="/president/observacion/<%- Evaluacion.id %>">
+							<input type="hidden" name="cedula" value="<%- dataEvaluacion.usuarioEvaluado %>">
 							<div class="form-group">
 								<label for="comment"><b>Observación:</b></label>
 								<textarea class="form-control" rows="5" id="comment" name="observacion"></textarea>
@@ -118,7 +119,7 @@
 						<%} else if(observacion && Observacion.length > 0) {%>
 							<div class="form-group">
 								<label for="comment"><b>Observación:</b></label>
-								<textarea class="form-control" rows="5" id="comment" name="observacion">hola</textarea>
+								<textarea class="form-control" rows="5" id="comment" name="observacion"><%- Observacion[0].contenido %></textarea>
 							</div
 						<%}%>
 					</div>

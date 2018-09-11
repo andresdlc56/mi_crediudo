@@ -57,7 +57,8 @@ exports.index = function(req, res) {
 					evaluacion,
 					evalCulminada, 
 					fecha_actual, 
-					usuario 
+					usuario,
+					message: req.flash('info')
 				});	
 			})
 				
@@ -126,7 +127,8 @@ exports.detalles = function(req, res) {
 							usuario,
 							Empleado,
 							Observacion,
-							instrumentFactor 
+							instrumentFactor,
+							message: req.flash('info')
 						});
 					});
 				})
@@ -183,7 +185,8 @@ exports.detalles = function(req, res) {
 										usuario,
 										Usuario,
 										Observacion,
-										itemUsuario
+										itemUsuario,
+										message: req.flash('info')
 									});
 								})
 							})
@@ -317,7 +320,8 @@ exports.culminado = function(req, res) {
 									observacion,
 									Observacion,
 									usuario,
-									Empleado
+									Empleado,
+									message: req.flash('info')
 								});
 							})
 						} else if(Evaluacion.instrument.tipoEvalId == 4) {
@@ -374,6 +378,7 @@ exports.observacion = function(req, res) {
 		evaluacionId: req.params.id,
 		usuarioCedula: req.body.cedula
 	}).then(Observacion => {
+		req.flash('info', 'Observacion Creada Exitosamente!');
 		res.redirect('/president');
 	});
 }
@@ -388,4 +393,18 @@ exports.historial = function(req, res) {
 		//res.send(Evaluaciones);
 		res.render('president/historial/index', { usuario, Evaluaciones });		
 	});
+}
+
+exports.editObserv = function(req, res) {
+	models.observacion.update({
+		contenido: req.body.observacion
+	}, {
+		where: { 
+			usuarioCedula: req.body.cedula,
+			evaluacionId: req.params.id
+		}
+	}).then(Observacion => {
+		req.flash('info', 'Observacion Actualizada!');
+		res.redirect('/president/detalles/'+req.params.id);
+	})
 }

@@ -13,8 +13,12 @@ module.exports = function(app) {
 
     app.post('/president/detalles/:id',isLoggedIn, presidentController.observacion);
 
+    app.post('/president/detalles/editObs/:id', isLoggedIn, presidentController.editObserv);
+
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Subordinado"
     app.get('/president/culminado/:id/u/:idu/ue/:idue',isLoggedIn, presidentController.culminado);
+
+    app.post('/president/observacion/:id',isLoggedIn, presidentController.observacion);    
 
     app.get('/president/historial', isLoggedIn, presidentController.historial);
 
