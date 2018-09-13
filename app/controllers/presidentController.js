@@ -18,9 +18,9 @@ exports.index = function(req, res) {
 	models.usuario.findOne({
 		where: { 
 			[Op.and]: [
-					{nucleoCodigo:1}, 
-					{unidadCodigo:12},
-					{rolId:2}
+				{nucleoCodigo:1}, 
+				{unidadCodigo:12},
+				{rolId:2}
 			]
 		}
 	}).then(presidente => {
@@ -60,8 +60,7 @@ exports.index = function(req, res) {
 					usuario,
 					message: req.flash('info')
 				});	
-			})
-				
+			})	
 		});	
 	});
 }
