@@ -7,7 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- Custom styles for this template -->
-    <link href="css/sticky-footer-navbar.css" rel="stylesheet">
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
 
 	
 </head>
@@ -67,6 +67,49 @@
 					</div>
 
 					<div class="col-md-9">
+						<div class="card">
+							<div class="card-body">
+								<h3><%- evalUser.evaluacion.nombre %></h3>
+								<hr>
+								<table style="width:100%">
+									<tr>
+										<th style="width: 40%">Factor</th>
+										<th>Calificación</th>
+									</tr>
+
+									<% for(let i = 0; i < Factores.length; i ++) {%>
+										<tr>
+											<td><%= Factores[i].factor.nombre %></td>
+											<td style="padding: 5px">
+												<div class="progress">
+												  	<div class="progress-bar" role="progressbar" style="width: <%= calificacionFactor[i] * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= calificacionFactor[i] %> Ptos</b></div>
+												</div>
+											</td>	
+										</tr>
+									<%}%>
+								</table>
+							</div>
+						</div>
+
+						<br>
+
+						<div class="card">
+							<div class="card-body">
+								<table style="width: 100%">
+									<tr>
+										<td style="width: 40%"><h2>Calificación General: </h2></td>
+										<td>
+											<div class="progress">
+												<div class="progress-bar" role="progressbar" style="width: <%= evalUser.calificacion * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b> <%= evalUser.calificacion %> Ptos</b></div>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+
+						<br>
+
 						<div class="card">
 							<div class="card-body">
 								<h4>Observación: </h4>

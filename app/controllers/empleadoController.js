@@ -110,10 +110,68 @@ exports.procesarEval = function(req, res) {
 
 exports.observaciones = function(req, res) {
 	models.observacion.findOne({
-		where: { id: req.params.id },
+		where: {
+			[Op.and]: [
+				{id: req.params.id}, 
+				{usuarioCedula: req.user.cedula},
+			] 
+		},
 		include: [ models.evaluacion ]
 	}).then(Observacion => {
-		//res.send('Observaciones');
-		res.render('empleado/observacion/index', { Observacion });
+		models.evaluacionUsuario.findOne({
+			where: {
+				[Op.and]: [
+					{evaluacionId: Observacion.evaluacion.id}, 
+					{usuarioEvaluado: req.user.cedula},
+				]  
+			},
+			include: [ models.evaluacion ]
+		}).then(evalUser => {
+			models.itemUsuario.findAll({
+				include: [ models.item ],
+				where: {
+					[Op.and]: [
+						{evaluacionId: Observacion.evaluacion.id}, 
+						{evaluado: req.user.cedula}
+					]
+				}
+			}).then(itemUsuario => {
+				models.instrumentFactor.findAll({
+					where: { instrumentId: Observacion.evaluacion.instrumentId },
+					include: [ models.factor ]
+				}).then(Factores => {
+					var acomulador = [];
+					var calificacionFactor = [];
+
+					for(let i = 0; i < Factores.length; i ++) {
+						acomulador[i] = 0;
+							
+						var n = 0;
+						console.log('================Nombre Factor: '+Factores[i].factor.nombre+'====================');
+						for(let j = 0; j < itemUsuario.length; j ++) {
+								
+							if(itemUsuario[j].item.factorId == Factores[i].factorId) {
+								n = n + 1;
+								//console.log(Item[j].item.nombre);
+								acomulador[i] = acomulador[i] + itemUsuario[j].calificacion;
+								console.log('Acomulador'+[i]+': '+acomulador[i]);
+							}
+								
+							calificacionFactor[i] = acomulador[i]/n;
+						}
+						console.log('calificacion factor '+Factores[i].factor.nombre+': '+calificacionFactor[i]);
+						console.log('nro. de preguntas: '+n);
+					}
+
+					//res.send(Factores);
+					res.render('empleado/observacion/index', { 
+						Observacion,
+						evalUser,
+						Factores,
+						calificacionFactor
+					});
+				})
+			})
+		})
 	})
 }
