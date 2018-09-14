@@ -109,6 +109,11 @@ exports.procesarEval = function(req, res) {
 }
 
 exports.observaciones = function(req, res) {
-	//res.send('Observaciones');
-	res.render('empleado/observacion/index');
+	models.observacion.findOne({
+		where: { id: req.params.id },
+		include: [ models.evaluacion ]
+	}).then(Observacion => {
+		//res.send('Observaciones');
+		res.render('empleado/observacion/index', { Observacion });
+	})
 }

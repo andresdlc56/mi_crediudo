@@ -55,7 +55,8 @@ exports.dashboard = function(req, res) {
 						models.observacion.findAll({
 							where: {
 								usuarioCedula: req.user.cedula
-							}
+							},
+							include: [ models.evaluacion ]
 						}).then(Observacion => {
 							if(Usuario.cargoId == 3) {
 								var subordinados = false;

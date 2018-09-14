@@ -37,11 +37,27 @@
 
 					<div class="col-md-3">
 						<% if(Observacion && Observacion.length > 0) {%>
+							<!-- Default dropright button -->
+							<div class="btn-group dropright d-flex justify-content-center">
+							  	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    Observaciones <span class="badge badge-light"><%= Observacion.length %></span>
+							  	</button>
+							  	<div class="dropdown-menu">
+							  		<% for(let i = 0; i < Observacion.length; i ++) {%>
+								  		<a class="dropdown-item" href="/dashboard/observaciones/<%- Observacion[i].id %>">
+								  			<%- Observacion[i].evaluacion.nombre %>
+								  		</a>
+							  		<%}%>
+								</div>
+							</div>
+
+							<!--
 							<a class="btn btn-primary btn-block" href="/dashboard/observaciones">
 							  	Observaciones <span class="badge badge-light"><%= Observacion.length %></span>
 							</a>
+						-->
 						<%}%>
-
+						
 						<br>
 
 						<div class="card">
