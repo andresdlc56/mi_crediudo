@@ -80,7 +80,7 @@ exports.dashboard = function(req, res) {
 										Observacion,
 										message: req.flash('info')
 									});
-									//res.send(jefeSubordinado);	
+									//res.send(evaluacionUsuario);	
 								})	
 							} 
 

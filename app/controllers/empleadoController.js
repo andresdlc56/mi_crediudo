@@ -109,6 +109,8 @@ exports.procesarEval = function(req, res) {
 }
 
 exports.observaciones = function(req, res) {
+	var user = req.user;
+
 	models.observacion.findOne({
 		where: {
 			[Op.and]: [
@@ -163,13 +165,25 @@ exports.observaciones = function(req, res) {
 						console.log('nro. de preguntas: '+n);
 					}
 
-					//res.send(Factores);
-					res.render('empleado/observacion/index', { 
-						Observacion,
-						evalUser,
-						Factores,
-						calificacionFactor
-					});
+					models.usuario.findOne({
+						where: {
+							[Op.and]: [
+								{unidadCodigo: 12}, 
+								{rolId: 2},
+								{nucleoCodigo: 1}
+							]
+						}
+					}).then(Presidente => {
+						//res.send(Factores);
+						res.render('empleado/observacion/index', { 
+							Observacion,
+							evalUser,
+							Factores,
+							calificacionFactor,
+							user,
+							Presidente
+						});
+					})
 				})
 			})
 		})

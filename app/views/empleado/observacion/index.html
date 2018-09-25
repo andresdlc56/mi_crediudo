@@ -40,10 +40,10 @@
 						  
 						  	<div class="card-body">
 						    	<div class="form-group">
-						    		<p><b>Nombre: </b></p>
-						    		<p><b>Apellido: </b></p>
-						    		<p><b>Nucleo: </b></p>
-						    		<p><b>Unidad: </b></p>
+						    		<p><b>Nombre: </b><%- user.nombre %></p>
+						    		<p><b>Apellido: </b><%- user.apellido %></p>
+						    		<p><b>Nucleo: </b><%- user.nucleoCodigo %></p>
+						    		<p><b>Unidad: </b><%- user.unidadCodigo %></p>
 						    	</div>
 						  	</div>
 						</div>
@@ -115,6 +115,7 @@
 								<h4>Observación: </h4>
 								<hr>
 								<p><%- Observacion.contenido %></p>
+								<footer class="blockquote-footer"><%- Presidente.nombre %> <%- Presidente.apellido %> <cite title="Source Title">Presidente CREDIUDO</cite></footer>
 							</div>
 						</div>
 					</div>

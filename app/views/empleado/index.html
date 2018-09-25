@@ -117,55 +117,59 @@
 							<div class="card-body">
 								<h3>Evaluaciones Pendientes</h3>
 								<hr>
-								<table class="table">
-								  	<thead>
-								    	<tr>
-								      		<th scope="col">Nombre</th>
-								      		<th scope="col">Apellido</th>
-								      		<th scope="col">Cedula</th>
-								      		<th scope="col">Evaluación</th>
-								    	</tr>
-								  	</thead>
-								  	<tbody>
-								  		<!--BUSQUEDA PARA IR COMPARANDO CEDULAS E IMPRIMIR LOS NOMBRES Y APELLIDOS DE LOS USUARIOS A SER EVALUADOS-->
-										<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
-											<% if(Usuario.cargoId == 2 || Usuario.cargoId == 3) {%>
-											  	<tr>
-											  		<td>
-														<% for(var j = 0; j < Empleado.length; j ++) {%>
-															<% if(evaluacionUsuario[i].usuarioEvaluado == Empleado[j].cedula) {%>
-														  		<%= Empleado[j].nombre %>
-													  		<%}%>
-														<%}%>
-													</td>
-													<td>
-														<% for(var j = 0; j < Empleado.length; j ++) {%>
-															<% if(evaluacionUsuario[i].usuarioEvaluado == Empleado[j].cedula) {%>
-														  		<%= Empleado[j].apellido %>
-													  		<%}%>
-														<%}%>
-													</td>
-													<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
-													
-													<td>
-														<% if((fecha_actual >= evaluacionUsuario[i].evaluacion.fecha_i) && (fecha_actual <= evaluacionUsuario[i].evaluacion.fecha_f)) {%>
-															<h4>Si puede</h4>
-														<%} else{%>
-															<h4>Aun No Puede</h4>
-														<%}%>
+								<% if(evaluacionUsuario != 0) {%>			
+									<table class="table">
+									  	<thead>
+									    	<tr>
+									      		<th scope="col">Nombre</th>
+									      		<th scope="col">Apellido</th>
+									      		<th scope="col">Cedula</th>
+									      		<th scope="col">Evaluación</th>
+									    	</tr>
+									  	</thead>
+									  	<tbody>
+									  		<!--BUSQUEDA PARA IR COMPARANDO CEDULAS E IMPRIMIR LOS NOMBRES Y APELLIDOS DE LOS USUARIOS A SER EVALUADOS-->
+											<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
+												<% if(Usuario.cargoId == 2 || Usuario.cargoId == 3) {%>
+												  	<tr>
+												  		<td>
+															<% for(var j = 0; j < Empleado.length; j ++) {%>
+																<% if(evaluacionUsuario[i].usuarioEvaluado == Empleado[j].cedula) {%>
+															  		<%= Empleado[j].nombre %>
+														  		<%}%>
+															<%}%>
+														</td>
+														<td>
+															<% for(var j = 0; j < Empleado.length; j ++) {%>
+																<% if(evaluacionUsuario[i].usuarioEvaluado == Empleado[j].cedula) {%>
+															  		<%= Empleado[j].apellido %>
+														  		<%}%>
+															<%}%>
+														</td>
+														<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
+														
+														<td>
+															<% if((fecha_actual >= evaluacionUsuario[i].evaluacion.fecha_i) && (fecha_actual <= evaluacionUsuario[i].evaluacion.fecha_f)) {%>
+																<h4>Si puede</h4>
+															<%} else{%>
+																<h4>Aun No Puede</h4>
+															<%}%>
 
-														<input type="hidden" name="fecha_i" id="fecha_i" value="<%=evaluacionUsuario[i].evaluacion.fecha_i%>">
+															<input type="hidden" name="fecha_i" id="fecha_i" value="<%=evaluacionUsuario[i].evaluacion.fecha_i%>">
 
-														<input type="hidden" name="fecha_f" id="fecha_f" value="<%=evaluacionUsuario[i].evaluacion.fecha_f%>">
+															<input type="hidden" name="fecha_f" id="fecha_f" value="<%=evaluacionUsuario[i].evaluacion.fecha_f%>">
 
-														<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>/ue/<%=evaluacionUsuario[i].usuarioEvaluado%>" id="evaluacion"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
-													</td>
-											  	</tr>
+															<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>/ue/<%=evaluacionUsuario[i].usuarioEvaluado%>" id="evaluacion"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
+														</td>
+												  	</tr>
+												<%}%>
 											<%}%>
-										<%}%>
-										<!-- FIN -->
-								  	</tbody>
-								</table>		
+											<!-- FIN -->
+									  	</tbody>
+									</table>
+								<%} else {%>
+									<h3 class="display-4 text-center">Ninguna</h3>
+								<%}%>
 							</div>
 						</div>
 						<br>

@@ -56,7 +56,7 @@ exports.addEval = function(req, res) {
 }
 
 exports.addEval_b = function(req, res) {
-	//buscando todas las unidades pertenecientes al nucleo que elejimos anteriormente
+	//buscando todas las unidades pertenecientes al nucleo que elegimos anteriormente
 	models.unidad.findAll({
 		where: { nucleoCodigo: req.params.idn }
 	}).then(Unidades => {
@@ -96,17 +96,19 @@ exports.finiquitarEval = function(req, res) {
 			where: { [Op.and]: [{nucleoCodigo:req.params.idn}, {unidadCodigo:req.body.unidad}] }
 		}).then(Usuario => {
 			//buscar todas las evaluaciones que cumpla con los siguientes parametros 
-			models.evaluacion.findAll({
+			models.evaluacion.findOne({
 				include: [models.instrument],
-				where: { [Op.and]: [
-					{nucleoCodigo: req.params.idn}, 
-					{unidadCodigo:req.body.unidad}, 
-					{instrumentId: req.body.instrumento}] 
+				where: { 
+						[Op.and]: [
+							{nucleoCodigo: req.params.idn}, 
+							{unidadCodigo:req.body.unidad}, 
+							{instrumentId: req.body.instrumento}
+						] 
 				}
 			}).then(Evaluaciones => {
-				for(var j = 0; j < Evaluaciones.length; j ++){
+				
 					//Si la evaluacion es de tipo Auto-Eval
-					if(Evaluaciones[j].instrument.tipoEvalId == 1) {
+					if(Evaluaciones.instrument.tipoEvalId == 1) {
 						for(var i = 0; i < Usuario.length; i ++) {
 							models.evaluacionUsuario.create({
 								calificacion: null,
@@ -118,7 +120,7 @@ exports.finiquitarEval = function(req, res) {
 						}
 					} 
 					//Si la evaluacion es de tipo Eval-Jefe
-					else if(Evaluaciones[j].instrument.tipoEvalId == 4) {
+					else if(Evaluaciones.instrument.tipoEvalId == 4) {
 						
 						models.usuario.findAll({
 							where: { [Op.and]: [{nucleoCodigo:req.params.idn},
@@ -152,7 +154,7 @@ exports.finiquitarEval = function(req, res) {
 						})
 					} 
 					//Si la evaluacion es de tipo Eval-subor
-					else if(Evaluaciones[j].instrument.tipoEvalId == 3) {
+					else if(Evaluaciones.instrument.tipoEvalId == 3) {
 
 						models.usuario.findOne({
 							where: {
@@ -185,7 +187,7 @@ exports.finiquitarEval = function(req, res) {
 						})
 					}
 					//Si la evaluacion es de tipo Co-Eval
-					else if(Evaluaciones[j].instrument.tipoEvalId == 2) {
+					else if(Evaluaciones.instrument.tipoEvalId == 2) {
 						models.usuario.findAll({
 							where: {
 								[Op.and]: [
@@ -221,8 +223,8 @@ exports.finiquitarEval = function(req, res) {
 							}
 						})
 					}
-				}
-				//res.send(Resto);
+				
+				//res.send(Evaluaciones);
 				req.flash('info', 'Evaluación planificada Exitosamente!');
 				res.redirect('/coord_plani');
 			});	
