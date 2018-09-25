@@ -128,6 +128,7 @@
 									    	</tr>
 									  	</thead>
 									  	<tbody>
+									  		<% var fechaActual = new Date() %>
 									  		<!--BUSQUEDA PARA IR COMPARANDO CEDULAS E IMPRIMIR LOS NOMBRES Y APELLIDOS DE LOS USUARIOS A SER EVALUADOS-->
 											<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
 												<% if(Usuario.cargoId == 2 || Usuario.cargoId == 3) {%>
@@ -149,17 +150,17 @@
 														<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
 														
 														<td>
-															<% if((fecha_actual >= evaluacionUsuario[i].evaluacion.fecha_i) && (fecha_actual <= evaluacionUsuario[i].evaluacion.fecha_f)) {%>
-																<h4>Si puede</h4>
-															<%} else{%>
-																<h4>Aun No Puede</h4>
-															<%}%>
-
 															<input type="hidden" name="fecha_i" id="fecha_i" value="<%=evaluacionUsuario[i].evaluacion.fecha_i%>">
 
 															<input type="hidden" name="fecha_f" id="fecha_f" value="<%=evaluacionUsuario[i].evaluacion.fecha_f%>">
 
-															<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>/ue/<%=evaluacionUsuario[i].usuarioEvaluado%>" id="evaluacion"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
+															<!--<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>/ue/<%=evaluacionUsuario[i].usuarioEvaluado%>" id="evaluacion"><%=evaluacionUsuario[i].evaluacion.nombre%></a>-->
+
+															<% if(evaluacionUsuario[i].evaluacion.fecha_i > fechaActual) {%>
+																<a onclick="verificarFecha('<%=evaluacionUsuario[i].evaluacion.fecha_i%>')" href="#"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
+															<%} else{%>
+																<a onclick="verificarFecha('<%=evaluacionUsuario[i].evaluacion.fecha_i%>')" href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>/ue/<%=evaluacionUsuario[i].usuarioEvaluado%>"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
+															<%}%>
 														</td>
 												  	</tr>
 												<%}%>
@@ -190,5 +191,6 @@
 	<script src="js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
+	<script src="/js/misFunciones.js"></script>
 </body>
 </html>
