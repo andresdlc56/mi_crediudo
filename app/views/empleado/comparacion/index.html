@@ -70,14 +70,52 @@
 						<div class="card">
 						  	<div class="card-body">
 						    	<h3>Comparación entre Evaluaciones</h3>
-						    	<hr>
-						    	<div id="canvas-holder">
+						    	<hr> 
+						    	<form>
+						    		<div class="form-row">
+						    			<div class="form-group col-md-5">
+						    				<label for="evaluacionA">Evaluación A:</label>
+						    				<select class="form-control">
+						    					<option>--Seleccione una Opción--</option>
+						    					<% for(let i = 0; i < evalUser.length; i ++) {%>
+													<option><%- evalUser[i].evaluacion.nombre %></option>
+						    					<%}%>
+						    				</select>
+						    			</div>
+
+						    			<div class="form-group col-md-2 d-flex justify-content-center">
+						    				<h3>Vs</h3>
+						    			</div>
+
+						    			<div class="form-group col-md-5">
+						    				<label for="evaluacionA">Evaluación A:</label>
+						    				<select class="form-control">
+						    					<option>--Seleccione una Opción--</option>
+						    					<% for(let i = 0; i < evalUser.length; i ++) {%>
+													<option><%- evalUser[i].evaluacion.nombre %></option>
+						    					<%}%>
+						    				</select>
+						    			</div>
+						    		</div>
+						    		<hr>
+						    		<div class="form-group">
+						    			<input type="submit" name="comparar" value="Comparar" class="btn btn-primary btn-block">
+						    		</div>
+						    	</form>
+						  	</div>
+						</div>
+
+						<br>
+
+						<div class="card">
+							<div class="card-body">
+								<div id="canvas-holder">
 									<!--<canvas id="chart-area" width="300" height="300"></canvas>
 									<canvas id="chart-area2" width="300" height="300"></canvas>-->
 									<canvas id="chart-area3" width="600" height="200"></canvas>
 									<canvas id="chart-area4" width="600" height="300"></canvas>
 								</div>
-						  	</div>
+							</div>
 						</div>
 					</div>
 				</div>

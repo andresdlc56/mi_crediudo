@@ -191,5 +191,16 @@ exports.observaciones = function(req, res) {
 }
 
 exports.comparacion = function(req, res) {
-	res.render('empleado/comparacion/index');
+	models.evaluacionUsuario.findAll({
+		where: {
+			[Op.and]: [
+				{status: true}, 
+				{usuarioEvaluado: req.user.cedula},
+			]
+		},
+		include: [ models.evaluacion ]
+	}).then(evalUser => {
+		//res.send(evalUser);
+		res.render('empleado/comparacion/index', { evalUser });	
+	});
 }
