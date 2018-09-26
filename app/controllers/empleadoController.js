@@ -88,7 +88,7 @@ exports.procesarEval = function(req, res) {
 			})
 		}
 
-		calificacionFinal = acomulado / Items.length;
+		calificacionFinal = (acomulado / Items.length).toFixed(2);
 		console.log('Calificacion Final: '+calificacionFinal);
 
 		models.evaluacionUsuario.update({
@@ -188,4 +188,8 @@ exports.observaciones = function(req, res) {
 			})
 		})
 	})
+}
+
+exports.comparacion = function(req, res) {
+	res.render('empleado/comparacion/index');
 }

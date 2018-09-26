@@ -11,6 +11,8 @@ module.exports = function(app) {
 
     app.get('/dashboard/observaciones/:id',isLoggedIn, empleadoController.observaciones);
 
+    app.get('/dashboard/comparacion',isLoggedIn, empleadoController.comparacion);
+
 	function isLoggedIn(req, res, next) {
         if (req.isAuthenticated())
             return next();

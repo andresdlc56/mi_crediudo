@@ -8,15 +8,15 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- Custom styles for this template -->
     <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
-
+	<script src="/js/Chart.js"></script>
 	
 </head>
 <body>
 	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
-			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
-		</div>	
+		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+	</div>	
 
-		<%- include('../../partials/empleado/navbar.html') %>
+	<%- include('../../partials/empleado/navbar.html') %>
 
 	<div class="container-fluid">
 		<div class="row justify-content-md-center">
@@ -40,10 +40,10 @@
 						  
 						  	<div class="card-body">
 						    	<div class="form-group">
-						    		<p><b>Nombre: </b><%- user.nombre %></p>
-						    		<p><b>Apellido: </b><%- user.apellido %></p>
-						    		<p><b>Nucleo: </b><%- user.nucleoCodigo %></p>
-						    		<p><b>Unidad: </b><%- user.unidadCodigo %></p>
+						    		<p><b>Nombre: </b></p>
+						    		<p><b>Apellido: </b></p>
+						    		<p><b>Nucleo: </b></p>
+						    		<p><b>Unidad: </b></p>
 						    	</div>
 						  	</div>
 						</div>
@@ -68,63 +68,23 @@
 
 					<div class="col-md-9">
 						<div class="card">
-							<div class="card-body">
-								<h3><%- evalUser.evaluacion.nombre %></h3>
-								<hr>
-								<table style="width:100%">
-									<tr>
-										<th style="width: 40%">Factor</th>
-										<th>Calificación</th>
-									</tr>
-
-									<% for(let i = 0; i < Factores.length; i ++) {%>
-										<tr>
-											<td><%= Factores[i].factor.nombre %></td>
-											<td style="padding: 5px">
-												<div class="progress">
-												  	<div class="progress-bar" role="progressbar" style="width: <%= calificacionFactor[i] * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= calificacionFactor[i].toFixed(2) %> Ptos</b></div>
-												</div>
-											</td>	
-										</tr>
-									<%}%>
-								</table>
-							</div>
+						  	<div class="card-body">
+						    	<h3>Comparación entre Evaluaciones</h3>
+						    	<hr>
+						    	<div id="canvas-holder">
+									<!--<canvas id="chart-area" width="300" height="300"></canvas>
+									<canvas id="chart-area2" width="300" height="300"></canvas>-->
+									<canvas id="chart-area3" width="600" height="200"></canvas>
+									<canvas id="chart-area4" width="600" height="300"></canvas>
+								</div>
+						  	</div>
 						</div>
-
-						<br>
-
-						<div class="card">
-							<div class="card-body">
-								<table style="width: 100%">
-									<tr>
-										<td style="width: 40%"><h2>Calificación General: </h2></td>
-										<td>
-											<div class="progress">
-												<div class="progress-bar" role="progressbar" style="width: <%= evalUser.calificacion * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b> <%= evalUser.calificacion %> Ptos</b></div>
-											</div>
-										</td>
-									</tr>
-								</table>
-							</div>
-						</div>
-
-						<br>
-
-						<div class="card">
-							<div class="card-body">
-								<h4>Observación: </h4>
-								<hr>
-								<p><%- Observacion.contenido %></p>
-								<footer class="blockquote-footer"><%- Presidente.nombre %> <%- Presidente.apellido %> <cite title="Source Title">Presidente CREDIUDO</cite></footer>
-							</div>
-						</div>
-						<br>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
+	<br>
 	<footer class="footer" style="background: #BEBCB0;">
 		<div class="container">
 			<span class="text-muted">Pie de Pagina</span>
@@ -136,5 +96,6 @@
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
+	<script src="/js/grafica.js"></script>
 </body>
 </html>
