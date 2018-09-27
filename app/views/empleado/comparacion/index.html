@@ -79,6 +79,7 @@
 						    					<option>--Seleccione una Opción--</option>
 						    					<% for(let i = 0; i < evalUser.length; i ++) {%>
 													<option value="<%- evalUser[i].evaluacion.instrumentId %>"><%- evalUser[i].evaluacion.nombre %></option>
+													<input type="hidden" value="<%- evalUser[i].evaluacionId %>" name="evalIdA">
 						    					<%}%>
 						    				</select>
 						    			</div>
@@ -93,6 +94,7 @@
 						    					<option>--Seleccione una Opción--</option>
 						    					<% for(let i = 0; i < evalUser.length; i ++) {%>
 													<option value="<%- evalUser[i].evaluacion.instrumentId %>"><%- evalUser[i].evaluacion.nombre %></option>
+													<input type="hidden" value="<%- evalUser[i].evaluacionId %>" name="evalIdB">
 						    					<%}%>
 						    				</select>
 						    			</div>

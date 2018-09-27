@@ -210,7 +210,25 @@ exports.comparar = function(req, res) {
 		where: { instrumentId: req.body.evalA },
 		include: [ models.factor ]
 	}).then(Factores => {
-		//res.send(Factores);
-		res.render('empleado/comparacion/comparar', { Factores });
+		models.itemUsuario.findAll({
+			where: {
+				[Op.and]: [
+					{evaluacionId: req.body.evalIdA}, 
+					{evaluado: req.user.cedula},
+				]
+			}
+		}).then(respEvalA => {
+			models.itemUsuario.findAll({
+				where: {
+					[Op.and]: [
+						{evaluacionId: req.body.evalIdB}, 
+						{evaluado: req.user.cedula},
+					]
+				}	
+			}).then(respEvalB => {
+				res.send(respEvalB);
+				//res.render('empleado/comparacion/comparar', { Factores });	
+			})	
+		})
 	});
 }
