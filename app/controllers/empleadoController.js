@@ -204,3 +204,13 @@ exports.comparacion = function(req, res) {
 		res.render('empleado/comparacion/index', { evalUser });	
 	});
 }
+
+exports.comparar = function(req, res) {
+	models.instrumentFactor.findAll({
+		where: { instrumentId: req.body.evalA },
+		include: [ models.factor ]
+	}).then(Factores => {
+		//res.send(Factores);
+		res.render('empleado/comparacion/comparar', { Factores });
+	});
+}

@@ -13,6 +13,8 @@ module.exports = function(app) {
 
     app.get('/dashboard/comparacion',isLoggedIn, empleadoController.comparacion);
 
+    app.post('/dashboard/comparar',isLoggedIn, empleadoController.comparar);
+
 	function isLoggedIn(req, res, next) {
         if (req.isAuthenticated())
             return next();

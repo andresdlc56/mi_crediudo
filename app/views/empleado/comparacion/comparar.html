@@ -67,45 +67,6 @@
 					</div>
 
 					<div class="col-md-9">
-						<div class="card">
-						  	<div class="card-body">
-						    	<h3>Comparación entre Evaluaciones</h3>
-						    	<hr> 
-						    	<form method="post" action="/dashboard/comparar">
-						    		<div class="form-row">
-						    			<div class="form-group col-md-5">
-						    				<label for="evaluacionA">Evaluación A:</label>
-						    				<select class="form-control" name="evalA">
-						    					<option>--Seleccione una Opción--</option>
-						    					<% for(let i = 0; i < evalUser.length; i ++) {%>
-													<option value="<%- evalUser[i].evaluacion.instrumentId %>"><%- evalUser[i].evaluacion.nombre %></option>
-						    					<%}%>
-						    				</select>
-						    			</div>
-
-						    			<div class="form-group col-md-2 d-flex justify-content-center">
-						    				<h3>Vs</h3>
-						    			</div>
-
-						    			<div class="form-group col-md-5">
-						    				<label for="evaluacionA">Evaluación A:</label>
-						    				<select class="form-control" name="evalB">
-						    					<option>--Seleccione una Opción--</option>
-						    					<% for(let i = 0; i < evalUser.length; i ++) {%>
-													<option value="<%- evalUser[i].evaluacion.instrumentId %>"><%- evalUser[i].evaluacion.nombre %></option>
-						    					<%}%>
-						    				</select>
-						    			</div>
-						    		</div>
-						    		<hr>
-						    		<div class="form-group">
-						    			<input type="submit" name="comparar" value="Comparar" class="btn btn-primary btn-block">
-						    		</div>
-						    	</form>
-						  	</div>
-						</div>
-
-						<br>
 
 						<div class="card">
 							<div class="card-body">
@@ -135,6 +96,16 @@
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
 	<script>
+		var arreglo = [];
+
+		var longitud = "<%- Factores.length %>";
+		
+		"<% for(var i = 0; i < Factores.length; i ++) {%>"
+			arreglo.push('<%- Factores[i].factor.nombre%>');
+		"<%}%>"
+
+		console.log(arreglo);
+
 		var pieData = [{value: 40,color:"#0b82e7",highlight: "#0c62ab",label: "Google Chrome"},
 				{
 					value: 16,
@@ -163,7 +134,7 @@
 			];
 
 		var barChartData = {
-			labels : ["Responsabilidad","Febrero","Marzo","Abril","Mayo","Junio","Julio"],
+			labels : arreglo,
 			datasets : [
 				{
 					fillColor : "#6b9dfa",
