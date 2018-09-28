@@ -259,7 +259,8 @@ exports.culminado = function(req, res) {
 				where: {
 					[Op.and]: [
 						{evaluado: req.params.idu}, 
-						{evaluador: req.params.idue}
+						{evaluador: req.params.idue},
+						{evaluacionId: req.params.id}
 					]
 				}
 			}).then(Item => {
