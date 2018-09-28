@@ -206,7 +206,58 @@ exports.comparacion = function(req, res) {
 }
 
 exports.comparar = function(req, res) {
-	models.instrumentFactor.findAll({
+	models.itemUsuario.findAll({
+		where: {
+			[Op.and]: [
+				{evaluacionId: req.body.evalA}, 
+				{evaluado: req.user.cedula},
+			]
+		},
+		include: [ models.item ]
+	}).then(respEvalA => {
+		models.itemUsuario.findAll({
+			where: {
+				[Op.and]: [
+					{evaluacionId: req.body.evalB}, 
+					{evaluado: req.user.cedula},
+				]
+			},
+			include: [ models.item ]
+		}).then(respEvalB => {
+			models.instrumentFactor.findAll({
+				where: { instrumentId: respEvalA[0].item.instrumentId },
+				include: [ models.factor ]
+			}).then(Factores => {
+				var acomulador = [];
+				var calificacionFactor = [];
+
+				for(let i = 0; i < Factores.length; i ++) {
+					acomulador[i] = 0;
+							
+					var n = 0;
+					console.log('================Nombre Factor: '+Factores[i].factor.nombre+'====================');
+					for(let j = 0; j < respEvalA.length; j ++) {
+								
+						if(respEvalA[j].item.factorId == Factores[i].factorId) {
+							n = n + 1;
+							//console.log(Item[j].item.nombre);
+							acomulador[i] = acomulador[i] + respEvalA[j].calificacion;
+							console.log('Acomulador'+[i]+': '+acomulador[i]);
+						}
+								
+						calificacionFactor[i] = acomulador[i]/n;
+					}
+					console.log('calificacion factor '+Factores[i].factor.nombre+': '+calificacionFactor[i]);
+					console.log('nro. de preguntas: '+n);
+				}
+
+				//res.send(respEvalB);
+				res.render('empleado/comparacion/comparar', { Factores, calificacionFactor });		
+			})	
+		})
+	})
+
+	/*models.instrumentFactor.findAll({
 		where: { instrumentId: req.body.evalA },
 		include: [ models.factor ]
 	}).then(Factores => {
@@ -255,5 +306,5 @@ exports.comparar = function(req, res) {
 				res.render('empleado/comparacion/comparar', { Factores, calificacionFactor });	
 			})	
 		})
-	});
+	});*/
 }
