@@ -100,11 +100,22 @@
 
 		var longitud = "<%- Factores.length %>";
 		
-		"<% for(var i = 0; i < Factores.length; i ++) {%>"
+		"<% for(let i = 0; i < Factores.length; i ++) {%>"
 			arreglo.push('<%- Factores[i].factor.nombre%>');
 		"<%}%>"
 
 		console.log(arreglo);
+
+		var calificacionB = [];
+
+		var longitudB = "<%- calificacionFactor.length %>";
+
+		"<% for(let i = 0; i < calificacionFactor.length; i ++) {%>"
+			calificacionB.push(parseInt('<%- calificacionFactor[i] %>'));
+		"<%}%>"
+
+		console.log(typeof(calificacionB[0]));
+		console.log(calificacionB);
 
 		var pieData = [{value: 40,color:"#0b82e7",highlight: "#0c62ab",label: "Google Chrome"},
 				{
@@ -148,7 +159,7 @@
 					strokeColor : "#ffffff",
 					highlightFill : "#ee7f49",
 					highlightStroke : "#ffffff",
-					data : [4.0,5.0,7.0,4.0,8.5,5.5,1.5]
+					data : calificacionB
 				}
 			]
 
