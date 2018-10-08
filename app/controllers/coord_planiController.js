@@ -115,19 +115,59 @@ exports.addEval_b = function(req, res) {
 }
 
 exports.finiquitarEval = function(req, res) {
-	//actualizando una evalucion donde su id sea igual al id que viene por parametro
+	var idB = parseInt(req.params.id) + 1;
+	var idC = parseInt(req.params.id) + 2;
+	var idD = parseInt(req.params.id) + 3;
+
 	models.evaluacion.update({
-		nombre: req.body.nombre,
-		fecha_i: req.body.fecha_i,
-		fecha_f: req.body.fecha_f,
-		unidadCodigo: req.body.unidad,
-		instrumentId: req.body.instrumento
+		unidadCodigo: req.body.unidad
+	},{
+		where: {
+			id: req.params.id
+		}
+	}).then(Evaluacion_A => {
+		models.evaluacion.update({
+			unidadCodigo: req.body.unidad
+		},{
+			where: {
+				id: idB
+			}
+		}).then(Evaluacion_B => {
+			models.evaluacion.update({
+				unidadCodigo: req.body.unidad
+			},{
+				where: {
+					id: idC
+				}
+			}).then(Evaluacion_C => {
+				models.evaluacion.update({
+					unidadCodigo: req.body.unidad
+				},{
+					where: {
+						id: idD
+					}
+				}).then(Evaluacion_D => {
+					res.send("Evaluacion Actualizadas");
+				})
+			})
+		})	
+	})
+
+	//actualizando una evalucion donde su id sea igual al id que viene por parametro
+	/*
+	models.evaluacion.update({
+		unidadCodigo: req.body.unidad
 	},{
 		where: {
 			id: req.params.id
 		}
 	}).then(Evaluacion => {
-		//buscar todos los usuarios que cumplan con los siguientes parametros 
+		//buscar todos los usuarios que cumplan con los siguientes parametros
+			
+				que todos pertenecescan al nucleo q viene por parametro 
+				y
+				que pertenescan a la unidad seleccionada en la pantalla anterior 
+			 
 		models.usuario.findAll({
 			where: { [Op.and]: [{nucleoCodigo:req.params.idn}, {unidadCodigo:req.body.unidad}] }
 		}).then(Usuario => {
@@ -142,7 +182,6 @@ exports.finiquitarEval = function(req, res) {
 						] 
 				}
 			}).then(Evaluaciones => {
-				
 					//Si la evaluacion es de tipo Auto-Eval
 					if(Evaluaciones.instrument.tipoEvalId == 1) {
 						for(var i = 0; i < Usuario.length; i ++) {
@@ -266,6 +305,7 @@ exports.finiquitarEval = function(req, res) {
 			});	
 		});
 	});
+	*/
 }
 
 exports.eval_encurso = function(req, res) {
