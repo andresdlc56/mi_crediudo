@@ -39,20 +39,56 @@ exports.planiEval = function(req, res) {
 }
 
 exports.addEval = function(req, res) {
-	//creando una nueva evaluación 
-	models.evaluacion.create({
-		nombre: undefined,
-		categoriumId: req.body.categoria,
-		nucleoCodigo: req.body.nucleo,
-		fecha_i: undefined,
-		fecha_f: undefined,
-		unidadCodigo: undefined
-	}).then(Evaluacion => {
-		//buscando la evaluacion recien creada
-		models.evaluacion.findById(Evaluacion.id).then(Evaluacion => {
-			res.redirect('/coord_plani/plani_eval/'+Evaluacion.id+'/n/'+Evaluacion.nucleoCodigo);
-		})
-	});
+	if(req.body.categoria == 2) {
+		//creando una nueva evaluación 
+		models.evaluacion.create({
+			nombre: req.body.nombre,
+			categoriumId: req.body.categoria,
+			nucleoCodigo: req.body.nucleo,
+			fecha_i: req.body.fecha_i,
+			fecha_f: req.body.fecha_f,
+			unidadCodigo: undefined,
+			instrumentId: 4
+		}).then(autoEval => {
+			models.evaluacion.create({
+				nombre: req.body.nombre,
+				categoriumId: req.body.categoria,
+				nucleoCodigo: req.body.nucleo,
+				fecha_i: req.body.fecha_i,
+				fecha_f: req.body.fecha_f,
+				unidadCodigo: undefined,
+				instrumentId: 3
+			}).then(coEval => {
+				models.evaluacion.create({
+					nombre: req.body.nombre,
+					categoriumId: req.body.categoria,
+					nucleoCodigo: req.body.nucleo,
+					fecha_i: req.body.fecha_i,
+					fecha_f: req.body.fecha_f,
+					unidadCodigo: undefined,
+					instrumentId: 2
+				}).then(evalJefe => {
+					models.evaluacion.create({
+						nombre: req.body.nombre,
+						categoriumId: req.body.categoria,
+						nucleoCodigo: req.body.nucleo,
+						fecha_i: req.body.fecha_i,
+						fecha_f: req.body.fecha_f,
+						unidadCodigo: undefined,
+						instrumentId: 1
+					}).then(evalSubor => {
+						//buscando la evaluacion recien creada
+						models.evaluacion.findById(autoEval.id).then(Evaluacion => {
+							//res.send(Evaluacion);
+							res.redirect('/coord_plani/plani_eval/'+Evaluacion.id+'/n/'+Evaluacion.nucleoCodigo);
+						});			
+					});
+				});	
+			});
+		});
+	} else {
+		res.send("Evaluacion a Centro de Investigacion");
+	}
 }
 
 exports.addEval_b = function(req, res) {

@@ -60,7 +60,7 @@
 								</div>
 							</div>
 
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div class="card">
 									<div class="card-header">
 										Planificar Evaluación
@@ -85,6 +85,23 @@
 														<option value="<%= Nucleos[j].codigo %>"><%= Nucleos[j].nombre %></option>
 													<%}%>
 												</select>
+											</div>
+
+											<div class="form-group">
+												<label>Nombre de la Evaluación:</label>
+												<input type="text" name="nombre" placeholder="Nombre o Titulo de la Evaluación" class="form-control" autofocus>	
+											</div>
+
+											<div class="form-row">
+												<div class="form-group col-md-6">
+													<label>Fecha de Inicio:</label>
+													<input type="date" name="fecha_i" class="form-control">
+												</div>
+
+												<div class="form-group col-md-6">
+													<label>Fecha de Fin:</label>
+													<input type="date" name="fecha_f" class="form-control">
+												</div>
 											</div>
 
 											<hr>
