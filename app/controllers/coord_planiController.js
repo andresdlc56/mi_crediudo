@@ -147,7 +147,37 @@ exports.finiquitarEval = function(req, res) {
 						id: idD
 					}
 				}).then(Evaluacion_D => {
-					res.send("Evaluacion Actualizadas");
+					//buscar todos los usuarios que cumplan con los siguientes parametros
+						/*
+							que todos pertenecescan al nucleo q viene por parametro 
+							y
+							que pertenescan a la unidad seleccionada en la pantalla anterior 
+						 */
+					models.usuario.findAll({
+						where: { [Op.and]: [{nucleoCodigo:req.params.idn}, {unidadCodigo:req.body.unidad}] }
+					}).then(Usuarios => {
+						models.evaluacion.findOne({
+							where: {
+								id: req.params.id 
+							}
+						}).then(Eval => {
+							models.evaluacion.findAll({
+								where: {
+									[Op.and]: [
+										{nucleoCodigo: req.params.idn}, 
+										{unidadCodigo: req.body.unidad},
+										{fecha_i: Eval.fecha_i},
+										{fecha_f: Eval.fecha_f}, 
+										{
+											[Op.or]: [{instrumentId: 4}, {instrumentId: 3}, {instrumentId: 2}, {instrumentId: 1}]
+										}
+									]
+								}
+							}).then(Evaluaciones => {
+								res.send(Evaluaciones);
+							})
+						})
+					})
 				})
 			})
 		})	
