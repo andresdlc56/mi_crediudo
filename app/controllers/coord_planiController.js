@@ -155,13 +155,14 @@ exports.finiquitarEval = function(req, res) {
 						 */
 					models.usuario.findAll({
 						where: { [Op.and]: [{nucleoCodigo:req.params.idn}, {unidadCodigo:req.body.unidad}] }
-					}).then(Usuarios => {
+					}).then(Usuario => {
 						models.evaluacion.findOne({
 							where: {
 								id: req.params.id 
 							}
 						}).then(Eval => {
 							models.evaluacion.findAll({
+								include: [models.instrument],
 								where: {
 									[Op.and]: [
 										{nucleoCodigo: req.params.idn}, 
@@ -174,7 +175,135 @@ exports.finiquitarEval = function(req, res) {
 									]
 								}
 							}).then(Evaluaciones => {
-								res.send(Evaluaciones);
+								for(let i = 0; i < Evaluaciones.length; i ++) {
+									//Si la evaluacion es de tipo Auto-Eval
+									if(Evaluaciones[i].instrument.tipoEvalId == 1) {
+										for(let j = 0; j < Usuario.length; j ++) {
+											models.evaluacionUsuario.create({
+												calificacion: null,
+												status: false,
+												evaluacionId: req.params.id,
+												usuarioCedula: Usuario[j].cedula,
+												usuarioEvaluado: Usuario[j].cedula
+											})
+										}
+									} 
+									//Si la evaluacion es de tipo Eval-Jefe
+									else if(Evaluaciones[i].instrument.tipoEvalId == 4) {
+										let idn = parseInt(req.params.id) + 3;
+
+										models.usuario.findAll({
+											where: { 
+												[Op.and]: [
+													{nucleoCodigo: req.params.idn},
+													{unidadCodigo: req.body.unidad},
+													{cargoId: 3},
+													{rolId: 5}
+												] 
+											}
+										}).then(Subordinado => {
+											//res.send(Evaluaciones);
+											models.usuario.findOne({
+												where: {
+													[Op.and]: [
+																{nucleoCodigo:req.params.idn},
+																{unidadCodigo:req.body.unidad},
+																{cargoId:2},
+																{rolId:5}
+													]
+												}
+											}).then(Jefe => {
+
+												for(let k = 0; k < Subordinado.length; k ++) {
+													models.evaluacionUsuario.create({
+														calificacion: null,
+														status: false,
+														evaluacionId: idn,
+														usuarioCedula: Subordinado[k].cedula,
+														usuarioEvaluado: Jefe.cedula
+													})	
+												}
+											})
+										})
+									} 
+									//Si la evaluacion es de tipo Eval-subor
+									else if(Evaluaciones[i].instrument.tipoEvalId == 3) {
+										let idn = parseInt(req.params.id) + 2;
+
+										models.usuario.findOne({
+											where: {
+												[Op.and]: [
+													{nucleoCodigo:req.params.idn},
+													{unidadCodigo:req.body.unidad},
+													{cargoId:2},
+													{rolId:5}
+												]
+											}
+										}).then(Jefe => {
+											models.usuario.findAll({
+												where: { [Op.and]: [{nucleoCodigo:req.params.idn},
+													{unidadCodigo:req.body.unidad},
+													{cargoId:3},
+													{rolId:5}] 
+												}
+											}).then(Subordinado => {
+
+												for(var z = 0; z < Subordinado.length; z ++) {
+													models.evaluacionUsuario.create({
+														calificacion: null,
+														status: false,
+														evaluacionId: idn,
+														usuarioCedula: Jefe.cedula,
+														usuarioEvaluado: Subordinado[z].cedula
+													})
+												}		
+											})
+										})
+									} 
+									//Si la evaluacion es de tipo Co-Eval
+									else if(Evaluaciones[i].instrument.tipoEvalId == 2) {
+										let idn = parseInt(req.params.id) + 1;
+
+										models.usuario.findAll({
+											where: {
+												[Op.and]: [
+													{nucleoCodigo:req.params.idn},
+													{unidadCodigo:req.body.unidad},
+													{cargoId:3},
+													{rolId:5}
+												]
+											}
+										}).then(Todos => {
+											for(let m = 0; m < Todos.length; m ++) {
+												models.usuario.findAll({
+													where: {
+														[Op.and]: [
+															{nucleoCodigo:req.params.idn},
+															{unidadCodigo:req.body.unidad},
+															{cargoId:3},
+															{rolId:5},
+															{cedula: { [Op.ne]: Todos[m].cedula }}
+														]
+													}
+												}).then(Resto => {
+													for(let n = 0; n < Resto.length; n ++) {
+														models.evaluacionUsuario.create({
+															calificacion: null,
+															status: false,
+															evaluacionId: idn,
+															usuarioCedula: Todos[m].cedula,
+															usuarioEvaluado: Resto[n].cedula 
+														});
+													}
+												});
+											}
+										})
+									}
+								}
+
+								//res.send(Evaluaciones);
+								req.flash('info', 'Evaluación planificada Exitosamente!');
+								res.redirect('/coord_plani');	
 							})
 						})
 					})
