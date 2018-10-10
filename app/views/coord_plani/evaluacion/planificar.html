@@ -7,6 +7,14 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- Custom styles for this template -->
     <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+
+    <!--======estilo para el error=====-->
+	<style>
+        label.error{
+            color: red;
+        }
+	</style>
+	<!--======fin estilo para el error=====-->  
 </head>
 <body>
 	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
@@ -65,27 +73,32 @@
 									<div class="card-header">
 										Planificar Evaluación
 									</div>
-									<div class="card-body">
-										<form method="post" action="/coord_plani/plani_eval" id="formEvaluacion">
-											<div class="form-group">
-												<label>Personal a Evaluar:</label>
-												<select name="categoria" id="categoria" class="form-control">
-													<option value=""> --Seleccione una Opción-- </option>
-													<% for(var i = 0; i < Categorias.length; i ++) {%>
-														<option value="<%= Categorias[i].id %>"><%= Categorias[i].nombre %></option>
-													<%}%>
-												</select>
-											</div>
 
-											<div class="form-group">
-												<label>Nucleo: </label>
-												<select name="nucleo" id="nucleo" class="form-control">
-													<option value=""> --Seleccione una Opción-- </option>
-													<% for(var j = 0; j < Nucleos.length; j ++) {%>
-														<option value="<%= Nucleos[j].codigo %>"><%= Nucleos[j].nombre %></option>
-													<%}%>
-												</select>
+									<div class="card-body">
+										<form method="post" action="/coord_plani/plani_eval" id="plani_eval">
+											<div class="form-row">
+												<div class="form-group col-md-6">
+													<label>Personal a Evaluar:</label>
+													<select name="categoria" id="categoria" class="form-control">
+														<option value=""> --Seleccione una Opción-- </option>
+														<% for(var i = 0; i < Categorias.length; i ++) {%>
+															<option value="<%= Categorias[i].id %>"><%= Categorias[i].nombre %></option>
+														<%}%>
+													</select>
+												</div>
+
+												<div class="form-group col-md-6">
+													<label>Nucleo: </label>
+													<select name="nucleo" id="nucleo" class="form-control">
+														<option value=""> --Seleccione una Opción-- </option>
+														<% for(var j = 0; j < Nucleos.length; j ++) {%>
+															<option value="<%= Nucleos[j].codigo %>"><%= Nucleos[j].nombre %></option>
+														<%}%>
+													</select>
+												</div>
 											</div>
+											
+
 
 											<div class="form-group">
 												<label>Nombre de la Evaluación:</label>
@@ -120,48 +133,7 @@
 		</div>
 	</div>
 
-<!--
-	<h3>Planificar Evaluación</h3>
 	<br>
-	
-	<form method="post" action="/coord_plani/plani_eval" id="formEvaluacion">
-		
-		<label>Nombre de la Evaluacion:</label>
-		<input type="text" name="nombre">
-
-		<br><br>
-
-		<label>Fecha de Inicio:</label>
-		<input type="date" name="fecha_i">
-
-		<label>Fecha de Fin:</label>
-		<input type="date" name="fecha_f">
-		
-		<br><br>
-
-		<label>Personal a Evaluar: </label>
-		<select name="categoria" id="categoria">
-			<option value=""> --Seleccione una Opción-- </option>
-			<% for(var i = 0; i < Categorias.length; i ++) {%>
-				<option value="<%= Categorias[i].id %>"><%= Categorias[i].nombre %></option>
-			<%}%>
-		</select>
-
-		<br><br>
-
-		<label>Nucleo: </label>
-		<select name="nucleo" id="nucleo">
-			<option value=""> --Seleccione una Opción-- </option>
-			<% for(var j = 0; j < Nucleos.length; j ++) {%>
-				<option value="<%= Nucleos[j].codigo %>"><%= Nucleos[j].nombre %></option>
-			<%}%>
-		</select>
-		
-		<br><br>
-
-		<input type="submit" name="guardar" value="Guardar">	
-	</form>
-	-->
 	
 	<footer class="footer" style="background: #BEBCB0;">
 		<div class="container">

@@ -38,6 +38,12 @@ $(document).ready(function() {
 	$("#plani_eval").validate({
 		//REGLAS DE VALIDACION
 		rules:{
+			categoria:{
+				required:true
+			},
+			nucleo:{
+				required:true
+			},
 			nombre:{
 				required:true
 			},
@@ -56,6 +62,8 @@ $(document).ready(function() {
 		},//FIN REGLAS
 
 		messages:{
+			categoria: "Campo Obligatorio",
+			nucleo: "Campo Obligatorio",
 			nombre: "Campo Obligatorio",
 			instrumento: "Campo Obligatorio",
 			unidad: "Campo Obligatorio",

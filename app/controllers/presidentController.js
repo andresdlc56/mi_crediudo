@@ -211,7 +211,7 @@ exports.detalles = function(req, res) {
 							{ rolId: 5 }
 						]
 					}
-				}).then(usuario => {
+				}).then(Usuario => {
 					res.render('president/detalles/index_2', { evalUsuario, Usuario });
 				})
 			})

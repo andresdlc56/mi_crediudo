@@ -74,17 +74,27 @@
 											<thead>
 												<tr>
 													<th scope="col">Nombre</th>
-										      		<th scope="col">Fecha I</th>
 										      		<th scope="col">Fecha F</th>
 										      		<th scope="col">Status</th>
+										      		<th scope="col">Tipo</th>
 												</tr>
 
 												<% for(let i = 0; i < Evaluacion.length; i ++) {%>
 													<tr>
 														<td><%= Evaluacion[i].nombre %></td>
-														<td><%= Evaluacion[i].fecha_i.getDate() %>/<%= Evaluacion[i].fecha_i.getMonth() + 1 %>/<%= Evaluacion[i].fecha_i.getFullYear() %></td>
 														<td><%= Evaluacion[i].fecha_f.getDate() %>/<%= Evaluacion[i].fecha_f.getMonth() + 1 %>/<%= Evaluacion[i].fecha_f.getFullYear() %></td>
 														<td>En Curso</td>
+														<td>
+															<% if(Evaluacion[i].instrument.tipoEvalId == 1) {%>
+																<span class="badge badge-pill badge-primary">AutoEvaluación</span>
+															<%} else if(Evaluacion[i].instrument.tipoEvalId == 2) {%>
+																<span class="badge badge-pill badge-success">CoEvaluación</span>
+															<%} else if(Evaluacion[i].instrument.tipoEvalId == 3) {%>
+																<span class="badge badge-pill badge-dark">Eval-Subordinado</span>
+															<%} else if(Evaluacion[i].instrument.tipoEvalId == 4) {%>
+																<span class="badge badge-pill badge-warning">Eval-Jefe</span>
+															<%}%>	
+														</td>
 													</tr>
 												<%}%>
 											</thead>

@@ -471,6 +471,7 @@ exports.eval_encurso = function(req, res) {
 	var usuario = req.user;
 	var fecha_actual = new Date();
 	models.evaluacion.findAll({
+		include: [ models.instrument ],
 		where: {
 			[Op.and]: {
 				fecha_i: {
