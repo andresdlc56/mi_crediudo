@@ -470,8 +470,13 @@ exports.finiquitarEval = function(req, res) {
 exports.eval_encurso = function(req, res) {
 	var usuario = req.user;
 	var fecha_actual = new Date();
+	/*
+		Buscar todas las Evaluaciones donde la fecha_i <= fecha_actual
+		y
+		fecha_f >= fecha_actual
+	*/
 	models.evaluacion.findAll({
-		include: [ models.instrument ],
+		include: [ models.instrument, models.nucleo, models.unidad ],
 		where: {
 			[Op.and]: {
 				fecha_i: {
@@ -479,7 +484,8 @@ exports.eval_encurso = function(req, res) {
 				},
 				fecha_f: {
 					[Op.gte]: fecha_actual
-				}	
+				},
+				instrumentId: 1	
 			}
 		}
 	}).then(Evaluacion => {
@@ -490,6 +496,10 @@ exports.eval_encurso = function(req, res) {
 			message: req.flash('info') 
 		});	
 	});
+}
+
+exports.edit_eval = function(req, res) {
+	
 }
 
 exports.eval_culminado = function(req, res) {

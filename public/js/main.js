@@ -5,6 +5,14 @@ $(document).ready(function() {
 		$(this).addClass('active');
 	});
 
+	$('.edit-eval').on('click', function(){
+		$('#edit-id').val($(this).data('id'));
+		$('#edit-nucleo').val($(this).data('nucleo'));
+		$('#edit-unidad').val($(this).data('unidad'));
+		$('#edit-fechai').val($(this).data('fechai'));
+		$('#edit-fechaf').val($(this).data('fechaf'));
+	});
+
 	$("#formEvaluacion").validate({
 		//REGLAS DE VALIDACION
 		rules:{

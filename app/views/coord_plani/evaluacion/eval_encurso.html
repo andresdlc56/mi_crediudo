@@ -48,6 +48,8 @@
 						    	</div>
 						  	</div>
 						</div>
+
+						<br>
 					</div>
 
 					<div class="col-md-9">
@@ -73,27 +75,23 @@
 										<table class="table">
 											<thead>
 												<tr>
-													<th scope="col">Nombre</th>
+													<th scope="col">Nucleo</th>
+													<th scope="col">Unidad</th>
+										      		<th scope="col">Fecha I</th>
 										      		<th scope="col">Fecha F</th>
-										      		<th scope="col">Status</th>
-										      		<th scope="col">Tipo</th>
+										      		<th scope="col">Acción</th>
 												</tr>
 
 												<% for(let i = 0; i < Evaluacion.length; i ++) {%>
 													<tr>
-														<td><%= Evaluacion[i].nombre %></td>
+														<td><%= Evaluacion[i].nucleo.nombre %></td>
+														<td><%= Evaluacion[i].unidad.nombre %></td>
+														<td><%= Evaluacion[i].fecha_i.getDate() %>/<%= Evaluacion[i].fecha_i.getMonth() + 1 %>/<%= Evaluacion[i].fecha_i.getFullYear() %></td>
 														<td><%= Evaluacion[i].fecha_f.getDate() %>/<%= Evaluacion[i].fecha_f.getMonth() + 1 %>/<%= Evaluacion[i].fecha_f.getFullYear() %></td>
-														<td>En Curso</td>
 														<td>
-															<% if(Evaluacion[i].instrument.tipoEvalId == 1) {%>
-																<span class="badge badge-pill badge-primary">AutoEvaluación</span>
-															<%} else if(Evaluacion[i].instrument.tipoEvalId == 2) {%>
-																<span class="badge badge-pill badge-success">CoEvaluación</span>
-															<%} else if(Evaluacion[i].instrument.tipoEvalId == 3) {%>
-																<span class="badge badge-pill badge-dark">Eval-Subordinado</span>
-															<%} else if(Evaluacion[i].instrument.tipoEvalId == 4) {%>
-																<span class="badge badge-pill badge-warning">Eval-Jefe</span>
-															<%}%>	
+															<button type="button" class="btn btn-primary btn-block edit-eval" data-toggle="modal" data-target="#editEval" data-id="<%- Evaluacion[i].id %>" data-nucleo="<%- Evaluacion[i].nucleo.nombre %>" data-unidad="<%- Evaluacion[i].unidad.nombre %>" data-fechai="<%- Evaluacion[i].fecha_i %>" data-fechaf="<%- Evaluacion[i].fecha_f %>">
+												              	Editar
+												            </button>
 														</td>
 													</tr>
 												<%}%>
@@ -101,15 +99,66 @@
 										</table>
 									</div>
 								</div>
+
+								<!--================MODAL ADD INSTRUMENTO=========================-->
+				              	<div class="modal fade" id="editEval" style="margin-top: 5%">
+				                  	<div class="modal-dialog modal-lg">
+				                    	<div class="modal-content">
+					                      	<!-- Modal Header -->
+					                      	<div class="modal-header">
+					                        	<h4 class="modal-title">Editar Evaluación en Curso</h4>
+					                        	<button type="button" class="close" data-dismiss="modal">&times;</button>
+					                      	</div>
+
+					                      	<!-- Modal body -->
+					                      	<form method="POST" action="">
+					                        	<div class="modal-body">
+					                          		<input type="hidden" name="id" id="edit-id">
+					                          		
+					                          		<div class="form-row">
+					                          			<div class="form-group col-md-6">
+					                          				<label>Nucleo: </label>
+					                          				<input type="text" name="nucleo" id="edit-nucleo" class="form-control" disabled>
+					                          			</div>
+
+					                          			<div class="form-group col-md-6">
+					                          				<label>Unidad: </label>
+					                          				<input type="text" name="unidad" id="edit-unidad" class="form-control" disabled>
+					                          			</div>
+					                          		</div>
+
+					                          		<div class="form-row">
+					                          			<div class="form-group col-md-6">
+					                          				<label>Fecha Inicio: </label>
+					                          				<input type="text" name="fecha_i" id="edit-fechai" class="form-control" disabled>
+					                          			</div>
+
+					                          			<div class="form-group col-md-6">
+					                          				<label>Fecha Final: </label>
+					                          				<input type="date" name="fecha_f" id="edit-fechaf" class="form-control">
+					                          			</div>
+					                          		</div>
+
+					                        	</div>  
+					                      
+					                        	<!-- Modal footer -->
+					                        	<div class="modal-footer">
+					                          		<button type="submit" class="btn btn-primary">Submit</button>
+					                        	</div>
+					                      	</form>
+				                    	</div>
+				                  	</div>
+				              	</div>
+				              	<!--===================FIN MODAL CATEGORIA=========================-->
 							</div>
 						</div>
 					</div>
-
-					
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	<br>
 
 	<footer class="footer" style="background: #BEBCB0;">
 		<div class="container">
