@@ -498,8 +498,22 @@ exports.eval_encurso = function(req, res) {
 	});
 }
 
-exports.edit_eval = function(req, res) {
-	
+exports.update_eval = function(req, res) {
+	models.evaluacion.update({
+		fecha_f: req.body.fecha_f
+	}, {
+		where: {
+			[Op.or]: [
+				{id: req.body.id}, 
+				{id: parseInt(req.body.id) - 1}, 
+				{id: parseInt(req.body.id) - 2}, 
+				{id: parseInt(req.body.id) - 3}
+			]
+		}
+	}).then(Eval => {
+		req.flash('info', 'Fecha de Culminacion Actualizada!');
+		res.redirect('/coord_plani/eval_encurso');
+	})
 }
 
 exports.eval_culminado = function(req, res) {

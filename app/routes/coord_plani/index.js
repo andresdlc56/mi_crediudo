@@ -17,7 +17,7 @@ module.exports = function(app) {
 
     app.get('/coord_plani/eval_encurso', isLoggedIn, coord_planiController.eval_encurso);
 
-    app.get('/coord_plani/eval_encurso/id/edit', isLoggedIn, coord_planiController.edit_eval);
+    app.post('/coord_plani/eval_encurso', isLoggedIn, coord_planiController.update_eval);   
 
     app.get('/coord_plani/eval_culminado', isLoggedIn, coord_planiController.eval_culminado);
 
