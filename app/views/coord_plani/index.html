@@ -76,16 +76,57 @@
 								    	<p class="lead">Coord. de Planificación</p>
 								  	</div>
 								</div>
+
+								<div class="card">
+								  	<div class="card-body">
+								    	<div class="row">
+								    		<div class="col-md-10 col-sm-10">
+								    			<h4>Ultimas Evaluciones Planificadas</h4>	
+								    		</div>
+								    		<div class="col-md-2 col-sm-2 text-right">
+								    			<a href=""><span class="glyphicon glyphicon-log-in"></span><i class="fa fa-ellipsis-v" style="font-size: 15pt"></i></a>
+								    		</div>
+								    	</div>
+								    	<% if(Evaluaciones.length > 0) {%>
+											<% for(let i = 0; i < Evaluaciones.length; i ++) {%>
+										    	<hr>
+										    	<div class="row">
+										    		<div class="col-md-2 col-sm-3 text-center">
+										    			<div class="row">
+										    				<div class="col-md-12">
+										    					<h3><%- Evaluaciones[i].fecha_i.getDate() %></h3>
+										    				</div>
+										    				
+										    				<div class="col-md-12">
+										    					<hr style="margin: 1px">
+										    					<p>Octubre</p>
+										    				</div>
+										    			</div>
+										    		</div>
+										    		<div class="col-md-10 col-sm-9" style="border-left: 1px solid #E6DFDD">
+										    			<div class="row">
+										    				<div class="col-md-12">
+										    					<p style="font-size: 15pt"><%- Evaluaciones[i].nombre %></p>
+										    				</div>
+										    			</div>
+										    		</div>
+										    	</div>
+									    	<%}%>
+								    	<%} else {%>
+											<h3>No Hay Evaluaciones Planificadas</h3>
+								    	<%}%>
+								  	</div>
+								</div>
 							</div>
 						</div>
 					</div>
-
+					
 					
 				</div>
 			</div>
 		</div>
 	</div>
-
+	<br>
 	<footer class="footer" style="background: #BEBCB0;">
 		<div class="container">
 			<span class="text-muted">Pie de Pagina</span>

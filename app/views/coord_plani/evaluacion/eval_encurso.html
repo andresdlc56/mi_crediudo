@@ -8,6 +8,13 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- Custom styles for this template -->
     <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+    <!--======estilo para el error=====-->
+	<style>
+        label.error{
+            color: red;
+        }
+	</style>
+	<!--======fin estilo para el error=====--> 
 </head>
 <body>
 	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
@@ -113,7 +120,7 @@
 					                      	</div>
 
 					                      	<!-- Modal body -->
-					                      	<form method="POST" action="">
+					                      	<form method="POST" action="/coord_plani/eval_encurso" id="edit_eval">
 					                        	<div class="modal-body">
 					                          		<input type="hidden" name="id" id="edit-id">
 					                          		

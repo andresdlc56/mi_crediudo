@@ -80,4 +80,16 @@ $(document).ready(function() {
 		}
 	});
 
+	$("#edit_eval").validate({
+		//REGLAS DE VALIDACION
+		rules:{
+			fecha_f:{
+				required:true
+			}
+		},//FIN REGLAS
+
+		messages:{
+			fecha_f: "Campo Obligatorio",
+		}
+	});
 });

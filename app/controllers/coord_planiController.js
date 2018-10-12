@@ -9,11 +9,16 @@ exports.index = function(req, res) {
 	//buscando todas las evalucaiones 
 	models.evaluacion.findAll({
 		include: [models.categoria, models.nucleo, models.unidad, models.instrument],
+		limit: 3,
+		where: {
+			instrumentId: 1	
+		}
 	}).then(Evaluaciones => {
 		//buscando todos los tipos de valuaciones
 		models.tipoEval.findAll({
 
 		}).then(tipoEval => {
+			//res.send(Evaluaciones);
 			res.render('coord_plani/index', { 
 				Evaluaciones, 
 				tipoEval,
