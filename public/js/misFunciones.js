@@ -12,3 +12,16 @@ function verificarFecha(fechaInicio){
 		return false;
 	}
 }
+
+function comprobar(dia, mes){
+	var fechaActual = new Date();
+	var diaActual = fechaActual.getDate();
+	var mesActual = fechaActual.getMonth();
+
+	if(dia < diaActual && mes <= mesActual) {
+		alert("Evaluación en Curso, No se puede Eliminar");
+		return false;	
+	} else {
+		return confirm("¿Desea Eliminar Esta Evaluación?");
+	}
+}

@@ -8,12 +8,6 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- Custom styles for this template -->
     <link href="css/sticky-footer-navbar.css" rel="stylesheet">
-
-	<style>
-		table, th, td {
-		    border: 1px solid black;
-		}
-	</style>
 </head>
 <body>
 	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
@@ -69,6 +63,17 @@
 										</button>
 							        </div>
 								<%}%>
+
+								<% if(error == false) {%>
+
+								<%} else {%>
+									<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							            <%= error %>
+							            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+							        </div>
+								<%}%>
 								<!--=======fin mensaje de alerta==========-->
 								<div class="jumbotron jumbotron-fluid">
 									<div class="container">
@@ -96,24 +101,48 @@
 										    				<div class="col-md-12">
 										    					<h3><%- Evaluaciones[i].fecha_i.getDate() %></h3>
 										    				</div>
-										    				
+										    				<% 
+																var mes = Evaluaciones[i].fecha_i.getMonth();
+
+										    					var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]; 
+										    				%>
 										    				<div class="col-md-12">
 										    					<hr style="margin: 1px">
-										    					<p>Octubre</p>
+										    					<p><%=meses[mes]%></p>
 										    				</div>
 										    			</div>
 										    		</div>
-										    		<div class="col-md-10 col-sm-9" style="border-left: 1px solid #E6DFDD">
+										    		<div class="col-md-8 col-sm-6" style="border-left: 1px solid #E6DFDD">
 										    			<div class="row">
 										    				<div class="col-md-12">
-										    					<p style="font-size: 15pt"><%- Evaluaciones[i].nombre %></p>
+										    					<table>
+										    						<tr>
+										    							<td style="width: 25%"><strong>Titulo: </strong></td>
+										    							<td><%- Evaluaciones[i].nombre %></td>
+										    						</tr>
+										    						<tr>
+										    							<td style="width: 30%"><strong>Nucleo: </strong></td>
+										    							<td><%- Evaluaciones[i].nucleo.nombre %></td>
+										    						</tr>
+										    						<tr>
+										    							<td style="width: 30%"><strong>Unidad: </strong></td>
+										    							<td><%- Evaluaciones[i].unidad.nombre %></td>
+										    						</tr>
+										    					</table>
 										    				</div>
 										    			</div>
+										    		</div>
+										    		<div class="col-md-2 col-sm-3 text-center" style="border-left: 1px solid #E6DFDD">
+										    			<a href="" class="btn btn-warning edit-eval">
+													        <span class="glyphicon glyphicon-log-in"></span><i class="fa fa-edit"></i>
+													    </a>
+										    			<a href="/coord_plani/deleteEval/<%- Evaluaciones[i].id %>" class="btn btn-danger" onclick="return comprobar(<%- Evaluaciones[i].fecha_i.getDate() %>, <%- Evaluaciones[i].fecha_i.getMonth() %>);"><span class="glyphicon glyphicon-log-in"></span><i class="fa fa-remove"></i></a>
 										    		</div>
 										    	</div>
 									    	<%}%>
 								    	<%} else {%>
-											<h3>No Hay Evaluaciones Planificadas</h3>
+								    		<hr>
+											<h3 class="display-4 text-center">Ninguna</h3>
 								    	<%}%>
 								  	</div>
 								</div>
@@ -138,5 +167,6 @@
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
+	<script src="/js/misFunciones.js"></script>
 </body>
 </html>

@@ -21,6 +21,8 @@ module.exports = function(app) {
 
     app.get('/coord_plani/eval_culminado', isLoggedIn, coord_planiController.eval_culminado);
 
+    app.get('/coord_plani/deleteEval/:id', isLoggedIn, coord_planiController.deleteEval);
+
     app.get('/logout',authController.logout);
 
 	function isLoggedIn(req, res, next) {

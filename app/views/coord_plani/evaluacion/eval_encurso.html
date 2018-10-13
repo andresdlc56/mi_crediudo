@@ -79,33 +79,35 @@
 									<div class="card-body">
 										<h3>Evaluaciones en Curso</h3>
 										<hr>
-										<table class="table">
-											<thead>
-												<tr>
-													<th scope="col">Nucleo</th>
-													<th scope="col">Unidad</th>
-										      		<th scope="col">Fecha I</th>
-										      		<th scope="col">Fecha F</th>
-										      		<th scope="col">Acción</th>
-												</tr>
-												
-												
-
-												<% for(let i = 0; i < Evaluacion.length; i ++) {%>
+										<% if(Evaluacion.length > 0) {%>
+											<table class="table">
+												<thead>
 													<tr>
-														<td><%= Evaluacion[i].nucleo.nombre %></td>
-														<td><%= Evaluacion[i].unidad.nombre %></td>
-														<td><%= Evaluacion[i].fecha_i.getDate() %>/<%= Evaluacion[i].fecha_i.getMonth() + 1 %>/<%= Evaluacion[i].fecha_i.getFullYear() %></td>
-														<td><%= Evaluacion[i].fecha_f.getDate() %>/<%= Evaluacion[i].fecha_f.getMonth() + 1 %>/<%= Evaluacion[i].fecha_f.getFullYear() %></td>
-														<td>
-															<button type="button" class="btn btn-primary btn-block edit-eval" data-toggle="modal" data-target="#editEval" data-id="<%- Evaluacion[i].id %>" data-nucleo="<%- Evaluacion[i].nucleo.nombre %>" data-unidad="<%- Evaluacion[i].unidad.nombre %>" data-fechai="<%- Evaluacion[i].fecha_i.getDate() %>-<%- Evaluacion[i].fecha_i.getMonth()+1 %>-<%- Evaluacion[i].fecha_i.getFullYear() %>" data-fechaf="<%- Evaluacion[i].fecha_f %>">
-												              	Editar
-												            </button>
-														</td>
+														<th scope="col">Nucleo</th>
+														<th scope="col">Unidad</th>
+											      		<th scope="col">Fecha I</th>
+											      		<th scope="col">Fecha F</th>
+											      		<th scope="col">Acción</th>
 													</tr>
-												<%}%>
-											</thead>
-										</table>
+													
+													<% for(let i = 0; i < Evaluacion.length; i ++) {%>
+														<tr>
+															<td><%= Evaluacion[i].nucleo.nombre %></td>
+															<td><%= Evaluacion[i].unidad.nombre %></td>
+															<td><%= Evaluacion[i].fecha_i.getDate() %>/<%= Evaluacion[i].fecha_i.getMonth() + 1 %>/<%= Evaluacion[i].fecha_i.getFullYear() %></td>
+															<td><%= Evaluacion[i].fecha_f.getDate() %>/<%= Evaluacion[i].fecha_f.getMonth() + 1 %>/<%= Evaluacion[i].fecha_f.getFullYear() %></td>
+															<td>
+																<button type="button" class="btn btn-primary btn-block edit-eval" data-toggle="modal" data-target="#editEval" data-id="<%- Evaluacion[i].id %>" data-nucleo="<%- Evaluacion[i].nucleo.nombre %>" data-unidad="<%- Evaluacion[i].unidad.nombre %>" data-fechai="<%- Evaluacion[i].fecha_i.getDate() %>-<%- Evaluacion[i].fecha_i.getMonth()+1 %>-<%- Evaluacion[i].fecha_i.getFullYear() %>" data-fechaf="<%- Evaluacion[i].fecha_f %>">
+													              	Editar
+													            </button>
+															</td>
+														</tr>
+													<%}%>
+												</thead>
+											</table>
+										<%} else {%>
+											<h3 class="display-4 text-center">Ninguna</h3>
+										<%}%>
 									</div>
 								</div>
 

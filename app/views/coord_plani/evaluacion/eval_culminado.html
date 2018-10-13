@@ -56,30 +56,33 @@
 									<div class="card-body">
 										<h3>Evaluaciones Culminadas</h3>
 										<hr>
-
-										<table class="table">
-										  	<thead>
-										    	<tr>
-										      		<th scope="col">Nombre</th>
-										      		<th scope="col">Nucleo</th>
-										      		<th scope="col">Unidad</th>
-										      		<th scope="col">Fecha F</th>
-										      		<th scope="col">Operación</th>
-										    	</tr>
-										  	</thead>
-										  
-										  	<tbody>
-										  		<% for(let i = 0; i < Evaluacion.length; i ++) {%>
+										<% if(Evaluacion > 0) {%>
+											<table class="table">
+											  	<thead>
 											    	<tr>
-											      		<td><%= Evaluacion[i].nombre %></td>
-											      		<td><%= Evaluacion[i].nucleoCodigo %></td>
-											      		<td><%= Evaluacion[i].unidadCodigo %></td>
-											      		<td><%= Evaluacion[i].fecha_f.getDate() %>/<%= Evaluacion[i].fecha_f.getMonth() + 1 %>/<%= Evaluacion[i].fecha_f.getFullYear() %></td>
-											      		<td></td>
+											      		<th scope="col">Nombre</th>
+											      		<th scope="col">Nucleo</th>
+											      		<th scope="col">Unidad</th>
+											      		<th scope="col">Fecha F</th>
+											      		<th scope="col">Operación</th>
 											    	</tr>
-										    	<%}%>
-										  	</tbody>
-										</table>
+											  	</thead>
+											  
+											  	<tbody>
+											  		<% for(let i = 0; i < Evaluacion.length; i ++) {%>
+												    	<tr>
+												      		<td><%= Evaluacion[i].nombre %></td>
+												      		<td><%= Evaluacion[i].nucleoCodigo %></td>
+												      		<td><%= Evaluacion[i].unidadCodigo %></td>
+												      		<td><%= Evaluacion[i].fecha_f.getDate() %>/<%= Evaluacion[i].fecha_f.getMonth() + 1 %>/<%= Evaluacion[i].fecha_f.getFullYear() %></td>
+												      		<td></td>
+												    	</tr>
+											    	<%}%>
+											  	</tbody>
+											</table>
+										<%} else {%>
+											<h3 class="display-4 text-center">Ninguna</h3>
+										<%}%>		
 									</div>
 								</div>
 							</div>

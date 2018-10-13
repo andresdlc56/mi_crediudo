@@ -6,13 +6,20 @@ var Op = Sequelize.Op;
 
 exports.index = function(req, res) {
 	var usuario = req.user;
-	//buscando todas las evalucaiones 
+	/*
+		buscando 3 evalucaiones donde
+		donde usen un instrumento de evaluacion de tipo 1 (AutoEvaluacion)
+		y ordenalos de forma decendente  
+	*/
 	models.evaluacion.findAll({
 		include: [models.categoria, models.nucleo, models.unidad, models.instrument],
 		limit: 3,
 		where: {
 			instrumentId: 1	
-		}
+		},
+		order: [
+			['id', 'DESC']
+		]
 	}).then(Evaluaciones => {
 		//buscando todos los tipos de valuaciones
 		models.tipoEval.findAll({
@@ -23,7 +30,8 @@ exports.index = function(req, res) {
 				Evaluaciones, 
 				tipoEval,
 				usuario,
-				message: req.flash('info')
+				message: req.flash('info'),
+        		error: req.flash('error')
 			});	
 		});
 	});
@@ -534,4 +542,34 @@ exports.eval_culminado = function(req, res) {
 		//res.send(Evaluacion);
 		res.render('coord_plani/evaluacion/eval_culminado', { Evaluacion, usuario });
 	});
+}
+
+exports.deleteEval = function(req, res) {
+	var id = parseInt(req.params.id);
+	models.evaluacion.destroy({
+        where: {
+          id: req.params.id
+        }
+    }).then(EvaluacionA => {
+    	models.evaluacion.destroy({
+	        where: {
+	          id: id - 1
+	        }
+	    }).then(EvaluacionB => {
+	    	models.evaluacion.destroy({
+		        where: {
+		          id: id - 2
+		        }
+		    }).then(EvaluacionC => {
+		    	models.evaluacion.destroy({
+			        where: {
+			          id: id - 3
+			        }
+			    }).then(EvalucionD => {
+					req.flash('error', 'Evaluación Eliminada Exitosamente!');
+          			res.redirect('/coord_plani');	    		
+			    });	
+		    });	
+	    });		
+    });
 }
