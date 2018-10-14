@@ -128,12 +128,16 @@
 										    							<td style="width: 30%"><strong>Unidad: </strong></td>
 										    							<td><%- Evaluaciones[i].unidad.nombre %></td>
 										    						</tr>
+										    						<tr>
+										    							<td style="width: 30%"><strong>Fin: </strong></td>
+										    							<td><%- Evaluaciones[i].fecha_f.getDate() %>-<%- parseInt(Evaluaciones[i].fecha_f.getMonth())+1 %>-<%- Evaluaciones[i].fecha_f.getFullYear() %></td>
+										    						</tr>
 										    					</table>
 										    				</div>
 										    			</div>
 										    		</div>
 										    		<div class="col-md-2 col-sm-3 text-center" style="border-left: 1px solid #E6DFDD">
-										    			<a href="" class="btn btn-warning edit-eval">
+										    			<a href="/coord_plani/editEval/<%- Evaluaciones[i].id %>" class="btn btn-warning edit-eval">
 													        <span class="glyphicon glyphicon-log-in"></span><i class="fa fa-edit"></i>
 													    </a>
 										    			<a href="/coord_plani/deleteEval/<%- Evaluaciones[i].id %>" class="btn btn-danger" onclick="return comprobar(<%- Evaluaciones[i].fecha_i.getDate() %>, <%- Evaluaciones[i].fecha_i.getMonth() %>);"><span class="glyphicon glyphicon-log-in"></span><i class="fa fa-remove"></i></a>
@@ -149,8 +153,6 @@
 							</div>
 						</div>
 					</div>
-					
-					
 				</div>
 			</div>
 		</div>

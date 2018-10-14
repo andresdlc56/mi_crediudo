@@ -573,3 +573,16 @@ exports.deleteEval = function(req, res) {
 	    });		
     });
 }
+
+exports.editEval = function(req, res) {
+	models.evaluacion.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { id: req.params.id }
+	}).then(Evaluacion => {
+		models.nucleo.findAll({
+
+		}).then(Nucleos => {
+			res.render('coord_plani/evaluacion/editar', { Evaluacion, Nucleos });
+		})
+	});
+}
