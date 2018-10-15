@@ -55,369 +55,196 @@
 							<br>
 						</div>
 						<!--=========FIN DATOS DEL USUARIO LOGUEADO=========-->
-						
-						<!--===========CONTENIDO=================-->
+
 						<div class="col-md-9">
-							<!--=======mensaje de alerta==========-->
-							<% if(message == false) {%>
-
-							<%} else {%>
-								<div class="alert alert-success alert-dismissible fade show" role="alert">
-						            <%= message %>
-						            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-						        </div>
-							<%}%>
-							<!--=======fin mensaje de alerta==========-->
 							<div class="row">
 								<div class="col-md-12">
-									<h2 class="text-center"><%= Evaluacion.nombre %></h2>
-									<h3 class="text-center"><%= Evaluacion.nucleo.nombre %> - <%= Evaluacion.unidad.nombre %></h3>
-									<hr>
+									<div class="card">
+										<div class="card-body">
+											<h3>Información de la Evaluación</h3>
+											<hr>
+											<p><strong>Titulo o Nombre: </strong><%- infoEval.nombre %></p>
+											<p><strong>Nucleo: </strong><%- infoEval.nucleo.nombre %></p>
+											<p><strong>Unidad: </strong><%- infoEval.unidad.nombre %></p>
+											<p>
+												<strong>Fecha Inicio: </strong>
+												<%= infoEval.fecha_i.getDate() %>/<%= infoEval.fecha_i.getMonth() + 1 %>/<%= infoEval.fecha_i.getFullYear() %>
+											</p>
+											<p>
+												<strong>Fecha Fin: </strong>
+												<%= infoEval.fecha_f.getDate() %>/<%= infoEval.fecha_f.getMonth() + 1 %>/<%= infoEval.fecha_f.getFullYear() %>
+											</p>
+										</div>
+									</div>		
+									<br>
 								</div>
-								<% var n = 0 %>
-								<% for(let i = 0; i < dataEvaluacion.length; i ++) {%>
-									<!--SI STATUS DE LA EVALUACION ES FALSE-->
-									<% if(dataEvaluacion[i].status == false) {%>
-										<div class="col-md-6">
-											<div class="card">
-												<div class="card-body">
+
+								<div class="col-md-6">
+									<div class="card">
+										<div class="card-header">
+											<p><strong>AutoEvaluación</strong></p>
+										</div>
+										<div class="card-body">
+											<% for(let i = 0; i < autoEval.length; i ++) {%>
+												<%if(autoEval[i].evaluacion.instrumentId == 4) {%>
 													<div class="row">
-														<div class="col-md-4 text-center">
-															<i class="fa fa-pencil-square-o" style="font-size: 60pt;"></i>
-														</div>
-
-														<div class="col-md-8">
-															<table style="width: 100%">
-																<tr>
-																	<td style="width: 40%"><b>Evaluador: </b></td>
-																	<td>
-																		<% for(let j = 0; j < Empleado.length; j ++) {%>
-																			<% if(dataEvaluacion[i].usuarioCedula == Empleado[j].cedula) {%>
-																				<%= Empleado[j].nombre %> <%= Empleado[j].apellido %>
-																			<%}%>	
-																		<%}%>
-																	</td>
-																</tr>
-																<tr>
-																	<td style="width: 40%"><b>Evaluado: </b></td>
-																	<td>
-																		<% for(let j = 0; j < Empleado.length; j ++) {%>
-																			<% if(dataEvaluacion[i].usuarioEvaluado == Empleado[j].cedula) {%>
-																				<%= Empleado[j].nombre %> <%= Empleado[j].apellido %>
-																			<%}%>	
-																		<%}%>	
-																	</td>
-																</tr>
-															</table>
-															<hr>
-															En Proceso...
-														</div>
+														<div class="col-md-3 col-sm-3 text-center">
+											    			<div class="row">
+											    				<div class="col-md-12">
+											    					<h4>foto</h4>
+											    				</div>
+											    		
+												    			<div class="col-md-12">
+												    				<p style="font-size: 10pt"><%- autoEval[i].usuarioCedula %></p>
+												    			</div>
+												    		</div>
+												    	</div>
+												    	<div class="col-md-9 col-sm-9 text-center" style="border-left: 1px solid #E6DFDD">
+												    		<br>
+												    		<a href="#" class="btn btn-primary btn-sm btn-block">Calificar</a>
+												    	</div>
 													</div>
-												</div>
-											</div>
-											<br>
+													<hr style="margin-bottom: 1px">
+												<%}%>
+											<%}%>
 										</div>
-									<%} 
-									<!--SI STATUS DE LA EVALUACION ES TRUE Y LA EVALUACION ES DE TIPO EVAL-JEFE-->
-									else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 4) {%>
-										<% n = n + 1 %>
-										<div class="col-md-6">
-											<div class="card">
-												<div class="card-body">
+									</div>
+									<br>
+								</div>
+
+								<div class="col-md-6">
+									<div class="card">
+										<div class="card-header">
+											<p><strong>CoEvaluación</strong></p>
+										</div>
+										<div class="card-body">
+											<% for(let j = 0; j < coEval.length; j ++) {%>
+												<%if(coEval[j].evaluacion.instrumentId == 3) {%>
 													<div class="row">
-														<div class="col-md-4">
-															<i class="fa fa-pencil-square-o" style="font-size: 60pt;"></i>
-														</div>
-
-														<div class="col-md-8">
-															<table style="width: 100%">
-																<tr>
-																	<td style="width: 40%"><b>Evaluador: </b></td>
-																	<td>
-																		<% for(let j = 0; j < Empleado.length; j ++) {%>
-																			<% if(dataEvaluacion[i].usuarioCedula == Empleado[j].cedula) {%>
-																				<%= Empleado[j].nombre %> <%= Empleado[j].apellido %>
-																			<%}%>	
-																		<%}%>	
-																	</td>
-																</tr>
-																<tr>
-																	<td style="width: 40%"><b>Evaluado: </b></td>
-																	<td>
-																		<% for(let j = 0; j < Empleado.length; j ++) {%>
-																			<% if(dataEvaluacion[i].usuarioEvaluado == Empleado[j].cedula) {%>
-																				<%= Empleado[j].nombre %> <%= Empleado[j].apellido %>
-																			<%}%>	
-																		<%}%>	
-																	</td>
-																</tr>
-															</table>
-															<hr>
-															<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>/ue/<%=dataEvaluacion[i].usuarioCedula%>" class="btn btn-primary btn-block">Culminado</a>
-														</div>
+														<div class="col-md-3 col-sm-3 text-center">
+											    			<div class="row">
+											    				<div class="col-md-12">
+											    					<h4>foto</h4>
+											    				</div>
+											    		
+												    			<div class="col-md-12">
+												    				<p style="font-size: 10pt"><%- coEval[j].usuarioCedula %></p>
+												    			</div>
+												    		</div>
+												    	</div>
+												    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
+												    		----------------->
+												    		<a href="#" class="btn btn-primary btn-sm btn-block">Calificar</a>
+												    	</div>
+												    	<div class="col-md-3 col-sm-3 text-center">
+											    			<div class="row">
+											    				<div class="col-md-12">
+											    					<h4>foto</h4>
+											    				</div>
+											    		
+												    			<div class="col-md-12">
+												    				<p style="font-size: 10pt"><%- coEval[j].usuarioEvaluado %></p>
+												    			</div>
+												    		</div>
+												    	</div>
 													</div>
-												</div>
-											</div>
-											<br>
+													<hr style="margin-bottom: 1px">
+												<%}%>
+											<%}%>
 										</div>
-									<%} 
-									<!--SI STATUS DE LA EVALUACION ES TRUE Y LA EVALUACION ES DE TIPO AUTO-EVAL-->
-									else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 1) {%>
-										<% n = n + 1 %>
-										<div class="col-md-6">
-											<div class="card">
-												<div class="card-body">
+									</div>
+									<br>
+								</div>
+
+								<div class="col-md-6">
+									<div class="card">
+										<div class="card-header">
+											<p><strong>Eval a Subordinado</strong></p>
+										</div>
+										<div class="card-body">
+											<% for(let k = 0; k < evalJefe.length; k ++) {%>
+												<%if(evalJefe[k].evaluacion.instrumentId == 2) {%>
 													<div class="row">
-														<div class="col-md-4">
-															<i class="fa fa-pencil-square-o" style="font-size: 60pt;"></i>
-														</div>
-
-														<div class="col-md-8">
-															<table style="width: 100%">
-																<tr>
-																	<td style="width: 40%"><b>Evaluador: </b></td>
-																	<td>
-																		<% for(let j = 0; j < Empleado.length; j ++) {%>
-																			<% if(dataEvaluacion[i].usuarioCedula == Empleado[j].cedula) {%>
-																				<%= Empleado[j].nombre %> <%= Empleado[j].apellido %>
-																			<%}%>	
-																		<%}%>	
-																	</td>
-																</tr>
-																<tr>
-																	<td style="width: 40%"><b>Evaluado: </b></td>
-																	<td>
-																		<% for(let j = 0; j < Empleado.length; j ++) {%>
-																			<% if(dataEvaluacion[i].usuarioEvaluado == Empleado[j].cedula) {%>
-																				<%= Empleado[j].nombre %> <%= Empleado[j].apellido %>
-																			<%}%>	
-																		<%}%>	
-																	</td>
-																</tr>
-															</table>
-															<hr>
-															<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>/ue/<%=dataEvaluacion[i].usuarioCedula%>" class="btn btn-primary btn-block">Culminado</a>
-														</div>
+														<div class="col-md-3 col-sm-3 text-center">
+											    			<div class="row">
+											    				<div class="col-md-12">
+											    					<h4>foto</h4>
+											    				</div>
+											    		
+												    			<div class="col-md-12">
+												    				<p style="font-size: 10pt"><%- evalJefe[k].usuarioCedula %></p>
+												    			</div>
+												    		</div>
+												    	</div>
+												    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
+												    		----------------->
+												    		<a href="#" class="btn btn-primary btn-sm btn-block">Calificar</a>
+												    	</div>
+												    	<div class="col-md-3 col-sm-3 text-center">
+											    			<div class="row">
+											    				<div class="col-md-12">
+											    					<h4>foto</h4>
+											    				</div>
+											    		
+												    			<div class="col-md-12">
+												    				<p style="font-size: 10pt"><%- evalJefe[k].usuarioEvaluado %></p>
+												    			</div>
+												    		</div>
+												    	</div>
 													</div>
-												</div>
-											</div>
-											<br>
+													<hr style="margin-bottom: 1px">
+												<%}%>
+											<%}%>
 										</div>
-									<%} 
-									<!--SI STATUS DE LA EVALUACION ES TRUE Y LA EVALUACION ES DE TIPO EVAL-SUBORDINADO-->
-									else if(dataEvaluacion[i].status == true && Evaluacion.instrument.tipoEvalId == 3) {%>
-										<a href="/president/culminado/<%=dataEvaluacion[i].evaluacionId%>/u/<%=dataEvaluacion[i].usuarioEvaluado%>/ue/<%=dataEvaluacion[i].usuarioCedula%>">Culminada</a>
-									<%}%>
-								<%}%>
-							</div>
+									</div>
+									<br>
+								</div>
 
-							<div class="row">
-								<div class="col-md-12">
-									<% if(instrumentFactor && Observacion.length == 0) {%>
-										<% if(n == dataEvaluacion.length) {%>
-											<!--=========BOTON MODAL========-->
-											<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-											    Ver Resumen
-											</button>
-											<!--=========FIN BOTON MODAL========-->
-
-											<!--=======MODAL=======-->
-											<div class="modal fade" id="myModal">
-											    <form method="post" action="/president/detalles/<%- Evaluacion.id %>">
-											    	<input type="hidden" name="cedula" value="<%- Usuario.cedula %>">
-												    <div class="modal-dialog modal-lg">
-												    	<div class="modal-content">
-													        <!-- Modal Header -->
-													        <div class="modal-header">
-													          	<h4 class="modal-title">Resumen <%- Usuario.nombre %> <%- Usuario.apellido %></h4>
-													          	<button type="button" class="close" data-dismiss="modal">&times;</button>
-													        </div>
-												        
-													        <!-- Modal body -->
-													        <div class="modal-body">
-													          	<div class="card">
-																	<div class="card-body">
-																		<table style="width:100%">
-																			<tr>
-																				<td style="width:40%">
-																					<h2>Calificación General: </h2> 
-																				</td>
-																				<td style="padding: 5px">
-																					<% var calificacionGeneral = 0 %>
-																					<% var acomulado = 0 %>
-
-																					<% for(let j = 0; j < dataEvaluacion.length; j ++) {			
-																						acomulado = acomulado + parseInt(dataEvaluacion[j].calificacion);
-																						calificacionGeneral = acomulado / dataEvaluacion.length;	
-																					}%>
-																					<div class="progress">
-																						<div class="progress-bar" role="progressbar" style="width: <%= calificacionGeneral * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= calificacionGeneral %> Ptos</b></div>
-																					</div>
-																				</td>
-																			</tr>
-																		</table>
-																	</div>
-																</div>
-																
-																<br>
-
-																<div class="card">
-																	<div class="card-body">
-																		<table style="width:100%">
-																			<th style="width:40%">Factor</th>
-																			<th style="padding: 5px">Calificaión</th>
-																			<% var n = [] %>
-																			<% for(let k = 0; k < instrumentFactor.length; k ++) {%>
-																				<% var acomulado_b = 0 %>
-																				<% n[k] = 0 %>
-																				<tr>
-																					<td><%= instrumentFactor[k].factor.nombre %></td>
-																					<td>
-																						<% for(let i = 0; i < itemUsuario.length; i ++) {%>
-																							<% if(instrumentFactor[k].factorId == itemUsuario[i].item.factorId) {%>
-																								<% acomulado_b = acomulado_b + itemUsuario[i].calificacion %>
-																								<% n[k] = n[k] + 1 %>
-																							<%}%>
-																						<%}%>
-																						<div class="progress">
-																							<div class="progress-bar" role="progressbar" style="width: <%= (acomulado_b / n[k]) * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= acomulado_b / n[k] %> Ptos</b></div>
-																						</div>
-																						
-																					</td>
-																				</tr>
-																			<%}%>
-																		</table>
-																	</div>
-																</div>
-
-																<hr>
-																
-																<div class="form-group">
-																	<label for="comment">Observación:</label>
-																	<textarea class="form-control" rows="5" id="comment" name="observacion"></textarea>
-																</div>	
-													        </div>
-												        
-													        <!-- Modal footer -->
-													        <div class="modal-footer">
-													        	<button type="submit" class="btn btn-primary">Enviar</button>
-													          	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-													        </div>
-												      	</div>
-												    </div>
-												</form>
-											</div>
-											<!--======FIN MODAL=====-->
-										<%}%>
-									<%} else if(instrumentFactor && Observacion.length > 0) {%>
-										<!--BOTON MODAL CON OBESERVACION-->
-										<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalObserv">
-											Ver Resumen
-										</button>
-										<!--FIN BOTON MODAL CON OBESERVACION-->
-
-										<!--MODAL CON OBSERVACION-->
-										<div class="modal fade" id="modalObserv">
-											    <form method="post" action="/president/detalles/editObs/<%- Evaluacion.id %>">
-											    	<input type="hidden" name="cedula" value="<%- Usuario.cedula %>">
-												    <div class="modal-dialog modal-lg">
-												    	<div class="modal-content">
-													        <!-- Modal Header -->
-													        <div class="modal-header">
-													          	<h4 class="modal-title">Resumen <%- Usuario.nombre %> <%- Usuario.apellido %></h4>
-													          	<button type="button" class="close" data-dismiss="modal">&times;</button>
-													        </div>
-												        
-													        <!-- Modal body -->
-													        <div class="modal-body">
-													          	<div class="card">
-																	<div class="card-body">
-																		<table style="width:100%">
-																			<tr>
-																				<td style="width:40%">
-																					<h2>Calificación General: </h2> 
-																				</td>
-																				<td style="padding: 5px">
-																					<% var calificacionGeneral = 0 %>
-																					<% var acomulado = 0 %>
-
-																					<% for(let j = 0; j < dataEvaluacion.length; j ++) {			
-																						acomulado = acomulado + parseInt(dataEvaluacion[j].calificacion);
-																						calificacionGeneral = acomulado / dataEvaluacion.length;	
-																					}%>
-																					<div class="progress">
-																						<div class="progress-bar" role="progressbar" style="width: <%= calificacionGeneral * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= calificacionGeneral %> Ptos</b></div>
-																					</div>
-																				</td>
-																			</tr>
-																		</table>
-																	</div>
-																</div>
-																
-																<br>
-
-																<div class="card">
-																	<div class="card-body">
-																		<table style="width:100%">
-																			<th style="width:40%">Factor</th>
-																			<th style="padding: 5px">Calificaión</th>
-																			<% var n = [] %>
-																			<% for(let k = 0; k < instrumentFactor.length; k ++) {%>
-																				<% var acomulado_b = 0 %>
-																				<% n[k] = 0 %>
-																				<tr>
-																					<td><%= instrumentFactor[k].factor.nombre %></td>
-																					<td>
-																						<% for(let i = 0; i < itemUsuario.length; i ++) {%>
-																							<% if(instrumentFactor[k].factorId == itemUsuario[i].item.factorId) {%>
-																								<% acomulado_b = acomulado_b + itemUsuario[i].calificacion %>
-																								<% n[k] = n[k] + 1 %>
-																							<%}%>
-																						<%}%>
-																						<div class="progress">
-																							<div class="progress-bar" role="progressbar" style="width: <%= (acomulado_b / n[k]) * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= acomulado_b / n[k] %> Ptos</b></div>
-																						</div>
-																						
-																					</td>
-																				</tr>
-																			<%}%>
-																		</table>
-																	</div>
-																</div>
-
-																<hr>
-																
-																<div class="form-group">
-																	<label for="comment">Observación:</label>
-																	<textarea class="form-control" rows="5" id="comment" name="observacion"><%= Observacion[0].contenido %></textarea>
-																</div>	
-													        </div>
-												        
-													        <!-- Modal footer -->
-													        <div class="modal-footer">
-													        	<button type="submit" class="btn btn-primary">Editar</button>
-													          	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-													        </div>
-												      	</div>
-												    </div>
-												</form>
+								<div class="col-md-6">
+									<div class="card">
+										<div class="card-header">
+											<p><strong>Eval a Jefe</strong></p>
 										</div>
-										<!--FIN MODAL CON OBSERVACION-->
-										<!--
-										<form method="post" action="">
-											<div class="form-group">
-												<label for="comment"><b>Observación:</b></label>
-												<textarea class="form-control" rows="5" id="comment" name="observacion"><%= Observacion[0].contenido %></textarea>
-											</div>	
-										</form>
-										-->
-									<%}%>
+										<div class="card-body">
+											<% for(let l = 0; l < evalSubor.length; l ++) {%>
+												<%if(evalSubor[l].evaluacion.instrumentId == 1) {%>
+													<div class="row">
+														<div class="col-md-3 col-sm-3 text-center">
+											    			<div class="row">
+											    				<div class="col-md-12">
+											    					<h4>foto</h4>
+											    				</div>
+											    		
+												    			<div class="col-md-12">
+												    				<p style="font-size: 10pt"><%- evalSubor[l].usuarioCedula %></p>
+												    			</div>
+												    		</div>
+												    	</div>
+												    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
+												    		----------------->
+												    		<a href="#" class="btn btn-primary btn-sm btn-block">Calificar</a>
+												    	</div>
+												    	<div class="col-md-3 col-sm-3 text-center">
+											    			<div class="row">
+											    				<div class="col-md-12">
+											    					<h4>foto</h4>
+											    				</div>
+											    		
+												    			<div class="col-md-12">
+												    				<p style="font-size: 10pt"><%- evalSubor[l].usuarioEvaluado %></p>
+												    			</div>
+												    		</div>
+												    	</div>
+													</div>
+													<hr style="margin-bottom: 1px">
+												<%}%>
+											<%}%>
+										</div>
+									</div>
+									<br>
 								</div>
 							</div>
 						</div>
-						<!--===========FIN CONTENIDO=================-->
 					</div>		
 				</div>
 			</div>

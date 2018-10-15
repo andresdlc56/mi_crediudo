@@ -36,7 +36,8 @@ exports.index = function(req, res) {
 					},
 					fecha_f: {
 						[Op.gt]: fecha_actual
-					}	
+					},
+					instrumentId: 4	
 				}
 			}
 		}).then(evaluacion => {
@@ -75,167 +76,49 @@ exports.autoEval = function(req, res) {
 }
 
 exports.detalles = function(req, res) {
-	var instrumentFactor = false;
-
-	//obtener datos del usuario q inicio sesion
 	var usuario = req.user;
 
-	/*
-		Buscar una Evaluacion donde el id sea igual al que viene por parametro
-	*/
 	models.evaluacion.findOne({
-		where: { id: req.params.id },
-		include: [models.instrument, models.nucleo, models.unidad]
-	}).then(Evaluacion => {
-		/*
-			Si la Evaluacion encontrada usa un instrumento de tipo eval-subordinado
-		*/
-		if(Evaluacion.instrument.tipoEvalId == 3) {
-			console.log('===========Evaluacion de Jefe para Subordinados=============');
-			var evalSubor = true;
-			var evalJefe = false;
-			//res.send(Evaluacion);
-
-			models.usuario.findAll({
-				where: { 
-					[Op.and]: [
-						{nucleoCodigo: Evaluacion.nucleoCodigo}, 
-						{unidadCodigo: Evaluacion.unidadCodigo},
-						{rolId: 5},
-						{cargoId: 3}
-					] 
-				}
-			}).then(Usuario => {
-				models.evaluacionUsuario.findAll({
-					where: { evaluacionId: req.params.id }
-				}).then(dataEvaluacion => {
-					models.usuario.findAll({
-						where: { 
-							[Op.and]: [
-								{nucleoCodigo: Evaluacion.nucleoCodigo}, 
-								{unidadCodigo: Evaluacion.unidadCodigo}
-							] 
-						}
-					}).then(Empleado => {
-						var Observacion = [];
-						//res.send(Observacion);
-						res.render('president/detalles/index', { 
-							dataEvaluacion, 
-							evalJefe, 
-							Evaluacion, 
-							usuario,
-							Empleado,
-							Observacion,
-							instrumentFactor,
-							message: req.flash('info')
-						});
-					});
-				})
-			})
-		} else if(Evaluacion.instrument.tipoEvalId == 4) {
-			console.log('===========Evaluacion de Subordinados para Jefes=============');
-			//res.send(Evaluacion);
-			var evalSubor = false;
-			var evalJefe = true;
-
-			models.usuario.findOne({
-				where: { 
-					[Op.and]: [
-						{nucleoCodigo: Evaluacion.nucleoCodigo}, 
-						{unidadCodigo: Evaluacion.unidadCodigo},
-						{rolId: 5},
-						{cargoId: 2}
-					] 
-				}
-			}).then(Usuario => {
-				models.evaluacionUsuario.findAll({
-					include: [ models.evaluacion ],
-					where: { evaluacionId: req.params.id }
-				}).then(dataEvaluacion => {
-					models.instrumentFactor.findAll({
-						include: [models.factor],
-						where: { instrumentId: Evaluacion.instrumentId }
-					}).then(instrumentFactor => {
-						models.usuario.findAll({
-							where: { 
-								[Op.and]: [
-									{nucleoCodigo: Evaluacion.nucleoCodigo}, 
-									{unidadCodigo: Evaluacion.unidadCodigo}
-								] 
-							}
-						}).then(Empleado => {
-							models.itemUsuario.findAll({
-								include: [ models.item ],
-								where: { evaluacionId: req.params.id }
-							}).then(itemUsuario => {
-								models.observacion.findAll({
-									where: {
-										evaluacionId: req.params.id
-									}
-								}).then(Observacion => {
-									//res.send(Observacion);
-									//console.log(typeof(Observacion));
-									res.render('president/detalles/index', { 
-										dataEvaluacion, 
-										evalJefe, 
-										Evaluacion, 
-										instrumentFactor,
-										Empleado,
-										usuario,
-										Usuario,
-										Observacion,
-										itemUsuario,
-										message: req.flash('info')
-									});
-								})
-							})
-						});
-					});
-				});
-			});
-		} else if(Evaluacion.instrument.tipoEvalId == 2) {
-			console.log('===========Evaluacion entre compañeros (Co-Evaluación)=============');
-			//res.send(Evaluacion);
+		include: [ models.nucleo, models.unidad ],
+		where: { id: req.params.id }
+	}).then(infoEval => {
+		models.evaluacionUsuario.findAll({
+			include: [models.evaluacion],
+			where: {
+				evaluacionId: req.params.id  
+			}
+		}).then(autoEval => {
 			models.evaluacionUsuario.findAll({
-				include: [ models.evaluacion ],
+				include: [models.evaluacion],
 				where: {
-					[Op.and]: [
-						{evaluacionId: req.params.id}
-					]
+					evaluacionId: parseInt(req.params.id) + 1		
 				}
-			}).then(evalUsuario => {
-				models.usuario.findAll({
+			}).then(coEval => {
+				models.evaluacionUsuario.findAll({
+					include: [models.evaluacion],
 					where: {
-						[Op.and]: [
-							{ cargoId: 3 },
-							{ rolId: 5 }
-						]
+						evaluacionId: parseInt(req.params.id) + 3		
 					}
-				}).then(Usuario => {
-					res.render('president/detalles/index_2', { evalUsuario, Usuario });
-				})
-			})
-		} else if(Evaluacion.instrument.tipoEvalId == 1) {
-			console.log('===========Auto-Evaluación=============');
-			var instrumentFactor = false;
-			models.evaluacionUsuario.findAll({
-				include: [ models.evaluacion ],
-				where: { evaluacionId: req.params.id }
-			}).then(dataEvaluacion => {
-				models.usuario.findAll({
-					where: {
-						[Op.and]: [
-							{ nucleoCodigo: dataEvaluacion[0].evaluacion.nucleoCodigo },
-							{ unidadCodigo: dataEvaluacion[0].evaluacion.unidadCodigo }
-						]
-					}
-				}).then(Empleado => {
-					//res.send(Usuario);
-					res.render('president/detalles/index', { dataEvaluacion, Empleado, Evaluacion, usuario, instrumentFactor });
+				}).then(evalSubor => {
+					models.evaluacionUsuario.findAll({
+						include: [models.evaluacion],
+						where: {
+							evaluacionId: parseInt(req.params.id) + 2		
+						}	
+					}).then(evalJefe => {
+						res.render('president/detalles/index', { 
+							usuario, 
+							infoEval, 
+							autoEval, 
+							coEval,
+							evalSubor,
+							evalJefe
+						});
+					});
 				});
-			});
-		}
-	})	
+			});	
+		});
+	});
 }
 
 exports.culminado = function(req, res) {

@@ -103,20 +103,6 @@
 													      		<td><%= evaluacion[i].unidad.nombre %></td>
 													      		<td><%= evaluacion[i].fecha_i.getDate() %>/<%= evaluacion[i].fecha_i.getMonth() + 1 %>/<%= evaluacion[i].fecha_i.getFullYear() %></td>
 													      		<td><%= evaluacion[i].fecha_f.getDate() %>/<%= evaluacion[i].fecha_f.getMonth() + 1 %>/<%= evaluacion[i].fecha_f.getFullYear() %></td>
-													      		<!--<td>
-													      			<a href=""><span class="glyphicon glyphicon-log-in"></span><i class="fa fa-bell">1
-													      		</td>-->
-													      		<td>
-													      			<% if(evaluacion[i].instrument.tipoEvalId == 1) {%>
-																		<span class="badge badge-pill badge-primary">AutoEvaluación</span>
-																	<%} else if(evaluacion[i].instrument.tipoEvalId == 2) {%>
-																		<span class="badge badge-pill badge-success">CoEvaluación</span>
-																	<%} else if(evaluacion[i].instrument.tipoEvalId == 3) {%>
-																		<span class="badge badge-pill badge-dark">Eval-Subordinado</span>
-																	<%} else if(evaluacion[i].instrument.tipoEvalId == 4) {%>
-																		<span class="badge badge-pill badge-warning">Eval-Jefe</span>
-																	<%}%>
-													      		</td>
 													      		<td><a href="/president/detalles/<%= evaluacion[i].id %>" class="btn btn-primary btn-sm">Ver</a></td>
 													    	</tr>
 														<%}%>
