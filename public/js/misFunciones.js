@@ -25,3 +25,17 @@ function comprobar(dia, mes){
 		return confirm("¿Desea Eliminar Esta Evaluación?");
 	}
 }
+
+//Funcion para comprobar que la fecha de culminación de una Eval se a cumplido
+function calificar(dia, mes) {
+	var fechaActual = new Date();
+	var diaActual = fechaActual.getDate();
+	var mesActual = fechaActual.getMonth();
+
+	if(dia > diaActual && mes >= mesActual) {
+		alert("Debe Esperar que Culmine la Evalución para Calificar");
+		return false;	
+	} else {
+		return true;
+	}	
+}
