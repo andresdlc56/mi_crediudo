@@ -1,0 +1,455 @@
+[33mcommit 342ec86dcfcfb8367a1c99534270beb7c5132df1[m[33m ([m[1;36mHEAD -> [m[1;32mcoord-planificacion[m[33m, [m[1;31morigin/coord-planificacion[m[33m)[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Sat Oct 13 13:18:28 2018 -0430
+
+    dashboard del coord planificacion
+
+[33mcommit aa54cca2deb690f10ffc4298047a9ad848f29d88[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Fri Oct 12 11:40:47 2018 -0430
+
+    Mostrando las ultimas Evaluaciones planificadas en el dashboard del coord planificacion
+
+[33mcommit 8578914d67421940249743b29cc191e47d982892[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Thu Oct 11 23:47:42 2018 -0430
+
+    Mejorando la edicion de Evaluacion en Curso I
+
+[33mcommit 1e03bf2ba402d2425bdd1bfdd0fce11e8be461d1[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Oct 10 23:04:41 2018 -0430
+
+    Editando una Evaluacion en curso
+
+[33mcommit 9d10cafaf505edf95b8aa1acb52dac8ef83e0190[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Oct 10 11:48:31 2018 -0430
+
+    Identificando el tipo de Evaluacion
+
+[33mcommit 8a1bf47b7d73465b567c3057c60229636bfa6b45[m
+Author: Andres <andresdlc56@gmail.com>
+Date:   Tue Oct 9 12:00:49 2018 -0400
+
+    Planificando los 4 tipos de Evaluaciones en un solo paso (Funcionando)
+
+[33mcommit 4cb10a18a55d046f4ba46c205448a692c1a8ec58[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Oct 8 22:28:00 2018 -0430
+
+    Tratando de crear los 4 tipos de Evaluaciones en un paso (III)
+
+[33mcommit ecc2136cc97d84ff2e95e73ee3969ee3bba8514b[m
+Author: Andres <andresdlc56@gmail.com>
+Date:   Mon Oct 8 16:23:07 2018 -0400
+
+    Tratando de crear los 4 tipos de Evaluaciones en un paso (II)
+
+[33mcommit b196c44203c356f58e83c55c65e618935c85cc76[m
+Author: Andres <andresdlc56@gmail.com>
+Date:   Mon Oct 8 15:37:04 2018 -0400
+
+    Tratando de crear los 4 tipos de Evaluaciones en un paso
+
+[33mcommit ac68029619470c400576dd5dd01d06ec6f697d90[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/empleado[m[33m, [m[1;32mmaster[m[33m)[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Thu Sep 27 23:38:59 2018 -0430
+
+    Reparando error en el calificacion por factores (presidente)
+
+[33mcommit 8f038b542819344e068883602353ef8814d23b39[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Thu Sep 27 23:20:10 2018 -0430
+
+    Avanzando II
+
+[33mcommit dc450cff82eb537fc58f720d1379d64bd972847c[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Thu Sep 27 21:14:51 2018 -0430
+
+    Ingresando Valores a las graficas I
+
+[33mcommit b8a09e5bba49764765c6d5e29e43f33c1b94681a[m
+Author: Andres <andresdlc56@gmail.com>
+Date:   Thu Sep 27 14:12:11 2018 -0400
+
+    Avanzando I
+
+[33mcommit 47bda3f4d0b3c6465ea6920d453cced0e1d9bc68[m
+Author: Andres <andresdlc56@gmail.com>
+Date:   Thu Sep 27 13:24:09 2018 -0400
+
+    trabajando en las graficas de compracion entre evaluaciones
+
+[33mcommit 01d0aa3e71431a3cac55e3d143b9984a530765cc[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Sep 26 12:26:30 2018 -0430
+
+    trabajando en el index de comparacion
+
+[33mcommit 1f9b24c2edc6ca402cbe297da7ec490ca7023e4c[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Sep 26 11:45:23 2018 -0430
+
+    Mejorando las graficas de comparacion entre evaluaciones
+
+[33mcommit 52240a0b1c7942c8b9e9d93bfbbe136a3a6609bc[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Sep 26 09:51:00 2018 -0430
+
+    Agregando graficas al modulo de comparacion entre Evaluaciones
+
+[33mcommit 38012a7c683bca7097068ba95f81b404dbdee25f[m
+Author: Axzel Marin <amarin@difloriente.local>
+Date:   Tue Sep 25 15:04:59 2018 -0400
+
+    Creando Alert para Verificar fechaInico de una Evaluacion
+
+[33mcommit 7ee31f708a18998d59bc2e2be76bb3da75c31588[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Sep 24 23:19:25 2018 -0430
+
+    Editando el Controlador del coord_plani (finiquitarEval)
+
+[33mcommit 545a732db8e4b5be229e5750fb2bd368a32727b2[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Fri Sep 14 11:06:22 2018 -0430
+
+    Mostrando detalles al empleado de la evaluacion realizada
+
+[33mcommit 75ce5ba8a5a2c89ef25a2729670cd5143441e6a3[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Thu Sep 13 23:40:20 2018 -0430
+
+    Mostrando la observacion correspondien al empleado
+
+[33mcommit 54a98e5f6ff9e76eea1efa87990a27bc94f65e94[m[33m ([m[1;31morigin/presidente[m[33m)[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Thu Sep 13 10:49:42 2018 -0430
+
+    haciendo cambios
+
+[33mcommit fa8e8848a96e56eb14158e42612e1f8fa445beb4[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Tue Sep 11 12:29:04 2018 -0430
+
+    Agregando observaciones a las evaluaciones a subor y edicion de las mismas
+
+[33mcommit 9d036d5cdd445a856ea17c259f3c5ff6de7fbd9c[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Sep 10 13:28:59 2018 -0430
+
+    Agregando barra de progresos al modulo Presidente
+
+[33mcommit 443c1db050c4403168f1febddd84eea0a800a975[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Sep 10 09:23:30 2018 -0430
+
+    Agregando historial y Observaciones al modulo de Presidente
+
+[33mcommit af15f49f105116a892980c72145ab670770768e0[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Thu Sep 6 22:26:37 2018 -0430
+
+    Agregando Observaciones a las Eval tipo 4 (subordinado a jefe)
+
+[33mcommit fb25166511ab236713f9df37869f5c2d4716ffc1[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Thu Sep 6 10:25:00 2018 -0430
+
+    mejorando vistas del coord planificacion
+
+[33mcommit 0cf0564d0b20b373e13597a01810ddfdc7faf373[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Sep 5 10:09:20 2018 -0430
+
+    Agregando nuevas vistas y dando formato a fechas
+
+[33mcommit 9ab430387ad2633a46d060d0bd7ce9a3101838bc[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Aug 27 05:48:49 2018 -0430
+
+    Agregando Resumen de calificacion al jefe
+
+[33mcommit 565c63ad1668a2d797499bf7eaa0e927179d37ad[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Aug 20 20:36:58 2018 -0430
+
+    Dandole estilo al perfil de presidente
+
+[33mcommit cee582988d119a19d74653a5ad267450b002f76a[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Aug 20 18:57:35 2018 -0430
+
+    Dandole estilos a las vistas
+
+[33mcommit e78b2c5c4c512cc929d80eacf1b4955c2e2fa816[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Aug 13 11:20:53 2018 -0430
+
+    Documentando y mejorando los detalles de las co-evaluaciones entre compañeros
+
+[33mcommit 98ee21dee0aa046b1616ea5c4dc0dbb3c31640a3[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Sat Aug 11 13:47:29 2018 -0430
+
+    mejorando las funciones del presidente
+
+[33mcommit 69d8e5b20e2c323b887b8ed72fb82de052a93f5e[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Aug 8 21:14:01 2018 -0430
+
+    Mostrando detalles de cada evaluacion
+
+[33mcommit 7e55baad59497d3968fe7647d08a95458e9691d5[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Aug 8 18:43:39 2018 -0430
+
+    Modificando nuevamente el procesamiento de una evaluacion
+
+[33mcommit e8e9ab573841a53982faa835f690160f3258b95e[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Tue Aug 7 16:57:20 2018 -0430
+
+    Tratando de solucionar el procesamiento de los datos de una eval
+
+[33mcommit fafb177a331de90233a7aa8e2640a7679eb973f2[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Aug 6 17:23:54 2018 -0430
+
+    Mejorando el procesamiento de una evaluacion
+
+[33mcommit 5d90759b49a408c1700ad0ea840b9a904655b8ba[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Sun Aug 5 21:55:50 2018 -0430
+
+    agergando evaluacion de subordinado hacia jefe
+
+[33mcommit 4dbfceef30a0a5fc4bf26d2ebded7080485243ab[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Sun Aug 5 15:43:28 2018 -0430
+
+    calculado calificacion por factor, listo
+
+[33mcommit 0a7f6318e6620112ccce60ca0613a3a21705dbec[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Thu Aug 2 23:45:19 2018 -0430
+
+    Mejorando en diferentes modulos
+
+[33mcommit 1533f59ad2ae54a510b54b089c4be5b343d2a232[m[33m ([m[1;31morigin/realizar-eval[m[33m)[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Thu Aug 2 17:13:12 2018 -0430
+
+    agregando Ver por cada Usuario
+
+[33mcommit a4f25c0d6acdc331233c6531edb2cd2c42fa8e14[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Thu Aug 2 16:32:29 2018 -0430
+
+    Mejorando Nuevamente la realizacion de Evaluaciones
+
+[33mcommit 0ecb03d9cc77b8befb606fd621e8de09d64d0388[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Thu Aug 2 10:04:11 2018 -0430
+
+    Configurando Co-Evaluacion
+
+[33mcommit 841af096a897f83867ffbf7138a2b407763de22e[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Aug 1 22:42:20 2018 -0430
+
+    Diferentes cambios en el perfil empleado y presidente
+
+[33mcommit e0ee6f0a5c5aecd49ab9f2945364b959e8384b4f[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Jul 30 09:18:32 2018 -0430
+
+    Mejorando presentacion de Evaluaciones en cada sesion de los empleados
+
+[33mcommit 6d96dd835191aadfd570832039d20b24dd94d10d[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Sat Jul 28 19:13:22 2018 -0430
+
+    mejorando
+
+[33mcommit 0a19b4ce4e8f06ec3d38b4582117ed981c401a07[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Thu Jul 26 21:36:17 2018 -0430
+
+    Discriminando la Asignacion de eval, pero aun falta
+
+[33mcommit ea6dc895c9fbde91d6b0432ac7793dc7e6ae7281[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Thu Jul 26 11:20:17 2018 -0430
+
+    Mejorando la Realizacion de Evaluacion
+
+[33mcommit d570463d1f2a91bc63fbfc3f4938612df1b4d263[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Jul 25 17:22:12 2018 -0430
+
+    empezando evaluaciones
+
+[33mcommit 248f19bd0f3d7822a97c5ba8782c31c2a9e8e18b[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Tue Jul 24 22:31:25 2018 -0430
+
+    creo q resolvi la suma de los items en una evaluacion
+
+[33mcommit af535ddf28a4bbb42494736b2268bd482924cbec[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Tue Jul 24 13:43:38 2018 -0430
+
+    Tratando de procesar examen
+
+[33mcommit 3f74690016eeb213568db5d2bfe962c6de732e17[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Jul 23 19:36:34 2018 -0430
+
+    Trabajando en el procesaciento de una evaluacion
+
+[33mcommit 04ef21fc6a46e0e0923116a8362cf4a037a71b72[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Jul 23 14:12:40 2018 -0430
+
+    Arreglando detallitos
+
+[33mcommit 303492562b25c99c296bdc5a72e73b63c24c7ef1[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Jul 23 13:51:43 2018 -0430
+
+    asociando evaluacion e instrumento con usuario
+
+[33mcommit 606298cd71ba5507d90fff9f9713b63ee1a19eb0[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Jul 23 12:55:47 2018 -0430
+
+    mejorando el controlador de coord de evaluacion
+
+[33mcommit 558cafc6662b34875a30cfcf95aa82e01d70eca6[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Jul 23 08:57:14 2018 -0430
+
+    Arreglando coord_evController nuevamente
+
+[33mcommit 4d98fe28b1ac6ab569283d056b7be2667c364bfa[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Jul 23 08:54:36 2018 -0430
+
+    Arreglando coord_evController
+
+[33mcommit ec1c39b5aa5fe2e0a75789a9b32f01e9579ffb6d[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Sat Jul 21 21:14:23 2018 -0430
+
+    aun me falta
+
+[33mcommit d4d86927f3e38c9eeaa27fbe7ceb1ab3c740238c[m[33m ([m[1;31morigin/coord-plani[m[33m)[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Sat Jul 21 17:37:41 2018 -0430
+
+    Agregando planificacion de Evaluacion
+
+[33mcommit afcbab9c9c29df4cd300d1b5368ee09421993277[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Sat Jul 21 12:25:51 2018 -0430
+
+    Agregando primera parte de la planificacion de una Evaluacion
+
+[33mcommit 5bbb5b328aa88bd98020f762f6c3c7ae3d0270b2[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Sat Jul 21 10:47:48 2018 -0430
+
+    Agregando Items a Instrumentos de Eval
+
+[33mcommit 7d23c04980484653d4ceec5162fa39ad014e8cc3[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Sat Jul 21 09:52:01 2018 -0430
+
+    Validando busqueda de usuario (si el usuario no existe)
+
+[33mcommit f79d4dc21e72e1183cf74e15fb4350ffb0360d2d[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Sat Jul 21 09:28:50 2018 -0430
+
+    agregando asiganar presidente en el modulo del admin
+
+[33mcommit 620d813b1a241e7a9f6072e34e9f35f55fd7a2a9[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Thu Jul 19 13:23:50 2018 -0430
+
+    Agregando nueva Rama para el Coord Evaluacion
+
+[33mcommit 5274c397c7f416d079f91bddee4d47443e1e7bc6[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Thu Jul 19 12:47:45 2018 -0430
+
+    agregando modelos Nucleo y Unidad
+
+[33mcommit 73927dc697c29d25cacae551df777fe43c97a2c8[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Jul 18 22:47:00 2018 -0430
+
+    agregando funciones al coord de evaluacion
+
+[33mcommit 360ab4ef6ed074a597e6b9b1b70b1056b27698c3[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Tue Jul 17 21:39:23 2018 -0430
+
+    Creando Instrumento de Evaluacion
+
+[33mcommit e39942c6b32c5c5328fc2bf268d60ebf849cbe2e[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Jul 16 23:13:21 2018 -0430
+
+    Coord Eval, creando Factor
+
+[33mcommit ef895620c6cdc2c55b2b4e75d214d3bbcf67f0e2[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Mon Jul 16 22:12:02 2018 -0430
+
+    Iniciando usuario coord evaluacion
+
+[33mcommit 704003fb5df5d2ef5778304674e3ca8630839b3c[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Jul 11 18:14:31 2018 -0430
+
+    Agregando funciones al usuario admin
+
+[33mcommit 6589b014145c4bbabbc8a30705487178215b7b0c[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Jul 11 12:39:04 2018 -0430
+
+    Arreglando Autentificacion
+
+[33mcommit 0e6b78d6dc373a82d64e62ed45c9e4649b7e227e[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Jul 11 11:02:25 2018 -0430
+
+    Modificando Modelos
+
+[33mcommit 3aa28755e05f10e284611f205aba0b7f1eca45b1[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Jul 11 10:35:30 2018 -0430
+
+    Proyecto con Passport Funcionando
+
+[33mcommit de7d077e908ca2afa4544fde8572e6ea2803e98e[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Jul 11 10:04:39 2018 -0430
+
+    estructura inicial con Squelize
+
+[33mcommit 11a380a7a8632c817b1c39e303510a29b47c6acb[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Jul 11 09:48:01 2018 -0430
+
+    Estructura Inicial
+
+[33mcommit 1a0b003630f94bb3b5caff2bcd9cef0efb1596b2[m
+Author: Andrés <andresdlc56@gmail.com>
+Date:   Wed Jul 11 09:09:53 2018 -0430
+
+    Empezando

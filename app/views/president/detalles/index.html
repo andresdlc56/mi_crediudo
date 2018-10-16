@@ -79,34 +79,94 @@
 									<br>
 								</div>
 
+								
+
 								<div class="col-md-6">
-									<div class="card">
-										<div class="card-header">
-											<p><strong>AutoEvaluación</strong></p>
+									<div class="accordion" id="accordionExample">
+										<div class="card">
+											<div class="card-header" id="headingOne">
+												<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+										        	AutoEvaluacón
+										        </button>
+											</div>
+											<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+												<div class="card-body">
+													<% for(let i = 0; i < autoEval.length; i ++) {%>
+														<%if(autoEval[i].evaluacion.instrumentId == 4) {%>
+															<div class="row">
+																<div class="col-md-3 col-sm-3 text-center">
+													    			<div class="row">
+													    				<div class="col-md-12">
+													    					<h4>foto</h4>
+													    				</div>
+													    		
+														    			<div class="col-md-12">
+														    				<p style="font-size: 10pt"><%- autoEval[i].usuarioCedula %></p>
+														    			</div>
+														    		</div>
+														    	</div>
+														    	<div class="col-md-9 col-sm-9 text-center" style="border-left: 1px solid #E6DFDD">
+														    		<br>
+														    		<a href="#" class="btn btn-primary btn-sm btn-block">Calificar</a>
+														    	</div>
+															</div>
+															<hr style="margin-bottom: 1px">
+														<%}%>
+													<%}%>
+												</div>
+											</div>
 										</div>
-										<div class="card-body">
-											<% for(let i = 0; i < autoEval.length; i ++) {%>
-												<%if(autoEval[i].evaluacion.instrumentId == 4) {%>
-													<div class="row">
-														<div class="col-md-3 col-sm-3 text-center">
-											    			<div class="row">
-											    				<div class="col-md-12">
-											    					<h4>foto</h4>
-											    				</div>
-											    		
-												    			<div class="col-md-12">
-												    				<p style="font-size: 10pt"><%- autoEval[i].usuarioCedula %></p>
-												    			</div>
-												    		</div>
-												    	</div>
-												    	<div class="col-md-9 col-sm-9 text-center" style="border-left: 1px solid #E6DFDD">
-												    		<br>
-												    		<a href="#" class="btn btn-primary btn-sm btn-block">Calificar</a>
-												    	</div>
-													</div>
-													<hr style="margin-bottom: 1px">
-												<%}%>
-											<%}%>
+									</div>
+									<br>
+								</div>
+
+								<div class="col-md-6">
+									<div class="accordion" id="accordionExample">
+										<div class="card">
+											<div class="card-header" id="headingOne">
+												<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseDos" aria-expanded="true" aria-controls="collapseDos">
+										        	CoEvaluacón
+										        </button>
+											</div>
+											<div id="collapseDos" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+												<div class="card-body">
+													<% for(let j = 0; j < coEval.length; j ++) {%>
+														<%if(coEval[j].evaluacion.instrumentId == 3) {%>
+															<div class="row">
+																<div class="col-md-3 col-sm-3 text-center">
+													    			<div class="row">
+													    				<div class="col-md-12" style="margin-top: 5px">
+													    					<br>
+													    					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
+													    				</div>
+													    		
+														    			<div class="col-md-12">
+														    				<p style="font-size: 10pt"><%- coEval[j].usuarioCedula %></p>
+														    			</div>
+														    		</div>
+														    	</div>
+														    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
+														    		----------------->
+														    		<a href="#" class="btn btn-primary btn-sm btn-block">Calificar</a>
+														    	</div>
+														    	<div class="col-md-3 col-sm-3 text-center">
+													    			<div class="row">
+													    				<div class="col-md-12">
+													    					<br>
+													    					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
+													    				</div>
+													    		
+														    			<div class="col-md-12">
+														    				<p style="font-size: 10pt"><%- coEval[j].usuarioEvaluado %></p>
+														    			</div>
+														    		</div>
+														    	</div>
+															</div>
+															<hr style="margin-bottom: 1px">
+														<%}%>
+													<%}%>
+												</div>
+											</div>
 										</div>
 									</div>
 									<br>
@@ -114,51 +174,7 @@
 
 								<div class="col-md-6">
 									<div class="card">
-										<div class="card-header">
-											<p><strong>CoEvaluación</strong></p>
-										</div>
-										<div class="card-body">
-											<% for(let j = 0; j < coEval.length; j ++) {%>
-												<%if(coEval[j].evaluacion.instrumentId == 3) {%>
-													<div class="row">
-														<div class="col-md-3 col-sm-3 text-center">
-											    			<div class="row">
-											    				<div class="col-md-12">
-											    					<h4>foto</h4>
-											    				</div>
-											    		
-												    			<div class="col-md-12">
-												    				<p style="font-size: 10pt"><%- coEval[j].usuarioCedula %></p>
-												    			</div>
-												    		</div>
-												    	</div>
-												    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
-												    		----------------->
-												    		<a href="#" class="btn btn-primary btn-sm btn-block">Calificar</a>
-												    	</div>
-												    	<div class="col-md-3 col-sm-3 text-center">
-											    			<div class="row">
-											    				<div class="col-md-12">
-											    					<h4>foto</h4>
-											    				</div>
-											    		
-												    			<div class="col-md-12">
-												    				<p style="font-size: 10pt"><%- coEval[j].usuarioEvaluado %></p>
-												    			</div>
-												    		</div>
-												    	</div>
-													</div>
-													<hr style="margin-bottom: 1px">
-												<%}%>
-											<%}%>
-										</div>
-									</div>
-									<br>
-								</div>
-
-								<div class="col-md-6">
-									<div class="card">
-										<div class="card-header">
+										<div class="card-header" style="background: #383938; color: white">
 											<p><strong>Eval a Subordinado</strong></p>
 										</div>
 										<div class="card-body">
@@ -202,7 +218,7 @@
 
 								<div class="col-md-6">
 									<div class="card">
-										<div class="card-header">
+										<div class="card-header" style="background: #1FA5C6; color: white">
 											<p><strong>Eval a Jefe</strong></p>
 										</div>
 										<div class="card-body">
@@ -243,6 +259,8 @@
 									</div>
 									<br>
 								</div>
+
+								
 							</div>
 						</div>
 					</div>		
