@@ -121,6 +121,10 @@ exports.detalles = function(req, res) {
 	});
 }
 
+exports.verAutoEval = function(req, res) {
+	res.render('president/detalles/autoEval/index');
+}
+
 exports.culminado = function(req, res) {
 	/*Datos del Usuario Logeado*/
 	var usuario = req.user;

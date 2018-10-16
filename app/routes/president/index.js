@@ -15,6 +15,9 @@ module.exports = function(app) {
 
     app.post('/president/detalles/editObs/:id', isLoggedIn, presidentController.editObserv);
 
+    //Ruta para ver detalles de una autoEvaluación Concluida
+    app.get('/president/detalles/:id/verAutoe/:idUser', isLoggedIn, presidentController.verAutoEval);
+
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Subordinado"
     app.get('/president/culminado/:id/u/:idu/ue/:idue',isLoggedIn, presidentController.culminado);
 

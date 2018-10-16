@@ -107,7 +107,7 @@
 														    	</div>
 														    	<div class="col-md-9 col-sm-9 text-center" style="border-left: 1px solid #E6DFDD">
 														    		<br>
-														    		<a href="#" class="btn btn-primary btn-sm btn-block" onclick="return calificar(<%- autoEval[i].evaluacion.fecha_f.getDate() %>, <%- autoEval[i].evaluacion.fecha_f.getMonth() %>);">Calificar</a>
+														    		<a href="/president/detalles/<%-autoEval[i].evaluacionId%>/verAutoe/<%-autoEval[i].usuarioEvaluado%>" class="btn btn-primary btn-sm btn-block" >Ver</a>
 														    	</div>
 															</div>
 															<hr style="margin-bottom: 1px">
@@ -147,7 +147,7 @@
 														    	</div>
 														    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
 														    		----------------->
-														    		<a href="#" class="btn btn-primary btn-sm btn-block" onclick="return calificar(<%- coEval[j].evaluacion.fecha_f.getDate() %>, <%- coEval[j].evaluacion.fecha_f.getMonth() %>);">Calificar</a>
+														    		<a href="#" class="btn btn-primary btn-sm btn-block" onclick="return calificar(<%- coEval[j].evaluacion.fecha_f.getDate() %>, <%- coEval[j].evaluacion.fecha_f.getMonth() %>);">Ver</a>
 														    	</div>
 														    	<div class="col-md-3 col-sm-3 text-center">
 													    			<div class="row">
@@ -177,7 +177,7 @@
 										<div class="card">
 											<div class="card-header" id="headingOne" style="background: #383938; color: white">
 												<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTres" aria-expanded="true" aria-controls="collapseTres" style="color: white">
-										        	Eval Subordinado
+										        	Eval a Subordinado
 										        </button>
 											</div>
 											<div id="collapseTres" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
@@ -198,7 +198,7 @@
 														    	</div>
 														    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
 														    		----------------->
-														    		<a href="#" class="btn btn-primary btn-sm btn-block">Calificar</a>
+														    		<a href="#" class="btn btn-primary btn-sm btn-block">Ver</a>
 														    	</div>
 														    	<div class="col-md-3 col-sm-3 text-center">
 													    			<div class="row">
@@ -227,7 +227,7 @@
 										<div class="card">
 											<div class="card-header" id="headingOne" style="background: #1FA5C6; color: white">
 												<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseCuatro" aria-expanded="true" aria-controls="collapseCuatro" style="color: white">
-											        Eval Jefe
+											        Eval a Jefe
 											    </button>
 											</div>
 											<div id="collapseCuatro" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
@@ -248,7 +248,7 @@
 														    	</div>
 														    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
 														    		----------------->
-														    		<a href="#" class="btn btn-primary btn-sm btn-block">Calificar</a>
+														    		<a href="#" class="btn btn-primary btn-sm btn-block">Ver</a>
 														    	</div>
 														    	<div class="col-md-3 col-sm-3 text-center">
 													    			<div class="row">
