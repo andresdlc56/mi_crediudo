@@ -26,6 +26,15 @@ function comprobar(dia, mes){
 	}
 }
 
+function verificar(status) {
+	if(status == true) {
+		return true;
+	} else {
+		alert('El Usuario aun no Realiza su Evaluación');
+		return false;
+	}
+}
+
 //Funcion para comprobar que la fecha de culminación de una Eval se a cumplido
 function calificar(dia, mes) {
 	var fechaActual = new Date();

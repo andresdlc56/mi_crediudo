@@ -27,7 +27,7 @@
 							<!--=======MIGAS DE PAN=========-->
 							<nav aria-label="breadcrumb" style="margin-top: 1%">
 								<ol class="breadcrumb">
-								    <li class="breadcrumb-item active" aria-current="page">Home</li>
+								    <li class="breadcrumb-item" aria-current="page"><a href="/president">Home</a></li>
 								    <li class="breadcrumb-item active" aria-current="page">Detalles</li>
 								</ol>
 							</nav>
@@ -107,7 +107,7 @@
 														    	</div>
 														    	<div class="col-md-9 col-sm-9 text-center" style="border-left: 1px solid #E6DFDD">
 														    		<br>
-														    		<a href="/president/detalles/<%-autoEval[i].evaluacionId%>/verAutoe/<%-autoEval[i].usuarioEvaluado%>" class="btn btn-primary btn-sm btn-block" >Ver</a>
+														    		<a href="/president/detalles/<%-autoEval[i].evaluacionId%>/verAutoe/<%-autoEval[i].usuarioEvaluado%>" class="btn btn-primary btn-sm btn-block" onclick="return verificar(<%- autoEval[i].status %>);">Ver</a>
 														    	</div>
 															</div>
 															<hr style="margin-bottom: 1px">
