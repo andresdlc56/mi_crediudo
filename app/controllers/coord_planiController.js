@@ -276,7 +276,13 @@ exports.finiquitarEval = function(req, res) {
 									//Si la evaluacion es de tipo Co-Eval
 									else if(Evaluaciones[i].instrument.tipoEvalId == 2) {
 										let idn = parseInt(req.params.id) + 1;
+										var rand = [];
 
+										/*
+											Buscar todos los usuarios q pertenescan al nucleo q viene po
+											parametro, a la unidad que se selecciono, q tengan cargo 3 (Subordinado)
+											y tenga rol 5 (Empleado).
+										*/
 										models.usuario.findAll({
 											where: {
 												[Op.and]: [
@@ -287,7 +293,17 @@ exports.finiquitarEval = function(req, res) {
 												]
 											}
 										}).then(Todos => {
+											/*
+												Hacer un Recorrido por todos los usuarios encontrados en 
+												el paso anterior 
+											*/
 											for(let m = 0; m < Todos.length; m ++) {
+												/*
+													Buscar todos los usuarios donde nucleo sea igual
+													al q viene por parametro, unidad sea igual a la seleccionada,
+													q tengan cargo 3 (Subordinados), tengan rol 5 (Empleado) y 
+													sus cedulas sean diferentes a Todos[m]
+												*/
 												models.usuario.findAll({
 													where: {
 														[Op.and]: [
@@ -300,13 +316,42 @@ exports.finiquitarEval = function(req, res) {
 													}
 												}).then(Resto => {
 													for(let n = 0; n < Resto.length; n ++) {
-														models.evaluacionUsuario.create({
+														models.evaluacionUsuario.findAll({
+															where: {
+																[Op.and]: [
+																	{usuarioCedula: Todos[m].cedula},
+																	{usuarioEvaluado: Resto[n].cedula},
+																	{evaluacionId: idn}
+																]
+															}
+														}).then(Encontrado => {
+															if(Encontrado.length == 0) {
+																for(let k = 0; k < 3; k ++) {
+																	/*
+																		Debo buscar como guardar en un arreglo 3 usuarios
+																		elegidos de forma aleatoria del arreglo Resto
+																	*/
+																	rand[k] = Resto[Math.floor(Math.random() * Resto.length)];
+
+																}
+															} else {
+																/*
+																	Si Encontrado es diferente de 0, manda a buscar a todos los usuarios
+																	menos al usuario encontrado. creo q debo ahacer un ciclo for recorriendo 
+																	a Encontrado
+																*/
+																rand[0] = "hola";
+															}
+														})
+
+
+														/*models.evaluacionUsuario.create({
 															calificacion: null,
 															status: false,
 															evaluacionId: idn,
 															usuarioCedula: Todos[m].cedula,
 															usuarioEvaluado: Resto[n].cedula 
-														});
+														});*/
 													}
 												});
 											}
@@ -314,9 +359,9 @@ exports.finiquitarEval = function(req, res) {
 									}
 								}
 
-								//res.send(Evaluaciones);
-								req.flash('info', 'Evaluación planificada Exitosamente!');
-								res.redirect('/coord_plani');	
+								res.send(rand);
+								//req.flash('info', 'Evaluación planificada Exitosamente!');
+								//res.redirect('/coord_plani');	
 							})
 						})
 					})
