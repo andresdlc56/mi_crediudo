@@ -52,6 +52,7 @@ exports.planiEval = function(req, res) {
 }
 
 exports.addEval = function(req, res) {
+	//Si la categoria es 2 (Personal Administrativo)
 	if(req.body.categoria == 2) {
 		//creando una nueva evaluación 
 		models.evaluacion.create({
@@ -63,6 +64,7 @@ exports.addEval = function(req, res) {
 			unidadCodigo: undefined,
 			instrumentId: 4
 		}).then(autoEval => {
+			//creando una nueva evaluación CoEval
 			models.evaluacion.create({
 				nombre: req.body.nombre,
 				categoriumId: req.body.categoria,
@@ -72,6 +74,7 @@ exports.addEval = function(req, res) {
 				unidadCodigo: undefined,
 				instrumentId: 3
 			}).then(coEval => {
+				//creando una nueva evaluación evalJefe
 				models.evaluacion.create({
 					nombre: req.body.nombre,
 					categoriumId: req.body.categoria,
@@ -81,6 +84,7 @@ exports.addEval = function(req, res) {
 					unidadCodigo: undefined,
 					instrumentId: 2
 				}).then(evalJefe => {
+					//creando una nueva evaluación evalSubor
 					models.evaluacion.create({
 						nombre: req.body.nombre,
 						categoriumId: req.body.categoria,
@@ -93,6 +97,7 @@ exports.addEval = function(req, res) {
 						//buscando la evaluacion recien creada
 						models.evaluacion.findById(autoEval.id).then(Evaluacion => {
 							//res.send(Evaluacion);
+							/*Redireccionando a esta ruta para seleccionar la unidad donde se planificara la eval y finalizar*/
 							res.redirect('/coord_plani/plani_eval/'+Evaluacion.id+'/n/'+Evaluacion.nucleoCodigo);
 						});			
 					});
@@ -276,7 +281,12 @@ exports.finiquitarEval = function(req, res) {
 									//Si la evaluacion es de tipo Co-Eval
 									else if(Evaluaciones[i].instrument.tipoEvalId == 2) {
 										let idn = parseInt(req.params.id) + 1;
-
+										/*
+											Buscamos todos los usuarios que pertenescan al nucleo que viene por 
+											pametro que pertenescan a la unidad seleccionada en formalario anterior 
+											que tengan cargo 3 (Empleado) y rol 5. estos representaran a 
+											los usuarios Evaluados
+										*/
 										models.usuario.findAll({
 											where: {
 												[Op.and]: [
@@ -287,8 +297,17 @@ exports.finiquitarEval = function(req, res) {
 												]
 											}
 										}).then(Evaluado => {
+											/*hacemos un recorrido por todos los evaluados*/
 											for(let m = 0; m < Evaluado.length; m ++) {
-												var aleatorio = ["uno", "dos", "tres"];
+												/*arreglo que guardara usuarios elgidos de manera aleatoria*/
+												var aleatorio = ['uno', 'dos', 'tres'];
+												/*
+													Buscamos a todos los usuarios que pertenescan al nucleo que viene
+													por parametro, que pertenescan a la unidad previamente seleccionada 
+													en el formulario anterior, que tengan cargo 3, rol 5 y su cedula no sea igual a
+													Evaluado[m]. es decir encontrara a todos los usuarios que cumplan con esas condiciones 
+													menos uno (Evaluado[m])
+												*/
 												models.usuario.findAll({
 													where: {
 														[Op.and]: [
@@ -300,26 +319,50 @@ exports.finiquitarEval = function(req, res) {
 														]
 													}
 												}).then(Evaluador => {
+													/*
+														Debido a que cada Evaluado debe ser Evaluado 3 veces repetimos las
+														siguientes instrucciones 3 veces
+													*/
 													for(let n = 0; n < 3; n ++) {
-														console.log('==========Randon'+n+'=========');
+														/*console.log() para ir viendo los resultados por consola*/
+														console.log('============Randon'+n+'=========');
+														/*
+															asignamos al arreglo aleatorio[n] una cedula aleatoria proveniente de 
+															Evaluador[valor aleatorio].cedula
+														*/
 														aleatorio[n] = Evaluador[Math.floor(Math.random() * Evaluador.length)].cedula;
-														console.log('Evaluador: '+aleatorio[n] +' ----> '+ Evaluado[m].nombre);
-
+														/*Mostramos por consola el Evaluador seleccionado aleatoriamente y su Evaluado*/
+														console.log('Evaluador: '+aleatorio[n] +'-------->'+Evaluado[m].nombre);
+														/*
+															mientras el valor guardado en el arreglo aleatorio[] sea igual en cualquiera
+															de sus tres posiciones se debe repetir el proceso de seleccion aleatoria 
+															hasta que este arreglo tenga valores diferentes en sus tres posiciones
+														*/
 														while((aleatorio[0] == aleatorio[1]) || (aleatorio[0] == aleatorio[2]) || (aleatorio[1] == aleatorio[2])) {
-															console.log('=====Cambiando=====');
+															console.log('=============Cambiando==============');
 															aleatorio[n] = Evaluador[Math.floor(Math.random() * Evaluador.length)].cedula;
-															console.log('Evaluador: '+aleatorio[n] +' ----> '+ Evaluado[m].nombre);
+															console.log('Evaluador: '+aleatorio[n] +'-------->'+Evaluado[m].nombre);															
 														}
+														/*
+															creamos una evaluacionUsuario en la DB
+															este proceso se repetira 3*m veces
+														*/
+														models.evaluacionUsuario.create({
+															calificacion: null,
+															status: false,
+															evaluacionId: idn,
+															usuarioCedula: Evaluador[n].cedula,
+															usuarioEvaluado: Evaluado[m].cedula
+														});
 													}
 												})
 											}
-										})	
-									} 
+										});
+									}
 								}
-
-								res.send('Listo');
-								//req.flash('info', 'Evaluación planificada Exitosamente!');
-								//res.redirect('/coord_plani');	
+								//res.send("Listo");
+								req.flash('info', 'Evaluación planificada Exitosamente!');
+								res.redirect('/coord_plani');	
 							})
 						})
 					})
