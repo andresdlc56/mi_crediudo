@@ -106,14 +106,23 @@ exports.detalles = function(req, res) {
 							evaluacionId: parseInt(req.params.id) + 2		
 						}	
 					}).then(evalJefe => {
-						res.render('president/detalles/index', { 
-							usuario, 
-							infoEval, 
-							autoEval, 
-							coEval,
-							evalSubor,
-							evalJefe
-						});
+						models.usuario.findAll({
+							where: {
+								nucleoCodigo: infoEval.nucleoCodigo,
+								unidadCodigo: infoEval.unidadCodigo
+							}
+						}).then(dataUser => {
+							//res.send(dataUser);
+							res.render('president/detalles/index', { 
+								usuario, 
+								infoEval, 
+								autoEval, 
+								coEval,
+								evalSubor,
+								evalJefe,
+								dataUser
+							});
+						})
 					});
 				});
 			});	
