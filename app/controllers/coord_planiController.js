@@ -276,13 +276,7 @@ exports.finiquitarEval = function(req, res) {
 									//Si la evaluacion es de tipo Co-Eval
 									else if(Evaluaciones[i].instrument.tipoEvalId == 2) {
 										let idn = parseInt(req.params.id) + 1;
-										var rand = [];
 
-										/*
-											Buscar todos los usuarios q pertenescan al nucleo q viene po
-											parametro, a la unidad que se selecciono, q tengan cargo 3 (Subordinado)
-											y tenga rol 5 (Empleado).
-										*/
 										models.usuario.findAll({
 											where: {
 												[Op.and]: [
@@ -292,18 +286,10 @@ exports.finiquitarEval = function(req, res) {
 													{rolId:5}
 												]
 											}
-										}).then(Todos => {
-											/*
-												Hacer un Recorrido por todos los usuarios encontrados en 
-												el paso anterior 
-											*/
-											for(let m = 0; m < Todos.length; m ++) {
-												/*
-													Buscar todos los usuarios donde nucleo sea igual
-													al q viene por parametro, unidad sea igual a la seleccionada,
-													q tengan cargo 3 (Subordinados), tengan rol 5 (Empleado) y 
-													sus cedulas sean diferentes a Todos[m]
-												*/
+										}).then(Evaluado => {
+											for(let m = 0; m < Evaluado.length; m ++) {
+												var aleatorio = ['uno', 'dos', 'tres'];
+												
 												models.usuario.findAll({
 													where: {
 														[Op.and]: [
@@ -311,57 +297,38 @@ exports.finiquitarEval = function(req, res) {
 															{unidadCodigo:req.body.unidad},
 															{cargoId:3},
 															{rolId:5},
-															{cedula: { [Op.ne]: Todos[m].cedula }}
+															{cedula: { [Op.ne]: Evaluado[m].cedula }}
 														]
 													}
-												}).then(Resto => {
-													for(let n = 0; n < Resto.length; n ++) {
-														models.evaluacionUsuario.findAll({
-															where: {
-																[Op.and]: [
-																	{usuarioCedula: Todos[m].cedula},
-																	{usuarioEvaluado: Resto[n].cedula},
-																	{evaluacionId: idn}
-																]
-															}
-														}).then(Encontrado => {
-															if(Encontrado.length == 0) {
-																for(let k = 0; k < 3; k ++) {
-																	/*
-																		Debo buscar como guardar en un arreglo 3 usuarios
-																		elegidos de forma aleatoria del arreglo Resto
-																	*/
-																	rand[k] = Resto[Math.floor(Math.random() * Resto.length)];
+												}).then(Evaluador => {
+													for(let n = 0; n < 3; n ++) {
+														console.log('============Randon'+n+'=========');
+														aleatorio[n] = Evaluador[Math.floor(Math.random() * Evaluador.length)].cedula;
+														console.log('Evaluador: '+aleatorio[n] +'-------->'+Evaluado[m].nombre);
 
-																}
-															} else {
-																/*
-																	Si Encontrado es diferente de 0, manda a buscar a todos los usuarios
-																	menos al usuario encontrado. creo q debo ahacer un ciclo for recorriendo 
-																	a Encontrado
-																*/
-																rand[0] = "hola";
-															}
-														})
+														while((aleatorio[0] == aleatorio[1]) || (aleatorio[0] == aleatorio[2]) || (aleatorio[1] == aleatorio[2])) {
+															console.log('=============Cambiando==============');
+															aleatorio[n] = Evaluador[Math.floor(Math.random() * Evaluador.length)].cedula;
+															console.log('Evaluador: '+aleatorio[n] +'-------->'+Evaluado[m].nombre);															
+														}
 
-
-														/*models.evaluacionUsuario.create({
+														models.evaluacionUsuario.create({
 															calificacion: null,
 															status: false,
 															evaluacionId: idn,
-															usuarioCedula: Todos[m].cedula,
-															usuarioEvaluado: Resto[n].cedula 
-														});*/
+															usuarioCedula: Evaluador[n].cedula,
+															usuarioEvaluado: Evaluado[m].cedula
+														});
 													}
 												});
 											}
-										})
+										});
 									}
 								}
 
-								res.send(rand);
-								//req.flash('info', 'Evaluación planificada Exitosamente!');
-								//res.redirect('/coord_plani');	
+								//res.send("Listo");
+								req.flash('info', 'Evaluación planificada Exitosamente!');
+								res.redirect('/coord_plani');	
 							})
 						})
 					})
