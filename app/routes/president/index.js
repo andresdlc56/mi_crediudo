@@ -18,6 +18,9 @@ module.exports = function(app) {
     //Ruta para ver detalles de una autoEvaluación Concluida
     app.get('/president/detalles/:id/verAutoe/:idUser', isLoggedIn, presidentController.verAutoEval);
 
+    //Ruta para ver detalles de una CoEvaluación concluida
+    app.get('/president/detalles/:id/vercoEval/:idUser/:idEvaluador', isLoggedIn, presidentController.verCoEval);
+
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Subordinado"
     app.get('/president/culminado/:id/u/:idu/ue/:idue',isLoggedIn, presidentController.culminado);
 

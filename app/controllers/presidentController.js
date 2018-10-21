@@ -213,6 +213,93 @@ exports.verAutoEval = function(req, res) {
 	});
 }
 
+exports.verCoEval = function(req, res) {
+	var user = req.user;
+
+	console.log('============ Detalles de CoEvalución ===========');
+	models.usuario.findOne({
+		include: [models.nucleo, models.unidad],
+		where: { cedula: req.params.idUser }
+	}).then(Evaluado => {
+		models.usuario.findOne({
+			include: [models.nucleo, models.unidad],
+			where: { cedula: req.params.idEvaluador }
+		}).then(Evaluador => {
+			models.evaluacion.findOne({
+				include: [ models.instrument ],
+				where: { id: req.params.id }
+			}).then(Evaluacion => {
+				/*
+					Datos de los factores pertenecientes al instrumento 
+					usado en la evaluacion que encontramos en paso anterior 
+				*/
+				models.instrumentFactor.findAll({
+					include: [ models.factor ],
+					where: { instrumentId: Evaluacion.instrumentId }
+				}).then(Factor => {
+					/*
+						Datos de los Items pertenecientes a esta evaluacion 
+						que han sido respondido por el usuario seleccionado
+					*/
+					models.itemUsuario.findAll({
+						include: [models.item],
+						where: {
+							[Op.and]: [
+								{evaluado: req.params.idUser}, 
+								{evaluador: req.params.idEvaluador},
+								{evaluacionId: req.params.id}
+							]
+						}
+					}).then(Item => {
+						models.evaluacionUsuario.findOne({
+							where: {
+								[Op.and]: [
+									{usuarioEvaluado: req.params.idUser}, 
+									{evaluacionId: req.params.id},
+									{usuarioCedula: req.params.idEvaluador},
+									{status: true}
+								]
+							}
+						}).then(dataEvaluacion => {
+							var acomulador = [];
+							var calificacionFactor = [];
+
+							for(let i = 0; i < Factor.length; i ++) {
+								acomulador[i] = 0;
+								
+								var n = 0;
+								console.log('================Nombre Factor: '+Factor[i].factor.nombre+'====================');
+								for(let j = 0; j < Item.length; j ++) {
+									
+									if(Item[j].item.factorId == Factor[i].factorId) {
+										n = n + 1;
+										//console.log(Item[j].item.nombre);
+										acomulador[i] = acomulador[i] + Item[j].calificacion;
+										console.log('Acomulador'+[i]+': '+acomulador[i]);
+									}
+									
+									calificacionFactor[i] = acomulador[i]/n;
+								}
+								console.log('calificacion factor '+Factor[i].factor.nombre+': '+calificacionFactor[i]);
+								console.log('nro. de preguntas: '+n);
+							}
+
+							res.render('president/detalles/coEval/index', { 
+								user, 
+								Evaluador, 
+								Evaluado,
+								Factor,
+								calificacionFactor,
+								dataEvaluacion  
+							});
+						});
+					});
+				});
+			});
+		});
+	});
+}
+
 exports.culminado = function(req, res) {
 	/*Datos del Usuario Logeado*/
 	var usuario = req.user;
