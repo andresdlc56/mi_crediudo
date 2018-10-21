@@ -94,12 +94,14 @@ exports.detalles = function(req, res) {
 					evaluacionId: parseInt(req.params.id) + 1		
 				}
 			}).then(coEval => {
+				//Evaluacion que realizan los jefes para calificar al subordinado
 				models.evaluacionUsuario.findAll({
 					include: [models.evaluacion],
 					where: {
 						evaluacionId: parseInt(req.params.id) + 3		
 					}
 				}).then(evalSubor => {
+					//Evaluacion que realizan los subordinados para calificar al Jefe
 					models.evaluacionUsuario.findAll({
 						include: [models.evaluacion],
 						where: {
@@ -297,6 +299,18 @@ exports.verCoEval = function(req, res) {
 				});
 			});
 		});
+	});
+}
+
+exports.verEvalSubor = function(req, res) {
+	var user = req.user;
+
+	console.log('============ Detalles de Evaluacion a Subordinado ===========');
+	models.usuario.findOne({
+		include: [models.nucleo, models.unidad],
+		where: { cedula: req.params.idUser }
+	}).then(Evaluado => {
+		res.render('president/detalles/eval-A-Subor/index', { user });
 	});
 }
 

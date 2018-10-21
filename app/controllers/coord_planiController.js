@@ -137,6 +137,10 @@ exports.finiquitarEval = function(req, res) {
 	var idC = parseInt(req.params.id) + 2;
 	var idD = parseInt(req.params.id) + 3;
 
+	/*
+		actualizar en al tabla evaluacion, el campo unidadCodigo de la evaluacion
+		que tenga el mismo id del que viene por parametro  
+	*/
 	models.evaluacion.update({
 		unidadCodigo: req.body.unidad
 	},{
@@ -144,6 +148,10 @@ exports.finiquitarEval = function(req, res) {
 			id: req.params.id
 		}
 	}).then(Evaluacion_A => {
+		/*
+			actualizar en al tabla evaluacion, el campo unidadCodigo de la evaluacion
+			que tenga el mismo id del que viene por parametro+1 (idB)
+		*/
 		models.evaluacion.update({
 			unidadCodigo: req.body.unidad
 		},{
@@ -151,6 +159,10 @@ exports.finiquitarEval = function(req, res) {
 				id: idB
 			}
 		}).then(Evaluacion_B => {
+			/*
+				actualizar en al tabla evaluacion, el campo unidadCodigo de la evaluacion
+				que tenga el mismo id del que viene por parametro+2 (idC)
+			*/
 			models.evaluacion.update({
 				unidadCodigo: req.body.unidad
 			},{
@@ -158,6 +170,10 @@ exports.finiquitarEval = function(req, res) {
 					id: idC
 				}
 			}).then(Evaluacion_C => {
+				/*
+					actualizar en al tabla evaluacion, el campo unidadCodigo de la evaluacion
+					que tenga el mismo id del que viene por parametro+3 (idD)
+				*/
 				models.evaluacion.update({
 					unidadCodigo: req.body.unidad
 				},{
@@ -174,11 +190,28 @@ exports.finiquitarEval = function(req, res) {
 					models.usuario.findAll({
 						where: { [Op.and]: [{nucleoCodigo:req.params.idn}, {unidadCodigo:req.body.unidad}] }
 					}).then(Usuario => {
+						/*
+							Buscar una Evaluacion donde su id sea igual a la que viene 
+							por parametro
+						*/
 						models.evaluacion.findOne({
 							where: {
 								id: req.params.id 
 							}
 						}).then(Eval => {
+							/*
+								Buscar todas la evaluaciones que pertenescan al nucleo que viene por 
+								parametro, que pertenescan a la unidad que viene del formulario anterior 
+								que se fecha de inico sea igual a la fecha de inicio de la evaluacion 
+								que encontramos en paso anterior, su fecha de fin sea igual a la de
+								la evluacion que encontramos en el paso anterior y que el instrumento 
+								que usa estas evaluaciones sea igual a instrumentId 4 (cuestionario de autoeval)
+								o instrumentId 3 (cuestionario de coeval) 
+								o instrumentId 2 (cuestionario de eval jefe. este lo ejecutan los subordinados 
+								para evaluar a sus jefes)
+								o instrumentId 1 (cuestionario de eval desempeño laboral, este lo ejecutan 
+								los jefes para evaluar a sus subordinados).
+							*/
 							models.evaluacion.findAll({
 								include: [models.instrument],
 								where: {
@@ -193,10 +226,22 @@ exports.finiquitarEval = function(req, res) {
 									]
 								}
 							}).then(Evaluaciones => {
+								/*
+									hacemos un recorrido por todos las evaluaciones encontradas
+								*/
 								for(let i = 0; i < Evaluaciones.length; i ++) {
 									//Si la evaluacion es de tipo Auto-Eval
 									if(Evaluaciones[i].instrument.tipoEvalId == 1) {
+										/*
+											hacemos un recorrido por todos los usuarios que encontramos 
+											que pertenecen al nucleo y unidad que elegimos para realizar 
+											la evaluacion
+										*/
 										for(let j = 0; j < Usuario.length; j ++) {
+											/*
+												se creara un registro en la tabla evaluacionUsuario j cantidad
+												de veces 
+											*/
 											models.evaluacionUsuario.create({
 												calificacion: null,
 												status: false,
@@ -206,10 +251,14 @@ exports.finiquitarEval = function(req, res) {
 											})
 										}
 									} 
-									//Si la evaluacion es de tipo Eval-Jefe
+									//Si la evaluacion es de tipo Eval-Jefe (los subordinados Evaluan al Jefe)
 									else if(Evaluaciones[i].instrument.tipoEvalId == 4) {
-										let idn = parseInt(req.params.id) + 3;
+										let idn = parseInt(req.params.id) + 2;
 
+										/*
+											Buscamos a todos los subordinados del nucleo y unidad que ya 
+											seleccionamos 
+										*/
 										models.usuario.findAll({
 											where: { 
 												[Op.and]: [
@@ -220,7 +269,9 @@ exports.finiquitarEval = function(req, res) {
 												] 
 											}
 										}).then(Subordinado => {
-											//res.send(Evaluaciones);
+											/*
+												Buscamos al jefe de la unidad
+											*/
 											models.usuario.findOne({
 												where: {
 													[Op.and]: [
@@ -231,8 +282,14 @@ exports.finiquitarEval = function(req, res) {
 													]
 												}
 											}).then(Jefe => {
-
+												/*
+													Hacemos un recorrido por todos los subordinados encontrados
+												*/
 												for(let k = 0; k < Subordinado.length; k ++) {
+													/*
+														se creara un registro en la tabla evaluacionUsuario k cantidad
+														de veces 
+													*/
 													models.evaluacionUsuario.create({
 														calificacion: null,
 														status: false,
@@ -244,10 +301,12 @@ exports.finiquitarEval = function(req, res) {
 											})
 										})
 									} 
-									//Si la evaluacion es de tipo Eval-subor
+									//Si la evaluacion es de tipo Eval-subor (los Jefes evaluan a sus subordinados)
 									else if(Evaluaciones[i].instrument.tipoEvalId == 3) {
-										let idn = parseInt(req.params.id) + 2;
-
+										let idn = parseInt(req.params.id) + 3;
+										/*
+											Buscamos al jefe de la unidad que seleccionamos
+										*/
 										models.usuario.findOne({
 											where: {
 												[Op.and]: [
@@ -258,6 +317,9 @@ exports.finiquitarEval = function(req, res) {
 												]
 											}
 										}).then(Jefe => {
+											/*
+												Buscamos a todos los usuarios subordinados de la unidad seleccionada
+											*/
 											models.usuario.findAll({
 												where: { [Op.and]: [{nucleoCodigo:req.params.idn},
 													{unidadCodigo:req.body.unidad},
@@ -265,8 +327,14 @@ exports.finiquitarEval = function(req, res) {
 													{rolId:5}] 
 												}
 											}).then(Subordinado => {
-
+												/*
+													Hacemos un recorrido por todos los subordinados encontrados
+												*/
 												for(var z = 0; z < Subordinado.length; z ++) {
+													/*
+														se creara un registro en la tabla evaluacionUsuario z cantidad
+														de veces 
+													*/
 													models.evaluacionUsuario.create({
 														calificacion: null,
 														status: false,
