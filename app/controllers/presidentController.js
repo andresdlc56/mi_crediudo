@@ -132,6 +132,27 @@ exports.detalles = function(req, res) {
 	});
 }
 
+exports.verPersonal = function(req, res) {
+	var usuario = req.user;
+
+	models.evaluacion.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { id: req.params.id }
+	}).then(infoEval => {
+		models.usuario.findAll({
+			include: [ models.cargo ],
+			where: {
+				[Op.and]: [
+					{nucleoCodigo: infoEval.nucleoCodigo}, 
+					{unidadCodigo: infoEval.unidadCodigo}
+				]
+			}
+		}).then(miembro => {
+			res.render('president/detalles/personal/index', { usuario, infoEval, miembro });
+		})
+	})
+}
+
 exports.verAutoEval = function(req, res) {
 	var user = req.user;
 

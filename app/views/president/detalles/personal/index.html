@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>CREDIUDO | Presidente</title>
+
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<!--Barra de Progreso-->
+		<script type="text/javascript" src="/js/pace.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+		<!-- Pie de Pagina -->
+    	<link href="/css/sticky-footer-navbar.css" rel="stylesheet">	
+
+	</head>
+	<body>
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
+
+		<%- include('../../../partials/president/navbar.html') %>
+		<div class="container-fluid">	
+			<div class="row justify-content-md-center">
+				<div class="col-md-10">
+					<div class="row">
+						<div class="col-md-12">
+							<!--=======MIGAS DE PAN=========-->
+							<nav aria-label="breadcrumb" style="margin-top: 1%">
+								<ol class="breadcrumb">
+								    <li class="breadcrumb-item" aria-current="page"><a href="/president">Home</a></li>
+								    <li class="breadcrumb-item" aria-current="page"><a href="#">Detalles</a></li>
+								    <li class="breadcrumb-item active" aria-current="page">Personal</li>
+								</ol>
+							</nav>
+							<!--=======FIN MIGAS DE PAN=========-->		
+						</div>
+					</div>
+
+					<div class="row">
+						<!--=========DATOS DEL USUARIO LOGUEADO=========-->
+						<div class="col-md-3">
+							<div class="card">
+							  	<div class="card-header">
+							    	Datos Personales:
+							  	</div>
+							  
+							  	<div class="card-body">
+							    	<div class="form-group">
+							    		<p><b>Nombre: </b><%= usuario.nombre %></p>
+							    		<p><b>Apellido: </b><%= usuario.apellido %></p>
+							    		<p><b>Nucleo: </b><%= usuario.nucleoCodigo %></p>
+							    		<p><b>Unidad: </b><%= usuario.unidadCodigo %></p>
+							    	</div>
+							  	</div>
+							</div>
+							<br>
+						</div>
+						<!--=========FIN DATOS DEL USUARIO LOGUEADO=========-->
+
+						<div class="col-md-9">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<h3>Información de la Evaluación</h3>
+											<hr>
+											<div class="row">
+												<div class="col-md-6 col-sm-6">
+													<p><strong>Titulo o Nombre: </strong><%- infoEval.nombre %></p>
+													<p><strong>Nucleo: </strong><%- infoEval.nucleo.nombre %></p>
+													<p><strong>Unidad: </strong><%- infoEval.unidad.nombre %></p>
+													<p>
+														<strong>Fecha Inicio: </strong>
+														<%= infoEval.fecha_i.getDate() %>/<%= infoEval.fecha_i.getMonth() + 1 %>/<%= infoEval.fecha_i.getFullYear() %>
+													</p>
+													<p>
+														<strong>Fecha Fin: </strong>
+														<%= infoEval.fecha_f.getDate() %>/<%= infoEval.fecha_f.getMonth() + 1 %>/<%= infoEval.fecha_f.getFullYear() %>
+													</p>	
+												</div>
+											</div>
+										</div>
+									</div>		
+									<br>
+								</div>	
+
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<h4>Personal de <%- infoEval.unidad.nombre %></h4>
+											<hr>
+											
+												<div class="row">
+													<% for(let i = 0; i < miembro.length; i ++) {%>
+														<div class="col-md-3">
+															<div class="card">
+																<div class="card-body">
+																	<div class="row">
+																		<div class="col-4">
+																			<div class="card">
+																				<div class="card-body text-center">
+																					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 20pt;"></i>
+																				</div>
+																			</div>
+																		</div>
+
+																		<div class="col-8">
+																			<a href="#"><%- miembro[i].nombre %> <%- miembro[i].apellido %></a>
+																			<hr style="margin: 1px">
+																			<p><em><%- miembro[i].cargo.nombre %></em></p>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<br>
+														</div>
+													<%}%>		
+												</div>
+											
+										</div>
+									</div>
+									<br>
+								</div>	
+							</div>
+						</div>
+					</div>		
+				</div>
+			</div>
+		</div>
+
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
+		
+	
+		
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/jquery.validate.min.js"></script>
+		<script src="/js/main.js"></script>
+		<script src="/js/misFunciones.js"></script>
+	</body>
+</html>

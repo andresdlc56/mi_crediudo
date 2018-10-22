@@ -63,23 +63,29 @@
 										<div class="card-body">
 											<h3>Información de la Evaluación</h3>
 											<hr>
-											<p><strong>Titulo o Nombre: </strong><%- infoEval.nombre %></p>
-											<p><strong>Nucleo: </strong><%- infoEval.nucleo.nombre %></p>
-											<p><strong>Unidad: </strong><%- infoEval.unidad.nombre %></p>
-											<p>
-												<strong>Fecha Inicio: </strong>
-												<%= infoEval.fecha_i.getDate() %>/<%= infoEval.fecha_i.getMonth() + 1 %>/<%= infoEval.fecha_i.getFullYear() %>
-											</p>
-											<p>
-												<strong>Fecha Fin: </strong>
-												<%= infoEval.fecha_f.getDate() %>/<%= infoEval.fecha_f.getMonth() + 1 %>/<%= infoEval.fecha_f.getFullYear() %>
-											</p>
+											<div class="row">
+												<div class="col-md-6 col-sm-6">
+													<p><strong>Titulo o Nombre: </strong><%- infoEval.nombre %></p>
+													<p><strong>Nucleo: </strong><%- infoEval.nucleo.nombre %></p>
+													<p><strong>Unidad: </strong><%- infoEval.unidad.nombre %></p>
+													<p>
+														<strong>Fecha Inicio: </strong>
+														<%= infoEval.fecha_i.getDate() %>/<%= infoEval.fecha_i.getMonth() + 1 %>/<%= infoEval.fecha_i.getFullYear() %>
+													</p>
+													<p>
+														<strong>Fecha Fin: </strong>
+														<%= infoEval.fecha_f.getDate() %>/<%= infoEval.fecha_f.getMonth() + 1 %>/<%= infoEval.fecha_f.getFullYear() %>
+													</p>	
+												</div>
+												<div class="col-md-6 col-sm-6 text-center">
+													<br><br><br>
+													<a href="/president/detalles/<%- infoEval.id %>/personal" class="btn btn-primary">Ver Personal</a>
+												</div>
+											</div>
 										</div>
 									</div>		
 									<br>
-								</div>
-
-								
+								</div>	
 
 								<div class="col-md-6">
 									<div class="accordion" id="accordionExample">

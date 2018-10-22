@@ -13,6 +13,9 @@ module.exports = function(app) {
 
     app.post('/president/detalles/:id',isLoggedIn, presidentController.observacion);
 
+    //Ruta para ver el personal de la unidad que estasiendo evaluada
+    app.get('/president/detalles/:id/personal',isLoggedIn, presidentController.verPersonal);    
+
     app.post('/president/detalles/editObs/:id', isLoggedIn, presidentController.editObserv);
 
     //Ruta para ver detalles de una autoEvaluación Concluida
