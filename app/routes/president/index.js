@@ -24,6 +24,9 @@ module.exports = function(app) {
     //Ruta para ver detalles de una Eval A Subordinado concluida
     app.get('/president/detalles/:id/verEvalSubor/:idEvaluador/:idUser', isLoggedIn, presidentController.verEvalSubor);
 
+    //Ruta para ver detalles de una Eval A Jefe concluida
+    app.get('/president/detalles/:id/verEvalJefe/:idEvaluador/:idUser', isLoggedIn, presidentController.verEvalJefe);
+
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Subordinado"
     app.get('/president/culminado/:id/u/:idu/ue/:idue',isLoggedIn, presidentController.culminado);
 
