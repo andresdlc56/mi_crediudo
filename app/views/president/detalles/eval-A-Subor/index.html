@@ -60,17 +60,76 @@
 					<div class="col-md-9">
 						<div class="row">
 							<div class="col-md-12">
-								
+								<div class="card">
+									<div class="card-body">
+										<h3>Evaluación a Subordinado</h3>
+										<hr>
+										<div class="row">
+											<div class="col-md-6">
+												<h4 class="text-center">Evaluador</h4>
+												<div class="form-group">
+													<p><strong>Nombre y Apellido: </strong><%-Evaluador.nombre%> <%-Evaluador.apellido%></p>
+													<p><strong>Cedula de Identidad: </strong><%-Evaluador.cedula%></p>
+													<p><strong>Nucleo: </strong><%-Evaluador.nucleo.nombre%></p>
+													<p><strong>Unidad: </strong><%-Evaluador.unidad.nombre%></p>	
+												</div>
+												
+											</div>
+											
+											<div class="col-md-6">
+												<h4 class="text-center">Evaluado</h4>
+												<div class="form-group text-left">
+													<p><strong>Nombre y Apellido: </strong><%-Evaluado.nombre%> <%-Evaluado.apellido%></p>
+													<p><strong>Cedula de Identidad: </strong><%-Evaluado.cedula%></p>
+													<p><strong>Nucleo: </strong><%-Evaluado.nucleo.nombre%></p>
+													<p><strong>Unidad: </strong><%-Evaluado.unidad.nombre%></p>	
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 								<br>	
 							</div>
 							
 							<div class="col-md-12">
-								
+								<div class="card">
+									<div class="card-body">
+										<table style="width:100%">
+											<tr>
+												<th style="width: 40%">Factor</th>
+												<th>Calificación</th>
+											</tr>
+											<% for(let i = 0; i < Factor.length; i++) {%>
+												<tr>
+													<td><%- Factor[i].factor.nombre %></td>
+													<td style="padding: 5px">
+														<div class="progress">
+														  	<div class="progress-bar" role="progressbar" style="width: <%= calificacionFactor[i] * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= calificacionFactor[i] %> Ptos</b></div>
+														</div>
+													</td>	
+												</tr>
+											<%}%>
+										</table>
+									</div>
+								</div>
 								<br>
 							</div>
 							
 							<div class="col-md-12">
-								
+								<div class="card">
+									<div class="card-body">
+										<table style="width: 100%">
+											<tr>
+												<td style="width: 40%"><h2>Calificación General: </h2></td>
+												<td>
+													<div class="progress">
+														<div class="progress-bar" role="progressbar" style="width: <%= dataEvaluacion.calificacion * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b> <%= dataEvaluacion.calificacion %> Ptos</b></div>
+													</div>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div>
 							</div>
 						</div>
 						<br>

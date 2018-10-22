@@ -200,8 +200,8 @@
 											</div>
 											<div id="collapseTres" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
 												<div class="card-body">
-													<% for(let k = 0; k < evalJefe.length; k ++) {%>
-														<%if(evalJefe[k].evaluacion.instrumentId == 2) {%>
+													<% for(let k = 0; k < evalSubor.length; k ++) {%>
+														<%if(evalSubor[k].evaluacion.instrumentId == 1) {%>
 															<div class="row">
 																<div class="col-md-3 col-sm-3 text-center">
 													    			<div class="row">
@@ -213,7 +213,7 @@
 														    			<div class="col-md-12">
 														    				<p>
 															    				<% for(let j = 0; j < dataUser.length; j ++) {%>
-															    					<% if(dataUser[j].cedula == evalJefe[k].usuarioCedula) {%>
+															    					<% if(dataUser[j].cedula == evalSubor[k].usuarioCedula) {%>
 															    						<%- dataUser[j].nombre %> <%- dataUser[j].apellido %>
 															    					<%}%>
 															    				<%}%>
@@ -223,7 +223,7 @@
 														    	</div>
 														    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
 														    		----------------->
-														    		<a href="/president/detalles/<%- evalJefe[k].evaluacionId %>/verEvalSubor/<%- evalJefe[k].usuarioEvaluado %>/<%- evalJefe[k].usuarioCedula %>" class="btn btn-primary btn-sm btn-block">Ver</a>
+														    		<a href="/president/detalles/<%- evalSubor[k].evaluacionId %>/verEvalSubor/<%- evalSubor[k].usuarioCedula %>/<%- evalSubor[k].usuarioEvaluado %>" class="btn btn-primary btn-sm btn-block" onclick="return verificar(<%- evalSubor[k].status %>);">Ver</a>
 														    	</div>
 														    	<div class="col-md-3 col-sm-3 text-center">
 													    			<div class="row">
@@ -235,7 +235,7 @@
 														    			<div class="col-md-12">
 														    				<p>
 															    				<% for(let j = 0; j < dataUser.length; j ++) {%>
-															    					<% if(dataUser[j].cedula == evalJefe[k].usuarioEvaluado) {%>
+															    					<% if(dataUser[j].cedula == evalSubor[k].usuarioEvaluado) {%>
 															    						<%- dataUser[j].nombre %> <%- dataUser[j].apellido %>
 															    					<%}%>
 															    				<%}%>
@@ -264,8 +264,8 @@
 											</div>
 											<div id="collapseCuatro" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
 												<div class="card-body">
-													<% for(let l = 0; l < evalSubor.length; l ++) {%>
-														<%if(evalSubor[l].evaluacion.instrumentId == 1) {%>
+													<% for(let l = 0; l < evalJefe.length; l ++) {%>
+														<%if(evalJefe[l].evaluacion.instrumentId == 2) {%>
 															<div class="row">
 																<div class="col-md-3 col-sm-3 text-center">
 													    			<div class="row">
@@ -277,7 +277,7 @@
 														    			<div class="col-md-12">
 														    				<p>
 															    				<% for(let j = 0; j < dataUser.length; j ++) {%>
-																    				<% if(dataUser[j].cedula == evalSubor[l].usuarioCedula) {%>
+																    				<% if(dataUser[j].cedula == evalJefe[l].usuarioCedula) {%>
 																    					<%- dataUser[j].nombre %> <%- dataUser[j].apellido %>
 																    				<%}%>
 																    			<%}%>
@@ -299,7 +299,7 @@
 														    			<div class="col-md-12">
 														    				<p>
 														    					<% for(let j = 0; j < dataUser.length; j ++) {%>
-																    				<% if(dataUser[j].cedula == evalSubor[l].usuarioEvaluado) {%>
+																    				<% if(dataUser[j].cedula == evalJefe[l].usuarioEvaluado) {%>
 																    					<%- dataUser[j].nombre %> <%- dataUser[j].apellido %>
 																    				<%}%>
 																    			<%}%>
