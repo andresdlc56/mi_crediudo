@@ -156,14 +156,97 @@ exports.verPersonal = function(req, res) {
 exports.verCalificacion = function(req, res) {
 	var usuario = req.user;
 
-	var idB = parseInt(req.params.id)+1;
-	var idC = parseInt(req.params.id)+2;
-	var idD = parseInt(req.params.id)+3;
+	var idB = parseInt(req.params.id)+1;//id q representa la coevaluacion
+	var idC = parseInt(req.params.id)+2;//id q representa evaluacion al jefe
+	var idD = parseInt(req.params.id)+3;//id q representa evaluacion al subordinado
 
+	/*
+		Buscar la informacion de la evaluacion 
+	*/
 	models.evaluacion.findOne({
 		include: [ models.nucleo, models.unidad ],
 		where: { id: req.params.id }
 	}).then(infoEval => {
+		/*Buscar informacion del usuario seleccionado*/
+		models.usuario.findOne({
+			where: {
+				[Op.and]: [
+					{cedula: req.params.idUser}, 
+					{unidadCodigo: infoEval.unidadCodigo},
+				]
+			}
+		}).then(User => {
+			/*Si el usuario encontrado tiene cargo 3 (subordinado)*/
+			if(User.cargoId == 3) {
+				/*
+					Buscar la autoEvaluacion realizada por el usuario encontrado 
+					en el paso anterior 
+				*/
+				models.evaluacionUsuario.findOne({
+					where: {
+						[Op.and]: [
+							{usuarioCedula: User.cedula},
+							{usuarioEvaluado: User.cedula}, 
+							{evaluacionId: req.params.id},
+							{status: true}
+						]
+					}
+				}).then(autoEval => {
+					/*
+						Buscar todas la coEvaluaciones realizadas por los compañeros 
+						del usuario seleccionado
+					*/
+					models.evaluacionUsuario.findAll({
+						where: {
+							[Op.and]: [
+								{usuarioEvaluado: User.cedula}, 
+								{evaluacionId: idB},
+								{status: true}
+							]		
+						}
+					}).then(coEval => {
+						/*Si el Usuario Seleccionado ha sido coEvaluado 3 veces*/
+						if(coEval.length == 3) {
+							var calificacion = 0;
+							let acomulado = 0;
+
+							for(let i = 0; i < coEval.length; i ++) {
+								acomulado = acomulado + parseFloat(coEval[i].calificacion);
+							}
+							calificacion = acomulado / 3;
+
+							/*Buscar la Evaluacion donde el Jefe de usuario seleccionado lo Evaluao*/
+							models.evaluacionUsuario.findOne({
+								where: {
+									[Op.and]: [
+										{usuarioEvaluado: User.cedula}, 
+										{evaluacionId: idD},
+										{status: true}
+									]
+								}
+							}).then(evaldJefe => {
+								console.log('====info evaluacion=======');
+								console.log('Usuario Seleccionado: '+User.nombre+' '+User.apellido);
+								console.log('Calificacion AutoEval: '+autoEval.calificacion);
+								console.log('Nro de veces que ha sido evaluado por un compañero: '+coEval.length);
+								console.log('Calificacion coEval: '+calificacion);
+								console.log('Calificacion segun Jefe: '+evaldJefe.calificacion);
+								res.send('bien');
+							})
+
+								
+						} else {
+							res.send('Aun no ha sido Evaluado 3 veces');
+						}	
+					});
+				});
+			}
+		});
+
+		/*
+			Buscar toda la info de la evaluacion ya realizada por el usuario
+			donde el usuarioEvaluado sea el q viene por parametro y su status sea true
+		
 		models.evaluacionUsuario.findAll({
 			include: [ models.evaluacion ],
 			where: {
@@ -178,7 +261,8 @@ exports.verCalificacion = function(req, res) {
 		}).then(dataEvaluacion => {
 			//res.send(infoUser);
 			res.render('president/detalles/personal/calificacion', { usuario, infoEval, dataEvaluacion });
-		});	
+		});
+		*/	
 	});
 }
 
