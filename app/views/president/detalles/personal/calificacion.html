@@ -87,33 +87,40 @@
 								<div class="col-md-12">
 									<div class="card">
 										<div class="card-body">
-											<h4>Personal de <%- infoEval.unidad.nombre %></h4>
+											<h3>Calificación segun tipo de Evaluación</h3>
 											<hr>
-											<div class="row">
-												<% for(let i = 0; i < miembro.length; i ++) {%>
-													<div class="col-md-4">
-														<div class="card">
-															<div class="card-body">
-																<div class="row">
-																	<div class="col-5">
-																		<div class="card">
-																			<div class="card-body text-center">
-																				<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 20pt;"></i>
-																			</div>
-																		</div>
-																	</div>
-
-																	<div class="col-7">
-																		<a href="/president/detalles/<%- infoEval.id %>/personal/<%- miembro[i].cedula %>"><%- miembro[i].nombre %> <%- miembro[i].apellido %></a>
-																		<hr style="margin: 1px">
-																		<p><em><%- miembro[i].cargo.nombre %></em></p>
-																	</div>
+											<div>
+												<div class="row">
+													<% for(let i = 0; i < dataEvaluacion.length; i ++) {%>
+														<div class="col-md-12">
+															<div class="card">
+																<div class="card-body">
+																	<table style="width: 100%">
+																		<tr>
+																			<td style="width: 40%">
+																				<% if(dataEvaluacion[i].evaluacion.instrumentId == 1) {%>
+																					<h3>Segun Jefe: </h3>
+																				<%} else if(dataEvaluacion[i].evaluacion.instrumentId == 3){%>
+																					<h3>Segun Compañeros: </h3>
+																				<%} else if(dataEvaluacion[i].evaluacion.instrumentId == 4){%>
+																					<h3>Segun Él Mismo: </h3>
+																				<%} else if(dataEvaluacion[i].evaluacion.instrumentId == 2){%>
+																					<h3>Segun Subordinados: </h3>
+																				<%}%>
+																			</td>
+																			<td>
+																				<div class="progress">
+																					<div class="progress-bar" role="progressbar" style="width: <%= dataEvaluacion[i].calificacion * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b> <%= dataEvaluacion[i].calificacion %> Ptos</b></div>
+																				</div>
+																			</td>
+																		</tr>
+																	</table>
 																</div>
 															</div>
+															<br>
 														</div>
-														<br>
-													</div>
-												<%}%>		
+													<%}%>
+												</div>
 											</div>
 										</div>
 									</div>

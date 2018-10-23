@@ -153,6 +153,35 @@ exports.verPersonal = function(req, res) {
 	})
 }
 
+exports.verCalificacion = function(req, res) {
+	var usuario = req.user;
+
+	var idB = parseInt(req.params.id)+1;
+	var idC = parseInt(req.params.id)+2;
+	var idD = parseInt(req.params.id)+3;
+
+	models.evaluacion.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { id: req.params.id }
+	}).then(infoEval => {
+		models.evaluacionUsuario.findAll({
+			include: [ models.evaluacion ],
+			where: {
+				[Op.and]: [
+					{usuarioEvaluado: req.params.idUser}, 
+					{status: true},
+					{
+						[Op.or]: [{evaluacionId: req.params.id}, {evaluacionId: idB}, {evaluacionId: idC}, {evaluacionId: idD}]
+					}
+				]
+			}
+		}).then(dataEvaluacion => {
+			//res.send(infoUser);
+			res.render('president/detalles/personal/calificacion', { usuario, infoEval, dataEvaluacion });
+		});	
+	});
+}
+
 exports.verAutoEval = function(req, res) {
 	var user = req.user;
 

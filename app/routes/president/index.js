@@ -16,6 +16,8 @@ module.exports = function(app) {
     //Ruta para ver el personal de la unidad que estasiendo evaluada
     app.get('/president/detalles/:id/personal',isLoggedIn, presidentController.verPersonal);    
 
+    app.get('/president/detalles/:id/personal/:idUser', isLoggedIn, presidentController.verCalificacion);
+
     app.post('/president/detalles/editObs/:id', isLoggedIn, presidentController.editObserv);
 
     //Ruta para ver detalles de una autoEvaluación Concluida
@@ -29,6 +31,9 @@ module.exports = function(app) {
 
     //Ruta para ver detalles de una Eval A Jefe concluida
     app.get('/president/detalles/:id/verEvalJefe/:idEvaluador/:idUser', isLoggedIn, presidentController.verEvalJefe);
+
+
+
 
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Subordinado"
     app.get('/president/culminado/:id/u/:idu/ue/:idue',isLoggedIn, presidentController.culminado);
