@@ -76,12 +76,19 @@ exports.autoEval = function(req, res) {
 }
 
 exports.detalles = function(req, res) {
-	var usuario = req.user;
+	var usuario = req.user; //Datos del Usuario que inicio sesion
 
+	/*
+		Buscar los datos de la evaluacion que viene por parametro
+	*/
 	models.evaluacion.findOne({
 		include: [ models.nucleo, models.unidad ],
 		where: { id: req.params.id }
 	}).then(infoEval => {
+		/*
+			Buscar toda info de la evaluacionUsuario donde evaluacionId
+			es igual al id que viene por parametro 
+		*/
 		models.evaluacionUsuario.findAll({
 			include: [models.evaluacion],
 			where: {
@@ -154,20 +161,24 @@ exports.verPersonal = function(req, res) {
 }
 
 exports.verCalificacion = function(req, res) {
-	var usuario = req.user;
+	var usuario = req.user; //info del usuario que inicio sesion
 
 	var idB = parseInt(req.params.id)+1;//id q representa la coevaluacion
 	var idC = parseInt(req.params.id)+2;//id q representa evaluacion al jefe
 	var idD = parseInt(req.params.id)+3;//id q representa evaluacion al subordinado
 
 	/*
-		Buscar la informacion de la evaluacion 
+		Buscar la informacion de la evaluacion que viene por parametro
 	*/
 	models.evaluacion.findOne({
 		include: [ models.nucleo, models.unidad ],
 		where: { id: req.params.id }
 	}).then(infoEval => {
-		/*Buscar informacion del usuario seleccionado*/
+		/*
+			Buscar informacion del usuario seleccionado donde su
+			cedula sea igual a la cedula que viene por parametro y pertencesca
+			a la unidad donde se esta realizando la evaluacion encontrada en el paso anterior 
+		*/
 		models.usuario.findOne({
 			where: {
 				[Op.and]: [
@@ -231,7 +242,15 @@ exports.verCalificacion = function(req, res) {
 								console.log('Nro de veces que ha sido evaluado por un compañero: '+coEval.length);
 								console.log('Calificacion coEval: '+calificacion);
 								console.log('Calificacion segun Jefe: '+evaldJefe.calificacion);
-								res.send('bien');
+								//res.send('bien');
+								res.render('president/detalles/personal/calificacion', {
+									usuario,
+									infoEval,
+									User,
+									autoEval,
+									calificacion,
+									evaldJefe
+								});
 							})
 
 								
