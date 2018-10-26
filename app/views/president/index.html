@@ -116,38 +116,41 @@
 								<br>
 								
 								<!--=============EVALUACIONES CULMINADAS==================-->
-								<% if(evalCulminada) {%>
+								
 									<div class="card">
 										<div class="card-body">
 											<h3>Evaluaciones Culminadas</h3>
 											<hr>
 										</div>	
-										<table class="table">
-											<thead>
-												<tr>
-													<th scope="col">Nombre de Eval</th>
-													<th scope="col">Nucleo</th>
-													<th scope="col">Unidad</th>
-											      	<th scope="col">Fecha I</th>
-											      	<th scope="col">Fecha F</th>
-											      	<th scope="col">Acción</th>
-												</tr>
-											</thead>
-											<tbody>
-												<% for(var i = 0; i < evalCulminada.length; i ++) {%>
+										<% if(evalCulminada > 0) {%>
+											<table class="table">
+												<thead>
 													<tr>
-														<td><%= evalCulminada[i].nombre %></td>
-														<td><%= evalCulminada[i].nucleo.nombre %></td>
-														<td><%= evalCulminada[i].unidad.nombre %></td>
-														<td><%= evalCulminada[i].fecha_i.getDate() %>/<%= evalCulminada[i].fecha_i.getMonth() + 1 %>/<%= evalCulminada[i].fecha_i.getFullYear() %></td>
-														<td><%= evalCulminada[i].fecha_f.getDate() %>/<%= evalCulminada[i].fecha_f.getMonth() + 1 %>/<%= evalCulminada[i].fecha_f.getFullYear() %></td>
-														<td><a href="/president/detalles/<%= evalCulminada[i].id %>" class="btn btn-primary btn-sm">Ver</a></td>
+														<th scope="col">Nombre de Eval</th>
+														<th scope="col">Nucleo</th>
+														<th scope="col">Unidad</th>
+												      	<th scope="col">Fecha I</th>
+												      	<th scope="col">Fecha F</th>
+												      	<th scope="col">Acción</th>
 													</tr>
-												<%}%>
-											</tbody>
-										</table>
+												</thead>
+												<tbody>
+													<% for(var i = 0; i < evalCulminada.length; i ++) {%>
+														<tr>
+															<td><%= evalCulminada[i].nombre %></td>
+															<td><%= evalCulminada[i].nucleo.nombre %></td>
+															<td><%= evalCulminada[i].unidad.nombre %></td>
+															<td><%= evalCulminada[i].fecha_i.getDate() %>/<%= evalCulminada[i].fecha_i.getMonth() + 1 %>/<%= evalCulminada[i].fecha_i.getFullYear() %></td>
+															<td><%= evalCulminada[i].fecha_f.getDate() %>/<%= evalCulminada[i].fecha_f.getMonth() + 1 %>/<%= evalCulminada[i].fecha_f.getFullYear() %></td>
+															<td><a href="/president/detalles/<%= evalCulminada[i].id %>" class="btn btn-primary btn-sm">Ver</a></td>
+														</tr>
+													<%}%>
+												</tbody>
+											</table>
+										<%} else {%>
+											<h3 class="display-4 text-center">Ninguna</h3>
+										<%}%>
 									</div>
-								<%}%>
 								<br>
 							</div>
 						</div>

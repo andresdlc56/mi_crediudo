@@ -37,27 +37,52 @@
 					</div>
 
 					<div class="row">
-						<!--=========DATOS DEL USUARIO LOGUEADO=========-->
-						<div class="col-md-3">
-							<div class="card">
-							  	<div class="card-header">
-							    	Datos Personales:
-							  	</div>
-							  
-							  	<div class="card-body">
-							    	<div class="form-group">
-							    		<p><b>Nombre: </b><%= usuario.nombre %></p>
-							    		<p><b>Apellido: </b><%= usuario.apellido %></p>
-							    		<p><b>Nucleo: </b><%= usuario.nucleoCodigo %></p>
-							    		<p><b>Unidad: </b><%= usuario.unidadCodigo %></p>
-							    	</div>
-							  	</div>
+						<div class="col-sm-12 col-md-12 col-lg-3">
+							<div class="row">
+								<!--=========DATOS DEL USUARIO LOGUEADO=========-->
+								<div class="col-sm-6 col-md-6 col-lg-12">
+									<div class="card">
+									  	<div class="card-header">
+									    	Datos Personales:
+									  	</div>
+									  
+									  	<div class="card-body">
+									    	<div class="form-group">
+									    		<p><b>Nombre: </b><%= usuario.nombre %></p>
+									    		<p><b>Apellido: </b><%= usuario.apellido %></p>
+									    		<p><b>Nucleo: </b><%= usuario.nucleoCodigo %></p>
+									    		<p><b>Unidad: </b><%= usuario.unidadCodigo %></p>
+									    		<p><b>Cargo: </b><%= usuario.rol.nombre %></p>
+									    	</div>
+									  	</div>
+									</div>
+									<br>		
+								</div>
+								<!--=========FIN DATOS DEL USUARIO LOGUEADO=========-->
+								<!--=========DATOS DEL USUARIO SELCCIONADO===========-->
+								<div class="col-sm-6 col-md-6 col-lg-12">
+									<div class="card">
+									  	<div class="card-header">
+									    	Usuario Seleccionado:
+									  	</div>
+									  
+									  	<div class="card-body">
+									    	<div class="form-group">
+									    		<p><b>Nombre: </b><%= User.nombre %></p>
+									    		<p><b>Apellido: </b><%= User.apellido %></p>
+									    		<p><b>Nucleo: </b><%= User.nucleo.nombre %></p>
+									    		<p><b>Unidad: </b><%= User.unidad.nombre %></p>
+									    		<p><b>Cargo: </b><%= User.cargo.nombre %></p>
+									    	</div>
+									  	</div>
+									</div>
+								</div>
+								<!--======FIN DATOS DEL USUARIO SELCCIONADO==========-->
 							</div>
 							<br>
 						</div>
-						<!--=========FIN DATOS DEL USUARIO LOGUEADO=========-->
 
-						<div class="col-md-9">
+						<div class="col-md-12 col-lg-9">
 							<div class="row">
 								<div class="col-md-12">
 									<div class="card">
@@ -198,6 +223,23 @@
 													<%}%>
 												</div>
 											</div>
+										</div>
+									</div>
+									<br>
+								</div>
+
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<h3>Observación</h3>
+											<hr>
+											<form method="POST" action="#" id="">
+												<div class="form-group">
+												    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+												</div>
+												<hr>
+												<input type="submit" class="btn btn-success float-right" name="enviar" value="Enviar">
+											</form>
 										</div>
 									</div>
 									<br>

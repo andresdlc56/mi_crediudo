@@ -180,6 +180,7 @@ exports.verCalificacion = function(req, res) {
 			a la unidad donde se esta realizando la evaluacion encontrada en el paso anterior 
 		*/
 		models.usuario.findOne({
+			include: [ models.nucleo, models.unidad, models.cargo ],
 			where: {
 				[Op.and]: [
 					{cedula: req.params.idUser}, 
