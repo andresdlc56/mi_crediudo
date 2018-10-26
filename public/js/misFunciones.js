@@ -13,6 +13,18 @@ function verificarFecha(fechaInicio){
 	}
 }
 
+function verificarFin(fechaFin) {
+	var fechaFinal = new Date(fechaFin);
+	var fechaActual = new Date();
+
+	if(fechaFinal.getTime() > fechaActual.getTime()) {
+		alert("Disculpe, debe Esperar a que finalice la Evaluación para ver las Calificaciones de este Usuario");
+		return false;
+	} else {
+		return true;
+	}
+}
+
 function comprobar(dia, mes){
 	var fechaActual = new Date();
 	var diaActual = fechaActual.getDate();
