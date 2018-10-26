@@ -259,6 +259,8 @@ exports.verCalificacion = function(req, res) {
 						}	
 					});
 				});
+			} else if(User.cargoId == 2) {
+				res.send("el usuario tiene cargo Jefe-Subordinado");
 			}
 		});
 
