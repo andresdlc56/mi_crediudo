@@ -251,16 +251,71 @@ exports.verCalificacion = function(req, res) {
 									calificacion,
 									evaldJefe
 								});
-							})
-
-								
+							});		
 						} else {
 							res.send('Aun no ha sido Evaluado 3 veces');
 						}	
 					});
 				});
 			} else if(User.cargoId == 2) {
-				res.send("el usuario tiene cargo Jefe-Subordinado");
+				models.evaluacionUsuario.findOne({
+					where: {
+						[Op.and]: [
+							{usuarioCedula: User.cedula},
+							{usuarioEvaluado: User.cedula}, 
+							{evaluacionId: req.params.id},
+							{status: true}
+						]
+					}
+				}).then(autoEval => {
+					models.evaluacionUsuario.findAll({
+						where: {
+							[Op.and]: [
+								{usuarioEvaluado: User.cedula}, 
+								{evaluacionId: idC},
+								{status: true}
+							]
+						}
+					}).then(evalAlJefe => {
+						/*Buscar todo el personal con cargo 3 (subordinado) de esta unidad*/
+						models.usuario.findAll({
+							where: {
+								[Op.and]: [
+									{nucleoCodigo: infoEval.nucleoCodigo}, 
+									{unidadCodigo: infoEval.unidadCodigo},
+									{cargoId: 3}
+								]
+							}
+						}).then(Subordinado => {
+							if(evalAlJefe.length == Subordinado.length) {
+								var calificacion = 0;
+								let acomulado = 0;
+
+								for(let i = 0; i < evalAlJefe.length; i ++) {
+									acomulado = acomulado + parseFloat(evalAlJefe[i].calificacion);
+								}
+								calificacion = acomulado / evalAlJefe.length;
+
+								console.log('====info evaluacion=======');
+								console.log('Usuario Seleccionado: '+User.nombre+' '+User.apellido);
+								console.log('Calificacion AutoEval: '+autoEval.calificacion);
+								console.log('Nro de veces que ha sido evaluado por un Subordinado: '+evalAlJefe.length);
+								console.log('Calificacion segun subordinados: '+calificacion);
+								res.render('president/detalles/personal/calificacion', { 
+									usuario, 
+									infoEval, 
+									User,
+									autoEval,
+									evalAlJefe,
+									Subordinado,
+									calificacion
+								});
+							} else {
+								res.send(evalAlJefe);
+							}
+						});
+					});
+				});
 			}
 		});
 

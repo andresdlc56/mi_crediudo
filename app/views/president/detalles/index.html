@@ -90,14 +90,16 @@
 								<div class="col-md-6">
 									<div class="accordion" id="accordionExample">
 										<div class="card">
-											<div class="card-header" id="headingOne">
-												<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-										        	AutoEvaluación
-										        </button>
-											</div>
-											<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-												<div class="card-body">
-													<% for(let i = 0; i < autoEval.length; i ++) {%>
+										    <div class="card-header" id="headingOne">
+										      	<h5 class="mb-0">
+											        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+											          AutoEvaluación
+											        </button>
+										      	</h5>
+										    </div>
+										    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+										      	<div class="card-body">
+										        	<% for(let i = 0; i < autoEval.length; i ++) {%>
 														<%if(autoEval[i].evaluacion.instrumentId == 4) {%>
 															<div class="row">
 																<div class="col-md-3 col-sm-3 text-center">
@@ -125,24 +127,25 @@
 															<hr style="margin-bottom: 1px">
 														<%}%>
 													<%}%>
-												</div>
-											</div>
+										      	</div>
+										    </div>
 										</div>
 									</div>
-									<br>
 								</div>
 
 								<div class="col-md-6">
 									<div class="accordion" id="accordionExample">
 										<div class="card">
-											<div class="card-header" id="headingOne">
-												<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseDos" aria-expanded="true" aria-controls="collapseDos">
-										        	CoEvaluación
-										        </button>
-											</div>
-											<div id="collapseDos" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-												<div class="card-body">
-													<% for(let l = 0; l < coEval.length; l ++) {%>
+										    <div class="card-header" id="headingTwo">
+										      	<h5 class="mb-0">
+										        	<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+										          		CoEvaluación
+										        	</button>
+										      	</h5>
+										    </div>
+										    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+										      	<div class="card-body">
+										        	<% for(let l = 0; l < coEval.length; l ++) {%>
 														<%if(coEval[l].evaluacion.instrumentId == 3) {%>
 															<div class="row">
 																<div class="col-md-3 col-sm-3 text-center">
@@ -164,7 +167,7 @@
 														    		</div>
 														    	</div>
 														    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
-														    		----------------->
+														    		---------------->
 														    		<a href="/president/detalles/<%- coEval[l].evaluacionId %>/vercoEval/<%- coEval[l].usuarioEvaluado %>/<%- coEval[l].usuarioCedula %>" class="btn btn-primary btn-sm btn-block" onclick="return verificar(<%- coEval[l].status %>);">Ver</a>
 														    	</div>
 														    	<div class="col-md-3 col-sm-3 text-center">
@@ -189,24 +192,26 @@
 															<hr style="margin-bottom: 1px">
 														<%}%>
 													<%}%>
-												</div>
-											</div>
+										      	</div>
+										    </div>
 										</div>
 									</div>
-									<br>
 								</div>
 
 								<div class="col-md-6">
+									<br>
 									<div class="accordion" id="accordionExample">
 										<div class="card">
-											<div class="card-header" id="headingOne" style="background: #383938; color: white">
-												<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTres" aria-expanded="true" aria-controls="collapseTres" style="color: white">
-										        	Eval a Subordinado
-										        </button>
-											</div>
-											<div id="collapseTres" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-												<div class="card-body">
-													<% for(let k = 0; k < evalSubor.length; k ++) {%>
+											<div class="card-header" id="headingThree" style="background: #383938;>
+										      	<h5 class="mb-0">
+										        	<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+										          		Eval a Subordinado
+										        	</button>
+										      	</h5>
+										    </div>
+										    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+											    <div class="card-body">
+											        <% for(let k = 0; k < evalSubor.length; k ++) {%>
 														<%if(evalSubor[k].evaluacion.instrumentId == 1) {%>
 															<div class="row">
 																<div class="col-md-3 col-sm-3 text-center">
@@ -228,7 +233,7 @@
 														    		</div>
 														    	</div>
 														    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
-														    		----------------->
+														    		---------------->
 														    		<a href="/president/detalles/<%- evalSubor[k].evaluacionId %>/verEvalSubor/<%- evalSubor[k].usuarioCedula %>/<%- evalSubor[k].usuarioEvaluado %>" class="btn btn-primary btn-sm btn-block" onclick="return verificar(<%- evalSubor[k].status %>);">Ver</a>
 														    	</div>
 														    	<div class="col-md-3 col-sm-3 text-center">
@@ -253,24 +258,26 @@
 															<hr style="margin-bottom: 1px">
 														<%}%>
 													<%}%>
-												</div>
-											</div>
+											   	</div>
+										    </div>
 										</div>
 									</div>
-									<br>
 								</div>
 
 								<div class="col-md-6">
+									<br>
 									<div class="accordion" id="accordionExample">
 										<div class="card">
-											<div class="card-header" id="headingOne" style="background: #1FA5C6; color: white">
-												<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseCuatro" aria-expanded="true" aria-controls="collapseCuatro" style="color: white">
-											        Eval a Jefe
-											    </button>
-											</div>
-											<div id="collapseCuatro" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-												<div class="card-body">
-													<% for(let l = 0; l < evalJefe.length; l ++) {%>
+											<div class="card-header" id="headingFour" style="background: #1FA5C6;">
+										      	<h5 class="mb-0">
+										        	<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" style="color: white">
+										          		Eval a Jefe
+										        	</button>
+										      	</h5>
+										    </div>
+										    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+										      	<div class="card-body">
+										        	<% for(let l = 0; l < evalJefe.length; l ++) {%>
 														<%if(evalJefe[l].evaluacion.instrumentId == 2) {%>
 															<div class="row">
 																<div class="col-md-3 col-sm-3 text-center">
@@ -292,7 +299,7 @@
 														    		</div>
 														    	</div>
 														    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
-														    		----------------->
+														    		---------------->
 														    		<a href="/president/detalles/<%- evalJefe[l].evaluacionId %>/verEvalJefe/<%- evalJefe[l].usuarioCedula %>/<%- evalJefe[l].usuarioEvaluado %>" class="btn btn-primary btn-sm btn-block" onclick="return verificar(<%- evalJefe[l].status %>);">Ver</a>
 														    	</div>
 														    	<div class="col-md-3 col-sm-3 text-center">
@@ -317,12 +324,11 @@
 															<hr style="margin-bottom: 1px">
 														<%}%>
 													<%}%>
-												</div>
-											</div>
+										      	</div>
+										    </div>
 										</div>
 									</div>
-									<br>
-								</div>	
+								</div>
 							</div>
 						</div>
 					</div>		
@@ -335,8 +341,6 @@
 				<span class="text-muted">Pie de Pagina</span>
 			</div>
 		</footer>
-		
-	
 		
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
