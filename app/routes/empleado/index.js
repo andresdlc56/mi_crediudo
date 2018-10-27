@@ -5,6 +5,8 @@ var authController = require('../../controllers/authController.js');
 
 module.exports = function(app) {
 
+    app.get('/dashboard/eval/:id', isLoggedIn, empleadoController.index);
+
     app.get('/dashboard/evaluacion/:id/u/:idu/ue/:idue',isLoggedIn, empleadoController.evaluacion);
 
     app.post('/dashboard/evaluacion/:id/u/:idu/ue/:idue',isLoggedIn, empleadoController.procesarEval);

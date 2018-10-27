@@ -31,9 +31,16 @@ exports.dashboard = function(req, res) {
 	} else if(usuario.rolId == 4) {
 		res.redirect('/coord_ev');
 		//res.status(201).send('Bienvenido Coord Evaluación');
+		/*Si el usuario q inicio sesion tiene rol 5 (Empleado)*/
 	} else if(usuario.rolId == 5) {
 		models.evaluacion.findAll({
-			where: { [Op.and]: [{nucleoCodigo:usuario.nucleoCodigo}, {unidadCodigo:usuario.unidadCodigo}] }
+			where: { 
+				[Op.and]: [
+					{nucleoCodigo:usuario.nucleoCodigo}, 
+					{unidadCodigo:usuario.unidadCodigo},
+					{instrumentId: 4}
+				] 
+			}
 		}).then(Evaluacion => {
 			models.evaluacionUsuario.findAll({
 				include: [models.evaluacion],

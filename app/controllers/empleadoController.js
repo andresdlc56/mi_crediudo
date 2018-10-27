@@ -4,6 +4,19 @@ var models = require('../models');
 var Sequelize = require('sequelize');
 var Op = Sequelize.Op;
 
+exports.index = function(req, res) {
+	var User = req.user;
+
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: {
+			cedula: User.cedula
+		}
+	}).then(Usuario => {
+		res.render('empleado/evaluacion/index', { Usuario });
+	});
+}
+
 exports.evaluacion = function(req, res) {
 	var user = req.user;
 	//busca un usuario que tenga como cedula el id que viene por parametro
@@ -43,7 +56,7 @@ exports.evaluacion = function(req, res) {
 						}).then(usuariosTodos => {
 							if (Usuario.nucleoCodigo == Evaluacion.nucleoCodigo && Usuario.unidadCodigo == Evaluacion.unidadCodigo) {
 								//res.send(evaluacionUsuario);
-								res.render('empleado/evaluacion/index', { 
+								res.render('empleado/evaluacion/examen/index', { 
 									Usuario, 
 									Evaluacion, 
 									instrumentFactor, 
