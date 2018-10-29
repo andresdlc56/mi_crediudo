@@ -7,6 +7,10 @@ module.exports = function(app) {
 
     app.get('/dashboard/eval/:id', isLoggedIn, empleadoController.index);
 
+    app.get('/dashboard/coEval/:id', isLoggedIn, empleadoController.verCoEval);
+
+    app.get('/dashboard/eval-a-jefe/:id', isLoggedIn, empleadoController.verEvalAJefe);
+
     app.get('/dashboard/eval-a-subord/:id', isLoggedIn, empleadoController.verEvalaSubor);
 
     app.get('/dashboard/eval/:id/u/:idu/ue/:idue',isLoggedIn, empleadoController.evaluacion);

@@ -18,14 +18,91 @@ exports.index = function(req, res) {
 				[Op.and]: [
 					{usuarioCedula: User.cedula},
 					{usuarioEvaluado: User.cedula}, 
-					{evaluacionId: req.params.id},
-					{status: false}
+					{evaluacionId: req.params.id}
 				]
 			} 
-		}).then(autoEval => {
-			res.render('empleado/evaluacion/index', { Usuario, autoEval });
+		}).then(dataEval => {
+			models.evaluacionUsuario.findOne({
+				where: {
+					[Op.and]: [
+						{usuarioCedula: User.cedula},
+						{usuarioEvaluado: User.cedula}, 
+						{evaluacionId: req.params.id},
+						{status: false}	
+					]
+				}
+			}).then(autoEval => {
+				res.render('empleado/evaluacion/autoEval', { Usuario, dataEval, autoEval });
+			});
 		});
 	});
+}
+
+exports.verCoEval = function(req, res) {
+	var User = req.user;
+	var id = req.params.id;
+
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: {
+			cedula: User.cedula
+		}
+	}).then(Usuario => {
+		models.evaluacionUsuario.findOne({
+			where: {
+				[Op.and]: [
+					{usuarioCedula: User.cedula}, 
+					{evaluacionId: req.params.id}	
+				]
+			}
+		}).then(dataEval => {
+			models.evaluacionUsuario.findAll({
+				where: {
+					[Op.and]: [
+						{usuarioCedula: User.cedula}, 
+						{evaluacionId: req.params.id},
+						{status: false}
+					]
+				}
+			}).then(coEval => {
+				models.usuario.findAll({
+					where: {
+						[Op.and]: [
+							{nucleoCodigo: Usuario.nucleoCodigo}, 
+							{unidadCodigo: Usuario.unidadCodigo},
+							{rolId: 5}
+						]
+					}
+				}).then(Empleado => {
+					res.render('empleado/evaluacion/coEval', { Usuario, dataEval, coEval, Empleado, id });	
+				});
+			});
+		});
+	});
+}
+
+exports.verEvalAJefe = function(req, res) {
+	var User = req.user;
+	var id = parseInt(req.params.id);
+
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: {
+			cedula: User.cedula
+		}
+	}).then(Usuario => {
+		models.evaluacionUsuario.findOne({
+			where: {
+				[Op.and]: [
+					{usuarioCedula: User.cedula}, 
+					{evaluacionId: req.params.id},
+					{status: false}	
+				]
+			}
+		}).then(evalAJefe => {
+			res.render('empleado/evaluacion/evalAJefe', { Usuario, evalAJefe, id });
+		})
+	})
 }
 
 exports.verEvalaSubor = function(req, res) {
@@ -71,7 +148,6 @@ exports.verEvalaSubor = function(req, res) {
 		})
 	});
 }
-
 
 exports.evaluacion = function(req, res) {
 	var user = req.user;

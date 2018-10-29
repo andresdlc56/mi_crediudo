@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Inicio</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!--Barra de Progreso-->
+	<script type="text/javascript" src="/js/pace.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+	<!-- Pie de Pagina -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+
+	
+</head>
+<body>
+	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
+
+		<%- include('../../partials/empleado/navbar.html') %>
+
+	<div class="container-fluid">
+		<div class="row justify-content-md-center">
+			<div class="col-md-10">
+				<div class="row">
+					<div class="col-md-12">
+						<!--=======MIGAS DE PAN=========-->
+						<nav aria-label="breadcrumb" style="margin-top: 1%">
+							<ol class="breadcrumb">
+							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							</ol>
+						</nav>
+						<!--=======FIN MIGAS DE PAN=========-->				
+					</div>
+					
+					<!--info izquierdo-->
+					<div class="col-sm-12 col-md-12 col-lg-3">
+						<div class="row">
+							<!--Datos del Inicio de Sesion-->
+							<div class="col-sm-6 col-md-6 col-lg-12">
+								<div class="card">
+								  	<div class="card-header">
+								    	Datos Personales:
+								  	</div>
+								  
+								  	<div class="card-body">
+								    	<div class="form-group">
+								    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
+								    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
+								    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
+								    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
+								    	</div>
+								  	</div>
+								</div>
+								<br>
+							</div>
+							
+							<!--Como Evaluar-->
+							<div class="col-sm-6 col-md-6 col-lg-12">
+								<div class="card">
+								  	<div class="card-header">
+								    	¿Sabes como Evaluar?
+								  	</div>
+								  
+								  	<div class="card-body">
+								    	<div class="form-group">
+								    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
+								    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
+								    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
+								    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
+								    	</div>
+								  	</div>
+								</div>
+							</div>
+						</div>
+						<br>
+					</div>
+					
+					<!--Contenido-->
+					<div class="col-sm-12 col-md-12 col-lg-9">
+						
+						<div class="jumbotron jumbotron-fluid">
+							<div class="container">
+						    	<h1 class="display-5">Bienvenido(a) <%= Usuario.nombre %></h1>
+						    	<p class="lead">Tienes n Evaluaciones Disponibles</p>
+						  	</div>
+						</div>
+
+						<div class="card">
+							<div class="card-body">
+								<h3>Tipo de Evaluaciones</h3>
+								<hr>
+								<div class="row">
+									<%if(Usuario.cargoId == 2) {%>
+										<!--AutoEvaluacion-->
+										<div class="col-sm-6 col-md-6 col-lg-6 text-center">
+											<a href="/dashboard/eval/<%- dataEval.evaluacionId %>" class="btn btn-outline-primary" style="width: 90%">
+												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-child" style="font-size: 30pt;"></i>
+												<hr style="margin: 1px">
+												<p><strong>AutoEvaluación</strong></p>
+											</a>
+										</div>
+
+										<!--Evaluacion a Subordinados-->
+										<div class="col-sm-6 col-md-6 col-lg-6 text-center">
+											<a href="/dashboard/eval-a-subord/<%- dataEval.evaluacionId + 3 %>" class="btn btn-outline-dark" style="width: 90%">
+												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-secret" style="font-size: 30pt;"></i>
+												<hr style="margin: 1px">
+												<p><strong>Eval al Subor</strong></p>
+											</a>
+										</div>
+									<%} else if(Usuario.cargoId == 3) {%>
+										<!--AutoEvaluacion-->
+										<div class="col-sm-6 col-md-6 col-lg-4 text-center">
+											<a href="/dashboard/eval/<%- id - 1 %>" class="btn btn-outline-primary" style="width: 90%">
+												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-child" style="font-size: 30pt;"></i>
+												<hr style="margin: 1px">
+												<p><strong>AutoEvaluación</strong></p>
+											</a>
+										</div>
+
+										<!--CoEvaluacion-->
+										<div class="col-sm-6 col-md-6 col-lg-4 text-center">
+											<a href="/dashboard/coEval/<%- id %>" class="btn btn-outline-success active" style="width: 90%">
+												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-users" style="font-size: 30pt;"></i>
+												<hr style="margin: 2px">
+												<p><strong>CoEvaluación</strong></p>
+											</a>
+										</div>
+
+										<!--Evaluacion al Jefe-->
+										<div class="col-sm-6 col-md-6 col-lg-4 text-center">
+											<a href="/dashboard/eval-a-jefe/<%- parseInt(id) + 1 %>" class="btn btn-outline-secondary" style="width: 90%">
+												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-users" style="font-size: 30pt;"></i>
+												<hr style="margin: 2px">
+												<p><strong>Evaluar al Jefe</strong></p>
+											</a>
+										</div>
+									<%}%>
+								</div>
+								
+							</div>
+						</div>
+						<br>
+
+						<div class="card ">
+							<div class="card-body">
+								<div class="row">
+									<%if(coEval && coEval.length > 0) {%>
+										<%for(let i = 0; i < coEval.length; i ++) {%>
+											<div class="col-md-6">
+												<div class="card">
+													<div class="card-body">
+														<div class="row">
+															<div class="col-sm-3 col-md-4 col-lg-3 text-center">
+																<div class="card">
+																	<div class="card-body">
+																		<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-pencil-square-o" style="font-size: 40pt;"></i>
+																	</div>
+																</div>	
+															</div>
+															
+															<div class="col-sm-9 col-md-8 col-lg-9">
+																<a href="" class="btn btn-primary btn-lg btn-block">Ejecutar</a>
+																<hr style="margin: 7px">
+																<p>
+																	Evaluar A: 
+																	<% for(let j = 0; j < Empleado.length; j ++) {%>
+																		<%if(coEval[i].usuarioEvaluado == Empleado[j].cedula) {%>
+																			<%- Empleado[j].nombre %> <%- Empleado[j].apellido %>
+																		<%}%>
+																	<%}%>
+																</p>
+															</div>
+														</div>
+													</div>
+												</div>
+												<br>
+											</div>
+										<%}%>	
+									<%} else{%>
+										<h3 class="display-4 text-center">Evaluacion ya Ejecutada</h3>
+									<%}%>
+								</div>
+							</div>
+						</div>
+						<br>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="footer" style="background: #BEBCB0;">
+		<div class="container">
+			<span class="text-muted">Pie de Pagina</span>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
+	<script src="/js/misFunciones.js"></script>
+</body>
+</html>
