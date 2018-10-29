@@ -7,7 +7,9 @@ module.exports = function(app) {
 
     app.get('/dashboard/eval/:id', isLoggedIn, empleadoController.index);
 
-    app.get('/dashboard/evaluacion/:id/u/:idu/ue/:idue',isLoggedIn, empleadoController.evaluacion);
+    app.get('/dashboard/eval-a-subord/:id', isLoggedIn, empleadoController.verEvalaSubor);
+
+    app.get('/dashboard/eval/:id/u/:idu/ue/:idue',isLoggedIn, empleadoController.evaluacion);
 
     app.post('/dashboard/evaluacion/:id/u/:idu/ue/:idue',isLoggedIn, empleadoController.procesarEval);
 

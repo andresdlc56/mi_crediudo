@@ -13,9 +13,65 @@ exports.index = function(req, res) {
 			cedula: User.cedula
 		}
 	}).then(Usuario => {
-		res.render('empleado/evaluacion/index', { Usuario });
+		models.evaluacionUsuario.findOne({
+			where: {
+				[Op.and]: [
+					{usuarioCedula: User.cedula},
+					{usuarioEvaluado: User.cedula}, 
+					{evaluacionId: req.params.id},
+					{status: false}
+				]
+			} 
+		}).then(autoEval => {
+			res.render('empleado/evaluacion/index', { Usuario, autoEval });
+		});
 	});
 }
+
+exports.verEvalaSubor = function(req, res) {
+	var User = req.user;
+
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: {
+			cedula: User.cedula
+		}
+	}).then(Usuario => {
+		models.evaluacionUsuario.findOne({
+			where: {
+				[Op.and]: [
+					{usuarioCedula: User.cedula}, 
+					{evaluacionId: req.params.id},
+					{status: false}
+				]
+			}
+		}).then(Eval => {
+			models.evaluacionUsuario.findAll({
+				where: {
+					[Op.and]: [
+						{usuarioCedula: User.cedula}, 
+						{evaluacionId: req.params.id},
+						{status: false}
+					]
+				}
+			}).then(evalASubord => {
+				models.usuario.findAll({
+					where: {
+						[Op.and]: [
+							{nucleoCodigo: Usuario.nucleoCodigo}, 
+							{unidadCodigo: Usuario.unidadCodigo},
+							{rolId: 5}
+						]
+					}
+				}).then(Empleado => {
+					//res.send(Usuario);
+					res.render('empleado/evaluacion/evalASubord', { Usuario, Eval, evalASubord, Empleado });
+				})
+			});
+		})
+	});
+}
+
 
 exports.evaluacion = function(req, res) {
 	var user = req.user;

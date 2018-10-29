@@ -96,7 +96,7 @@
 									<%if(Usuario.cargoId == 2) {%>
 										<!--AutoEvaluacion-->
 										<div class="col-sm-6 col-md-6 col-lg-6 text-center">
-											<a href="/dashboard/eval/<%- autoEval.id %>" class="btn btn-outline-primary active" style="width: 90%">
+											<a href="/dashboard/eval/<%- Eval.evaluacionId - 3 %>" class="btn btn-outline-primary" style="width: 90%">
 												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-child" style="font-size: 30pt;"></i>
 												<hr style="margin: 1px">
 												<p><strong>AutoEvaluación</strong></p>
@@ -105,7 +105,7 @@
 
 										<!--Evaluacion a Subordinados-->
 										<div class="col-sm-6 col-md-6 col-lg-6 text-center">
-											<a href="/dashboard/eval-a-subord/<%- autoEval.id + 3 %>" class="btn btn-outline-dark" style="width: 90%">
+											<a href="/dashboard/eval-a-subord/<%- Eval.evaluacionId  %>" class="btn btn-outline-dark active" style="width: 90%">
 												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-secret" style="font-size: 30pt;"></i>
 												<hr style="margin: 1px">
 												<p><strong>Eval al Subor</strong></p>
@@ -148,20 +148,38 @@
 						<div class="card ">
 							<div class="card-body">
 								<div class="row">
-									<%if(autoEval) {%>
-										<div class="col-sm-3 col-md-3 text-center">
-											<div class="card">
-												<div class="card-body">
-													<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-pencil-square-o" style="font-size: 40pt;"></i>
+									<%if(evalASubord && evalASubord.length > 0) {%>
+										<%for(let i = 0; i < evalASubord.length; i ++) {%>
+											<div class="col-md-6">
+												<div class="card">
+													<div class="card-body">
+														<div class="row">
+															<div class="col-sm-3 col-md-4 col-lg-3 text-center">
+																<div class="card">
+																	<div class="card-body">
+																		<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-pencil-square-o" style="font-size: 40pt;"></i>
+																	</div>
+																</div>	
+															</div>
+															
+															<div class="col-sm-9 col-md-8 col-lg-9">
+																<a href="" class="btn btn-primary btn-lg btn-block">Ejecutar</a>
+																<hr style="margin: 7px">
+																<p>
+																	Evaluar A: 
+																	<% for(let j = 0; j < Empleado.length; j ++) {%>
+																		<%if(evalASubord[i].usuarioEvaluado == Empleado[j].cedula) {%>
+																			<%- Empleado[j].nombre %> <%- Empleado[j].apellido %>
+																		<%}%>
+																	<%}%>
+																</p>
+															</div>
+														</div>
+													</div>
 												</div>
-											</div>	
-										</div>
-										
-										<div class="col-sm-9 col-md-9">
-											<a href="/dashboard/eval/<%- autoEval.id %>/u/<%- Usuario.cedula %>/ue/<%- Usuario.cedula %>" class="btn btn-primary btn-lg btn-block">Ejecutar</a>
-											<hr style="margin: 7px">
-											<p>algo</p>
-										</div>
+												<br>
+											</div>
+										<%}%>	
 									<%} else{%>
 										<h3 class="display-4 text-center">Evaluacion ya Ejecutada</h3>
 									<%}%>
