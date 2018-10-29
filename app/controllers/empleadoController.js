@@ -149,6 +149,120 @@ exports.verEvalaSubor = function(req, res) {
 	});
 }
 
+/*HACIENDO PRUEBA*/
+exports.prueba = function(req, res) {
+	var User = req.user;
+
+	/*Buscamos los datos del usuario q tiene la sesion activa (Evaluador)*/
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: User.cedula }
+	}).then(Evaluador => {
+		/*busca una evaluacion que tenga como id el id que viene por parametro */
+		models.evaluacion.findOne({
+			include: [models.instrument, models.nucleo, models.unidad],
+			where: { id: req.params.id }
+		}).then(Evaluacion => {
+			/*
+				busca todos los factores que estan relacionados con el instrumento que a su ves esta relacionado 
+				a la evaluacion encontrada anteriormente
+			*/
+			models.instrumentFactor.findAll({
+				include: [models.factor],
+				where: { instrumentId: Evaluacion.instrumentId }
+			}).then(Factor => {
+				/*
+					busca todos los items que estan relacionados con el instrumento que a su ves esta relacionado
+					con esta evaluacion
+				*/
+				models.item.findAll({
+					where: { instrumentId: Evaluacion.instrumentId }
+				}).then(Item => {
+					/*
+						Buscando los datos de la evaluacion donde el evaluador evalua a la cedula que viene por parametro
+					*/
+					models.evaluacionUsuario.findOne({
+						where: { 
+							[Op.and]: [
+								{usuarioCedula: Evaluador.cedula}, 
+								{evaluacionId:req.params.id},
+								{usuarioEvaluado:req.params.idu}
+							]  
+						}
+					}).then(Usuario => {
+						/* Buscamos los datos del Evaluado */
+						models.usuario.findOne({
+							include: [ models.nucleo, models.unidad ],
+							where: { cedula: Usuario.usuarioEvaluado }
+						}).then(Evaluado => {
+							if (Evaluador.nucleoCodigo == Evaluacion.nucleoCodigo && Evaluador.unidadCodigo == Evaluacion.unidadCodigo) {
+								//res.send(evaluacionUsuario);
+								res.render('empleado/evaluacion/examen/prueba', { 
+									Evaluador,
+									Evaluado, 
+									Evaluacion, 
+									Factor, 
+									Item
+								});
+							} else{
+								res.send('Negativo');
+							}
+						})
+					})	
+				})
+				
+			})	
+		})
+	});
+}
+
+exports.procesarPrueba = function(req, res) {
+	console.log('=================Procesando Evaluacion===================');
+	var item = [];
+	var acomulado = 0;
+	var calificacionFinal = 0;
+	console.log('========Buscando Items==========');
+	models.item.findAll({
+		where: { instrumentId: req.body.instrumentId }
+	}).then(Items => {
+		for(let i = 0; i < Items.length; i ++) {
+			item[i] = parseInt(req.body.item[i]); 
+			acomulado = acomulado + item[i];
+			console.log(Items[i].nombre+': '+item[i]);
+
+			models.itemUsuario.create({
+				calificacion: item[i],
+				evaluacionId: req.params.id,
+				itemId: Items[i].id,
+				evaluado: req.params.idu,
+				evaluador: req.body.Evaluador
+			}).then(itemUsuario => {
+				console.log('====Respuesta Almacenada=====');
+			})
+		}
+
+		calificacionFinal = (acomulado / Items.length).toFixed(2);
+		console.log('Calificacion Final: '+calificacionFinal);
+
+		models.evaluacionUsuario.update({
+			calificacion: calificacionFinal,
+			status: true
+		}, {
+			where: {
+				usuarioEvaluado: req.params.idu,
+				evaluacionId: req.params.id,
+				usuarioCedula: req.body.Evaluador
+			}
+		}).then(evaluacionUsuario => {
+			console.log('Calificacion final Almacenada Exitosamente');
+		});
+		req.flash('info', 'Gracias por su tiempo, Sus respuestas se han enviado Exitosamente!');
+		res.redirect('/dashboard');
+	});
+}
+/*FIN DE PRUEBA*/
+
+/*
 exports.evaluacion = function(req, res) {
 	var user = req.user;
 	//busca un usuario que tenga como cedula el id que viene por parametro
@@ -161,7 +275,7 @@ exports.evaluacion = function(req, res) {
 			/*
 				busca todos los factores que estan relacionados con el instrumento que a su ves esta relacionado 
 				a la evaluacion encontrada anteriormente
-			*/
+			
 			models.instrumentFactor.findAll({
 				include: [models.factor],
 				where: { instrumentId: Evaluacion.instrumentId }
@@ -169,7 +283,7 @@ exports.evaluacion = function(req, res) {
 				/*
 					busca todos los items que estan relacionados con el instrumento que a su ves esta relacionado
 					con esta evaluacion
-				*/
+				
 				models.item.findAll({
 					where: { instrumentId: Evaluacion.instrumentId }
 				}).then(Items => {
@@ -252,7 +366,7 @@ exports.procesarEval = function(req, res) {
 		res.redirect('/dashboard');
 	});
 }
-
+*/
 exports.observaciones = function(req, res) {
 	var user = req.user;
 

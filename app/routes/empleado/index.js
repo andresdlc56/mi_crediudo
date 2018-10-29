@@ -13,6 +13,12 @@ module.exports = function(app) {
 
     app.get('/dashboard/eval-a-subord/:id', isLoggedIn, empleadoController.verEvalaSubor);
 
+    /*HACIENDO UNA PRUEBA PARA VER EL EXAMEN*/
+    app.get('/dashboard/eval/:id/u/:idu', isLoggedIn, empleadoController.prueba);
+
+    app.post('/dashboard/eval/:id/u/:idu',isLoggedIn, empleadoController.procesarPrueba);
+    /*FIN DE PRUEBA*/
+
     app.get('/dashboard/eval/:id/u/:idu/ue/:idue',isLoggedIn, empleadoController.evaluacion);
 
     app.post('/dashboard/evaluacion/:id/u/:idu/ue/:idue',isLoggedIn, empleadoController.procesarEval);

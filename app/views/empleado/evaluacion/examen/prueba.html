@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>CREDIUDO | Dashboard</title>
+
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+		<!--Barra de Progreso-->
+		<script type="text/javascript" src="/js/pace.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+		<!-- Pie de Pagina -->
+    	<link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+
+		<!--estilo a mensaje de error-->
+	    <style type="text/css">
+	        label.error{
+	            color: red;
+	        }
+
+	        table, th, td {
+			    border: 1px solid black;
+			}
+	    </style>
+	</head>
+
+	<body>
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
+
+		<%- include('../../../partials/empleado/navbar.html') %>
+		
+		<div class="container-fluid">
+			<div class="row justify-content-md-center">
+				<div class="col-md-10">
+					<div class="row">
+						<div class="col-md-12">
+							<!--=======MIGAS DE PAN=========-->
+							<nav aria-label="breadcrumb" style="margin-top: 1%">
+								<ol class="breadcrumb">
+								    <li class="breadcrumb-item" aria-current="page"><a href="/dashboard">Home</a></li>
+								    <li class="breadcrumb-item" aria-current="page"><a href="">Evaluación</a></li>
+								</ol>
+							</nav>
+							<!--=======FIN MIGAS DE PAN=========-->
+						</div>
+
+						<div class="col-md-3">
+							<div class="card">
+							  	<div class="card-header">
+							    	Sesión:
+							  	</div>
+							  
+							  	<div class="card-body">
+							    	<div class="form-group">
+							    		<p><b>Nombre: </b><%= Evaluador.nombre %></p>
+							    		<p><b>Apellido: </b><%= Evaluador.apellido %></p>
+							    		<p><b>Nucleo: </b><%= Evaluador.nucleo.nombre %></p>
+							    		<p><b>Unidad: </b><%= Evaluador.unidad.nombre %></p>
+							    	</div>
+							  	</div>
+							</div>
+
+							<br>
+
+							<div class="card">
+							  	<div class="card-header">
+							    	Estas Evaluando a:
+							  	</div>
+							  
+							  	<div class="card-body">
+							    	<div class="form-group">
+							    		<p><b>Nombre: </b><%- Evaluado.nombre %></p>
+							    		<p><b>Apellido: </b><%- Evaluado.apellido %></p>
+							    		<p><b>Nucleo: </b><%- Evaluado.nucleo.nombre %></p>
+							    		<p><b>Unidad: </b><%- Evaluado.unidad.nombre %></p>
+							    	</div>
+							  	</div>
+							</div>
+						</div>
+
+						<div class="col-md-9">
+							<form method="post" action="" id="formEvaluacion">
+								<input type="hidden" name="factores" value=<%=Factor.length%>>
+								<input type="hidden" name="items" value="<%=Item.length%>">
+								<input type="hidden" name="instrumentId" value="<%=Evaluacion.instrumentId%>">
+								<input type="hidden" name="Evaluador" value="<%- Evaluador.cedula %>">
+
+								<table class="table">
+									<% var n=0 %>
+									<% var k=-1 %>
+									<% var item = [] %>
+									
+									<%for(var i = 0; i < Factor.length; i ++){%>
+								    	<tr class="thead-dark">
+								      		<th width="5%">#</th>
+								      		<th scope="col"><%=Factor[i].factor.nombre%></th>
+								      		<th>2 ptos</th>
+								      		<th>4 ptos</th>
+								      		<th>6 ptos</th>
+								      		<th>8 ptos</th>
+								      		<th>10 ptos</th>
+								    	</tr>
+								    	<% var k=0 %>
+								    	<% for(var j = 0; j < Item.length; j ++) {%>
+											<%if(Item[j].factorId == Factor[i].factorId){%>
+												<tr>
+											    	<td width="5%"></td>
+											    	<td><%=Item[j].nombre%></td> 
+											    	<td>
+											    		<input type="radio" name="item[<%= j %>]" value=2 id="item" required>
+											    	</td>
+											    	<td>
+											    		<input type="radio" name="item[<%= j %>]" value=4 id="item" required>
+											    	</td>
+											    	<td>
+											    		<input type="radio" name="item[<%= j %>]" value=6 id="item" required>
+											    	</td>
+											    	<td>
+											    		<input type="radio" name="item[<%= j %>]" value=8 id="item" required>
+											    	</td>
+											    	<td>
+											    		<input type="radio" name="item[<%= j %>]" value=10 id="item" required>
+											    	</td>
+											  	</tr>
+											  	<% k=k+1 %>
+											<%}%>
+								    	<%}%>
+								  	<%}%>
+								</table>
+								<hr>
+								<input type="submit" class="btn btn-primary btn-lg btn-block" name="enviar" value="Finalizar">
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+			
+		<br>
+
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
+
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="/js/jquery.validate.min.js"></script>
+		<script src="/js/main.js"></script>
+	</body>
+</html>
