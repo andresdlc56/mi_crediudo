@@ -6,18 +6,26 @@ exports.index = function(req, res) {
 
 	//BUSQUEDA DEL PERSONAL DE CREDIUDO
 	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
 		where:{rolId: 2} 
 	}).then(Presidente => {
 		models.usuario.findOne({
+			include: [ models.nucleo, models.unidad ],
 			where:{rolId: 3}
 		}).then(coordPlani => {
 			models.usuario.findOne({
+				include: [ models.nucleo, models.unidad ],
 				where:{rolId: 4}
 			}).then(coordEval => {
-				//res.send(Presidente);
-				res.render('admin/index', {Presidente, coordPlani, coordEval});	
-			})
-		})
+				models.usuario.findOne({
+					include: [ models.nucleo, models.unidad ],
+					where: { rolId: 1 }
+				}).then(Admin => {
+					//res.send(Presidente);
+					res.render('admin/index', {Presidente, coordPlani, coordEval, Admin});	
+				});
+			});
+		});
 	});
 	//FIN BUSQUEDA DEL PERSONAL DE CREDIUDO  
 }

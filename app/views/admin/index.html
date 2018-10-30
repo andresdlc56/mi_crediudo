@@ -4,6 +4,13 @@
 	<meta charset="UTF-8">
 	<title>CREDIUDO | ADMIN</title>
 
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="/js/pace.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+	<!-- Custom styles for this template -->
+    <link href="css/sticky-footer-navbar.css" rel="stylesheet">
+
 	<style>
 		table, th, td {
     		border: 1px solid black;
@@ -12,6 +19,202 @@
 	</style>
 </head>
 <body>
+	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+		<img src="images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+	</div>	
+
+	<%- include('../partials/president/navbar.html') %>
+
+	<div class="container-fluid">
+		<div class="row justify-content-md-center">
+			<div class="col-md-10">
+				<div class="row">
+					<div class="col-md-12">
+						<!--=======MIGAS DE PAN=========-->
+						<nav aria-label="breadcrumb" style="margin-top: 1%">
+							<ol class="breadcrumb">
+							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							</ol>
+						</nav>
+						<!--=======FIN MIGAS DE PAN=========-->		
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-3">
+						<div class="card">
+						  	<div class="card-header">
+						    	Datos Personales:
+						  	</div>
+						  
+						  	<div class="card-body">
+						    	<div class="form-group">
+						    		<p><b>Nombre: </b><%- Admin.nombre %></p>
+						    		<p><b>Apellido: </b><%- Admin.apellido %></p>
+						    		<p><b>Nucleo: </b><%- Admin.nucleo.nombre %></p>
+						    		<p><b>Unidad: </b><%- Admin.unidad.nombre %></p>
+						    	</div>
+						  	</div>
+						</div>
+					</div>
+
+					<div class="col-md-9">
+						<!--=======mensaje de alerta==========-->
+
+						<!--=======fin mensaje de alerta==========-->
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="jumbotron jumbotron-fluid">
+									<div class="container">
+								    	<h1 class="display-5">Bienvenido(a) <%- Admin.nombre %></h1>
+								    	<p class="lead">Administrador(a) Web de CREDIUDO</p>
+								  	</div>
+								</div>
+							</div>
+							<br>
+
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-body">
+										<h3>Personal CREDIUDO</h3>
+										<hr>
+										<div class="row">
+											<!--Presidente-->
+											<div class="col-md-12">
+												<div class="row">
+													<div class="col-xs-2 col-sm-3 col-md-3 col-lg-2">
+														<div class="card">
+															<div class="card-body text-center" style="padding: 8px">
+																<img alt class="rounded-circle img-fluid d-block mx-auto" src="../../uploads/perfil/user.jpg" style="width: 40%">
+																<hr style="margin: 5px">
+																<p style="font-size: 10pt">Presidente</p>		
+															</div>
+														</div>
+													</div>
+													<div class="col-xs-10 col-sm-9 col-md-9 col-lg-10">
+														<div class="card" style="height: 100%">
+															<div class="card-body">
+																<div class="row">
+																	<%if(Presidente == undefined) {%>
+																		<div class="col-sm-12 col-md-12 text-center">
+																			<h4>Vacante</h4>
+																			<a href="">Asignar</a>
+																		</div>
+																	<%} else {%>
+																		<div class="col-sm-12 col-md-12">
+																			<ul style="margin: 0; padding: 0; padding-left: 20px">
+																				<li>
+																					<p><b>Nombre y Apellido: </b><%- Presidente.nombre %> <%- Presidente.apellido %></p>
+																				</li>
+																				<li>
+																					<p><b>C.I: </b><%- Presidente.cedula %></p>
+																				</li>
+																			</ul>
+																		</div>
+																	<%}%>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<hr>
+											</div>
+
+											<!--Coord. Planificacion-->
+											<div class="col-md-12">
+												<div class="row">
+													<div class="col-xs-2 col-sm-3 col-md-3 col-lg-2">
+														<div class="card">
+															<div class="card-body text-center" style="padding: 8px">
+																<img alt class="rounded-circle img-fluid d-block mx-auto" src="../../uploads/perfil/user.jpg" style="width: 40%">
+																<hr style="margin: 5px">
+																<p style="font-size: 10pt">Coord. Planificación</p>		
+															</div>
+														</div>
+													</div>
+													<div class="col-xs-10 col-sm-9 col-md-9 col-lg-10">
+														<div class="card" style="height: 100%">
+															<div class="card-body">
+																<div class="row">
+																	<%if(coordPlani == undefined) {%>
+																		<div class="col-sm-12 col-md-12 text-center">
+																			<h4>Vacante</h4>
+																			<a href="">Asignar</a>
+																		</div>
+																	<%} else {%>
+																		<div class="col-sm-12 col-md-12">
+																			<ul style="margin: 0; padding: 0; padding-left: 20px">
+																				<li>
+																					<p><b>Nombre y Apellido: </b><%- coordPlani.nombre %> <%- coordPlani.apellido %></p>
+																				</li>
+																				<li>
+																					<p><b>C.I: </b><%- coordPlani.cedula %></p>
+																				</li>
+																			</ul>
+																		</div>
+																	<%}%>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<hr>
+											</div>
+
+											<!--Coord. Evaluación-->
+											<div class="col-md-12">
+												<div class="row">
+													<div class="col-xs-2 col-sm-3 col-md-3 col-lg-2">
+														<div class="card">
+															<div class="card-body text-center" style="padding: 8px">
+																<img alt class="rounded-circle img-fluid d-block mx-auto" src="../../uploads/perfil/user.jpg" style="width: 40%">
+																<hr style="margin: 5px">
+																<p style="font-size: 10pt">Coord. Evaluación</p>		
+															</div>
+														</div>
+													</div>
+													<div class="col-xs-10 col-sm-9 col-md-9 col-lg-10">
+														<div class="card" style="height: 100%">
+															<div class="card-body">
+																<div class="row">
+																	<%if(coordEval == undefined) {%>
+																		<div class="col-sm-12 col-md-12 text-center">
+																			<h4>Vacante</h4>
+																			<a href="">Asignar</a>
+																		</div>
+																	<%} else {%>
+																		<div class="col-sm-12 col-md-12">
+																			<ul style="margin: 0; padding: 0; padding-left: 20px">
+																				<li>
+																					<p><b>Nombre y Apellido: </b><%- coordEval.nombre %> <%- coordEval.apellido %></p>
+																				</li>
+																				<li>
+																					<p><b>C.I: </b><%- coordEval.cedula %></p>
+																				</li>
+																			</ul>
+																		</div>
+																	<%}%>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<hr>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<!--
 	<h2>Dashboard | ADMIN</h2>
 	<a href="/logout">Cerrar Sesion</a>
 	<br><br>
@@ -23,7 +226,7 @@
 	    	<th>Cedula</th>
 	    	<th>Acción</th>
 	  	</tr>
-	  	<!--=====================PRESIDENTE========================-->
+	  	<!--=====================PRESIDENTE========================
 		<tr>
 	    	<td>Presidente</td>
 	    	<td>
@@ -50,7 +253,7 @@
 	    	</td>
 	  	</tr>
 
-	  	<!--================COORD. PLANIFICACION========================-->
+	  	<!--================COORD. PLANIFICACION========================
 	  	<tr>
 	    	<td>Coord. Planificación</td>
 	    	<td>
@@ -76,7 +279,7 @@
 	    	</td>
 	  	</tr>
 
-		<!--=================COORD. EVEALUACION========================-->
+		<!--=================COORD. EVEALUACION========================
 	  	<tr>
 	    	<td>Coord. Evaluación</td>
 	    	<td>
@@ -102,5 +305,12 @@
 	  	</tr>
 
 	</table>
+-->
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
 </body>
 </html>
