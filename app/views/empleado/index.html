@@ -11,8 +11,6 @@
 	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
 	<!-- Pie de Pagina -->
     <link href="css/sticky-footer-navbar.css" rel="stylesheet">
-
-	
 </head>
 <body>
 	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
@@ -144,7 +142,7 @@
 													<p><%- Evaluacion[i].fecha_f.getDate() %>/<%- Evaluacion[i].fecha_f.getMonth() + 1%>/<%- Evaluacion[i].fecha_f.getFullYear() %></p>
 												</td>
 												<td>
-													<a href="/dashboard/eval/<%- Evaluacion[i].id %>" class="btn btn-primary">Ver</a>
+													<a href="/dashboard/eval/<%- Evaluacion[i].id %>" class="btn btn-primary" onclick="return verificarFecha('<%- Evaluacion[i].fecha_i %>');">Ver</a>
 												</td>
 											</tr>
 										<%}%>

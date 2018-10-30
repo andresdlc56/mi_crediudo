@@ -19,9 +19,11 @@ module.exports = function(app) {
     app.post('/dashboard/eval/:id/u/:idu',isLoggedIn, empleadoController.procesarPrueba);
     /*FIN DE PRUEBA*/
 
+    /*
     app.get('/dashboard/eval/:id/u/:idu/ue/:idue',isLoggedIn, empleadoController.evaluacion);
 
     app.post('/dashboard/evaluacion/:id/u/:idu/ue/:idue',isLoggedIn, empleadoController.procesarEval);
+    */
 
     app.get('/dashboard/observaciones/:id',isLoggedIn, empleadoController.observaciones);
 

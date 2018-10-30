@@ -7,9 +7,10 @@ function verificarFecha(fechaInicio){
 	var ano = fechaInical.getFullYear();
 
 	if(fechaInical.getTime() > fechaActual.getTime()) {
-		return alert("Disculpe, Aun no Puede Realizar La Evaluación \n La Fecha de Inicio es: "+ dia +"/" + mes + "/" + ano );
-	} else {
+		alert("Disculpe, Aun no Puede Realizar La Evaluación \n La Fecha de Inicio es: "+ dia +"/" + mes + "/" + ano );
 		return false;
+	} else {
+		return true;
 	}
 }
 
