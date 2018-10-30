@@ -80,7 +80,6 @@
 									<div class="card-body">
 										<h3>Evaluaciones En Curso</h3>
 										<hr>
-
 										<% if(evaluacion && evaluacion.length > 0) {%>
 											<table class="table">
 												<thead>
@@ -109,6 +108,8 @@
 													<%}%>
 											  	</tbody>
 											</table>
+										<%} else {%>
+											<h3 class="display-4 text-center">Ninguna</h3>
 										<%}%>				
 									</div>
 								</div>	
@@ -116,13 +117,11 @@
 								<br>
 								
 								<!--=============EVALUACIONES CULMINADAS==================-->
-								
+								<% if(evalCulminada && evalCulminada.length > 0) {%>
 									<div class="card">
 										<div class="card-body">
 											<h3>Evaluaciones Culminadas</h3>
 											<hr>
-										</div>	
-										<% if(evalCulminada > 0) {%>
 											<table class="table">
 												<thead>
 													<tr>
@@ -147,93 +146,12 @@
 													<%}%>
 												</tbody>
 											</table>
-										<%} else {%>
-											<h3 class="display-4 text-center">Ninguna</h3>
-										<%}%>
+										</div>	
 									</div>
-								<br>
+									<br>
+								<%}%>
 							</div>
 						</div>
-						
-						
-						
-						<!--
-						<a href="/president/auto" class="btn btn-light" style="width: 24%; height: 30%; padding-top: 3%">
-							<i class="fa fa-edit" style="font-size: 25pt;"></i>
-							<br>
-							<b>
-								Auto-Evaluación
-								<br>
-								<span class="badge badge-light">
-									<% let z = 0 %>
-									<% for(let i = 0; i < evaluacion.length; i ++) {%>
-										<% if(evaluacion[i].instrument.tipoEvalId == 1) {%>
-											<% z = z + 1 %>
-											<%= z %>
-										<%}%>
-									<%}%>
-								</span>
-		  						<span class="sr-only">unread messages</span>
-		  					</b>
-						</a>
-
-						<a href="#" class="btn btn-light" style="width: 24%; height: 30%; padding-top: 3%">
-							<i class="fa fa fa-users" style="font-size: 25pt;"></i>
-							<br>
-							<b>
-								Co-Evaluación 
-								<br>
-								<span class="badge badge-light">
-									<% let f = 0 %>
-									<% for(let i = 0; i < evaluacion.length; i ++) {%>
-										<% if(evaluacion[i].instrument.tipoEvalId == 2) {%>
-											<% f = f + 1 %>
-											<%= f %>
-										<%}%>
-									<%}%>
-								</span>
-		 	 					<span class="sr-only">unread messages</span>
-		 	 				</b>
-						</a>
-
-						<a href="#" class="btn btn-light" style="width: 24%; height: 30%; padding-top: 3%">
-							<i class="fa fa fa-users" style="font-size: 25pt;"></i>
-							<br>
-							<b>
-								Evaluación-Subordinado  
-								<br>
-								<span class="badge badge-light">
-									<% let l = 0 %>
-									<% for(let i = 0; i < evaluacion.length; i ++) {%>
-										<% if(evaluacion[i].instrument.tipoEvalId == 2) {%>
-											<% l = l + 1 %>
-											<%= l %>
-										<%}%>
-									<%}%>
-								</span>
-		  						<span class="sr-only">unread messages</span>
-							</b>
-						</a>
-
-						<a href="#" class="btn btn-light" style="width: 24%; height: 30%; padding-top: 3%">
-							<i class="fa fa-user-secret" style="font-size: 25pt;"></i>
-							<br>
-							<b>
-								Evaluación-Jefe 
-								<br>
-								<span class="badge badge-light">
-									<% let k = 0 %>
-									<% for(let i = 0; i < evaluacion.length; i ++) {%>
-										<% if(evaluacion[i].instrument.tipoEvalId == 2) {%>
-											<% k = k + 1 %>
-											<%= k %>
-										<%}%>
-									<%}%>
-								</span>
-		  						<span class="sr-only">unread messages</span>
-							</b>
-						</a>
-						-->
 					</div>
 				</div>		
 			</div>
