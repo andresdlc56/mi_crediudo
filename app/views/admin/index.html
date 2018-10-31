@@ -11,12 +11,7 @@
 	<!-- Custom styles for this template -->
     <link href="css/sticky-footer-navbar.css" rel="stylesheet">
 
-	<style>
-		table, th, td {
-    		border: 1px solid black;
-    		border-collapse: collapse;
-		}
-	</style>
+	
 </head>
 <body>
 	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
@@ -41,7 +36,7 @@
 				</div>
 
 				<div class="row">
-					<div class="col-md-3">
+					<div class="col-sm-12 col-md-12 col-lg-3">
 						<div class="card">
 						  	<div class="card-header">
 						    	Datos Personales:
@@ -56,9 +51,10 @@
 						    	</div>
 						  	</div>
 						</div>
+						<br>
 					</div>
 
-					<div class="col-md-9">
+					<div class="col-sm-12 col-md-12 col-lg-9">
 						<!--=======mensaje de alerta==========-->
 
 						<!--=======fin mensaje de alerta==========-->
@@ -74,7 +70,7 @@
 							</div>
 							<br>
 
-							<div class="col-md-12">
+							<div class=" col-sm-12 col-md-12 col-lg-8">
 								<div class="card">
 									<div class="card-body">
 										<h3>Personal CREDIUDO</h3>
@@ -83,7 +79,7 @@
 											<!--Presidente-->
 											<div class="col-md-12">
 												<div class="row">
-													<div class="col-xs-2 col-sm-3 col-md-3 col-lg-2">
+													<div class="col-sm-4 col-md-3 col-lg-3">
 														<div class="card">
 															<div class="card-body text-center" style="padding: 8px">
 																<img alt class="rounded-circle img-fluid d-block mx-auto" src="../../uploads/perfil/user.jpg" style="width: 40%">
@@ -92,9 +88,9 @@
 															</div>
 														</div>
 													</div>
-													<div class="col-xs-10 col-sm-9 col-md-9 col-lg-10">
+													<div class="col-sm-8 col-md-9 col-lg-9">
 														<div class="card" style="height: 100%">
-															<div class="card-body">
+															<div class="card-body" style="padding: 10px">
 																<div class="row">
 																	<%if(Presidente == undefined) {%>
 																		<div class="col-sm-12 col-md-12 text-center">
@@ -103,14 +99,19 @@
 																		</div>
 																	<%} else {%>
 																		<div class="col-sm-12 col-md-12">
-																			<ul style="margin: 0; padding: 0; padding-left: 20px">
-																				<li>
-																					<p><b>Nombre y Apellido: </b><%- Presidente.nombre %> <%- Presidente.apellido %></p>
-																				</li>
-																				<li>
-																					<p><b>C.I: </b><%- Presidente.cedula %></p>
-																				</li>
-																			</ul>
+																			<table>
+																				<tr>
+																					<td><b>Nombre y Apellido: </b><%- Presidente.nombre %> <%- Presidente.apellido %></td>
+																				</tr>
+																				<tr>
+																					<td><b>Cedula de Identidad: </b><%- Presidente.cedula %></td>
+																				</tr>
+																				<tr>
+																					<td>
+																						<a href="">Cambiar</a>
+																					</td>
+																				</tr>
+																			</table>
 																		</div>
 																	<%}%>
 																</div>
@@ -124,7 +125,7 @@
 											<!--Coord. Planificacion-->
 											<div class="col-md-12">
 												<div class="row">
-													<div class="col-xs-2 col-sm-3 col-md-3 col-lg-2">
+													<div class="col-sm-4 col-md-3 col-lg-3">
 														<div class="card">
 															<div class="card-body text-center" style="padding: 8px">
 																<img alt class="rounded-circle img-fluid d-block mx-auto" src="../../uploads/perfil/user.jpg" style="width: 40%">
@@ -133,7 +134,7 @@
 															</div>
 														</div>
 													</div>
-													<div class="col-xs-10 col-sm-9 col-md-9 col-lg-10">
+													<div class="col-sm-8 col-md-9 col-lg-9">
 														<div class="card" style="height: 100%">
 															<div class="card-body">
 																<div class="row">
@@ -144,14 +145,19 @@
 																		</div>
 																	<%} else {%>
 																		<div class="col-sm-12 col-md-12">
-																			<ul style="margin: 0; padding: 0; padding-left: 20px">
-																				<li>
-																					<p><b>Nombre y Apellido: </b><%- coordPlani.nombre %> <%- coordPlani.apellido %></p>
-																				</li>
-																				<li>
-																					<p><b>C.I: </b><%- coordPlani.cedula %></p>
-																				</li>
-																			</ul>
+																			<table>
+																				<tr>
+																					<td><b>Nombre y Apellido: </b><%- coordPlani.nombre %> <%- coordPlani.apellido %></td>
+																				</tr>
+																				<tr>
+																					<td><b>Cedula de Identidad: </b><%- coordPlani.cedula %></td>
+																				</tr>
+																				<tr>
+																					<td>
+																						<a href="">Cambiar</a>
+																					</td>
+																				</tr>
+																			</table>
 																		</div>
 																	<%}%>
 																</div>
@@ -165,7 +171,7 @@
 											<!--Coord. Evaluación-->
 											<div class="col-md-12">
 												<div class="row">
-													<div class="col-xs-2 col-sm-3 col-md-3 col-lg-2">
+													<div class="col-sm-4 col-md-3 col-lg-3">
 														<div class="card">
 															<div class="card-body text-center" style="padding: 8px">
 																<img alt class="rounded-circle img-fluid d-block mx-auto" src="../../uploads/perfil/user.jpg" style="width: 40%">
@@ -174,7 +180,7 @@
 															</div>
 														</div>
 													</div>
-													<div class="col-xs-10 col-sm-9 col-md-9 col-lg-10">
+													<div class="col-sm-8 col-md-9 col-lg-9">
 														<div class="card" style="height: 100%">
 															<div class="card-body">
 																<div class="row">
@@ -185,14 +191,19 @@
 																		</div>
 																	<%} else {%>
 																		<div class="col-sm-12 col-md-12">
-																			<ul style="margin: 0; padding: 0; padding-left: 20px">
-																				<li>
-																					<p><b>Nombre y Apellido: </b><%- coordEval.nombre %> <%- coordEval.apellido %></p>
-																				</li>
-																				<li>
-																					<p><b>C.I: </b><%- coordEval.cedula %></p>
-																				</li>
-																			</ul>
+																			<table>
+																				<tr>
+																					<td><b>Nombre y Apellido: </b><%- coordEval.nombre %> <%- coordEval.apellido %></td>
+																				</tr>
+																				<tr>
+																					<td><b>Cedula de Identidad: </b><%- coordEval.cedula %></td>
+																				</tr>
+																				<tr>
+																					<td>
+																						<a href="">Cambiar</a>
+																					</td>
+																				</tr>
+																			</table>
 																		</div>
 																	<%}%>
 																</div>
@@ -205,10 +216,92 @@
 										</div>
 									</div>
 								</div>
+								<br>
+							</div>
+
+							<div class="col-sm-12 col-md-12 col-lg-4">
+								<div class="card">
+									<div class="card-body">
+										<h4>Web por Nucleos</h4>
+										<hr>
+				
+										<div class="col-md-12 user-progress justify-center">
+											<div class="row">
+												<div class="col-sm-4 col-md-6">
+													<img alt class="rounded-circle img-fluid d-block mx-auto" src="../../uploads/perfil/user.jpg" style="width: 100%">	
+												</div>	
+											
+												<div class="col-sm-8 col-md-6">
+													<br>
+													<a href="">Anzoategui</a>
+												</div>
+											</div>
+											<hr>
+										</div>
+
+										<div class="col-md-12 user-progress justify-center">
+											<div class="row">
+												<div class="col-sm-4 col-md-6">
+													<img alt class="rounded-circle img-fluid d-block mx-auto" src="images/index/nucleos/bolivar.png" style="width: 100%">	
+												</div>	
+											
+												<div class="col-sm-8 col-md-6">
+													<br>
+													<a href="">Bolivar</a>
+												</div>
+											</div>
+											<hr>
+										</div>
+
+										<div class="col-md-12 user-progress justify-center">
+											<div class="row">
+												<div class="col-sm-4 col-md-6">
+													<img alt class="rounded-circle img-fluid d-block mx-auto" src="images/index/nucleos/monagas.png" style="width: 100%">	
+												</div>	
+											
+												<div class="col-sm-8 col-md-6">
+													<br>
+													<a href="">Monagas</a>
+												</div>
+											</div>
+											<hr>
+										</div>
+
+										<div class="col-md-12 user-progress justify-center">
+											<div class="row">
+												<div class="col-sm-4 col-md-6">
+													<img alt class="rounded-circle img-fluid d-block mx-auto" src="images/index/nucleos/nuevaesparta.png" style="width: 100%">	
+												</div>	
+											
+												<div class="col-sm-8 col-md-6">
+													<br>
+													<a href="">Nva. Esparta</a>
+												</div>
+											</div>
+											<hr>
+										</div>
+
+										<div class="col-md-12 user-progress justify-center">
+											<div class="row">
+												<div class="col-sm-4 col-md-6">
+													<img alt class="rounded-circle img-fluid d-block mx-auto" src="images/index/nucleos/sucre.png" style="width: 100%">	
+												</div>	
+											
+												<div class="col-sm-8 col-md-6">
+													<br>
+													<a href="">Sucre</a>
+												</div>
+											</div>
+											<hr>
+										</div>
+
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
