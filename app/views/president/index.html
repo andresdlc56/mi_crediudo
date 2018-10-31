@@ -34,26 +34,66 @@
 				</div>
 
 				<div class="row">
-					<div class="col-md-3">
-						<div class="card">
-						  	<div class="card-header">
-						    	Datos Personales:
-						  	</div>
-						  
-						  	<div class="card-body">
-						    	<div class="form-group">
-						    		<p><b>Nombre: </b><%= usuario.nombre %></p>
-						    		<p><b>Apellido: </b><%= usuario.apellido %></p>
-						    		<p><b>Nucleo: </b><%= usuario.nucleoCodigo %></p>
-						    		<p><b>Unidad: </b><%= usuario.unidadCodigo %></p>
-						    	</div>
-						  	</div>
+					<div class="col-sm-12 col-md-12 col-lg-3">
+						<div class="row">
+							<div class="col-sm-12 col-md-6 col-lg-12">
+								<div class="card">
+								  	<div class="card-header">
+								    	Datos Personales:
+								  	</div>
+								  
+								  	<div class="card-body">
+								    	<div class="form-group">
+								    		<p><b>Nombre: </b><%= usuario.nombre %></p>
+								    		<p><b>Apellido: </b><%= usuario.apellido %></p>
+								    		<p><b>Nucleo: </b><%= usuario.nucleoCodigo %></p>
+								    		<p><b>Unidad: </b><%= usuario.unidadCodigo %></p>
+								    	</div>
+								  	</div>
+								</div>
+								<br>		
+							</div>
+							<!--0590539346177-->
+							<div class="col-sm-12 col-md-6 col-lg-12">
+								<div class="card">
+								  	<div class="card-header">
+								    	<b>Personal CREDIUDO</b>
+								  	</div>
+								  
+									<div>							  	
+								    	<ul class="list-group">
+										  <li class="list-group-item">
+										  	<div class="row">
+										  		<div class="col-sm-3 col-md-5 col-lg-3 text-center">
+										  			<img alt class="rounded-circle img-fluid d-block mx-auto" src="../../uploads/perfil/user.jpg" style="width: 70%">
+										  			<p style="font-size: 10pt; margin-bottom: 0">Presidente</p>
+										  		</div>
+										  		
+										  		<div class="col-sm-6 col-md-6 col-lg-6">
+										  			<p style="margin: 2px" class="text-muted"><em>Andres De La cruz</em></p>
+										  			<p style="margin: 2px" class="text-muted"><em>C.I: 21095100</em></p>
+										  		</div>
+
+										  		<div class="col-sm-3 col-md-4 col-lg-3">
+										  			
+										  		</div>
+										  	</div>
+										  </li>
+										  <li class="list-group-item">Dapibus ac facilisis in</li>
+										  <li class="list-group-item">Morbi leo risus</li>
+										  <li class="list-group-item">Porta ac consectetur ac</li>
+										  <li class="list-group-item">Vestibulum at eros</li>
+										</ul>
+								  	</div>
+								</div>		
+							</div>
 						</div>
 
+						
 						<br>
 					</div>
 
-					<div class="col-md-9">
+					<div class="col-md-12 col-lg-9">
 						<!--=======mensaje de alerta==========-->
 						<% if(message == false) {%>
 
