@@ -36,7 +36,7 @@
 				<div class="row">
 					<div class="col-sm-12 col-md-12 col-lg-3">
 						<div class="row">
-							<div class="col-sm-12 col-md-6 col-lg-12">
+							<div class="col-sm-12 col-md-12 col-lg-12">
 								<div class="card">
 								  	<div class="card-header">
 								    	Datos Personales:
@@ -53,43 +53,7 @@
 								</div>
 								<br>		
 							</div>
-							<!--0590539346177-->
-							<div class="col-sm-12 col-md-6 col-lg-12">
-								<div class="card">
-								  	<div class="card-header">
-								    	<b>Personal CREDIUDO</b>
-								  	</div>
-								  
-									<div>							  	
-								    	<ul class="list-group">
-										  <li class="list-group-item">
-										  	<div class="row">
-										  		<div class="col-sm-3 col-md-5 col-lg-3 text-center">
-										  			<img alt class="rounded-circle img-fluid d-block mx-auto" src="../../uploads/perfil/user.jpg" style="width: 70%">
-										  			<p style="font-size: 10pt; margin-bottom: 0">Presidente</p>
-										  		</div>
-										  		
-										  		<div class="col-sm-6 col-md-6 col-lg-6">
-										  			<p style="margin: 2px" class="text-muted"><em>Andres De La cruz</em></p>
-										  			<p style="margin: 2px" class="text-muted"><em>C.I: 21095100</em></p>
-										  		</div>
-
-										  		<div class="col-sm-3 col-md-4 col-lg-3">
-										  			
-										  		</div>
-										  	</div>
-										  </li>
-										  <li class="list-group-item">Dapibus ac facilisis in</li>
-										  <li class="list-group-item">Morbi leo risus</li>
-										  <li class="list-group-item">Porta ac consectetur ac</li>
-										  <li class="list-group-item">Vestibulum at eros</li>
-										</ul>
-								  	</div>
-								</div>		
-							</div>
 						</div>
-
-						
 						<br>
 					</div>
 
@@ -106,6 +70,8 @@
 						        </div>
 						<%}%>
 						<!--=======fin mensaje de alerta==========-->
+
+						<!--========Contenido========-->
 						<div class="row">
 							<div class="col-md-12">
 								<div class="jumbotron jumbotron-fluid">
@@ -114,7 +80,9 @@
 								    	<p class="lead">Presidente(a) de CREDIUDO</p>
 								  	</div>
 								</div>
-								
+							</div>
+
+							<div class="col-md-12">
 								<!--==============EVALUACIONES EN CURSO=================-->
 								<div class="card">
 									<div class="card-body">
@@ -155,43 +123,112 @@
 								</div>	
 								<!--=========FIN EVALUACIONES EN CURSO=============-->
 								<br>
+							</div>
 								
-								<!--=============EVALUACIONES CULMINADAS==================-->
-								<% if(evalCulminada && evalCulminada.length > 0) {%>
-									<div class="card">
-										<div class="card-body">
-											<h3>Evaluaciones Culminadas</h3>
-											<hr>
-											<table class="table">
-												<thead>
-													<tr>
-														<th scope="col">Nombre de Eval</th>
-														<th scope="col">Nucleo</th>
-														<th scope="col">Unidad</th>
-												      	<th scope="col">Fecha I</th>
-												      	<th scope="col">Fecha F</th>
-												      	<th scope="col">Acción</th>
-													</tr>
-												</thead>
-												<tbody>
-													<% for(var i = 0; i < evalCulminada.length; i ++) {%>
-														<tr>
-															<td><%= evalCulminada[i].nombre %></td>
-															<td><%= evalCulminada[i].nucleo.nombre %></td>
-															<td><%= evalCulminada[i].unidad.nombre %></td>
-															<td><%= evalCulminada[i].fecha_i.getDate() %>/<%= evalCulminada[i].fecha_i.getMonth() + 1 %>/<%= evalCulminada[i].fecha_i.getFullYear() %></td>
-															<td><%= evalCulminada[i].fecha_f.getDate() %>/<%= evalCulminada[i].fecha_f.getMonth() + 1 %>/<%= evalCulminada[i].fecha_f.getFullYear() %></td>
-															<td><a href="/president/detalles/<%= evalCulminada[i].id %>" class="btn btn-primary btn-sm">Ver</a></td>
-														</tr>
-													<%}%>
-												</tbody>
-											</table>
-										</div>	
+							<div class="col-md-12">
+								<div class="row">
+									<div class="col-sm-12 col-md-12 col-lg-6">
+										<!--=============EVALUACIONES CULMINADAS==================-->
+											<div class="card">
+												<div class="card-body">
+													<h3>Evaluaciones Culminadas</h3>
+													<hr>
+													<% if(evalCulminada && evalCulminada.length > 0) {%>
+														<table class="table">
+															<thead>
+																<tr>
+																	<th scope="col">Nombre de Eval</th>
+																	<th scope="col">Nucleo</th>
+																	<th scope="col">Unidad</th>
+															      	
+															      	<th scope="col">Acción</th>
+																</tr>
+															</thead>
+															<tbody>
+																<% for(var i = 0; i < evalCulminada.length; i ++) {%>
+																	<tr>
+																		<td><%= evalCulminada[i].nombre %></td>
+																		<td><%= evalCulminada[i].nucleo.nombre %></td>
+																		<td><%= evalCulminada[i].unidad.nombre %></td>
+																		<td><a href="/president/detalles/<%= evalCulminada[i].id %>" class="btn btn-primary btn-sm">Ver</a></td>
+																	</tr>
+																<%}%>
+															</tbody>
+														</table>
+													<%} else{%>
+														<h3 class="display-4 text-center">Ninguna</h3>
+													<%}%>	
+												</div>	
+											</div>
+											<br>
 									</div>
-									<br>
-								<%}%>
+
+									<div class="col-sm-12 col-md-12 col-lg-6">
+										<div class="card">
+											<div class="card-body">
+												<h3>Personal CREDIUDO</h3>
+												<hr>
+												<div class="article border-bottom">
+													<div class="col-md-12">
+														<div class="row">
+															<div class="col-sm-4 col-md-4 text-center">
+																<img alt class="rounded-circle" src="../../uploads/perfil/user.jpg" style="width: 70%">
+										  						<p style="font-size: 10pt; margin-bottom: 0">Presidente</p>
+															</div>
+															<div class="col-sm-8 col-md-8">
+																<p style="margin: 2px" class="text-muted"><em><%- president.nombre %> <%- president.apellido %></em></p>
+										  						<p style="margin: 2px" class="text-muted"><em>C.I: <%- president.cedula %></em></p>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="article border-bottom">
+													<div class="col-md-12">
+														<div class="row">
+															<div class="col-sm-4 col-md-4 text-center">
+																<img alt class="rounded-circle" src="../../uploads/perfil/user.jpg" style="width: 70%">
+										  						<p style="font-size: 10pt; margin-bottom: 0">Coord. Planificación</p>
+															</div>
+															<div class="col-sm-6 col-md-6">
+																<p style="margin: 2px" class="text-muted"><em><%- coordPlani.nombre %> <%- coordPlani.apellido %></em></p>
+										  						<p style="margin: 2px" class="text-muted"><em>C.I: <%- coordPlani.cedula %></em></p>
+															</div>
+															<div class="col-sm-2 col-md-2">
+																<a href="/president/cambiar/<%- coordPlani.cedula %>" class="btn btn-light btn-sm edit-eval">
+															        <span class="glyphicon glyphicon-log-in"></span><i class="fa fa-exchange"></i>
+															    </a>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="article border-bottom">
+													<div class="col-md-12">
+														<div class="row">
+															<div class="col-sm-4 col-md-4 text-center">
+																<img alt class="rounded-circle" src="../../uploads/perfil/user.jpg" style="width: 70%">
+										  						<p style="font-size: 10pt; margin-bottom: 0">Coord. Evaluación</p>
+															</div>
+															<div class="col-sm-6 col-md-6">
+																<p style="margin: 2px" class="text-muted"><em><%- coordEval.nombre %> <%- coordEval.apellido %></em></p>
+										  						<p style="margin: 2px" class="text-muted"><em>C.I: <%- coordEval.cedula %></em></p>
+															</div>
+															<div class="col-sm-2 col-md-2">
+																<a href="/president/cambiar/<%- coordEval.cedula %>" class="btn btn-light btn-sm edit-eval">
+															        <span class="glyphicon glyphicon-log-in"></span><i class="fa fa-exchange"></i>
+															    </a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
+						<!--=======fin Contenido=====-->
 					</div>
 				</div>		
 			</div>

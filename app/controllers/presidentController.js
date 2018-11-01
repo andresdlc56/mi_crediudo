@@ -47,20 +47,39 @@ exports.index = function(req, res) {
 			models.evaluacion.findAll({
 				include: [models.nucleo, models.unidad, models.instrument],
 				where: {
-					fecha_f: {
-						[Op.lt]: fecha_actual
+					[Op.and]: {
+						fecha_f: {
+							[Op.lt]: fecha_actual
+						},
+						instrumentId: 4	
 					}
 				}
 			}).then(evalCulminada => {
-				//res.send(presidente);
-				res.render('president/index', { 
-					presidente, 
-					evaluacion,
-					evalCulminada, 
-					fecha_actual, 
-					usuario,
-					message: req.flash('info')
-				});	
+				models.usuario.findOne({
+					where: { rolId: 3 }
+				}).then(coordPlani => {
+					models.usuario.findOne({
+						where: { rolId: 4 }
+					}).then(coordEval => {
+						models.usuario.findOne({
+							where: { rolId: 2 }
+						}).then(president => {
+							//res.send(presidente);
+							res.render('president/index', { 
+								presidente, 
+								evaluacion,
+								evalCulminada, 
+								fecha_actual, 
+								usuario,
+								coordPlani,
+								coordEval,
+								president,
+								message: req.flash('info')
+							});
+						})
+					})	
+				})
+					
 			})	
 		});	
 	});
@@ -850,5 +869,15 @@ exports.editObserv = function(req, res) {
 	}).then(Observacion => {
 		req.flash('info', 'Observacion Actualizada!');
 		res.redirect('/president/detalles/'+req.params.id);
+	})
+}
+
+exports.cambiar = function(req, res) {
+	models.usuario.findOne({
+		where: {
+			cedula: req.user.cedula
+		}
+	}).then(usuario => {
+		res.render('president/personal/index', { usuario });
 	})
 }
