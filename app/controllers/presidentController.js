@@ -872,12 +872,54 @@ exports.editObserv = function(req, res) {
 	})
 }
 
-exports.cambiar = function(req, res) {
+exports.cambiarCoordP = function(req, res) {
 	models.usuario.findOne({
 		where: {
 			cedula: req.user.cedula
 		}
 	}).then(usuario => {
-		res.render('president/personal/index', { usuario });
-	})
+		models.usuario.findOne({
+			where: {
+				[Op.and]: [
+					{cedula: req.params.id}, 
+					{nucleoCodigo: 1},
+					{unidadCodigo: 12},
+					{rolId: 3}
+				]
+			}
+		}).then(coordPlani => {
+			res.render('president/cambiar/coordP', { usuario, coordPlani });
+		});
+	});
+}
+
+exports.buscarCoordP = function(req, res) {
+	var userCedula = parseInt(req.user.cedula); 
+	models.usuario.findOne({
+		where: {
+			cedula: userCedula
+		}
+	}).then(usuario => {
+		models.usuario.findOne({
+			where: {
+				[Op.and]: [
+					{cedula: parseInt(req.params.id)}, 
+					{nucleoCodigo: 1},
+					{unidadCodigo: 12},
+					{rolId: 3}
+				]
+			}
+		}).then(coordPlani => {
+			models.usuario.findOne({
+				include: [ models.nucleo, models.unidad ],
+				where: {
+					[Op.and]: [
+						{cedula: req.body.cedula}
+					]
+				}	
+			}).then(Reemplazo => {
+				res.render('president/cambiar/buscarCoordP', { usuario, coordPlani, Reemplazo });	
+			});
+		});
+	});
 }

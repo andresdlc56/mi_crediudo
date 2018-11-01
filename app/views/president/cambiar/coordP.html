@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Presidente</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="/js/pace.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+</head>
+<body>
+	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+	</div>	
+
+	<%- include('../../partials/president/navbar.html') %>
+
+	<div class="container-fluid">
+		<div class="row justify-content-md-center">
+			<div class="col-md-10">
+				<div class="row">
+					<div class="col-md-12">
+						<!--=======MIGAS DE PAN=========-->
+						<nav aria-label="breadcrumb" style="margin-top: 1%">
+							<ol class="breadcrumb">
+							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							</ol>
+						</nav>
+						<!--=======FIN MIGAS DE PAN=========-->		
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12 col-md-12 col-lg-3">
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-lg-12">
+								<div class="card">
+								  	<div class="card-header">
+								    	Datos Personales:
+								  	</div>
+								  
+								  	<div class="card-body">
+								    	<div class="form-group">
+								    		<p><b>Nombre: </b><%= usuario.nombre %></p>
+								    		<p><b>Apellido: </b><%= usuario.apellido %></p>
+								    		<p><b>Nucleo: </b><%= usuario.nucleoCodigo %></p>
+								    		<p><b>Unidad: </b><%= usuario.unidadCodigo %></p>
+								    	</div>
+								  	</div>
+								</div>
+								<br>		
+							</div>
+						</div>
+						<br>
+					</div>
+
+					<div class="col-lg-9">
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-lg-5">
+								<div class="card">
+									<div class="card-body">
+										<div class="article border-bottom">
+											<h3>Coord. de Planificación</h3>
+										</div>
+										<div class="row" style="margin-top: 10px">
+											<div class="col-sm-4 col-md-5 col-lg-4 text-center">
+												<img src="/images/img/user.png" alt="" class="img-thumbnail">
+											</div>
+											<div class="col-sm-8 col-md-7 col-lg-8">
+												<p style="margin-bottom: 3px; font-size: 15pt;"><b>Nombre: </b><%- coordPlani.nombre %></p>
+												<p style="margin-bottom: 3px; font-size: 15pt;"><b>Apellido: </b><%- coordPlani.apellido %></p>
+												<p style="margin-bottom: 3px; font-size: 15pt;"><b>C.I: </b><%- coordPlani.cedula %></p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-sm-12 col-md-12 col-lg-2 text-center">
+								<p style="font-size: 50pt"><span class="glyphicon glyphicon-log-in" ></span><i class="fa fa-exchange"></i></p>
+							</div>
+
+							<div class="col-sm-12 col-md-12 col-lg-5">
+								<div class="card">
+									<div class="card-body">
+										<div class="article border-bottom">
+											<h3>Reemplazo</h3>
+										</div>
+										<div class="row justify-content-md-center" style="margin-top: 10px">
+											<div class="col-lg-8">
+												<br><br>
+												<form method="POST" action="/president/cambiar_coordP/<%- coordPlani.cedula %>/buscar">
+													<div class="form-group">
+														<div class="input-group mb-3">
+														  	<div class="input-group-prepend">
+														    	<span class="input-group-text" id="basic-addon1">Cedula: </span>
+														  	</div>
+														  	<input type="text" name="cedula" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+														</div>	
+													</div>
+													<div class="form-group text-center">
+														<input class="btn btn-primary" type="submit" name="buscar" value="Buscar">	
+													</div>
+													<br>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>		
+			</div>
+		</div>
+	</div>
+
+	<footer class="footer" style="background: #BEBCB0;">
+		<div class="container">
+			<span class="text-muted">Pie de Pagina</span>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
+
+</body>
+</html>

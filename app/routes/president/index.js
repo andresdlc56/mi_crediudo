@@ -32,8 +32,13 @@ module.exports = function(app) {
     //Ruta para ver detalles de una Eval A Jefe concluida
     app.get('/president/detalles/:id/verEvalJefe/:idEvaluador/:idUser', isLoggedIn, presidentController.verEvalJefe);
 
-    //Ruta Para cambiar al personal que compone a CREDIUDO
-    app.get('/president/cambiar/:id', isLoggedIn, presidentController.cambiar);    
+    //Ruta Para cambiar al coord Eval de CREDIUDO
+    app.get('/president/cambiar_coordP/:id', isLoggedIn, presidentController.cambiarCoordP);
+
+    app.post('/president/cambiar_coordP/:id/buscar', isLoggedIn, presidentController.buscarCoordP);
+
+    //Ruta Para cambiar al coord Plani de CREDIUDO
+       
 
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Subordinado"
     app.get('/president/culminado/:id/u/:idu/ue/:idue',isLoggedIn, presidentController.culminado);
