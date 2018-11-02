@@ -39,7 +39,10 @@ exports.index = function(req, res) {
 					},
 					instrumentId: 4	
 				}
-			}
+			},
+			order: [
+				['fecha_i', 'ASC']
+			]
 		}).then(evaluacion => {
 			/*
 				Buscar todas las Evaluaciones donde la fecha final sea menor a la fecha actual
@@ -64,18 +67,37 @@ exports.index = function(req, res) {
 						models.usuario.findOne({
 							where: { rolId: 2 }
 						}).then(president => {
-							//res.send(presidente);
-							res.render('president/index', { 
-								presidente, 
-								evaluacion,
-								evalCulminada, 
-								fecha_actual, 
-								usuario,
-								coordPlani,
-								coordEval,
-								president,
-								message: req.flash('info')
-							});
+							models.evaluacion.findAll({
+								include: [models.nucleo, models.unidad, models.instrument],
+								where: {
+									[Op.and]: {
+										fecha_i: {
+											[Op.gt]: fecha_actual
+										},
+										fecha_f: {
+											[Op.gt]: fecha_actual
+										},
+										instrumentId: 4	
+									}
+								},
+								order: [
+									['fecha_i', 'ASC']
+								]
+							}).then(proxiEval => {
+								//res.send(evaluacion);
+								res.render('president/index', { 
+									presidente, 
+									evaluacion,
+									evalCulminada, 
+									fecha_actual, 
+									usuario,
+									coordPlani,
+									coordEval,
+									president,
+									proxiEval,
+									message: req.flash('info')
+								});
+							})
 						})
 					})	
 				})

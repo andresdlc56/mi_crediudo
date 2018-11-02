@@ -18,7 +18,7 @@ exports.index = function(req, res) {
 			instrumentId: 1	
 		},
 		order: [
-			['id', 'DESC']
+			['fecha_i', 'DESC']
 		]
 	}).then(Evaluaciones => {
 		//buscando todos los tipos de valuaciones

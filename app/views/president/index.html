@@ -124,6 +124,51 @@
 								<!--=========FIN EVALUACIONES EN CURSO=============-->
 								<br>
 							</div>
+
+							<!--===============PROXIMAS EVALUACIONES===========-->
+							<div class="col-md-12">
+								<!--==============EVALUACIONES EN CURSO=================-->
+								<div class="card">
+									<div class="card-body">
+										<h3>Proximas Evaluaciones</h3>
+										<hr>
+										<% if(proxiEval && proxiEval.length > 0) {%>
+											<table class="table">
+												<thead>
+												    <tr>
+												      	<th scope="col">Nombre de Eval</th>
+												      	<th scope="col">Nucleo</th>
+												      	<th scope="col">Unidad</th>
+												      	<th scope="col">Fecha I</th>
+												      	<th scope="col">Fecha F</th>
+												      	<!--<th scope="col">Calificar</th>-->
+												      	<th scope="col">Acción</th>
+												    </tr>
+											  	</thead>
+											  	<tbody>
+													<% for(var i = 0; i < proxiEval.length; i ++) {%>
+	
+													    	<tr>
+													      		<td><%= proxiEval[i].nombre %></td>
+													      		<td><%= proxiEval[i].nucleo.nombre %></td>
+													      		<td><%= proxiEval[i].unidad.nombre %></td>
+													      		<td><%= proxiEval[i].fecha_i.getDate() %>/<%= proxiEval[i].fecha_i.getMonth() + 1 %>/<%= proxiEval[i].fecha_i.getFullYear() %></td>
+													      		<td><%= proxiEval[i].fecha_f.getDate() %>/<%= proxiEval[i].fecha_f.getMonth() + 1 %>/<%= proxiEval[i].fecha_f.getFullYear() %></td>
+													      		<td><a href="/president/detalles/<%= proxiEval[i].id %>" class="btn btn-primary btn-sm">Ver</a></td>
+													    	</tr>
+														
+													<%}%>
+											  	</tbody>
+											</table>
+										<%} else {%>
+											<h3 class="display-4 text-center">Ninguna</h3>
+										<%}%>				
+									</div>
+								</div>	
+								<!--=========FIN EVALUACIONES EN CURSO=============-->
+								<br>
+							</div>
+							<!--===============FIN PROXIMAS EVALUACIONES======-->
 								
 							<div class="col-md-12">
 								<div class="row">
