@@ -21,9 +21,9 @@
 		<%- include('../../../partials/president/navbar.html') %>
 		<div class="container-fluid">	
 			<div class="row justify-content-md-center">
-				<div class="col-md-10">
+				<div class="col-md-12">
 					<div class="row">
-						<div class="col-md-12">
+						<div class="col-lg-12 col-md-12 col-lg-12">
 							<!--=======MIGAS DE PAN=========-->
 							<nav aria-label="breadcrumb" style="margin-top: 1%">
 								<ol class="breadcrumb">
@@ -37,27 +37,55 @@
 					</div>
 
 					<div class="row">
-						<!--=========DATOS DEL USUARIO LOGUEADO=========-->
-						<div class="col-md-3">
-							<div class="card">
-							  	<div class="card-header">
-							    	Datos Personales:
-							  	</div>
-							  
-							  	<div class="card-body">
-							    	<div class="form-group">
-							    		<p><b>Nombre: </b><%= usuario.nombre %></p>
-							    		<p><b>Apellido: </b><%= usuario.apellido %></p>
-							    		<p><b>Nucleo: </b><%= usuario.nucleoCodigo %></p>
-							    		<p><b>Unidad: </b><%= usuario.unidadCodigo %></p>
-							    	</div>
-							  	</div>
-							</div>
-							<br>
-						</div>
-						<!--=========FIN DATOS DEL USUARIO LOGUEADO=========-->
+						<div class="col-sm-12 col-md-12 col-lg-3">
+							<div class="row">
+								<!--=========DATOS DEL USUARIO LOGUEADO=========-->
+								<div class="col-sm-6 col-md-6 col-lg-12">
+									<div class="card">
+									  	<div class="card-header">
+									    	Datos Personales:
+									  	</div>
+									  
+									  	<div class="card-body">
+									    	<div class="form-group">
+									    		<p><b>Nombre: </b><%= usuario.nombre %></p>
+									    		<p><b>Apellido: </b><%= usuario.apellido %></p>
+									    		<p><b>Nucleo: </b><%= usuario.nucleoCodigo %></p>
+									    		<p><b>Unidad: </b><%= usuario.unidadCodigo %></p>
+									    	</div>
+									  	</div>
+									</div>
+									<br>
+								</div>
+								<!--=========FIN DATOS DEL USUARIO LOGUEADO=========-->
 
-						<div class="col-md-9">
+								<!--=========DATOS DEL USUARIO LOGUEADO=========-->
+								<div class="col-sm-6 col-md-6 col-lg-12">
+									<div class="card">
+									  	<div class="card-header">
+									    	¿Como Calificar a un Usuario?
+									  	</div>
+									  
+									  	<div class="card-body">
+									    	<div class="form-group">
+									    		<p>
+									    			Debe hacer Click en el nombre de uno de los Usuarios para asi proceder a 
+									    			Calificarlo.
+									    			<br><br>
+									    			NOTA: Si el Usuario no ha sido evaluado por todos los Evaluadores que el sistema 
+									    			le asigno, este no podra ser Calificado.
+									    		</p>
+									    	</div>
+									  	</div>
+									</div>
+									<br>
+								</div>
+								<!--=========FIN DATOS DEL USUARIO LOGUEADO=========-->
+							</div>	
+						</div>
+						
+
+						<div class="col-sm-12 col-md-12 col-lg-9">
 							<div class="row">
 								<div class="col-md-12">
 									<div class="card">
@@ -91,7 +119,7 @@
 											<hr>
 											<div class="row">
 												<% for(let i = 0; i < miembro.length; i ++) {%>
-													<div class="col-md-4">
+													<div class="col-sm-6 col-md-4 col-lg-4">
 														<div class="card">
 															<div class="card-body">
 																<div class="row">
@@ -104,7 +132,7 @@
 																	</div>
 
 																	<div class="col-7">
-																		<a href="/president/detalles/<%- infoEval.id %>/personal/<%- miembro[i].cedula %>");"><%- miembro[i].nombre %> <%- miembro[i].apellido %></a>
+																		<a href="/president/detalles/<%- infoEval.id %>/personal/<%- miembro[i].cedula %>";"><%- miembro[i].nombre %> <%- miembro[i].apellido %></a>
 																		<hr style="margin: 1px">
 																		<p><em><%- miembro[i].cargo.nombre %></em></p>
 																	</div>

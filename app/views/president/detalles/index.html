@@ -21,7 +21,7 @@
 		<%- include('../../partials/president/navbar.html') %>
 		<div class="container-fluid">	
 			<div class="row justify-content-md-center">
-				<div class="col-md-10">
+				<div class="col-md-12">
 					<div class="row">
 						<div class="col-md-12">
 							<!--=======MIGAS DE PAN=========-->
@@ -37,26 +37,53 @@
 
 					<div class="row">
 						<!--=========DATOS DEL USUARIO LOGUEADO=========-->
-						<div class="col-md-3">
-							<div class="card">
-							  	<div class="card-header">
-							    	Datos Personales:
-							  	</div>
-							  
-							  	<div class="card-body">
-							    	<div class="form-group">
-							    		<p><b>Nombre: </b><%= usuario.nombre %></p>
-							    		<p><b>Apellido: </b><%= usuario.apellido %></p>
-							    		<p><b>Nucleo: </b><%= usuario.nucleoCodigo %></p>
-							    		<p><b>Unidad: </b><%= usuario.unidadCodigo %></p>
-							    	</div>
-							  	</div>
+						<div class="col-sm-12 col-md-12 col-lg-3">
+							<div class="row">
+								<div class="col-sm-12 col-md-6 col-lg-12">
+									<div class="card">
+									  	<div class="card-header">
+									    	Datos Personales:
+									  	</div>
+									  
+									  	<div class="card-body">
+									    	<div class="form-group">
+									    		<p><b>Nombre: </b><%= usuario.nombre %></p>
+									    		<p><b>Apellido: </b><%= usuario.apellido %></p>
+									    		<p><b>Nucleo: </b><%= usuario.nucleoCodigo %></p>
+									    		<p><b>Unidad: </b><%= usuario.unidadCodigo %></p>
+									    	</div>
+									  	</div>
+									</div>
+									<br>		
+								</div>
+
+								<div class="col-sm-12 col-md-6 col-lg-12">
+									<div class="card">
+									  	<div class="card-header">
+									    	Evaluaciones Realizadas:
+									  	</div>
+									  
+									  	<div class="card-body">
+									    	<div class="row">
+									    		<div class="col-md-12 text-center">
+									    			<div class="progress">
+													  	<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: <%= (evalListas * 100) / evalTotal %>%"><%= parseInt((evalListas * 100) / evalTotal) %>%</div>
+													</div>
+													<p><%- evalListas %> de <%- evalTotal %></p>
+									    		</div>
+									    	</div>
+									  	</div>
+									</div>
+									<br>		
+								</div>
 							</div>
-							<br>
+							
 						</div>
 						<!--=========FIN DATOS DEL USUARIO LOGUEADO=========-->
 
-						<div class="col-md-9">
+
+
+						<div class="col-sm-12 col-md-12 col-lg-9">
 							<div class="row">
 								<div class="col-md-12">
 									<div class="card">
@@ -79,7 +106,11 @@
 												</div>
 												<div class="col-md-6 col-sm-6 text-center">
 													<br><br><br>
-													<a href="/president/detalles/<%- infoEval.id %>/personal" class="btn btn-primary">Ver Personal</a>
+													<%if(evalTotal == evalListas) {%>
+														<a href="/president/detalles/<%- infoEval.id %>/personal" class="btn btn-primary">Calificar al Personal</a>
+													<%} else {%>
+														<a href="#" class="btn btn-primary disabled" tabindex="-1" role="button" aria-disabled="true">Calificar al Personal</a>
+													<%}%>
 												</div>
 											</div>
 										</div>
@@ -101,36 +132,43 @@
 										      	<div class="card-body">
 										        	<% for(let i = 0; i < autoEval.length; i ++) {%>
 														<%if(autoEval[i].evaluacion.instrumentId == 4) {%>
-															<div class="row">
-																<div class="col-md-3 col-sm-3 text-center">
-													    			<div class="row">
-													    				<div class="col-md-12">
-													    					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
-													    				</div>
-													    		
-														    			<div class="col-md-12">
-														    				<p style="font-size: 10pt">
-														    					<% for(let j = 0; j < dataUser.length; j ++) {%>
-														    						<% if(dataUser[j].cedula == autoEval[i].usuarioCedula) {%>
-														    							<%- dataUser[j].nombre %> <%- dataUser[j].apellido %>
-														    						<%}%>
-														    					<%}%>
-														    				</p>
-														    			</div>
-														    		</div>
-														    	</div>
-														    	<div class="col-md-9 col-sm-9 text-center" style="border-left: 1px solid #E6DFDD">
-														    		<br>
-														    		<a href="/president/detalles/<%-autoEval[i].evaluacionId%>/verAutoe/<%-autoEval[i].usuarioEvaluado%>" class="btn btn-primary btn-sm btn-block" onclick="return verificar(<%- autoEval[i].status %>);">Ver</a>
-														    	</div>
+															<div class="article border-bottom">
+																<div class="row">
+																	<div class="col-md-3 col-sm-3 text-center">
+														    			<div class="row">
+														    				<div class="col-md-12">
+														    					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
+														    				</div>
+														    		
+															    			<div class="col-md-12">
+															    				<p style="font-size: 10pt">
+															    					<% for(let j = 0; j < dataUser.length; j ++) {%>
+															    						<% if(dataUser[j].cedula == autoEval[i].usuarioCedula) {%>
+															    							<%- dataUser[j].nombre %> <%- dataUser[j].apellido %>
+															    						<%}%>
+															    					<%}%>
+															    				</p>
+															    			</div>
+															    		</div>
+															    	</div>
+															    	<div class="col-md-9 col-sm-9 text-center" style="border-left: 1px solid #E6DFDD">
+															    		<br>
+															    		<%if(autoEval[i].status == true) {%>
+																			<a href="/president/detalles/<%-autoEval[i].evaluacionId%>/verAutoe/<%-autoEval[i].usuarioEvaluado%>" class="btn btn-primary btn-sm btn-block">Ver</a>
+															    		<%} else {%>
+																			<a href="#" class="btn btn-primary btn-sm btn-block disabled" tabindex="-1" role="button" aria-disabled="true">Ver</a>
+															    		<%}%>
+															    		<!--<a href="/president/detalles/<%-autoEval[i].evaluacionId%>/verAutoe/<%-autoEval[i].usuarioEvaluado%>" class="btn btn-primary btn-sm btn-block" onclick="return verificar(<%- autoEval[i].status %>);">Ver</a>-->
+															    	</div>
+																</div>
 															</div>
-															<hr style="margin-bottom: 1px">
 														<%}%>
 													<%}%>
 										      	</div>
 										    </div>
 										</div>
 									</div>
+									<br>
 								</div>
 
 								<div class="col-md-6">
@@ -147,49 +185,54 @@
 										      	<div class="card-body">
 										        	<% for(let l = 0; l < coEval.length; l ++) {%>
 														<%if(coEval[l].evaluacion.instrumentId == 3) {%>
-															<div class="row">
-																<div class="col-md-3 col-sm-3 text-center">
-													    			<div class="row">
-													    				<div class="col-md-12" style="margin-top: 5px">
-													    					<br>
-													    					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
-													    				</div>
-													    		
-														    			<div class="col-md-12">
-														    				<p style="font-size: 10pt">
-														    					<% for(let k = 0; k < dataUser.length; k ++) {%>
-														    						<% if(dataUser[k].cedula == coEval[l].usuarioCedula) {%>
-														    							<%- dataUser[k].nombre %> <%- dataUser[k].apellido %>
-														    						<%}%>
-														    					<%}%>
-														    				</p>
-														    			</div>
-														    		</div>
-														    	</div>
-														    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
-														    		---------------->
-														    		<a href="/president/detalles/<%- coEval[l].evaluacionId %>/vercoEval/<%- coEval[l].usuarioEvaluado %>/<%- coEval[l].usuarioCedula %>" class="btn btn-primary btn-sm btn-block" onclick="return verificar(<%- coEval[l].status %>);">Ver</a>
-														    	</div>
-														    	<div class="col-md-3 col-sm-3 text-center">
-													    			<div class="row">
-													    				<div class="col-md-12">
-													    					<br>
-													    					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
-													    				</div>
-													    		
-														    			<div class="col-md-12">
-														    				<p style="font-size: 10pt">
-														    					<% for(let k = 0; k < dataUser.length; k ++) {%>
-														    						<% if(dataUser[k].cedula == coEval[l].usuarioEvaluado) {%>
-														    							<%- dataUser[k].nombre %> <%- dataUser[k].apellido %>
-														    						<%}%>
-														    					<%}%>
-														    				</p>
-														    			</div>
-														    		</div>
-														    	</div>
+															<div class="article border-bottom">
+																<div class="row">
+																	<div class="col-md-3 col-sm-3 text-center">
+														    			<div class="row">
+														    				<div class="col-md-12" style="margin-top: 5px">
+														    					
+														    					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
+														    				</div>
+														    		
+															    			<div class="col-md-12">
+															    				<p style="font-size: 10pt">
+															    					<% for(let k = 0; k < dataUser.length; k ++) {%>
+															    						<% if(dataUser[k].cedula == coEval[l].usuarioCedula) {%>
+															    							<%- dataUser[k].nombre %> <%- dataUser[k].apellido %>
+															    						<%}%>
+															    					<%}%>
+															    				</p>
+															    			</div>
+															    		</div>
+															    	</div>
+															    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
+															    		---------------->
+															    		<%if(coEval[l].status == true) {%>
+																			<a href="/president/detalles/<%- coEval[l].evaluacionId %>/vercoEval/<%- coEval[l].usuarioEvaluado %>/<%- coEval[l].usuarioCedula %>" class="btn btn-primary btn-sm btn-block">Ver</a>
+															    		<%} else {%>
+																			<a href="#" class="btn btn-primary btn-sm btn-block disabled" tabindex="-1" role="button" aria-disabled="true">Ver</a>
+															    		<%}%>
+															    		<!--<a href="/president/detalles/<%- coEval[l].evaluacionId %>/vercoEval/<%- coEval[l].usuarioEvaluado %>/<%- coEval[l].usuarioCedula %>" class="btn btn-primary btn-sm btn-block" onclick="return verificar(<%- coEval[l].status %>);">Ver</a>-->
+															    	</div>
+															    	<div class="col-md-3 col-sm-3 text-center">
+														    			<div class="row">
+														    				<div class="col-md-12">
+														    					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
+														    				</div>
+														    		
+															    			<div class="col-md-12">
+															    				<p style="font-size: 10pt">
+															    					<% for(let k = 0; k < dataUser.length; k ++) {%>
+															    						<% if(dataUser[k].cedula == coEval[l].usuarioEvaluado) {%>
+															    							<%- dataUser[k].nombre %> <%- dataUser[k].apellido %>
+															    						<%}%>
+															    					<%}%>
+															    				</p>
+															    			</div>
+															    		</div>
+															    	</div>
+																</div>
 															</div>
-															<hr style="margin-bottom: 1px">
 														<%}%>
 													<%}%>
 										      	</div>
@@ -213,49 +256,55 @@
 											    <div class="card-body">
 											        <% for(let k = 0; k < evalSubor.length; k ++) {%>
 														<%if(evalSubor[k].evaluacion.instrumentId == 1) {%>
-															<div class="row">
-																<div class="col-md-3 col-sm-3 text-center">
-													    			<div class="row">
-													    				<div class="col-md-12">
-													    					<br>
-													    					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
-													    				</div>
-													    		
-														    			<div class="col-md-12">
-														    				<p>
-															    				<% for(let j = 0; j < dataUser.length; j ++) {%>
-															    					<% if(dataUser[j].cedula == evalSubor[k].usuarioCedula) {%>
-															    						<%- dataUser[j].nombre %> <%- dataUser[j].apellido %>
-															    					<%}%>
-															    				<%}%>
-														    				</p>
-														    			</div>
-														    		</div>
-														    	</div>
-														    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
-														    		---------------->
-														    		<a href="/president/detalles/<%- evalSubor[k].evaluacionId %>/verEvalSubor/<%- evalSubor[k].usuarioCedula %>/<%- evalSubor[k].usuarioEvaluado %>" class="btn btn-primary btn-sm btn-block" onclick="return verificar(<%- evalSubor[k].status %>);">Ver</a>
-														    	</div>
-														    	<div class="col-md-3 col-sm-3 text-center">
-													    			<div class="row">
-													    				<div class="col-md-12">
-													    					<br>
-													    					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
-													    				</div>
-													    		
-														    			<div class="col-md-12">
-														    				<p>
-															    				<% for(let j = 0; j < dataUser.length; j ++) {%>
-															    					<% if(dataUser[j].cedula == evalSubor[k].usuarioEvaluado) {%>
-															    						<%- dataUser[j].nombre %> <%- dataUser[j].apellido %>
-															    					<%}%>
-															    				<%}%>
-														    				</p>
-														    			</div>
-														    		</div>
-														    	</div>
+															<div class="article border-bottom">	
+																<div class="row">
+																	<div class="col-md-3 col-sm-3 text-center">
+														    			<div class="row">
+														    				<div class="col-md-12">
+														    					
+														    					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
+														    				</div>
+														    		
+															    			<div class="col-md-12">
+															    				<p>
+																    				<% for(let j = 0; j < dataUser.length; j ++) {%>
+																    					<% if(dataUser[j].cedula == evalSubor[k].usuarioCedula) {%>
+																    						<%- dataUser[j].nombre %> <%- dataUser[j].apellido %>
+																    					<%}%>
+																    				<%}%>
+															    				</p>
+															    			</div>
+															    		</div>
+															    	</div>
+															    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
+															    		---------------->
+															    		<%if(evalSubor[k].status == true) {%>
+																			<a href="/president/detalles/<%- evalSubor[k].evaluacionId %>/verEvalSubor/<%- evalSubor[k].usuarioCedula %>/<%- evalSubor[k].usuarioEvaluado %>" class="btn btn-primary btn-sm btn-block">Ver</a>
+															    		<%} else {%>
+																			<a href="#" class="btn btn-primary btn-sm btn-block disabled" tabindex="-1" role="button" aria-disabled="true">Ver</a>
+															    		<%}%>
+															    		<!--<a href="/president/detalles/<%- evalSubor[k].evaluacionId %>/verEvalSubor/<%- evalSubor[k].usuarioCedula %>/<%- evalSubor[k].usuarioEvaluado %>" class="btn btn-primary btn-sm btn-block" onclick="return verificar(<%- evalSubor[k].status %>);">Ver</a>-->
+															    	</div>
+															    	<div class="col-md-3 col-sm-3 text-center">
+														    			<div class="row">
+														    				<div class="col-md-12">
+														    					
+														    					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
+														    				</div>
+														    		
+															    			<div class="col-md-12">
+															    				<p>
+																    				<% for(let j = 0; j < dataUser.length; j ++) {%>
+																    					<% if(dataUser[j].cedula == evalSubor[k].usuarioEvaluado) {%>
+																    						<%- dataUser[j].nombre %> <%- dataUser[j].apellido %>
+																    					<%}%>
+																    				<%}%>
+															    				</p>
+															    			</div>
+															    		</div>
+															    	</div>
+																</div>
 															</div>
-															<hr style="margin-bottom: 1px">
 														<%}%>
 													<%}%>
 											   	</div>
@@ -279,55 +328,62 @@
 										      	<div class="card-body">
 										        	<% for(let l = 0; l < evalJefe.length; l ++) {%>
 														<%if(evalJefe[l].evaluacion.instrumentId == 2) {%>
-															<div class="row">
-																<div class="col-md-3 col-sm-3 text-center">
-													    			<div class="row">
-													    				<div class="col-md-12">
-													    					<br>
-													    					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
-													    				</div>
-													    		
-														    			<div class="col-md-12">
-														    				<p>
-															    				<% for(let j = 0; j < dataUser.length; j ++) {%>
-																    				<% if(dataUser[j].cedula == evalJefe[l].usuarioCedula) {%>
-																    					<%- dataUser[j].nombre %> <%- dataUser[j].apellido %>
-																    				<%}%>
-																    			<%}%>
-															    			</p>
-														    			</div>
-														    		</div>
-														    	</div>
-														    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
-														    		---------------->
-														    		<a href="/president/detalles/<%- evalJefe[l].evaluacionId %>/verEvalJefe/<%- evalJefe[l].usuarioCedula %>/<%- evalJefe[l].usuarioEvaluado %>" class="btn btn-primary btn-sm btn-block" onclick="return verificar(<%- evalJefe[l].status %>);">Ver</a>
-														    	</div>
-														    	<div class="col-md-3 col-sm-3 text-center">
-													    			<div class="row">
-													    				<div class="col-md-12">
-													    					<br>
-													    					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
-													    				</div>
-													    		
-														    			<div class="col-md-12">
-														    				<p>
-														    					<% for(let j = 0; j < dataUser.length; j ++) {%>
-																    				<% if(dataUser[j].cedula == evalJefe[l].usuarioEvaluado) {%>
-																    					<%- dataUser[j].nombre %> <%- dataUser[j].apellido %>
-																    				<%}%>
-																    			<%}%>
-														    				</p>
-														    			</div>
-														    		</div>
-														    	</div>
+															<div class="article border-bottom">
+																<div class="row">
+																	<div class="col-md-3 col-sm-3 text-center">
+														    			<div class="row">
+														    				<div class="col-md-12">
+														    					
+														    					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
+														    				</div>
+														    		
+															    			<div class="col-md-12">
+															    				<p>
+																    				<% for(let j = 0; j < dataUser.length; j ++) {%>
+																	    				<% if(dataUser[j].cedula == evalJefe[l].usuarioCedula) {%>
+																	    					<%- dataUser[j].nombre %> <%- dataUser[j].apellido %>
+																	    				<%}%>
+																	    			<%}%>
+																    			</p>
+															    			</div>
+															    		</div>
+															    	</div>
+															    	<div class="col-md-6 col-sm-6 text-center" style="border-left: 1px solid #E6DFDD; border-right: 1px solid #E6DFDD">
+															    		---------------->
+															    		<%if(evalJefe[l].status == true) {%>
+																			<a href="/president/detalles/<%- evalJefe[l].evaluacionId %>/verEvalJefe/<%- evalJefe[l].usuarioCedula %>/<%- evalJefe[l].usuarioEvaluado %>" class="btn btn-primary btn-sm btn-block">Ver</a>
+															    		<%} else {%>
+																			<a href="#" class="btn btn-primary btn-sm btn-block disabled" tabindex="-1" role="button" aria-disabled="true">Ver</a>
+															    		<%}%>
+															    		<!--<a href="/president/detalles/<%- evalJefe[l].evaluacionId %>/verEvalJefe/<%- evalJefe[l].usuarioCedula %>/<%- evalJefe[l].usuarioEvaluado %>" class="btn btn-primary btn-sm btn-block" onclick="return verificar(<%- evalJefe[l].status %>);">Ver</a>-->
+															    	</div>
+															    	<div class="col-md-3 col-sm-3 text-center">
+														    			<div class="row">
+														    				<div class="col-md-12">
+														    					
+														    					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
+														    				</div>
+														    		
+															    			<div class="col-md-12">
+															    				<p>
+															    					<% for(let j = 0; j < dataUser.length; j ++) {%>
+																	    				<% if(dataUser[j].cedula == evalJefe[l].usuarioEvaluado) {%>
+																	    					<%- dataUser[j].nombre %> <%- dataUser[j].apellido %>
+																	    				<%}%>
+																	    			<%}%>
+															    				</p>
+															    			</div>
+															    		</div>
+															    	</div>
+																</div>
 															</div>
-															<hr style="margin-bottom: 1px">
 														<%}%>
 													<%}%>
 										      	</div>
 										    </div>
 										</div>
 									</div>
+									<br>
 								</div>
 							</div>
 						</div>

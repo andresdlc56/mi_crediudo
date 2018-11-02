@@ -118,7 +118,9 @@ exports.autoEval = function(req, res) {
 
 exports.detalles = function(req, res) {
 	var usuario = req.user; //Datos del Usuario que inicio sesion
-
+	var idB = parseInt(req.params.id) + 1;
+	var idC = parseInt(req.params.id) + 2;
+	var idD = parseInt(req.params.id) + 3;
 	/*
 		Buscar los datos de la evaluacion que viene por parametro
 	*/
@@ -162,17 +164,35 @@ exports.detalles = function(req, res) {
 								unidadCodigo: infoEval.unidadCodigo
 							}
 						}).then(dataUser => {
-							//res.send(dataUser);
-							res.render('president/detalles/index', { 
-								usuario, 
-								infoEval, 
-								autoEval, 
-								coEval,
-								evalSubor,
-								evalJefe,
-								dataUser
+							models.evaluacionUsuario.findAll({
+								where: {
+									[Op.and]: [
+										{status: true},
+										{
+											[Op.or]: [{evaluacionId: req.params.id}, {evaluacionId: idB}, {evaluacionId: idC}, {evaluacionId: idD}]
+										} 
+									]
+								}
+							}).then(evalTrue => {
+								var evalTotal = autoEval.length + coEval.length + evalSubor.length + evalJefe.length;
+								var evalListas = evalTrue.length;
+
+								console.log("Total de Evaluaciones: "+ evalTotal);
+								console.log("Evaluaciones ya Ejecutadas: "+ evalListas);
+								//res.send(dataUser);
+								res.render('president/detalles/index', { 
+									usuario, 
+									infoEval, 
+									autoEval, 
+									coEval,
+									evalSubor,
+									evalJefe,
+									dataUser,
+									evalTotal,
+									evalListas
+								});	
 							});
-						})
+						});
 					});
 				});
 			});	
