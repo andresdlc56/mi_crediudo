@@ -43,6 +43,8 @@ module.exports = function(sequelize, Sequelize) {
         //Usuario.hasMany(models.evaluacionUsuario);
         //Usuario.belongsToMany(models.item, {through: 'itemUsuario', foreignKey: 'usuarioId'});
         Usuario.hasMany(models.observacion);
+
+        Usuario.hasMany(models.califiGeneral);
     };
         
     return Usuario;

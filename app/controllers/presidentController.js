@@ -298,12 +298,25 @@ exports.verCalificacion = function(req, res) {
 									]
 								}
 							}).then(evaldJefe => {
+								var califiGeneral = 0;
+								var acomuladoAutoeval = 0;
+								var acomuladoCoeval = 0;
+								var acomuladoJefe = 0;
+
+								acomuladoAutoeval = (autoEval.calificacion * 2) / 10;
+								acomuladoJefe = (evaldJefe.calificacion * 3) / 10;
+								acomuladoCoeval = (calificacion * 5) / 10;
+								califiGeneral = acomuladoAutoeval + acomuladoCoeval + acomuladoJefe;
+
+								
+
 								console.log('====info evaluacion=======');
 								console.log('Usuario Seleccionado: '+User.nombre+' '+User.apellido);
 								console.log('Calificacion AutoEval: '+autoEval.calificacion);
 								console.log('Nro de veces que ha sido evaluado por un compañero: '+coEval.length);
 								console.log('Calificacion coEval: '+calificacion);
 								console.log('Calificacion segun Jefe: '+evaldJefe.calificacion);
+								console.log('Calificacion segun General: '+califiGeneral);
 								//res.send('bien');
 								res.render('president/detalles/personal/calificacion', {
 									usuario,
@@ -311,7 +324,8 @@ exports.verCalificacion = function(req, res) {
 									User,
 									autoEval,
 									calificacion,
-									evaldJefe
+									evaldJefe,
+									califiGeneral
 								});
 							});		
 						} else {
@@ -353,10 +367,19 @@ exports.verCalificacion = function(req, res) {
 								var calificacion = 0;
 								let acomulado = 0;
 
+								var califiGeneral = 0;
+								var acomuladoAutoeval = 0;
+								var acomuladoSubor = 0;
+
+
 								for(let i = 0; i < evalAlJefe.length; i ++) {
 									acomulado = acomulado + parseFloat(evalAlJefe[i].calificacion);
 								}
 								calificacion = acomulado / evalAlJefe.length;
+
+								acomuladoAutoeval = (autoEval.calificacion * 3)/10;
+								acomuladoSubor = (calificacion * 7)/10;
+								califiGeneral = acomuladoAutoeval + acomuladoSubor;
 
 								console.log('====info evaluacion=======');
 								console.log('Usuario Seleccionado: '+User.nombre+' '+User.apellido);
@@ -370,7 +393,8 @@ exports.verCalificacion = function(req, res) {
 									autoEval,
 									evalAlJefe,
 									Subordinado,
-									calificacion
+									calificacion,
+									califiGeneral
 								});
 							} else {
 								res.send(evalAlJefe);

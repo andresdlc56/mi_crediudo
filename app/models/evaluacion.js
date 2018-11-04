@@ -22,6 +22,7 @@ module.exports = function(sequelize, Sequelize) {
         Evaluacion.hasMany(models.evaluacionUsuario, { onDelete:'cascade' });
         Evaluacion.hasMany(models.observacion);
         //Evaluacion.belongsToMany(models.usuario, {through: 'itemUsuario', foreignKey: 'evaluacionId'});
+        Evaluacion.hasMany(models.califiGeneral, { onDelete: 'cascade' });
     };
  
     return Evaluacion;
