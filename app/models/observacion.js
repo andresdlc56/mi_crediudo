@@ -5,6 +5,9 @@ module.exports = function(sequelize, Sequelize) {
         contenido: {
             type: Sequelize.TEXT,
             notEmpty: true
+        },
+        calificacion: {
+            type: Sequelize.DECIMAL
         }
     });
     // Class Method

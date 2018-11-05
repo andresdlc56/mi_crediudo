@@ -18,6 +18,11 @@ module.exports = function(app) {
 
     app.get('/president/detalles/:id/personal/:idUser', isLoggedIn, presidentController.verCalificacion);
 
+    app.post('/president/detalles/:id/personal/:idUser', isLoggedIn, presidentController.calificar);
+
+
+
+
     app.post('/president/detalles/editObs/:id', isLoggedIn, presidentController.editObserv);
 
     //Ruta para ver detalles de una autoEvaluación Concluida

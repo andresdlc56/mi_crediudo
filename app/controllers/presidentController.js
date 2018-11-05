@@ -308,25 +308,35 @@ exports.verCalificacion = function(req, res) {
 								acomuladoCoeval = (calificacion * 5) / 10;
 								califiGeneral = acomuladoAutoeval + acomuladoCoeval + acomuladoJefe;
 
-								
+								models.observacion.findOne({
+									where: {
+										[Op.and]: [
+											{usuarioCedula: User.cedula}, 
+											{evaluacionId: req.params.id}
+										] 
+									}
+								}).then(Observacion => {
+									console.log('====info evaluacion=======');
+									console.log('Usuario Seleccionado: '+User.nombre+' '+User.apellido);
+									console.log('Calificacion AutoEval: '+autoEval.calificacion);
+									console.log('Nro de veces que ha sido evaluado por un compañero: '+coEval.length);
+									console.log('Calificacion coEval: '+calificacion);
+									console.log('Calificacion segun Jefe: '+evaldJefe.calificacion);
+									console.log('Calificacion segun General: '+califiGeneral);
+									//res.send(Observacion);
+									res.render('president/detalles/personal/calificacion', {
+										usuario,
+										infoEval,
+										User,
+										autoEval,
+										calificacion,
+										evaldJefe,
+										califiGeneral,
+										Observacion
+									});
+								})								
 
-								console.log('====info evaluacion=======');
-								console.log('Usuario Seleccionado: '+User.nombre+' '+User.apellido);
-								console.log('Calificacion AutoEval: '+autoEval.calificacion);
-								console.log('Nro de veces que ha sido evaluado por un compañero: '+coEval.length);
-								console.log('Calificacion coEval: '+calificacion);
-								console.log('Calificacion segun Jefe: '+evaldJefe.calificacion);
-								console.log('Calificacion segun General: '+califiGeneral);
-								//res.send('bien');
-								res.render('president/detalles/personal/calificacion', {
-									usuario,
-									infoEval,
-									User,
-									autoEval,
-									calificacion,
-									evaldJefe,
-									califiGeneral
-								});
+								
 							});		
 						} else {
 							res.send('Aun no ha sido Evaluado 3 veces');
@@ -381,21 +391,31 @@ exports.verCalificacion = function(req, res) {
 								acomuladoSubor = (calificacion * 7)/10;
 								califiGeneral = acomuladoAutoeval + acomuladoSubor;
 
-								console.log('====info evaluacion=======');
-								console.log('Usuario Seleccionado: '+User.nombre+' '+User.apellido);
-								console.log('Calificacion AutoEval: '+autoEval.calificacion);
-								console.log('Nro de veces que ha sido evaluado por un Subordinado: '+evalAlJefe.length);
-								console.log('Calificacion segun subordinados: '+calificacion);
-								res.render('president/detalles/personal/calificacion', { 
-									usuario, 
-									infoEval, 
-									User,
-									autoEval,
-									evalAlJefe,
-									Subordinado,
-									calificacion,
-									califiGeneral
-								});
+								models.observacion.findOne({
+									where: {
+										[Op.and]: [
+											{usuarioCedula: User.cedula}, 
+											{evaluacionId: req.params.id}
+										] 
+									}
+								}).then(Observacion => {
+									console.log('====info evaluacion=======');
+									console.log('Usuario Seleccionado: '+User.nombre+' '+User.apellido);
+									console.log('Calificacion AutoEval: '+autoEval.calificacion);
+									console.log('Nro de veces que ha sido evaluado por un Subordinado: '+evalAlJefe.length);
+									console.log('Calificacion segun subordinados: '+calificacion);
+									res.render('president/detalles/personal/calificacion', { 
+										usuario, 
+										infoEval, 
+										User,
+										autoEval,
+										evalAlJefe,
+										Subordinado,
+										calificacion,
+										califiGeneral,
+										Observacion
+									});
+								})
 							} else {
 								res.send(evalAlJefe);
 							}
@@ -425,6 +445,20 @@ exports.verCalificacion = function(req, res) {
 			res.render('president/detalles/personal/calificacion', { usuario, infoEval, dataEvaluacion });
 		});
 		*/	
+	});
+}
+
+exports.calificar = function(req, res) {
+	var calificacion = parseFloat(req.body.calificacion);
+	calificacion = calificacion.toFixed(2);
+
+	models.observacion.create({
+		contenido: req.body.observacion,
+		calificacion: calificacion,
+		evaluacionId: req.params.id,
+		usuarioCedula: req.params.idUser
+	}).then(Observacion => {
+		res.redirect('/president/detalles/'+ req.params.id +'/personal');
 	});
 }
 

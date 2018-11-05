@@ -262,17 +262,35 @@
 
 								<div class="col-md-12">
 									<div class="card">
-										<div class="card-body">
-											<h3>Observación</h3>
-											<hr>
-											<form method="POST" action="#" id="">
-												<div class="form-group">
-												    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
-												</div>
+										<% if(Observacion) {%>
+											<div class="card-body">
+												<h3>Observación</h3>
 												<hr>
-												<input type="submit" class="btn btn-success float-right" name="enviar" value="Enviar">
-											</form>
-										</div>
+												<form method="POST" action="#">
+													<input type="hidden" name="calificacion" value="<%= califiGeneral %>">
+
+													<div class="form-group">
+													    <textarea class="form-control" id="observacion" name="observacion" rows="5"><%- Observacion.contenido %></textarea>
+													</div>
+													<hr>
+													<input type="submit" class="btn btn-success float-right" name="enviar" value="Editar">
+												</form>
+											</div>
+										<%} else {%>
+											<div class="card-body">
+												<h3>Observación</h3>
+												<hr>
+												<form method="POST" action="">
+													<input type="hidden" name="calificacion" value="<%= califiGeneral %>">
+
+													<div class="form-group">
+													    <textarea class="form-control" id="observacion" name="observacion" rows="5"></textarea>
+													</div>
+													<hr>
+													<input type="submit" class="btn btn-success float-right" name="enviar" value="Enviar">
+												</form>
+											</div>
+										<%}%>
 									</div>
 									<br>
 								</div>	
