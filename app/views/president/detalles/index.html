@@ -56,7 +56,28 @@
 									</div>
 									<br>		
 								</div>
-
+								
+								<% if(Calificacion.length == dataUser.length) {%>
+									<div class="col-sm-12 col-md-6 col-lg-12">
+										<div class="card">
+											<div class="card-header">
+												Calificación de Unidad
+											</div>
+											<div class="card-body">
+												<div class="row">
+													<div class="col-md-4 text-center">
+														<%- ((acomulado.toFixed(2) * 10) / (dataUser.length * 10)).toFixed(2)  %> Ptos
+													</div>
+													<div class="col-md-8 text-center">
+														Barra
+													</div>
+												</div>
+											</div>
+										</div>
+										<br>
+									</div>
+								<%}%>
+	
 								<div class="col-sm-12 col-md-6 col-lg-12">
 									<div class="card">
 									  	<div class="card-header">

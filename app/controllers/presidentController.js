@@ -179,18 +179,31 @@ exports.detalles = function(req, res) {
 
 								console.log("Total de Evaluaciones: "+ evalTotal);
 								console.log("Evaluaciones ya Ejecutadas: "+ evalListas);
-								//res.send(dataUser);
-								res.render('president/detalles/index', { 
-									usuario, 
-									infoEval, 
-									autoEval, 
-									coEval,
-									evalSubor,
-									evalJefe,
-									dataUser,
-									evalTotal,
-									evalListas
-								});	
+
+								models.observacion.findAll({
+									where: { evaluacionId: req.params.id }
+								}).then(Calificacion => {
+									var acomulado = 0;
+
+									for(let i = 0; i < Calificacion.length; i ++) {
+										acomulado = acomulado + parseFloat(Calificacion[i].calificacion);
+									}
+
+									//res.send(dataUser);
+									res.render('president/detalles/index', { 
+										usuario, 
+										infoEval, 
+										autoEval, 
+										coEval,
+										evalSubor,
+										evalJefe,
+										dataUser,
+										evalTotal,
+										evalListas, 
+										Calificacion,
+										acomulado
+									});
+								})	
 							});
 						});
 					});
