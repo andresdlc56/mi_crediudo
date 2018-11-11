@@ -93,6 +93,7 @@
 								<h3>Tipo de Evaluaciones</h3>
 								<hr>
 								<div class="row">
+									<!-- Si el Usuario que inicio sesion tiene cargo 2 has lo siguiente -->
 									<%if(Usuario.cargoId == 2) {%>
 										<!--AutoEvaluacion-->
 										<div class="col-sm-6 col-md-6 col-lg-6 text-center">
@@ -111,7 +112,10 @@
 												<p><strong>Eval al Subor</strong></p>
 											</a>
 										</div>
-									<%} else if(Usuario.cargoId == 3) {%>
+									<%} 
+
+									<!--Si el Usuario que inicio Sesion tiene Cargo 3 has lo Siguiente-->
+									else if(Usuario.cargoId == 3) {%>
 										<!--AutoEvaluacion-->
 										<div class="col-sm-6 col-md-6 col-lg-4 text-center">
 											<a href="" class="btn btn-outline-primary active" style="width: 90%">

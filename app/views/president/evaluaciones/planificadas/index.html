@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Evaluaciones Planificadas</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="/js/pace.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+</head>
+<body>
+	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+	</div>	
+
+	<%- include('../../../partials/president/navbar.html') %>
+
+	<div class="container-fluid">
+		<div class="row justify-content-md-center">
+			<!--=======MIGAS DE PAN=========-->
+			<div class="col-md-12">
+				<nav aria-label="breadcrumb" style="margin-top: 1%">
+					<ol class="breadcrumb">
+					    <li class="breadcrumb-item" aria-current="page">Home</li>
+					    <li class="breadcrumb-item active" aria-current="page">Eval. Planificadas</li>
+					</ol>
+				</nav>
+			</div>
+			<!--=======FIN MIGAS DE PAN=========-->
+
+			<!--==============Nav Izquierdo============-->
+			<div class="col-md-3">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								Usuario Logeado
+							</div>
+							<div class="card-body">
+								<p><b>Nombre: </b><%= Usuario.nombre %></p>
+								<p><b>Apellido: </b><%= Usuario.apellido %></p>
+								<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
+								<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
+							</div>
+						</div>
+						<br>
+					</div>
+
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								Algo
+							</div>
+							<div class="card-body">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!--=============Contenido=============-->
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						
+					</div>
+
+					<!--==============Tabla de Evaluaciones Planificadas==================-->
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="article border-bottom">
+									<h3>Evaluaciones Planificadas</h3>
+								</div>
+								<table class="table">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th scope="col">Nombre de Eval</th>
+											<th scope="col">Nucleo</th>
+									      	<th scope="col">Unidad</th>
+									      	<th scope="col">Acción</th>
+									    </tr>
+									</thead>
+								  	<tbody>
+										<% for(let i = 0; i < evalPlanificada.length; i ++) {%>
+											<tr>
+												<td>1</td>
+												<td><%- evalPlanificada[i].nombre %></td>
+												<td><%- evalPlanificada[i].nucleo.nombre %></td>
+												<td><%- evalPlanificada[i].unidad.nombre %></td>
+												<td>
+													<!--Si fecha de Inicio es menor a la actual y Fecha Final es mayor a la actual-->
+													<% if((evalPlanificada[i].fecha_i <= fechaActual) && (evalPlanificada[i].fecha_f > fechaActual)) {%>
+														<a href="" class="btn btn-success">En Proceso...</a>
+													<%}%>
+													
+													<!--Si Fecha de inicio es Mayor a la Fecha Actual y Fecha Final es Mayor a la Fecha Actual-->
+													<% if((evalPlanificada[i].fecha_i > fechaActual) && (evalPlanificada[i].fecha_f > fechaActual)) {%>
+														<a href="" class="btn btn-primary">En Espera</a>
+													<%}%>
+
+													<!--Si Fecha de inicio es Menor a la Fecha Actual y Fecha Final es Menor a la Fecha Actual-->
+													<% if((evalPlanificada[i].fecha_i < fechaActual) && (evalPlanificada[i].fecha_f < fechaActual)) {%>
+														<a href="" class="btn btn-danger">Culminada</a>
+													<%}%>
+												</td>
+											</tr>
+										<%}%>
+								  	</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<!--===========fin Tabla de Evaluaciones Planificadas==================-->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="footer" style="background: #BEBCB0;">
+		<div class="container">
+			<span class="text-muted">Pie de Pagina</span>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
+
+</body>
+</html>

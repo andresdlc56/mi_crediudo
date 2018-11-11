@@ -7,6 +7,16 @@ module.exports = function(app) {
     
     app.get('/president',isLoggedIn, presidentController.index);
 
+    //ver Evaluaciones Planificadas
+    app.get('/president/evalPlani', isLoggedIn, presidentController.evalPlanificadas);
+
+    //Ver Evaluaciones en Proceso
+    app.get('/president/evalProceso', isLoggedIn, presidentController.evalProceso);
+
+
+
+
+
     app.get('/president/auto', isLoggedIn, presidentController.autoEval);
 
     app.get('/president/detalles/:id',isLoggedIn, presidentController.detalles);

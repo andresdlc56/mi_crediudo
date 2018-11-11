@@ -84,26 +84,92 @@ exports.index = function(req, res) {
 									['fecha_i', 'ASC']
 								]
 							}).then(proxiEval => {
-								//res.send(evaluacion);
-								res.render('president/index', { 
-									presidente, 
-									evaluacion,
-									evalCulminada, 
-									fecha_actual, 
-									usuario,
-									coordPlani,
-									coordEval,
-									president,
-									proxiEval,
-									message: req.flash('info')
+								/*
+									Buscar todas las evaluaciones Planificadas donde el instrumento usuado sea 4
+								*/
+								models.evaluacion.findAll({
+									where: { instrumentId: 4 }
+								}).then(allEval => {
+									models.nucleo.findAll({
+
+									}).then(Nucleo => {
+										//res.send(evaluacion);
+										res.render('president/index', { 
+											presidente, 
+											evaluacion,
+											evalCulminada, 
+											fecha_actual, 
+											usuario,
+											coordPlani,
+											coordEval,
+											president,
+											proxiEval,
+											allEval,
+											Nucleo,
+											message: req.flash('info')
+										});
+									});
 								});
-							})
-						})
-					})	
-				})
-					
-			})	
+							});
+						});
+					});	
+				});
+			});	
 		});	
+	});
+}
+
+/*================ver Evaluaciones Planificadas================*/
+exports.evalPlanificadas = function(req, res) {
+	var user = req.user;
+	var fechaActual = new Date();
+
+	/*Buscar Usuario Logueado*/
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: user.cedula }
+	}).then(Usuario => {
+		/*Buscar todas las evaluaciones planificadas donde usen el intrumento 4*/
+		models.evaluacion.findAll({
+			include: [ models.nucleo, models.unidad ],
+			where: { instrumentId: 4 }
+		}).then(evalPlanificada => {
+			res.render('president/evaluaciones/planificadas/index', { Usuario, evalPlanificada, fechaActual });
+		});
+	});
+}
+
+/*================ver Evaluaciones en Proceso================*/
+exports.evalProceso = function(req, res) {
+	var user = req.user;
+	var fechaActual = new Date();
+
+	/*Buscar Usuario Logueado*/
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: user.cedula }
+	}).then(Usuario => {
+		/*
+			Buscar todas las evaluaciones planificadas donde usen el intrumento 4, 
+			su fecha de fecha de inicio sea menor o igual a fecha actual y
+			su fecha final sea mayor a la fecha actual 
+		*/
+		models.evaluacion.findAll({
+			include: [ models.nucleo, models.unidad ],
+			where: {
+				[Op.and]: {
+					fecha_i: {
+						[Op.lte]: fechaActual
+					},
+					fecha_f: {
+						[Op.gt]: fechaActual
+					},
+					instrumentId: 4	
+				}
+			}
+		}).then(evalProceso => {
+			res.render('president/evaluaciones/enProceso/index', { Usuario, evalProceso });
+		});
 	});
 }
 

@@ -83,7 +83,81 @@
 							</div>
 
 							<div class="col-md-12">
-								<!--==============EVALUACIONES EN CURSO=================-->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="card border-primary">
+											<div class="card-body text-white bg-primary">
+												<div class="row">
+													<div class="col-md-3">
+											    		<i class="fa fa-rocket fa-5x"></i>
+											    	</div>
+											    	<div class="col-md-9 text-right">
+											    		<div><h2><%- allEval.length %></h2></div>
+                                    					<div><p style="font-size: 15pt">Evaluaciones Planificadas</p></div>
+											    	</div>	
+												</div>
+										    	
+										  	</div>
+										  	<a href="/president/evalPlani">
+												<div class="card-footer text-muted">
+		    										2 days ago
+		  										</div>
+	  										</a>
+										</div>
+										<br>
+									</div>
+
+									<div class="col-md-4">
+										<div class="card border-success">
+											<div class="card-body text-white bg-success">
+												<div class="row">
+													<div class="col-md-3">
+											    		<i class="fa fa-clock-o fa-5x"></i>
+											    	</div>
+											    	<div class="col-md-9 text-right">
+											    		<div><h2><%- evaluacion.length %></h2></div>
+                                    					<div><p style="font-size: 15pt">Evaluaciones en Proceso</p></div>
+											    	</div>	
+												</div>
+										    	
+										  	</div>
+										  	<a href="/president/evalProceso">
+												<div class="card-footer text-muted">
+		    										2 days ago
+		  										</div>
+	  										</a>
+										</div>
+										<br>
+									</div>
+
+									<div class="col-md-4">
+										<div class="card border-danger">
+											<div class="card-body text-white bg-danger">
+												<div class="row">
+													<div class="col-md-3">
+											    		<i class="fa fa-thumbs-up fa-5x"></i>
+											    	</div>
+											    	<div class="col-md-9 text-right">
+											    		<div><h2><%- evalCulminada.length %></h2></div>
+                                    					<div><p style="font-size: 15pt">Evaluaciones Culminadas</p></div>
+											    	</div>	
+												</div>
+										    	
+										  	</div>
+										  	<a href="#">
+												<div class="card-footer text-muted">
+		    										2 days ago
+		  										</div>
+	  										</a>
+										</div>
+										<br>
+									</div>
+								</div>
+							</div>
+
+							<!--
+							<div class="col-md-6">
+								<!--==============EVALUACIONES EN CURSO=================
 								<div class="card">
 									<div class="card-body">
 										<h3>Evaluaciones En Curso</h3>
@@ -95,9 +169,6 @@
 												      	<th scope="col">Nombre de Eval</th>
 												      	<th scope="col">Nucleo</th>
 												      	<th scope="col">Unidad</th>
-												      	<th scope="col">Fecha I</th>
-												      	<th scope="col">Fecha F</th>
-												      	<!--<th scope="col">Calificar</th>-->
 												      	<th scope="col">Acción</th>
 												    </tr>
 											  	</thead>
@@ -108,8 +179,6 @@
 													      		<td><%= evaluacion[i].nombre %></td>
 													      		<td><%= evaluacion[i].nucleo.nombre %></td>
 													      		<td><%= evaluacion[i].unidad.nombre %></td>
-													      		<td><%= evaluacion[i].fecha_i.getDate() %>/<%= evaluacion[i].fecha_i.getMonth() + 1 %>/<%= evaluacion[i].fecha_i.getFullYear() %></td>
-													      		<td><%= evaluacion[i].fecha_f.getDate() %>/<%= evaluacion[i].fecha_f.getMonth() + 1 %>/<%= evaluacion[i].fecha_f.getFullYear() %></td>
 													      		<td><a href="/president/detalles/<%= evaluacion[i].id %>" class="btn btn-primary btn-sm">Ver</a></td>
 													    	</tr>
 														<%}%>
@@ -121,13 +190,14 @@
 										<%}%>				
 									</div>
 								</div>	
-								<!--=========FIN EVALUACIONES EN CURSO=============-->
+								<!--=========FIN EVALUACIONES EN CURSO=============
 								<br>
 							</div>
+							-->
 
-							<!--===============PROXIMAS EVALUACIONES===========-->
-							<div class="col-md-12">
-								<!--==============EVALUACIONES EN CURSO=================-->
+							<!--===============PROXIMAS EVALUACIONES===========
+							<div class="col-md-6">
+								<!--==============EVALUACIONES EN CURSO=================
 								<div class="card">
 									<div class="card-body">
 										<h3>Proximas Evaluaciones</h3>
@@ -139,9 +209,6 @@
 												      	<th scope="col">Nombre de Eval</th>
 												      	<th scope="col">Nucleo</th>
 												      	<th scope="col">Unidad</th>
-												      	<th scope="col">Fecha I</th>
-												      	<th scope="col">Fecha F</th>
-												      	<!--<th scope="col">Calificar</th>-->
 												      	<th scope="col">Acción</th>
 												    </tr>
 											  	</thead>
@@ -152,8 +219,6 @@
 													      		<td><%= proxiEval[i].nombre %></td>
 													      		<td><%= proxiEval[i].nucleo.nombre %></td>
 													      		<td><%= proxiEval[i].unidad.nombre %></td>
-													      		<td><%= proxiEval[i].fecha_i.getDate() %>/<%= proxiEval[i].fecha_i.getMonth() + 1 %>/<%= proxiEval[i].fecha_i.getFullYear() %></td>
-													      		<td><%= proxiEval[i].fecha_f.getDate() %>/<%= proxiEval[i].fecha_f.getMonth() + 1 %>/<%= proxiEval[i].fecha_f.getFullYear() %></td>
 													      		<td><a href="/president/detalles/<%= proxiEval[i].id %>" class="btn btn-primary btn-sm">Ver</a></td>
 													    	</tr>
 														
@@ -165,53 +230,17 @@
 										<%}%>				
 									</div>
 								</div>	
-								<!--=========FIN EVALUACIONES EN CURSO=============-->
+								<!--=========FIN EVALUACIONES EN CURSO=============
 								<br>
 							</div>
-							<!--===============FIN PROXIMAS EVALUACIONES======-->
+							===============FIN PROXIMAS EVALUACIONES======-->
 								
 							<div class="col-md-12">
 								<div class="row">
 									<div class="col-sm-12 col-md-12 col-lg-6">
-										<!--=============EVALUACIONES CULMINADAS==================-->
-											<div class="card">
-												<div class="card-body">
-													<h3>Evaluaciones Culminadas</h3>
-													<hr>
-													<% if(evalCulminada && evalCulminada.length > 0) {%>
-														<table class="table">
-															<thead>
-																<tr>
-																	<th scope="col">Nombre de Eval</th>
-																	<th scope="col">Nucleo</th>
-																	<th scope="col">Unidad</th>
-															      	
-															      	<th scope="col">Acción</th>
-																</tr>
-															</thead>
-															<tbody>
-																<% for(var i = 0; i < evalCulminada.length; i ++) {%>
-																	<tr>
-																		<td><%= evalCulminada[i].nombre %></td>
-																		<td><%= evalCulminada[i].nucleo.nombre %></td>
-																		<td><%= evalCulminada[i].unidad.nombre %></td>
-																		<td><a href="/president/detalles/<%= evalCulminada[i].id %>" class="btn btn-primary btn-sm">Ver</a></td>
-																	</tr>
-																<%}%>
-															</tbody>
-														</table>
-													<%} else{%>
-														<h3 class="display-4 text-center">Ninguna</h3>
-													<%}%>	
-												</div>	
-											</div>
-											<br>
-									</div>
-
-									<div class="col-sm-12 col-md-12 col-lg-6">
 										<div class="card">
 											<div class="card-body">
-												<h3>Personal CREDIUDO</h3>
+												<h4>Personal CREDIUDO</h4>
 												<hr>
 												<div class="article border-bottom">
 													<div class="col-md-12">
@@ -270,6 +299,19 @@
 											</div>
 										</div>
 										<br>
+									</div>
+
+									<div class="col-lg-6">
+										<div class="card">
+											<div class="card-body">
+												<div class="article border-bottom">
+													<h4>Proximas Evaluaciones</h4>
+												</div>
+												<div>
+													
+												</div>	
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>

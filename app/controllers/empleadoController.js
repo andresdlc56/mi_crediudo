@@ -118,8 +118,7 @@ exports.verEvalaSubor = function(req, res) {
 			where: {
 				[Op.and]: [
 					{usuarioCedula: User.cedula}, 
-					{evaluacionId: req.params.id},
-					{status: false}
+					{evaluacionId: req.params.id}
 				]
 			}
 		}).then(Eval => {
@@ -141,7 +140,7 @@ exports.verEvalaSubor = function(req, res) {
 						]
 					}
 				}).then(Empleado => {
-					//res.send(Usuario);
+					//res.send(Eval);
 					res.render('empleado/evaluacion/evalASubord', { Usuario, Eval, evalASubord, Empleado });
 				})
 			});
