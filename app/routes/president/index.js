@@ -13,9 +13,15 @@ module.exports = function(app) {
     //Ver Evaluaciones en Proceso
     app.get('/president/evalProceso', isLoggedIn, presidentController.evalProceso);
 
+    //Ver Evaluaciones Culminadas
 
+    //Ver lista de Nucleos
+    app.get('/president/nucleos', isLoggedIn, presidentController.nucleos);
 
+    //Ver lista de Unidades de un Nucleo Seleccionado
+    app.get('/president/nucleos/:id', isLoggedIn, presidentController.unidades);
 
+    
 
     app.get('/president/auto', isLoggedIn, presidentController.autoEval);
 

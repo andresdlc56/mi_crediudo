@@ -173,6 +173,53 @@ exports.evalProceso = function(req, res) {
 	});
 }
 
+/*===============Ver Nucleos=======================*/
+exports.nucleos = function(req, res) {
+	var user = req.user;
+
+	/*Buscar Usuario logueado*/
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: user.cedula }
+	}).then(Usuario => {
+		/*Buscar todos los Nucleos*/
+		models.nucleo.findAll({
+			order: [
+				['codigo', 'ASC']
+			]
+		}).then(Nucleo => {
+			models.unidad.findAll({
+
+			}).then(Unidad => {
+				res.render('president/nucleos/index', { Usuario, Nucleo, Unidad });	
+			});
+		});
+	});
+}
+
+/*===============Ver Unidades=======================*/
+exports.unidades = function(req, res) {
+	var user = req.user;
+
+	/*Buscar Usuario logueado*/
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: user.cedula }
+	}).then(Usuario => {
+		/*Buscar el Nucleo que viene por parametro*/
+		models.nucleo.findOne({
+			where: { codigo: req.params.id }
+		}).then(Nucleo => {
+			models.unidad.findAll({
+				where: { nucleoCodigo: req.params.id }
+			}).then(Unidad => {
+				res.render('president/unidades/index', { Usuario, Nucleo, Unidad });	
+			})
+		});
+	});
+}
+
+
 exports.autoEval = function(req, res) {
 	models.evaluacion.findAll({
 		include: [ models.instrument, models.nucleo, models.unidad ]
@@ -182,6 +229,7 @@ exports.autoEval = function(req, res) {
 	});
 }
 
+/* Controlador para ver los detalles de una Evalucacion */
 exports.detalles = function(req, res) {
 	var usuario = req.user; //Datos del Usuario que inicio sesion
 	var idB = parseInt(req.params.id) + 1;
