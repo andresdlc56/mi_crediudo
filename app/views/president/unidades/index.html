@@ -94,7 +94,19 @@
 											<tr>
 												<td><%- i + 1 %></td>
 												<td><%- Unidad[i].nombre %></td>
-												<td></td>
+												<td>
+													<% if(Evaluacion && Evaluacion.length > 0) {%>
+														<% for(let j = 0; j < Evaluacion.length; j ++) {%>
+															<% if(Evaluacion[j].unidadCodigo == Unidad[i].codigo) {%>
+																<%- Evaluacion.length %>
+															<%} else {%>
+																0
+															<%}%>
+														<%}%>
+													<%} else {%>
+														0
+													<%}%>
+												</td>
 												<td></td>
 												<td><a href="" class="btn btn-primary">Ver</a></td>
 											</tr>

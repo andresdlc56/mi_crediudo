@@ -210,10 +210,21 @@ exports.unidades = function(req, res) {
 		models.nucleo.findOne({
 			where: { codigo: req.params.id }
 		}).then(Nucleo => {
+			/*Buscar todas las Unidades pertenecientes al nucleo que viene por parametro*/
 			models.unidad.findAll({
 				where: { nucleoCodigo: req.params.id }
 			}).then(Unidad => {
-				res.render('president/unidades/index', { Usuario, Nucleo, Unidad });	
+				/*Buscar todas las Evaluaciones que se le han hecho a dicho nucleo*/
+				models.evaluacion.findAll({
+					where: { 
+						[Op.and]: [
+							{ nucleoCodigo: req.params.id },
+							{ instrumentId: 4 } 
+						]
+					}
+				}).then(Evaluacion => {
+					res.render('president/unidades/index', { Usuario, Nucleo, Unidad, Evaluacion });	
+				})
 			})
 		});
 	});
