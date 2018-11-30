@@ -546,3 +546,11 @@ exports.editEval = function(req, res) {
 		})
 	});
 }
+
+exports.getNucleos = function(req, res) {
+	models.nucleo.findAll({
+
+	}).then(Nucleos => {
+		res.json(Nucleos);
+	})
+}

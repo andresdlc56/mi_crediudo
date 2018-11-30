@@ -25,6 +25,8 @@ module.exports = function(app) {
 
     app.get('/coord_plani/editEval/:id', isLoggedIn, coord_planiController.editEval);
 
+    app.get('/getNucleos', coord_planiController.getNucleos);
+
     app.get('/logout',authController.logout);
 
 	function isLoggedIn(req, res, next) {

@@ -23,7 +23,7 @@
 
 	<%- include('../../partials/coord_plani/navbar.html') %>
 
-	<div class="container-fluid">
+	<div class="container-fluid" id="main">
 		<div class="row justify-content-md-center">
 			<div class="col-md-10">
 				<div class="row">
@@ -78,6 +78,7 @@
 													</select>
 												</div>
 
+												<!--
 												<div class="form-group col-md-6">
 													<label>Nucleo: </label>
 													<select name="nucleo" id="nucleo" class="form-control">
@@ -87,6 +88,23 @@
 														<%}%>
 													</select>
 												</div>
+												-->
+												<div class="form-group col-md-6">
+													<label>Nucleo: </label>
+													<select v-model="nucleo" name="nucleo" class="form-control">
+														<option disabled value="">Please select one</option>
+														<option v-for="option in options" v-bind:value="option.codigo">
+															{{ option.nombre }}
+														</option>
+													</select>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label>Unidad:</label>
+												<select name="unidad" id="unidad" class="form-control">
+													<option value=""> --Seleccione una Opción-- </option>
+												</select>	
 											</div>
 
 											<div class="form-group">
@@ -135,5 +153,32 @@
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el:'#main',
+			data: {
+				nucleo: {},
+				options: []
+			},
+			created() {
+				this.getNucleos()
+			},
+			methods: {
+				getNucleos() {
+					axios.get('/getNucleos')
+						.then(res => {
+							this.options = res.data
+						}).catch(err => {
+							console.log(err)
+						});
+				},
+				getUnidades() {
+					console.log('getUnidades')
+				}
+			}
+		})
+	</script>
 </body>
 </html>
