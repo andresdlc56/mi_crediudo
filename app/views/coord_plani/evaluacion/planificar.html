@@ -91,7 +91,7 @@
 												-->
 												<div class="form-group col-md-6">
 													<label>Nucleo: </label>
-													<select v-model="nucleo" name="nucleo" class="form-control">
+													<select v-model="nucleo" name="nucleo" class="form-control" @change="getUnidades(nucleo)">
 														<option disabled value="">Please select one</option>
 														<option v-for="option in options" v-bind:value="option.codigo">
 															{{ option.nombre }}
@@ -102,8 +102,11 @@
 
 											<div class="form-group">
 												<label>Unidad:</label>
-												<select name="unidad" id="unidad" class="form-control">
-													<option value=""> --Seleccione una Opción-- </option>
+												<select v-model="unidad" name="unidad" class="form-control">
+													<option disabled value="">Please select one</option>
+													<option v-for="uni in unidad" v-bind:value="uni">
+														{{ uni }}
+													</option>
 												</select>	
 											</div>
 
@@ -159,8 +162,9 @@
 		new Vue({
 			el:'#main',
 			data: {
+				unidad: [],
 				nucleo: {},
-				options: []
+				options: [],
 			},
 			created() {
 				this.getNucleos()
@@ -174,8 +178,13 @@
 							console.log(err)
 						});
 				},
-				getUnidades() {
-					console.log('getUnidades')
+				getUnidades(id) {
+					axios.get('/getUnidades/' + id)
+						.then(res => {
+							this.unidad = res.data
+						}).catch(err => {
+							console.log(err)
+						})
 				}
 			}
 		})

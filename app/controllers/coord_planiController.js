@@ -554,3 +554,11 @@ exports.getNucleos = function(req, res) {
 		res.json(Nucleos);
 	})
 }
+
+exports.getUnidades = function(req, res) {
+	models.unidad.findAll({
+		where: { nucleoCodigo: req.params.id }
+	}).then(Unidades => {
+		res.json(Unidades)
+	})
+}

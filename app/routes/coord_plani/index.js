@@ -27,6 +27,8 @@ module.exports = function(app) {
 
     app.get('/getNucleos', coord_planiController.getNucleos);
 
+    app.get('/getUnidades/:id', coord_planiController.getUnidades);
+
     app.get('/logout',authController.logout);
 
 	function isLoggedIn(req, res, next) {
