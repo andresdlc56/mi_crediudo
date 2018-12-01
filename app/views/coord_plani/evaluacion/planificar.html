@@ -102,10 +102,10 @@
 
 											<div class="form-group">
 												<label>Unidad:</label>
-												<select v-model="unidad" name="unidad" class="form-control">
+												<select name="unidad" class="form-control">
 													<option disabled value="">Please select one</option>
-													<option v-for="uni in unidad" v-bind:value="uni">
-														{{ uni }}
+													<option v-for="uni in unidades" v-bind:value="uni.codigo">
+														{{ uni.nombre }}
 													</option>
 												</select>	
 											</div>
@@ -162,7 +162,7 @@
 		new Vue({
 			el:'#main',
 			data: {
-				unidad: [],
+				unidades: [],
 				nucleo: {},
 				options: [],
 			},
@@ -181,7 +181,7 @@
 				getUnidades(id) {
 					axios.get('/getUnidades/' + id)
 						.then(res => {
-							this.unidad = res.data
+							this.unidades = res.data
 						}).catch(err => {
 							console.log(err)
 						})
