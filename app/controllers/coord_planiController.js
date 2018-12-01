@@ -61,7 +61,7 @@ exports.addEval = function(req, res) {
 			nucleoCodigo: req.body.nucleo,
 			fecha_i: req.body.fecha_i,
 			fecha_f: req.body.fecha_f,
-			unidadCodigo: undefined,
+			unidadCodigo: req.body.unidad,
 			instrumentId: 4
 		}).then(autoEval => {
 			//creando una nueva evaluación CoEval
@@ -71,7 +71,7 @@ exports.addEval = function(req, res) {
 				nucleoCodigo: req.body.nucleo,
 				fecha_i: req.body.fecha_i,
 				fecha_f: req.body.fecha_f,
-				unidadCodigo: undefined,
+				unidadCodigo: req.body.unidad,
 				instrumentId: 3
 			}).then(coEval => {
 				//creando una nueva evaluación evalJefe
@@ -81,7 +81,7 @@ exports.addEval = function(req, res) {
 					nucleoCodigo: req.body.nucleo,
 					fecha_i: req.body.fecha_i,
 					fecha_f: req.body.fecha_f,
-					unidadCodigo: undefined,
+					unidadCodigo: req.body.unidad,
 					instrumentId: 2
 				}).then(evalJefe => {
 					//creando una nueva evaluación evalSubor
@@ -91,15 +91,223 @@ exports.addEval = function(req, res) {
 						nucleoCodigo: req.body.nucleo,
 						fecha_i: req.body.fecha_i,
 						fecha_f: req.body.fecha_f,
-						unidadCodigo: undefined,
+						unidadCodigo: req.body.unidad,
 						instrumentId: 1
 					}).then(evalSubor => {
-						//buscando la evaluacion recien creada
-						models.evaluacion.findById(autoEval.id).then(Evaluacion => {
-							//res.send(Evaluacion);
-							/*Redireccionando a esta ruta para seleccionar la unidad donde se planificara la eval y finalizar*/
-							res.redirect('/coord_plani/plani_eval/'+Evaluacion.id+'/n/'+Evaluacion.nucleoCodigo);
-						});			
+						/*
+							Busca las ultimas 4 evaluaciones creadas
+						*/
+						models.evaluacion.findAll({
+							include: [models.instrument],
+							limit: 4,
+							order: [
+								['id', 'DESC']
+							]
+						}).then(Evaluaciones => {
+							models.usuario.findAll({
+								where: { 
+									[Op.and]: [
+										{nucleoCodigo:req.body.nucleo}, 
+										{unidadCodigo:req.body.unidad}
+									] 
+								}
+							}).then(Usuario => {
+								for(let i = 0; i < Evaluaciones.length; i ++) {
+									//Si la evaluacion es de tipo Auto-Eval
+									if(Evaluaciones[i].instrument.tipoEvalId == 1) {
+										//hacemos un recorrido por todos los usuarios que encontramos 
+										for(let j = 0; j < Usuario.length; j ++) {
+											/*
+												se creara un registro en la tabla evaluacionUsuario j cantidad
+												de veces 
+											*/
+											models.evaluacionUsuario.create({
+												calificacion: null,
+												status: false,
+												evaluacionId: Evaluaciones[3].id,
+												usuarioCedula: Usuario[j].cedula,
+												usuarioEvaluado: Usuario[j].cedula
+											})
+										}
+									}
+									//Si la evaluacion es de tipo Eval-Jefe (los subordinados Evaluan al Jefe)
+									else if(Evaluaciones[i].instrument.tipoEvalId == 4) {
+										/*
+											Buscamos a todos los subordinados del nucleo y unidad que ya 
+											seleccionamos 
+										*/
+										models.usuario.findAll({
+											where: { 
+												[Op.and]: [
+													{nucleoCodigo: req.body.nucleo},
+													{unidadCodigo: req.body.unidad},
+													{cargoId: 3},
+													{rolId: 5}
+												] 
+											}
+										}).then(Subordinado => {
+											/*
+												Buscamos al jefe de la unidad
+											*/
+											models.usuario.findOne({
+												where: {
+													[Op.and]: [
+																{nucleoCodigo: req.body.nucleo},
+																{unidadCodigo:req.body.unidad},
+																{cargoId:2},
+																{rolId:5}
+													]
+												}
+											}).then(Jefe => {
+												/*
+													Hacemos un recorrido por todos los subordinados encontrados
+												*/
+												for(let k = 0; k < Subordinado.length; k ++) {
+													/*
+														se creara un registro en la tabla evaluacionUsuario k cantidad
+														de veces 
+													*/
+													models.evaluacionUsuario.create({
+														calificacion: null,
+														status: false,
+														evaluacionId: Evaluaciones[1].id,
+														usuarioCedula: Subordinado[k].cedula,
+														usuarioEvaluado: Jefe.cedula
+													})	
+												}
+											})
+										})
+									}
+									//Si la evaluacion es de tipo Eval-subor (los Jefes evaluan a sus subordinados)
+									else if(Evaluaciones[i].instrument.tipoEvalId == 3) {
+										/*
+											Buscamos al jefe de la unidad que seleccionamos
+										*/
+										models.usuario.findOne({
+											where: {
+												[Op.and]: [
+													{nucleoCodigo:req.body.nucleo},
+													{unidadCodigo:req.body.unidad},
+													{cargoId:2},
+													{rolId:5}
+												]
+											}
+										}).then(Jefe => {
+											/*
+												Buscamos a todos los usuarios subordinados de la unidad seleccionada
+											*/
+											models.usuario.findAll({
+												where: { [Op.and]: [{nucleoCodigo:req.body.nucleo},
+													{unidadCodigo:req.body.unidad},
+													{cargoId:3},
+													{rolId:5}] 
+												}
+											}).then(Subordinado => {
+												/*
+													Hacemos un recorrido por todos los subordinados encontrados
+												*/
+												for(var z = 0; z < Subordinado.length; z ++) {
+													/*
+														se creara un registro en la tabla evaluacionUsuario z cantidad
+														de veces 
+													*/
+													models.evaluacionUsuario.create({
+														calificacion: null,
+														status: false,
+														evaluacionId: Evaluaciones[0].id,
+														usuarioCedula: Jefe.cedula,
+														usuarioEvaluado: Subordinado[z].cedula
+													})
+												}		
+											})
+										})
+									}
+									//Si la evaluacion es de tipo Co-Eval
+									else if(Evaluaciones[i].instrument.tipoEvalId == 2) {
+										/*
+											Buscamos todos los usuarios que pertenescan al nucleo que viene por 
+											pametro que pertenescan a la unidad seleccionada en formalario anterior 
+											que tengan cargo 3 (Empleado) y rol 5. estos representaran a 
+											los usuarios Evaluados
+										*/
+										models.usuario.findAll({
+											where: {
+												[Op.and]: [
+													{nucleoCodigo:req.body.nucleo},
+													{unidadCodigo:req.body.unidad},
+													{cargoId:3},
+													{rolId:5}
+												]
+											}
+										}).then(Evaluado => {
+											/*hacemos un recorrido por todos los evaluados*/
+											for(let m = 0; m < Evaluado.length; m ++) {
+												/*arreglo que guardara usuarios elgidos de manera aleatoria*/
+												var aleatorio = ['uno', 'dos', 'tres'];
+												/*
+													Buscamos a todos los usuarios que pertenescan al nucleo que viene
+													por parametro, que pertenescan a la unidad previamente seleccionada 
+													en el formulario anterior, que tengan cargo 3, rol 5 y su cedula no sea igual a
+													Evaluado[m]. es decir encontrara a todos los usuarios que cumplan con esas condiciones 
+													menos uno (Evaluado[m])
+												*/
+												models.usuario.findAll({
+													where: {
+														[Op.and]: [
+															{nucleoCodigo:req.body.nucleo},
+															{unidadCodigo:req.body.unidad},
+															{cargoId:3},
+															{rolId:5},
+															{cedula: { [Op.ne]: Evaluado[m].cedula }}
+														]
+													}
+												}).then(Evaluador => {
+													/*
+														Debido a que cada Evaluado debe ser Evaluado 3 veces repetimos las
+														siguientes instrucciones 3 veces
+													*/
+													for(let n = 0; n < 3; n ++) {
+														/*console.log() para ir viendo los resultados por consola*/
+														console.log('============Randon'+n+'=========');
+														/*
+															asignamos al arreglo aleatorio[n] una cedula aleatoria proveniente de 
+															Evaluador[valor aleatorio].cedula
+														*/
+														aleatorio[n] = Evaluador[Math.floor(Math.random() * Evaluador.length)].cedula;
+														/*Mostramos por consola el Evaluador seleccionado aleatoriamente y su Evaluado*/
+														console.log('Evaluador: '+aleatorio[n] +'-------->'+Evaluado[m].nombre);
+														/*
+															mientras el valor guardado en el arreglo aleatorio[] sea igual en cualquiera
+															de sus tres posiciones se debe repetir el proceso de seleccion aleatoria 
+															hasta que este arreglo tenga valores diferentes en sus tres posiciones
+														*/
+														while((aleatorio[0] == aleatorio[1]) || (aleatorio[0] == aleatorio[2]) || (aleatorio[1] == aleatorio[2])) {
+															console.log('=============Cambiando==============');
+															aleatorio[n] = Evaluador[Math.floor(Math.random() * Evaluador.length)].cedula;
+															console.log('Evaluador: '+aleatorio[n] +'-------->'+Evaluado[m].nombre);															
+														}
+														/*
+															creamos una evaluacionUsuario en la DB
+															este proceso se repetira 3*m veces
+														*/
+														models.evaluacionUsuario.create({
+															calificacion: null,
+															status: false,
+															evaluacionId: Evaluaciones[2].id,
+															usuarioCedula: Evaluador[n].cedula,
+															usuarioEvaluado: Evaluado[m].cedula
+														});
+													}
+												})
+											}
+										});
+									}
+								}
+								//res.send("Listo");
+								req.flash('info', 'Evaluación planificada Exitosamente!');
+								res.redirect('/coord_plani');
+							})
+						})		
 					});
 				});	
 			});

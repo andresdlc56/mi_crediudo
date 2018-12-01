@@ -10,11 +10,7 @@ module.exports = function(app) {
     app.get('/coord_plani/plani_eval', isLoggedIn, coord_planiController.planiEval);
 
     app.post('/coord_plani/plani_eval', isLoggedIn, coord_planiController.addEval);
-
-    app.get('/coord_plani/plani_eval/:id/n/:idn', isLoggedIn, coord_planiController.addEval_b);
-
-    app.post('/coord_plani/plani_eval/:id/n/:idn', isLoggedIn, coord_planiController.finiquitarEval);
-
+    
     app.get('/coord_plani/eval_encurso', isLoggedIn, coord_planiController.eval_encurso);
 
     app.post('/coord_plani/eval_encurso', isLoggedIn, coord_planiController.update_eval);   
