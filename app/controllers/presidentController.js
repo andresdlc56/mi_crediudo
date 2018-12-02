@@ -1161,3 +1161,13 @@ exports.buscarCoordP = function(req, res) {
 		});
 	});
 }
+
+exports.getUnidades = function(req, res) {
+	models.unidad.findAll({
+		where: { nucleoCodigo: req.params.id }
+	}).then(Unidades => {
+		res.json(Unidades)
+	}).catch(err => {
+		console.log(err)
+	})
+}

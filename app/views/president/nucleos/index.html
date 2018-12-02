@@ -24,7 +24,7 @@
 
 	<%- include('../../partials/president/navbar.html') %>
 
-	<div class="container-fluid">
+	<div class="container-fluid" id="main">
 		<div class="row justify-content-md-center">
 			<!--=======MIGAS DE PAN=========-->
 			<div class="col-md-12">
@@ -94,7 +94,10 @@
 											<tr>
 												<td><%- i + 1 %></td>
 												<td><%- Nucleo[i].nombre %></td>
-												<td><a href="/president/nucleos/<%- Nucleo[i].codigo %>" class="btn btn-primary">Ver</a></td>
+												<td>
+													<!--<a href="/president/nucleos/<%- Nucleo[i].codigo %>" class="btn btn-primary">Ver</a>-->
+													<a v-on:click="getUnidades(<%- Nucleo[i].codigo %>)" class="btn btn-primary">Ver</a>
+												</td>
 											</tr>
 										<%}%>
 									</tbody>
@@ -104,7 +107,33 @@
 					</div>
 
 					<!--columna vacia-->
-					<div class="col-md-6">	
+					<div class="col-md-6">
+						<div class="card" v-if="unidades.length > 0">
+							<div class="card-body anyClass">
+								<div class="article border-bottom">
+									<h3>Unidades</h3>
+								</div>
+								<table class="table">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th scope="col">Unidad</th>
+											
+									      	<th scope="col">Acción</th>
+									    </tr>
+									</thead>
+									<tbody>
+										
+											<tr v-for="unidad in unidades">
+												<td>{{ unidad.id }}</td>
+												<td>{{ unidad.nombre }}</td>
+												<td><a href="#" class="btn btn-primary">Ver</a></td>
+											</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</div>	
 					</div>
 				</div>
 			</div>
@@ -122,6 +151,27 @@
 	<script src="js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
-
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#main',
+			data: {
+				unidades: []
+			},
+			methods: {
+				getUnidades(codigo) {
+					axios.get('/president/nucleo/' + codigo)
+						.then(res => {
+							this.unidades = res.data
+							console.log(this.unidades)
+						})
+						.catch(err => {
+							console.log(err)
+						})
+				}
+			}
+		})
+	</script>
 </body>
 </html>
