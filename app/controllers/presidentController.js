@@ -1171,3 +1171,33 @@ exports.getUnidades = function(req, res) {
 		console.log(err)
 	})
 }
+
+exports.cambiarCoordPla = function(req, res) {
+	res.render('president/cambiar/index');
+}
+
+//buscar coordinador de planificacion
+exports.getCoordP = function(req, res) {
+	models.usuario.findOne({
+		where: {
+			rolId: 3
+		}
+	}).then(coordP => {
+		res.json(coordP)
+	}).catch(err => {
+		res.send(err)
+	})
+}
+
+//buscar Usuario
+exports.getUsuario = function(req, res) {
+	models.usuario.findOne({
+		where: {
+			cedula: req.params.id
+		}
+	}).then(Usuario => {
+		res.json(Usuario)
+	}).catch(err => {
+		console.log(err)
+	})
+}

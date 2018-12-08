@@ -56,6 +56,18 @@ module.exports = function(app) {
     //Ruta para ver detalles de una Eval A Jefe concluida
     app.get('/president/detalles/:id/verEvalJefe/:idEvaluador/:idUser', isLoggedIn, presidentController.verEvalJefe);
 
+
+
+    app.get('/president/cambiar_coordP', isLoggedIn, presidentController.cambiarCoordPla);
+
+    app.get('/getCoordP', presidentController.getCoordP);
+
+    app.get('/getUsuario/:id', presidentController.getUsuario);
+
+
+
+
+
     //Ruta Para cambiar al coord Eval de CREDIUDO
     app.get('/president/cambiar_coordP/:id', isLoggedIn, presidentController.cambiarCoordP);
 
