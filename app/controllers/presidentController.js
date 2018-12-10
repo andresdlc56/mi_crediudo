@@ -1204,5 +1204,39 @@ exports.getUsuario = function(req, res) {
 
 //Ver Historial de Evaluaciones en una Unidad
 exports.getEvaluaciones = function(req, res) {
-	res.render('president/nucleos/unidad/index')
+	models.usuario.findOne({
+		include: [models.nucleo, models.unidad],
+		where: {
+			cedula: req.user.cedula
+		}
+	}).then(Usuario => {
+		models.unidad.findOne({
+			include: [ models.nucleo ],
+			where: {
+				codigo: req.params.id
+			}
+		}).then(Unidad => {
+			models.usuario.findAll({
+				include: [ models.cargo ],
+				where: {
+					unidadCodigo: req.params.id
+				}
+			}).then(Users => {
+				/*
+					Buscar todas la Evaluacion que se le han hecho a la unidad seleccionada
+					donde el instrumento usado sea de tipo 4
+				*/
+				models.evaluacion.findAll({
+					where: {
+						[Op.and]: [ 
+							{unidadCodigo: req.params.id},
+							{instrumentId: 4}
+						]
+					}
+				}).then(Evals => {
+					res.render('president/nucleos/unidad/index', { Usuario, Unidad, Users, Evals })	
+				})
+			})
+		})
+	})
 }

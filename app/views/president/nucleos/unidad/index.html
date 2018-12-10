@@ -24,7 +24,147 @@
 
 	<%- include('../../../partials/president/navbar.html') %>
 
-	
+	<div class="container-fluid" id="main">
+		<div class="row justify-content-md-center">
+			<!--=======MIGAS DE PAN=========-->
+			<div class="col-md-12">
+				<nav aria-label="breadcrumb" style="margin-top: 1%">
+					<ol class="breadcrumb">
+					    <li class="breadcrumb-item" aria-current="page">Home</li>
+					    <li class="breadcrumb-item active" aria-current="page">Nucleos</li>
+					</ol>
+				</nav>
+			</div>
+			<!--=======FIN MIGAS DE PAN=========-->
+
+			<!--==============Nav Izquierdo============-->
+			<div class="col-md-3">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								Usuario Logeado
+							</div>
+							<div class="card-body">
+								<p><b>Nombre: </b><%- Usuario.nombre %></p>
+								<p><b>Apellido: </b><%- Usuario.apellido %></p>
+								<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+								<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
+							</div>
+						</div>
+						<br>
+					</div>
+
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								Unidad Seleccionada
+							</div>
+							<div class="card-body">
+								<p><b>Nucleo: </b><%- Unidad.nucleo.nombre %></p>
+								<p><b>Unidad: </b><%- Unidad.nombre %></p>
+								<p><b>Personal: </b><%- Users.length %></p>
+							</div>
+						</div>
+						<br>
+					</div>
+				</div>
+			</div>
+
+			<!--=============Contenido=============-->
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-4
+					">
+						<div class="card">
+							<div class="card-body">
+								<div class="article border-bottom">
+									<h3>Veces Evaluada</h3>
+								</div>
+								<div>
+									<p style="font-size: 80pt" class="text-center">
+										<%- Evals.length %>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="col-md-4
+					">
+						<div class="card">
+							<div class="card-body">
+								<div class="article border-bottom">
+									<h3>Promedio</h3>
+								</div>
+								<div>
+									<p style="font-size: 80pt" class="text-center">
+										7
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4
+					">
+						<div class="card">
+							<div class="card-body">
+								<div class="article border-bottom">
+									<h3>Ultima Calificación</h3>
+								</div>
+								<div>
+									<p style="font-size: 80pt" class="text-center">
+										7
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<br>
+						<div class="card">
+							<div class="card-body">
+								<div class="article border-bottom">
+									<h3>Personal</h3>
+								</div>
+								<div class="row">
+									<% for(let i = 0; i < Users.length; i ++) {%>
+									<div class="col-sm-6 col-md-4 col-lg-3">
+										<br>
+										<div class="card">
+											<div class="card-body">
+												<div class="row">
+													<div class="col-5">
+														<div class="card">
+															<div class="card-body text-center">
+																<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 20pt;"></i>
+															</div>
+														</div>
+													</div>
+
+													<div class="col-7">
+														<a href="#"><%- Users[i].nombre %> <%- Users[i].apellido %></a>
+														<hr style="margin: 1px">
+														<p><em><%- Users[i].cargo.nombre %></em></p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<br>
+									</div>
+									<%}%>
+								</div>
+							</div>
+						</div>						
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
 	<br>
 	<footer class="footer" style="background: #BEBCB0;">
 		<div class="container">
@@ -34,7 +174,7 @@
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-	<script src="js/bootstrap.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
 </body>
