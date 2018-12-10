@@ -18,6 +18,9 @@ module.exports = function(app) {
     //Ver lista de Nucleos
     app.get('/president/nucleos', isLoggedIn, presidentController.nucleos);
 
+    //ver Evaluaciones planificadas en una Unidad especifica
+    app.get('/president/nucleos/unidad/:id', isLoggedIn, presidentController.getEvaluaciones);
+
     //buscar unidades pertenecientes a un nucleo
     app.get('/president/nucleo/:id', presidentController.getUnidades);
 

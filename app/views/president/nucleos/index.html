@@ -123,13 +123,11 @@
 									    </tr>
 									</thead>
 									<tbody>
-										
-											<tr v-for="unidad in unidades">
-												<td>{{ unidad.id }}</td>
-												<td>{{ unidad.nombre }}</td>
-												<td><a href="#" class="btn btn-primary">Ver</a></td>
-											</tr>
-										
+										<tr v-for="unidad in unidades">
+											<td>{{ unidad.codigo }}</td>
+											<td>{{ unidad.nombre }}</td>
+											<td><a v-bind:href="'/president/nucleos/unidad/'+ unidad.codigo" class="btn btn-primary">Ver</a></td>
+										</tr>
 									</tbody>
 								</table>
 							</div>

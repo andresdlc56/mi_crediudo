@@ -1201,3 +1201,8 @@ exports.getUsuario = function(req, res) {
 		console.log(err)
 	})
 }
+
+//Ver Historial de Evaluaciones en una Unidad
+exports.getEvaluaciones = function(req, res) {
+	res.render('president/nucleos/unidad/index')
+}
