@@ -19,7 +19,7 @@
 		</div>	
 
 		<%- include('../../partials/president/navbar.html') %>
-		<div class="container-fluid">	
+		<div class="container-fluid" id="main">	
 			<div class="row justify-content-md-center">
 				<div class="col-md-12">
 					<div class="row">
@@ -266,7 +266,7 @@
 									<br>
 									<div class="accordion" id="accordionExample">
 										<div class="card">
-											<div class="card-header" id="headingThree" style="background: #383938;>
+											<div class="card-header" id="headingThree" style="background: #383938;">
 										      	<h5 class="mb-0">
 										        	<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
 										          		Eval a Subordinado
@@ -425,5 +425,23 @@
 		<script src="/js/jquery.validate.min.js"></script>
 		<script src="/js/main.js"></script>
 		<script src="/js/misFunciones.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+		<script type="text/javascript">
+			new Vue({
+			el: '#main',
+			data: {
+				variable: 'texto'
+			}, 
+			created() {
+				this.sendCalifi()
+			},
+			methods: {
+				sendCalifi() {
+					console.log(this.variable)
+				}
+			}
+		})
+		</script>
 	</body>
 </html>
