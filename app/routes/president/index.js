@@ -14,6 +14,7 @@ module.exports = function(app) {
     app.get('/president/evalProceso', isLoggedIn, presidentController.evalProceso);
 
     //Ver Evaluaciones Culminadas
+    app.get('/president/evalCulmi', isLoggedIn, presidentController.evalCulmi);
 
     //Ver lista de Nucleos
     app.get('/president/nucleos', isLoggedIn, presidentController.nucleos);

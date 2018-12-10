@@ -173,6 +173,40 @@ exports.evalProceso = function(req, res) {
 	});
 }
 
+/*===================Ver Evaluaciones Culminadas=======================*/
+exports.evalCulmi = function(req, res) {
+	var user = req.user;
+	var fechaActual = new Date();
+
+	/*Buscar Usuario Logueado*/
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: user.cedula }
+	}).then(Usuario => {
+		/*
+			Buscar todas las evaluaciones planificadas donde usen el intrumento 4, 
+			su fecha de fecha de inicio sea menor o igual a fecha actual y
+			su fecha final sea menor a la fecha actual 
+		*/
+		models.evaluacion.findAll({
+			include: [ models.nucleo, models.unidad ],
+			where: {
+				[Op.and]: {
+					fecha_i: {
+						[Op.lte]: fechaActual
+					},
+					fecha_f: {
+						[Op.lt]: fechaActual
+					},
+					instrumentId: 4	
+				}
+			}
+		}).then(evalCulmi => {
+			res.render('president/evaluaciones/culminadas/index', { Usuario, evalCulmi });
+		});
+	});
+}
+
 /*===============Ver Nucleos=======================*/
 exports.nucleos = function(req, res) {
 	var user = req.user;
