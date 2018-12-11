@@ -3,7 +3,14 @@ var exports = module.exports = {}
 var models = require('../models');
 
 exports.index = function(req, res) {
-	res.render('coord_ev/index');
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: {
+			cedula: req.user.cedula
+		}
+	}).then(Usuario => {
+		res.render('coord_ev/index', { Usuario });
+	})
 }
 
 exports.factor = function(req, res) {

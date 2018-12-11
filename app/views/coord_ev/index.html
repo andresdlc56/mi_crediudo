@@ -18,7 +18,7 @@
 
 	<div class="container-fluid">
 		<div class="row justify-content-md-center">
-			<div class="col-md-10">
+			<div class="col-md-12">
 				<div class="row">
 					<div class="col-md-12">
 						<!--=======MIGAS DE PAN=========-->
@@ -40,10 +40,10 @@
 						  
 						  	<div class="card-body">
 						    	<div class="form-group">
-						    		<p><b>Nombre: </b></p>
-						    		<p><b>Apellido: </b></p>
-						    		<p><b>Nucleo: </b></p>
-						    		<p><b>Unidad: </b></p>
+						    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+						    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+						    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+						    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
 						    	</div>
 						  	</div>
 						</div>
@@ -56,7 +56,7 @@
 							<div class="col-md-12">
 								<div class="jumbotron jumbotron-fluid">
 									<div class="container">
-								    	<h1 class="display-5">Bienvenido(a) </h1>
+								    	<h1 class="display-5">Bienvenido(a) <%- Usuario.nombre %> <%- Usuario.apellido %></h1>
 								    	<p class="lead">Coord. de Evaluación</p>
 								  	</div>
 								</div>
