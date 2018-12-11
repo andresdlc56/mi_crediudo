@@ -82,7 +82,7 @@
 									<h3>Veces Evaluada</h3>
 								</div>
 								<div>
-									<p style="font-size: 80pt" class="text-center">
+									<p style="font-size: 70pt" class="text-center">
 										<%- Evals.length %>
 									</p>
 								</div>
@@ -98,8 +98,14 @@
 									<h3>Promedio</h3>
 								</div>
 								<div>
-									<p style="font-size: 80pt" class="text-center">
-										7
+									<p style="font-size: 70pt" class="text-center">
+										<% var acomulado = 0 %>
+										<% var promedio = 0 %>
+										<% for(let i = 0; i < califiUnidad.length; i ++) {
+											acomulado = acomulado + califiUnidad[i].value
+										}%>
+										<% promedio = acomulado/ califiUnidad.length %>
+										<%- promedio %>
 									</p>
 								</div>
 							</div>
@@ -114,9 +120,15 @@
 									<h3>Ultima Calificación</h3>
 								</div>
 								<div>
-									<p style="font-size: 80pt" class="text-center">
-										7
+									<% if(califiUnidad && califiUnidad.length > 0) {%>
+									<p style="font-size: 70pt" class="text-center">
+										<%- califiUnidad[0].value %>
 									</p>
+									<%} else {%>
+										<p style="font-size: 80pt" class="text-center">
+											nada
+										</p>
+									<%}%>
 								</div>
 							</div>
 						</div>

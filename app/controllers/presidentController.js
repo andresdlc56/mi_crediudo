@@ -1273,7 +1273,17 @@ exports.getEvaluaciones = function(req, res) {
 						]
 					}
 				}).then(Evals => {
-					res.render('president/nucleos/unidad/index', { Usuario, Unidad, Users, Evals })	
+					//ultima Calificacion
+					models.calificacion.findAll({
+						order: [
+							['id', 'DESC']
+						],
+						where: {
+							unidadCodigo: req.params.id
+						}
+					}).then(califiUnidad => {
+						res.render('president/nucleos/unidad/index', { Usuario, Unidad, Users, Evals, califiUnidad })
+					})	
 				})
 			})
 		})
@@ -1284,6 +1294,7 @@ exports.saveCalifi = function(req, res) {
 	models.calificacion.create({
 		value: req.body.value,
 		evaluacionId: req.params.id,
+		unidadCodigo: req.body.unidad
 	}).then(califiUnidad => {
 		res.redirect('/president/detalles/'+ req.params.id);
 	})

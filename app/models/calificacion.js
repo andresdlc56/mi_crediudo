@@ -9,6 +9,7 @@ module.exports = function(sequelize, Sequelize) {
     // Class Method
     Calificacion.associate = function (models) {
         Calificacion.belongsTo(models.evaluacion); //una Calificacion pertenece a una Evaluacion
+        Calificacion.belongsTo(models.unidad);
     };
  
     return Calificacion;
