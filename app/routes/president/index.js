@@ -87,6 +87,9 @@ module.exports = function(app) {
 
     app.get('/president/historial', isLoggedIn, presidentController.historial);
 
+    //Buscar Calificaciones de Unidad
+    app.get('/getCalifi', presidentController.getCalifi);
+
 
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Jefe"
     //app.get('/president/culminado/:id/u/:idu',isLoggedIn, presidentController.culminado_b);

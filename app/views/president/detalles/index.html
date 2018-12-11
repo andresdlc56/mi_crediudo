@@ -64,14 +64,20 @@
 												Calificación de Unidad
 											</div>
 											<div class="card-body">
-												<div class="row">
-													<div class="col-md-4 text-center">
-														<%- ((acomulado.toFixed(2) * 10) / (dataUser.length * 10)).toFixed(2)  %> Ptos
+												<form @submit.prevent="sendCalifi">
+													<div class="col-md-12">
+														<div class="row">	
+															<div class="col-md-4 text-center">
+																	<%- ((acomulado.toFixed(2) * 10) / (dataUser.length * 10)).toFixed(2)  %> Ptos
+															</div>
+															<div class="col-md-8 text-center">
+																<template v-if="save === false">
+																	<input type="submit" name="guardar" value="Guardar">	
+																</template>
+															</div>		
+														</div>
 													</div>
-													<div class="col-md-8 text-center">
-														Barra
-													</div>
-												</div>
+												</form>	
 											</div>
 										</div>
 										<br>
@@ -431,14 +437,17 @@
 			new Vue({
 			el: '#main',
 			data: {
-				variable: 'texto'
+				save: false
 			}, 
 			created() {
-				this.sendCalifi()
-			},
+				this.getCalifi()
+			}, 
 			methods: {
+				getCalifi() {
+					console.log('Buscar Calificacion')
+				},
 				sendCalifi() {
-					console.log(this.variable)
+					this.save = true
 				}
 			}
 		})

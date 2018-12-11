@@ -1274,3 +1274,7 @@ exports.getEvaluaciones = function(req, res) {
 		})
 	})
 }
+
+exports.getCalifi = function(req, res) {
+	
+}
