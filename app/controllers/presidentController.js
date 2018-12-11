@@ -348,20 +348,25 @@ exports.detalles = function(req, res) {
 										acomulado = acomulado + parseFloat(Calificacion[i].calificacion);
 									}
 
-									//res.send(dataUser);
-									res.render('president/detalles/index', { 
-										usuario, 
-										infoEval, 
-										autoEval, 
-										coEval,
-										evalSubor,
-										evalJefe,
-										dataUser,
-										evalTotal,
-										evalListas, 
-										Calificacion,
-										acomulado
-									});
+									models.calificacion.findOne({
+										where: {evaluacionId: req.params.id}
+									}).then(califiUni => {
+										//res.send(dataUser);
+										res.render('president/detalles/index', { 
+											usuario, 
+											infoEval, 
+											autoEval, 
+											coEval,
+											evalSubor,
+											evalJefe,
+											dataUser,
+											evalTotal,
+											evalListas, 
+											Calificacion,
+											acomulado,
+											califiUni
+										});
+									})
 								})	
 							});
 						});
@@ -1275,6 +1280,11 @@ exports.getEvaluaciones = function(req, res) {
 	})
 }
 
-exports.getCalifi = function(req, res) {
-	
+exports.saveCalifi = function(req, res) {
+	models.calificacion.create({
+		value: req.body.value,
+		evaluacionId: req.params.id,
+	}).then(califiUnidad => {
+		res.redirect('/president/detalles/'+ req.params.id);
+	})
 }
