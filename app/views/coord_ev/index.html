@@ -14,7 +14,7 @@
 		<img src="images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
 	</div>	
 
-	<%- include('../partials/president/navbar.html') %>
+	<%- include('../partials/coord_eval/navbar.html') %>
 
 	<div class="container-fluid">
 		<div class="row justify-content-md-center">
@@ -32,7 +32,7 @@
 				</div>
 
 				<div class="row">
-					<div class="col-md-2">
+					<div class="col-md-3">
 						<div class="card">
 						  	<div class="card-header">
 						    	Datos Personales:
@@ -51,7 +51,7 @@
 						<br>
 					</div>
 
-					<div class="col-md-10">
+					<div class="col-md-9">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="jumbotron jumbotron-fluid">
@@ -59,6 +59,33 @@
 								    	<h1 class="display-5">Bienvenido(a) <%- Usuario.nombre %> <%- Usuario.apellido %></h1>
 								    	<p class="lead">Coord. de Evaluación</p>
 								  	</div>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="row">
+									<div class="col-md-4">
+										<div class="card border-primary">
+											<div class="card-body text-white bg-primary">
+												<div class="row">
+													<div class="col-md-3">
+												   		<i class="fa fa-bullhorn fa-5x"></i>
+													</div>
+													<div class="col-md-9 text-right">
+													   	<div><h2>5</h2></div>
+		                                    			<div><p style="font-size: 15pt">Eventos</p></div>
+													</div>	
+												</div>
+												    	
+											</div>
+											<a href="/coord_ev/eventos">
+												<div class="card-footer text-muted">
+				    								2 days ago
+				  								</div>
+			  								</a>
+										</div>
+										<br>
+									</div>
 								</div>
 							</div>
 						</div>

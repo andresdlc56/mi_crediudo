@@ -144,3 +144,15 @@ exports.addItem = function(req, res) {
 		}
 	})
 }
+
+//Eventos
+exports.getEventos = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: {
+			cedula: req.user.cedula
+		}
+	}).then(Usuario => {
+		res.render('coord_ev/eventos/index', { Usuario });
+	})
+}
