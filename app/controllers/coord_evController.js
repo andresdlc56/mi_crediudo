@@ -153,6 +153,44 @@ exports.getEventos = function(req, res) {
 			cedula: req.user.cedula
 		}
 	}).then(Usuario => {
-		res.render('coord_ev/eventos/index', { Usuario });
+		models.nucleo.findAll({
+
+		}).then(Nucleos => {
+			models.tipoEvento.findAll({
+		
+			}).then(tipoEvent => {
+				res.render('coord_ev/eventos/index', { Usuario, Nucleos, tipoEvent });
+			})
+		})
+	})
+}
+
+//traer todos los eventos
+exports.eventTodos = function(req, res) {
+	models.evento.findAll({
+
+	}).then(Eventos => {
+		res.json(Eventos)
+	}).catch(err => {
+		console.log(err)
+	})
+}
+
+//enviarEvento
+exports.enviarEvento = function(req, res) {
+	models.evento.create({
+		nombre: req.body.nombre,
+		direccion: req.body.direccion,
+		fecha: req.body.fecha,
+		nucleoCodigo: req.body.nucleoCodigo,
+		publico: req.body.publico,
+		tipoEventoId: req.body.tipoEventoId,
+		cupos: req.body.cupos,
+		descripcion: req.body.descripcion,
+		files: req.body.files	
+	}).then(Evento => {
+		res.json('Evento Guardado')
+	}).catch(err => {
+		console.log(err)
 	})
 }

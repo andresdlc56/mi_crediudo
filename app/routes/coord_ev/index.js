@@ -21,7 +21,11 @@ module.exports = function(app) {
 
     app.post('/coord_ev/instrument/:id/add-item', isLoggedIn, coord_evController.addItem);
 
-    app.get('/coord_ev/eventos', isLoggedIn, coord_evController.getEventos)
+    app.get('/coord_ev/eventos', isLoggedIn, coord_evController.getEventos);
+
+    app.get('/eventosTodos', coord_evController.eventTodos);
+
+    app.post('/enviarEvento', coord_evController.enviarEvento);
 
     /*
     app.get('/admin/asignar-coordP', isLoggedIn, adminController.asignarCoordP);
