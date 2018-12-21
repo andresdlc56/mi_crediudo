@@ -1,6 +1,8 @@
 var exports = module.exports = {}
 
 var models = require('../models');
+var multer = require('multer'); //para el manejo de multipart/form usado para cargar archivos
+const path = require('path');
 
 exports.index = function(req, res) {
 	models.usuario.findOne({
@@ -178,19 +180,90 @@ exports.eventTodos = function(req, res) {
 
 //enviarEvento
 exports.enviarEvento = function(req, res) {
-	models.evento.create({
-		nombre: req.body.nombre,
-		direccion: req.body.direccion,
-		fecha: req.body.fecha,
-		nucleoCodigo: req.body.nucleoCodigo,
-		publico: req.body.publico,
-		tipoEventoId: req.body.tipoEventoId,
-		cupos: req.body.cupos,
-		descripcion: req.body.descripcion,
-		files: req.body.files	
+	//Set storage Engine
+	const storage = multer.diskStorage({
+		destination: './public/uploads/eventos',
+		filename: function(req, file, cb){
+			cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+		}
+	});
+
+	//Init Upload
+	const upload = multer({
+		storage: storage, 
+		limits: { fileSize: 1000000 },
+		fileFilter: function(req, file, cb){
+			checkFileType(file, cb);
+		}
+	}).single('urlImg');
+
+	// Check File Type
+	function checkFileType(file, cb){
+		//allowed ext
+		const filetypes = /jpeg|jpg|png|gif/;
+
+		//Check ext
+		const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+		//check mime
+		const mimetype = filetypes.test(file.mimetype);
+
+		if(mimetype && extname){
+			return cb(null,true);
+		} else{
+			cb('Error: Images Only!');
+		}
+	}
+
+	upload(req,res,(err) => {
+		if(err){
+			console.log('error');
+			res.send('algun error')
+		} else{
+			if(req.file == undefined){
+				console.log(req.file);
+				res.send('indefinido')
+			} else{
+				console.log(req.file.filename);
+				models.evento.create({
+					nombre: req.body.nombre,
+					direccion: req.body.direccion,
+					fecha: req.body.fecha,
+					nucleoCodigo: req.body.nucleo,
+					publico: req.body.publico,
+					tipoEventoId: req.body.tipo,
+					cupos: req.body.cupos,
+					descripcion: req.body.descripcion,
+					files: req.file.filename
+				}).then(Evento => {
+					res.send('Evento Guardado')
+				}).catch(err => {
+					console.log(err)
+				});
+			}
+		}
+	});
+}
+
+exports.verEventos = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		models.evento.findAll({
+
+		}).then(Eventos => {
+			res.render('coord_ev/eventos/planificados', { Usuario, Eventos })
+		})
+	})
+}
+
+exports.deleteEvento = function(req, res) {
+	models.evento.destroy({
+		where: {
+			id:req.params.id
+		}
 	}).then(Evento => {
-		res.json('Evento Guardado')
-	}).catch(err => {
-		console.log(err)
+		res.redirect('/coord_ev/getEventos');
 	})
 }

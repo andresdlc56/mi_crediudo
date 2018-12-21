@@ -4,6 +4,7 @@ var passport   = require('passport');
 var session    = require('express-session');
 var bodyParser = require('body-parser');
 var env = require('dotenv').load();
+var multer = require('multer'); //para el manejo de multipart/form usado para cargar archivos
 var path =require('path');
 var flash = require('connect-flash');
 

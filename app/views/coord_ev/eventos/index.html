@@ -53,32 +53,32 @@
 
 					<div class="col-md-9">
 						<div class="row">
-							<div class="col-sm-12 col-md-12 col-lg-5">
+							<div class="col-sm-12 col-md-12 col-lg-12">
 								<div class="card">
 									<div class="card-body">
 										<div class="article border-bottom">
 											<h3>Planificar Evento</h3>
 										</div>
-										<form @submit.prevent="enviarEvento">
+										<form method="POST" action="/coord_ev/enviarEvento" enctype="multipart/form-data">
 											<div class="form-row">
 											    <div class="form-group col-md-6">
 											      <label for="nombre">Nombre:</label>
-											      <input type="text" v-model="nombre" class="form-control" placeholder="Ingrese el Nombre o Titulo del Evento" required autofocus>
+											      <input type="text" name="nombre" class="form-control" placeholder="Ingrese el Nombre o Titulo del Evento" required autofocus>
 											    </div>
 											    <div class="form-group col-md-6">
 											      <label for="direccion">Dirección:</label>
-											      <input type="text" v-model="direccion" class="form-control" placeholder="Ingrese la Dirección" required>
+											      <input type="text" name="direccion" class="form-control" placeholder="Ingrese la Dirección" required>
 											    </div>
 											</div>
 
 											<div class="form-row">
 											    <div class="form-group col-md-6">
 											      	<label>Fecha:</label>
-													<input type="date" v-model="fecha" name="fecha" class="form-control" required>
+													<input type="date" name="fecha" name="fecha" class="form-control" required>
 											    </div>
 											    <div class="form-group col-md-6">
 											      <label>Nucleo: </label>
-													<select name="nucleo" v-model="nucleo" class="form-control" required>
+													<select name="nucleo" name="nucleo" class="form-control" required>
 														<option disabled value="">Please select one</option>
 														<% for(let i = 0; i < Nucleos.length; i ++) {%>
 															<option value="<%- Nucleos[i].codigo %>"><%- Nucleos[i].nombre %></option>
@@ -90,11 +90,11 @@
 											<div class="form-row">
 											    <div class="form-group col-md-4">
 											      	<label>Dirigido a:</label>
-													<input type="text" v-model="publico" name="publico" class="form-control" placeholder="Publico" required>
+													<input type="text" name="publico" name="publico" class="form-control" placeholder="Publico" required>
 											    </div>
 											    <div class="form-group col-md-4">
 											      <label>Tipo:</label>
-													<select v-model="tipo" name="tipo" class="form-control" required>
+													<select name="tipo" class="form-control" required>
 														<option disabled value="">Please select one</option>
 														<% for(let i = 0; i < tipoEvent.length; i ++) {%>
 															<option value="<%- tipoEvent[i].id %>"><%- tipoEvent[i].nombre %></option>
@@ -103,18 +103,18 @@
 											    </div>
 											    <div class="form-group col-md-4">
 											      	<label>Cupos:</label>
-													<input type="number" v-model="cupos" name="cupos" class="form-control" required>
+													<input type="number" name="cupos" class="form-control" required>
 											    </div>
 											    <div class="form-group col-md-12">
 												  	<label for="descripcion">Descripción:</label>
-												  	<textarea class="form-control" rows="5" v-model="descripcion" name="descripcion" required></textarea>
+												  	<textarea class="form-control" rows="5" name="descripcion" required></textarea>
 												</div>
 											</div>
 
 											<div class="form-row">
 												<div class="form-group col-md-12">
 													<!--<input type="file" class="form-control">-->
-													<input type="file" id="file" ref="myFiles" class="form-control" @change="previewFiles" multiple required>
+													<input type="file" name="urlImg" class="form-control" required>
 												</div>
 											</div>
 
@@ -125,33 +125,6 @@
 									</div>
 								</div>
 								<br>
-							</div>
-							
-							<div class="col-sm-12 col-md-12 col-lg-7">
-								<div class="card">
-									<div class="card-body">
-										<div class="article border-bottom">
-											<h3>Eventos Planificados</h3>
-										</div>
-										<table class="table">
-											<thead>
-												<th style="width: 6%">#</th>
-												<th>Nombre</th>
-												<th style="width: 30%">Acción</th>
-											</thead>
-											<tbody>
-												<tr v-for="evento of eventos">
-													<td>{{ evento.id }}</td>
-													<td>{{ evento.nombre }}</td>
-													<td>
-														<a href="" class="btn btn-warning btn-xs">Edit</a>
-														<a href="" class="btn btn-danger btn-xs">Delete</a>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -171,76 +144,5 @@
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
-	<script type="text/javascript">
-		new Vue({
-			el:'#main',
-			data: {
-				nombre: '',
-				direccion: '',
-				fecha: '',
-				nucleo: '',
-				publico: '',
-				tipo: '',
-				cupos: '',
-				descripcion: '',
-				files: {},
-				eventos: []
-			},
-			created() {
-				this.getEventos();
-			},
-			methods: {
-				getEventos() {
-					axios.get('/eventosTodos')
-						.then(res => {
-							this.eventos = res.data
-							console.log(this.eventos)
-						}).catch(err => {
-							console.log(err)
-						})
-				},
-
-				previewFiles() {
-					this.files = this.$refs.myFiles.files
-				},
-
-				enviarEvento() {
-					axios.post('/enviarEvento', {
-						nombre: this.nombre,
-						direccion: this.direccion,
-						fecha: this.fecha,
-						nucleoCodigo: this.nucleo,
-						publico: this.publico,
-						tipoEventoId: this.tipo,
-						cupos: this.cupos,
-						descripcion: this.descripcion,
-						files: this.files[0].name
-					}).then(res => {
-						console.log('exito');
-
-						this.nombre = '',
-						this.direccion = '',
-						this.fecha = '',
-						this.nucleo = '',
-						this.publico = '',
-						this.tipo = '',
-						this.cupos = '',
-						this.descripcion = '',
-						this.files = {}
-					}).then(data => {
-						this.getEventos()
-					})
-
-					.catch(err => {
-						console.log(err)
-					})
-
-					
-				}	
-			}
-		})
-	</script>
 </body>
 </html>

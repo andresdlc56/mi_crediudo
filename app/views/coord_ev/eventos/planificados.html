@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Coord. Evaluación</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+</head>
+<body>
+	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+	</div>	
+
+	<%- include('../../partials/coord_eval/navbar.html') %>
+
+	<div class="container-fluid" id="main">
+		<div class="row justify-content-md-center">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12">
+						<!--=======MIGAS DE PAN=========-->
+						<nav aria-label="breadcrumb" style="margin-top: 1%">
+							<ol class="breadcrumb">
+							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							</ol>
+						</nav>
+						<!--=======FIN MIGAS DE PAN=========-->
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12 col-md-3">
+						<div class="card">
+						  	<div class="card-header">
+						    	Datos Personales:
+						  	</div>
+						  
+						  	<div class="card-body">
+						    	<div class="form-group">
+						    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+						    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+						    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+						    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
+						    	</div>
+						  	</div>
+						</div>
+
+						<br>
+					</div>
+
+					<div class="col-md-9">
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-lg-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="article border-bottom">
+											<h3>Eventos Planificados</h3>
+										</div>
+										<table class="table">
+											<thead>
+												<tr>
+													<th>#</th>
+													<th scope="col" style="width: 20%">Nombre</th>
+													<th scope="col">Fecha</th>
+											      	<th scope="col">Img</th>
+											      	<th scope="col" style="width: 30%">Acción</th>
+											    </tr>
+											</thead>
+										  	<tbody>
+										  		<% for(let i = 0; i < Eventos.length; i ++) {%>
+												<tr>
+													<td><%- Eventos[i].id %></td>
+													<td><%- Eventos[i].nombre %></td>
+													<td>
+														<%- Eventos[i].fecha.getDate() %>/<%- Eventos[i].fecha.getMonth() + 1%>/<%- Eventos[i].fecha.getFullYear() %>
+													</td>
+													<td>
+														<a href="javascript:;"><img src="../../../../uploads/eventos/<%=Eventos[i].files%>" class="img-thumbnail" style="width: 30%"/></a>
+													</td>
+													<td>
+														<a href="#" class="btn btn-warning btn-xs">Edit</a>
+														<a href="/coord_ev/deleteEvento/<%- Eventos[i].id %>" class="btn btn-danger btn-xs">Delete</a>
+													</td>
+												</tr>
+												<%}%>
+										  	</tbody>
+										</table>
+									</div>
+								</div>
+								<br>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="footer" style="background: #BEBCB0;">
+		<div class="container">
+			<span class="text-muted">Pie de Pagina</span>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
+</body>
+</html>

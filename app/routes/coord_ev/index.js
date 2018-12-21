@@ -25,7 +25,11 @@ module.exports = function(app) {
 
     app.get('/eventosTodos', coord_evController.eventTodos);
 
-    app.post('/enviarEvento', coord_evController.enviarEvento);
+    app.post('/coord_ev/enviarEvento', isLoggedIn, coord_evController.enviarEvento);
+
+    app.get('/coord_ev/getEventos', isLoggedIn, coord_evController.verEventos);
+
+    app.get('/coord_ev/deleteEvento/:id', isLoggedIn, coord_evController.deleteEvento)
 
     /*
     app.get('/admin/asignar-coordP', isLoggedIn, adminController.asignarCoordP);
