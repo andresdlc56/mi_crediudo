@@ -161,7 +161,13 @@ exports.getEventos = function(req, res) {
 			models.tipoEvento.findAll({
 		
 			}).then(tipoEvent => {
-				res.render('coord_ev/eventos/index', { Usuario, Nucleos, tipoEvent });
+
+				res.render('coord_ev/eventos/index', { 
+					Usuario, 
+					Nucleos, 
+					tipoEvent,
+					message: req.flash('info') 
+				});
 			})
 		})
 	})
@@ -236,7 +242,8 @@ exports.enviarEvento = function(req, res) {
 					descripcion: req.body.descripcion,
 					files: req.file.filename
 				}).then(Evento => {
-					res.send('Evento Guardado')
+					req.flash('info', 'Evento: '+req.body.nombre+' Planificado Exitosamente');
+					res.redirect('/coord_ev/eventos');
 				}).catch(err => {
 					console.log(err)
 				});
@@ -253,7 +260,12 @@ exports.verEventos = function(req, res) {
 		models.evento.findAll({
 
 		}).then(Eventos => {
-			res.render('coord_ev/eventos/planificados', { Usuario, Eventos })
+			res.render('coord_ev/eventos/planificados', { 
+				Usuario, 
+				Eventos, 
+				message: req.flash('info'),
+				error: req.flash('error') 
+			})
 		})
 	})
 }
@@ -264,6 +276,121 @@ exports.deleteEvento = function(req, res) {
 			id:req.params.id
 		}
 	}).then(Evento => {
+		req.flash('error', 'Evento Eliminado Exitosamente!');
 		res.redirect('/coord_ev/getEventos');
+	})
+}
+
+exports.editEvento = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: {
+			cedula: req.user.cedula
+		}
+	}).then(Usuario => {
+		models.evento.findOne({
+			include: [ models.nucleo, models.tipoEvento ],
+			where: {
+				id: req.params.id
+			}
+		}).then(Evento => {
+			models.nucleo.findAll({
+
+			}).then(Nucleos => {
+				models.tipoEvento.findAll({
+
+				}).then(tipoEvent => {
+					res.render('coord_ev/eventos/editar', { Usuario, Evento, Nucleos, tipoEvent });
+				})
+			})
+		})
+	})
+}
+
+exports.updateEvento = function(req, res) {
+	//Set storage Engine
+	const storage = multer.diskStorage({
+		destination: './public/uploads/eventos',
+		filename: function(req, file, cb){
+			cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+		}
+	});
+
+	//Init Upload
+	const upload = multer({
+		storage: storage, 
+		limits: { fileSize: 1000000 },
+		fileFilter: function(req, file, cb){
+			checkFileType(file, cb);
+		}
+	}).single('urlImg');
+
+	// Check File Type
+	function checkFileType(file, cb){
+		//allowed ext
+		const filetypes = /jpeg|jpg|png|gif/;
+
+		//Check ext
+		const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+		//check mime
+		const mimetype = filetypes.test(file.mimetype);
+
+		if(mimetype && extname){
+			return cb(null,true);
+		} else{
+			cb('Error: Images Only!');
+		}
+	}
+
+	upload(req,res,(err) => {
+		if(err){
+			console.log('error');
+			res.send('algun error')
+		} else{
+			if(req.file == undefined){
+				models.evento.update({
+					nombre: req.body.nombre,
+					direccion: req.body.direccion,
+					fecha: req.body.fecha,
+					nucleoCodigo: req.body.nucleo,
+					publico: req.body.publico,
+					tipoEventoId: req.body.tipo,
+					cupos: req.body.cupos,
+					descripcion: req.body.descripcion
+				}, {
+					where: {
+						id: req.params.id
+					}
+				}).then(Evento => {
+					console.log('=========Evento Actualizado Sin Img============');
+					req.flash('info', 'Evento: '+req.body.nombre+' Actualizado Exitosamente');
+					res.redirect('/coord_ev/getEventos');
+				})
+				console.log(req.file);
+			} else{
+				models.evento.update({
+					nombre: req.body.nombre,
+					direccion: req.body.direccion,
+					fecha: req.body.fecha,
+					nucleoCodigo: req.body.nucleo,
+					publico: req.body.publico,
+					tipoEventoId: req.body.tipo,
+					cupos: req.body.cupos,
+					descripcion: req.body.descripcion,
+					files: req.file.filename
+				}, {
+					where: {
+						id: req.params.id 
+					}
+				}).then(Evento => {
+					console.log('============Evento Actualizado Con Img==============');
+					req.flash('info', 'Evento: '+req.body.nombre+' Actualizado Exitosamente');
+					res.redirect('/coord_ev/getEventos')
+				}).catch(err => {
+					console.log(err)
+				});
+			}
+		}
 	})
 }

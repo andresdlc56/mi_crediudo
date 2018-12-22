@@ -29,34 +29,12 @@ module.exports = function(app) {
 
     app.get('/coord_ev/getEventos', isLoggedIn, coord_evController.verEventos);
 
-    app.get('/coord_ev/deleteEvento/:id', isLoggedIn, coord_evController.deleteEvento)
+    app.get('/coord_ev/deleteEvento/:id', isLoggedIn, coord_evController.deleteEvento);
 
-    /*
-    app.get('/admin/asignar-coordP', isLoggedIn, adminController.asignarCoordP);
+    app.get('/coord_ev/editEvento/:id', isLoggedIn, coord_evController.editEvento);
 
-    app.get('/admin/asignar-coordE', isLoggedIn, adminController.asignarCoordE);
+    app.post('/coord_ev/updateEvento/:id', isLoggedIn, coord_evController.updateEvento);
 
-    app.post('/admin/buscar_cp', isLoggedIn, adminController.buscar_cp);
-
-    app.post('/admin/buscar_ce', isLoggedIn, adminController.buscar_ce);
-
-    app.post('/admin/asignar-coordP', isLoggedIn, adminController.asignaCoordP);
-
-    app.post('/admin/asignar-coordE', isLoggedIn, adminController.asignaCoordE);
-    */
-    //app.post('/admin/probando', isLoggedIn, adminController.probando);
-
-    /*
-    app.get('/login', authController.signin);
-
-    app.get('/dashboard',isLoggedIn, authController.dashboard);
-
-    app.post('/login', passport.authenticate('local-signin', {
-	        successRedirect: '/dashboard',
-	        failureRedirect: '/login'
-	    }
-	));
-	*/
     app.get('/logout',authController.logout);
 
 	function isLoggedIn(req, res, next) {

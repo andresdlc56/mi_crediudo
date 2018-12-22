@@ -54,44 +54,45 @@
 					<div class="col-md-9">
 						<div class="row">
 							<div class="col-sm-12 col-md-12 col-lg-12">
-								<!--=======mensaje de alerta==========-->
-								<% if(message == false) {%>
-
-								<%} else {%>
-									<div class="alert alert-success alert-dismissible fade show" role="alert">
-							            <%= message %>
-							            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-							        </div>
-								<%}%>
-
 								<div class="card">
 									<div class="card-body">
 										<div class="article border-bottom">
-											<h3>Planificar Evento</h3>
+											<h3>Editar Evento - <%- Evento.nombre %></h3>
 										</div>
-										<form method="POST" action="/coord_ev/enviarEvento" enctype="multipart/form-data">
+										<form method="POST" action="/coord_ev/updateEvento/<%- Evento.id %>" enctype="multipart/form-data">
 											<div class="form-row">
 											    <div class="form-group col-md-6">
 											      <label for="nombre">Nombre:</label>
-											      <input type="text" name="nombre" class="form-control" placeholder="Ingrese el Nombre o Titulo del Evento" required autofocus>
+											      <input type="text" name="nombre" class="form-control" value="<%- Evento.nombre %>" placeholder="Ingrese el Nombre o Titulo del Evento" required autofocus>
 											    </div>
 											    <div class="form-group col-md-6">
 											      <label for="direccion">Dirección:</label>
-											      <input type="text" name="direccion" class="form-control" placeholder="Ingrese la Dirección" required>
+											      <input type="text" name="direccion" class="form-control" value="<%- Evento.direccion %>" placeholder="Ingrese la Dirección" required>
 											    </div>
 											</div>
 
 											<div class="form-row">
 											    <div class="form-group col-md-6">
+													<%
+														var fecha = Evento.fecha;
+														var dia = '' + fecha.getDate();
+														var m = parseInt(fecha.getMonth())+1
+														var mes = '' + m;
+														var anio = fecha.getFullYear();
+
+														if (mes.length < 2) mes = '0' + mes;
+	    												if (dia.length < 2) dia = '0' + dia;
+
+														var fecha_completa = anio+"-"+mes+"-"+dia;
+													%>
+
 											      	<label>Fecha:</label>
-													<input type="date" name="fecha" name="fecha" class="form-control" required>
+													<input type="date" name="fecha" name="fecha" class="form-control" value="<%- fecha_completa %>" required>
 											    </div>
 											    <div class="form-group col-md-6">
 											      <label>Nucleo: </label>
 													<select name="nucleo" name="nucleo" class="form-control" required>
-														<option disabled value="">Please select one</option>
+														<option value="<%- Evento.nucleoCodigo %>"><%- Evento.nucleo.nombre %></option>
 														<% for(let i = 0; i < Nucleos.length; i ++) {%>
 															<option value="<%- Nucleos[i].codigo %>"><%- Nucleos[i].nombre %></option>
 														<%}%>
@@ -102,12 +103,12 @@
 											<div class="form-row">
 											    <div class="form-group col-md-4">
 											      	<label>Dirigido a:</label>
-													<input type="text" name="publico" name="publico" class="form-control" placeholder="Publico" required>
+													<input type="text" name="publico" class="form-control" value="<%- Evento.publico %>" placeholder="Publico" required>
 											    </div>
 											    <div class="form-group col-md-4">
 											      <label>Tipo:</label>
 													<select name="tipo" class="form-control" required>
-														<option disabled value="">Please select one</option>
+														<option value="<%- Evento.tipoEventoId %>"><%- Evento.tipoEvento.nombre %></option>
 														<% for(let i = 0; i < tipoEvent.length; i ++) {%>
 															<option value="<%- tipoEvent[i].id %>"><%- tipoEvent[i].nombre %></option>
 														<%}%>
@@ -115,18 +116,18 @@
 											    </div>
 											    <div class="form-group col-md-4">
 											      	<label>Cupos:</label>
-													<input type="number" name="cupos" class="form-control" required>
+													<input type="number" name="cupos" value="<%- Evento.cupos %>" class="form-control" required>
 											    </div>
 											    <div class="form-group col-md-12">
 												  	<label for="descripcion">Descripción:</label>
-												  	<textarea class="form-control" rows="5" name="descripcion" required></textarea>
+												  	<textarea class="form-control" rows="5" name="descripcion" required><%- Evento.descripcion %></textarea>
 												</div>
 											</div>
 
 											<div class="form-row">
 												<div class="form-group col-md-12">
 													<!--<input type="file" class="form-control">-->
-													<input type="file" name="urlImg" class="form-control" required>
+													<input type="file" name="urlImg" class="form-control">
 												</div>
 											</div>
 
