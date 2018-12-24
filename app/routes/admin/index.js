@@ -30,19 +30,8 @@ module.exports = function(app) {
 
     app.post('/admin/asignar-coordE', isLoggedIn, adminController.asignaCoordE);
 
-    //app.post('/admin/probando', isLoggedIn, adminController.probando);
+    app.get('/admin/buscarUsuario/:id', isLoggedIn, adminController.buscarUsuario);
 
-    /*
-    app.get('/login', authController.signin);
-
-    app.get('/dashboard',isLoggedIn, authController.dashboard);
-
-    app.post('/login', passport.authenticate('local-signin', {
-	        successRedirect: '/dashboard',
-	        failureRedirect: '/login'
-	    }
-	));
-	*/
     app.get('/logout',authController.logout);
 
 	function isLoggedIn(req, res, next) {

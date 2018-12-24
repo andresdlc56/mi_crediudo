@@ -36,8 +36,12 @@ exports.probando = function(req, res) {
 }
 
 exports.asignarPresi = function(req, res) {
-	res.render('admin/asignar/presi');
-	//res.send('Asignar');  
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		res.render('admin/asignar/presi', { Usuario });	
+	})
 }
 
 exports.asignarCoordP = function(req, res) {
@@ -171,4 +175,15 @@ exports.asignaCoordE = function(req, res) {
 		res.redirect('/admin');
 		//res.send(Usuario);
 	});
+}
+
+exports.buscarUsuario = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.params.id }
+	}).then(User => {
+		res.json(User)
+	}).catch(err => {
+		console.log(err)
+	})
 }
