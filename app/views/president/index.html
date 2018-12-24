@@ -265,14 +265,19 @@
 										  						<p style="font-size: 10pt; margin-bottom: 0">Coord. Planificación</p>
 															</div>
 															<div class="col-sm-6 col-md-6">
-																<p style="margin: 2px" class="text-muted"><em><%- coordPlani.nombre %> <%- coordPlani.apellido %></em></p>
-										  						<p style="margin: 2px" class="text-muted"><em>C.I: <%- coordPlani.cedula %></em></p>
+																<% if(!coordPlani) {%>
+																	<p style="margin: 2px; font-size: 18pt" class="text-muted"><em>Sin Asignar</em></p>
+																<%} else {%>
+																	<p style="margin: 2px" class="text-muted"><em><%- coordPlani.nombre %> <%- coordPlani.apellido %></em></p>
+										  							<p style="margin: 2px" class="text-muted"><em>C.I: <%- coordPlani.cedula %></em></p>
+																<%}%>
 															</div>
 															<div class="col-sm-2 col-md-2">
-																<!--<a href="/president/cambiar_coordP/<%- coordPlani.cedula %>" class="btn btn-light btn-sm edit-eval">-->
+																<% if(coordPlani) {%>
 																	<a href="/president/cambiar_coordP" class="btn btn-light btn-sm edit-eval">
-															        <span class="glyphicon glyphicon-log-in"></span><i class="fa fa-exchange"></i>
-															    </a>
+																        <span class="glyphicon glyphicon-log-in"></span><i class="fa fa-exchange"></i>
+																    </a>
+																<%}%>
 															</div>
 														</div>
 													</div>
@@ -286,13 +291,19 @@
 										  						<p style="font-size: 10pt; margin-bottom: 0">Coord. Evaluación</p>
 															</div>
 															<div class="col-sm-6 col-md-6">
-																<p style="margin: 2px" class="text-muted"><em><%- coordEval.nombre %> <%- coordEval.apellido %></em></p>
-										  						<p style="margin: 2px" class="text-muted"><em>C.I: <%- coordEval.cedula %></em></p>
+																<% if(!coordEval) {%>
+																	<p style="margin: 2px; font-size: 18pt" class="text-muted"><em>Sin Asignar</em></p>
+																<%} else {%>
+																	<p style="margin: 2px" class="text-muted"><em><%- coordEval.nombre %> <%- coordEval.apellido %></em></p>
+											  						<p style="margin: 2px" class="text-muted"><em>C.I: <%- coordEval.cedula %></em></p>
+																<%}%>
 															</div>
 															<div class="col-sm-2 col-md-2">
-																<a href="/president/cambiar_coordEval/<%- coordEval.cedula %>" class="btn btn-light btn-sm edit-eval">
-															        <span class="glyphicon glyphicon-log-in"></span><i class="fa fa-exchange"></i>
-															    </a>
+																<% if(coordEval) {%>
+																	<a href="/president/cambiar_coordEval/<%- coordEval.cedula %>" class="btn btn-light btn-sm edit-eval">
+																        <span class="glyphicon glyphicon-log-in"></span><i class="fa fa-exchange"></i>
+																    </a>	
+																<%}%>
 															</div>
 														</div>
 													</div>
