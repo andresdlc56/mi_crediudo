@@ -22,7 +22,13 @@ exports.index = function(req, res) {
 					where: { rolId: 1 }
 				}).then(Admin => {
 					//res.send(Presidente);
-					res.render('admin/index', {Presidente, coordPlani, coordEval, Admin});	
+					res.render('admin/index', {
+						Presidente, 
+						coordPlani, 
+						coordEval, 
+						Admin,
+						message: req.flash('info')
+					});	
 				});
 			});
 		});
@@ -140,6 +146,8 @@ exports.asignaPresi = function(req, res) {
 			cedula: req.body.cedula
 		}
 	}).then(Usuario => {
+		console.log('=======' + req.body.cedula + '===========')
+		req.flash('info', 'Presidente Asignado Exitosamente!');
 		res.redirect('/admin');
 		//res.send(Usuario);
 	});

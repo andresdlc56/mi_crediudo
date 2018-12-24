@@ -85,28 +85,32 @@
 																<img src="/images/img/user.png" alt="" class="img-thumbnail">
 															</div>
 															<div class="col-md-8">
-																<fieldset disabled>
-																	<div class="form-group row">
-																	    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Nombre</label>
-																	    <div class="col-sm-9">
-																	    	<input type="text" class="form-control form-control-sm" v-model="user.nombre">
-																	    </div>
-																	</div>
+																<form method="POST" action="/admin/asignar-presi">
+																	<input type="hidden" name="cedula" v-model="user.cedula">
+																	<fieldset disabled>
+																		<div class="form-group row">
+																		    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Nombre</label>
+																		    <div class="col-sm-9">
+																		    	<input type="text" class="form-control form-control-sm" v-model="user.nombre">
+																		    </div>
+																		</div>
 
-																	<div class="form-group row">
-																	    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Apellido</label>
-																	    <div class="col-sm-9">
-																	    	<input type="text" class="form-control form-control-sm" v-model="user.apellido">
-																	    </div>
-																	</div>
+																		<div class="form-group row">
+																		    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Apellido</label>
+																		    <div class="col-sm-9">
+																		    	<input type="text" class="form-control form-control-sm" v-model="user.apellido">
+																		    </div>
+																		</div>
 
-																	<div class="form-group row">
-																	    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">C.I</label>
-																	    <div class="col-sm-9">
-																	    	<input type="text" class="form-control form-control-sm" v-model="user.cedula">
-																	    </div>
-																	</div>
-																</fieldset>
+																		<div class="form-group row">
+																		    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">C.I</label>
+																		    <div class="col-sm-9">
+																		    	<input type="text" class="form-control form-control-sm" v-model="user.cedula">
+																		    </div>
+																		</div>
+																	</fieldset>	
+																	<input type="submit" name="asignar" value="Asignar">
+																</form>
 															</div>
 														</div>
 													</div>
