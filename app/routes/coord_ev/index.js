@@ -5,7 +5,9 @@ var authController = require('../../controllers/authController.js');
 
 module.exports = function(app) {
 
-    app.get('/coord_ev',isLoggedIn, coord_evController.index);
+    app.get('/coord_ev', isLoggedIn, coord_evController.index);
+
+    app.get('/coord_ev/instrumentos', isLoggedIn, coord_evController.instrumentos);
 
     app.get('/coord_ev/factor', isLoggedIn, coord_evController.factor);
 

@@ -394,3 +394,18 @@ exports.updateEvento = function(req, res) {
 		}
 	})
 }
+
+exports.instrumentos = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: {
+			cedula: req.user.cedula
+		}
+	}).then(Usuario => {
+		models.instrument.findAll({
+			include: [ models.categoria, models.tipoEval ]
+		}).then(Instrumentos => {
+			res.render('coord_ev/instrumento/home', { Usuario, Instrumentos });	
+		})
+	})
+}
