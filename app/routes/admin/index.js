@@ -9,28 +9,32 @@ module.exports = function(app) {
     app.get('/admin',isLoggedIn, adminController.index);
 
     //RUTA PARA ASIGNAR EL ROL "PRESIDENTE" A UN USUARIO CON ROL "EMPLEADO"
-    app.get('/admin/asignar-presi', isLoggedIn, adminController.asignarPresi);
+        app.get('/admin/asignar-presi', isLoggedIn, adminController.asignarPresi);
+        app.post('/admin/asignar-presi', isLoggedIn, adminController.asignaPresi);
+       
+            
 
-    //RUTA PARA ASIGNAR EL ROL "PRESIDENTE" A UN USUARIO CON ROL "COORD PLANIFICACION"
-    app.get('/admin/asignar-coordP', isLoggedIn, adminController.asignarCoordP);
 
-    //RUTA PARA ASIGNAR EL ROL "PRESIDENTE" A UN USUARIO CON ROL "COORD EVALUACION"
-    app.get('/admin/asignar-coordE', isLoggedIn, adminController.asignarCoordE);
+    //RUTA PARA ASIGNAR EL ROL "Coord Planificacion" A UN USUARIO CON ROL "Empleado"
+        app.get('/admin/asignar-coordP', isLoggedIn, adminController.asignarCoordP);
+        app.post('/admin/asignar-coordP', isLoggedIn, adminController.asignaCoordP);
+        
+            
 
-    //RUTA PARA BUSCAR USUARIO CON ROL DE "EMPLEADO"
-    app.post('/admin/buscar_presi', isLoggedIn, adminController.buscar_presi);
+    //RUTA PARA ASIGNAR EL ROL "Coord Evaluación" A UN USUARIO CON ROL "Empleado"
+        app.get('/admin/asignar-coordE', isLoggedIn, adminController.asignarCoordE);
+        app.post('/admin/asignar-coordE', isLoggedIn, adminController.asignaCoordE);
+        
+            
 
-    app.post('/admin/buscar_cp', isLoggedIn, adminController.buscar_cp);
+    /*========================Rutas Axios================================*/
+        app.get('/admin/buscarUsuario/:id', isLoggedIn, adminController.buscarUsuario);
+        app.get('/admin/getAdmin', isLoggedIn, adminController.getAdmin);
+        app.get('/admin/getPresidente', isLoggedIn, adminController.getPresidente);
+        app.get('/admin/getCoordPlani', isLoggedIn, adminController.getCoordPlani);
+    
 
-    app.post('/admin/buscar_ce', isLoggedIn, adminController.buscar_ce);
-
-    app.post('/admin/asignar-presi', isLoggedIn, adminController.asignaPresi);
-
-    app.post('/admin/asignar-coordP', isLoggedIn, adminController.asignaCoordP);
-
-    app.post('/admin/asignar-coordE', isLoggedIn, adminController.asignaCoordE);
-
-    app.get('/admin/buscarUsuario/:id', isLoggedIn, adminController.buscarUsuario);
+    
 
     app.get('/logout',authController.logout);
 

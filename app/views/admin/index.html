@@ -150,7 +150,7 @@
 																	<%if(coordPlani == undefined) {%>
 																		<div class="col-sm-12 col-md-12 text-center">
 																			<h4>Vacante</h4>
-																			<a href="">Asignar</a>
+																			<a href="/admin/asignar-coordP">Asignar</a>
 																		</div>
 																	<%} else {%>
 																		<div class="col-sm-12 col-md-12">
@@ -196,7 +196,7 @@
 																	<%if(coordEval == undefined) {%>
 																		<div class="col-sm-12 col-md-12 text-center">
 																			<h4>Vacante</h4>
-																			<a href="">Asignar</a>
+																			<a href="/admin/asignar-coordE">Asignar</a>
 																		</div>
 																	<%} else {%>
 																		<div class="col-sm-12 col-md-12">
@@ -314,100 +314,6 @@
 			</div>
 		</div>
 	</div>
-
-
-<!--
-	<h2>Dashboard | ADMIN</h2>
-	<a href="/logout">Cerrar Sesion</a>
-	<br><br>
-	<h4>Personal CREDIUDO</h4>
-	<table style="width:40%">
-		<tr>
-	    	<th>Cargo</th>
-	    	<th>Nombre y Apellido</th> 
-	    	<th>Cedula</th>
-	    	<th>Acción</th>
-	  	</tr>
-	  	<!--=====================PRESIDENTE========================
-		<tr>
-	    	<td>Presidente</td>
-	    	<td>
-	    		<% if(Presidente == undefined) {%>
-					Vacante
-	    		<%} else{%>
-					<p><%=Presidente.nombre%> <%=Presidente.apellido%></p>
-	    		<%}%>
-	    		
-	    	</td> 
-	    	<td>
-	    		<% if(Presidente == undefined) {%>
-					Vacante
-	    		<%} else{%>
-					<%=Presidente.cedula%>
-	    		<%}%>
-	    				
-	    	</td>
-	    	<td>
-	    		<% if(Presidente == undefined) {%>
-					<a href="/admin/asignar-presi">Asignar</a>
-	    		<%}%>
-				<a href="#">Cambiar</a>
-	    	</td>
-	  	</tr>
-
-	  	<!--================COORD. PLANIFICACION========================
-	  	<tr>
-	    	<td>Coord. Planificación</td>
-	    	<td>
-	    		<% if(coordPlani == undefined){%>
-	    			Vacante
-	    		<%} else{%>
-					<p><%=coordPlani.nombre%> <%=coordPlani.apellido%></p>
-	    		<%}%>
-	    	</td> 
-	    	<td>
-	    		<% if(coordPlani == undefined){%>
-	    			Vacante
-	    		<%} else{%>
-					<%=coordPlani.cedula%>
-	    		<%}%>
-	    	</td>
-	    	<td>
-	    		<% if(coordPlani == undefined) {%>
-					<a href="/admin/asignar-coordP">Asignar</a>
-	    		<%}%>
-	    		
-				<a href="">Cambiar</a>
-	    	</td>
-	  	</tr>
-
-		<!--=================COORD. EVEALUACION========================
-	  	<tr>
-	    	<td>Coord. Evaluación</td>
-	    	<td>
-	    		<% if(coordEval == undefined){%>
-	    			Vacante
-	    		<%} else{%>
-					<p><%=coordEval.nombre%> <%=coordEval.apellido%></p>
-	    		<%}%>
-	    	</td> 
-	    	<td>
-	    		<% if(coordEval == undefined){%>
-	    			Vacante
-	    		<%} else{%>
-					<%=coordEval.cedula%>
-	    		<%}%>
-	    	</td>
-	    	<td>
-	    		<% if(coordEval == undefined) {%>
-					<a href="/admin/asignar-coordE">Asignar</a>
-	    		<%}%>
-				<a href="">Cambiar</a>
-	    	</td>
-	  	</tr>
-
-	</table>
--->
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
