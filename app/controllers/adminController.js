@@ -114,9 +114,20 @@ exports.asignaCoordE = function(req, res) {
 	});
 }
 
-exports.buscarUsuario = function(req, res) {
+/*================Controladores para Cambiar Cargos========================*/
+exports.cambiarPresi = function(req, res) {
 	models.usuario.findOne({
 		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		res.render('admin/cambiar/presidente', { Usuario })
+	})
+}
+
+/*================================Controladores para Axios============================*/
+exports.buscarUsuario = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad, models.rol ],
 		where: { cedula: req.params.id }
 	}).then(User => {
 		if(User) {
@@ -159,5 +170,34 @@ exports.getCoordPlani = function(req, res) {
 		res.json(CoordPlani)
 	}).catch(err => {
 		console.log(err)
+	})
+}
+
+/*===============================Reemplazar================================*/
+exports.reemplazar = function(req, res) {
+	models.usuario.update({
+		nucleoCodigo: req.body.nucleoCandidato,
+		unidadCodigo: req.body.unidadCandidato,
+		cargoId: req.body.cargoCandidato,
+		rolId: req.body.rolCandidato
+	},{
+		where: {
+			cedula: req.body.cedulaPresidente
+		}
+	}).then(exPresidente => {
+		models.usuario.update({
+			nucleoCodigo: req.body.nucleoPresidente,
+			unidadCodigo: req.body.unidadPresidente,
+			cargoId: req.body.cargoPresidente,
+			rolId: req.body.rolPresidente	
+		}, {
+			where: {
+				cedula: req.body.cedulaCandidato
+			}
+		}).then(newPresidente => {
+			console.log('=====================Usuarios Actualizados Exitosamente========================');
+			req.flash('info', 'Actualización Exitosa!');
+			res.redirect('/admin');
+		})
 	})
 }

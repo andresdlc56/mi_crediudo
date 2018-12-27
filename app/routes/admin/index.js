@@ -11,6 +11,10 @@ module.exports = function(app) {
     //RUTA PARA ASIGNAR EL ROL "PRESIDENTE" A UN USUARIO CON ROL "EMPLEADO"
         app.get('/admin/asignar-presi', isLoggedIn, adminController.asignarPresi);
         app.post('/admin/asignar-presi', isLoggedIn, adminController.asignaPresi);
+
+        //Cambiar Presidente
+            app.get('/admin/cambiarPresidente', isLoggedIn, adminController.cambiarPresi);
+            app.post('/admin/updatePresidente', isLoggedIn, adminController.reemplazar);
        
             
 
@@ -24,6 +28,10 @@ module.exports = function(app) {
     //RUTA PARA ASIGNAR EL ROL "Coord Evaluación" A UN USUARIO CON ROL "Empleado"
         app.get('/admin/asignar-coordE', isLoggedIn, adminController.asignarCoordE);
         app.post('/admin/asignar-coordE', isLoggedIn, adminController.asignaCoordE);
+
+
+    //Remplazar Presidente
+        app.post('/admin/reemplazar', isLoggedIn, adminController.reemplazar);
         
             
 

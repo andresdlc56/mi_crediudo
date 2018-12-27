@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIDUDO | ADMIN</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="/js/pace.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+</head>
+<body>
+	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+	</div>	
+
+	<%- include('../../partials/president/navbar.html') %>
+
+	<div class="container-fluid" id="main">
+		<div class="row justify-content-md-center">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12">
+						<!--=======MIGAS DE PAN=========-->
+						<nav aria-label="breadcrumb" style="margin-top: 1%">
+							<ol class="breadcrumb">
+							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							</ol>
+						</nav>
+						<!--=======FIN MIGAS DE PAN=========-->		
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12 col-md-12 col-lg-3">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card">
+								  	<div class="card-header">
+								    	Datos Personales:
+								  	</div>
+								  
+								  	<div class="card-body">
+								    	<div class="form-group">
+								    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+								    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+								    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+								    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
+								    	</div>
+								  	</div>
+								</div>	
+								<br>	
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-9">
+						<div class="row">
+							<div class="col-xs-12 col-md-12 col-lg-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="article border-bottom">
+											<h3>Remplazante</h3>	
+										</div>
+										<br>
+										<div class="input-group mb-12">
+											<label for="cedula" class="col-sm-2 col-form-label">Cedula</label>
+											  <input type="text" class="form-control" v-model="cedula" placeholder="Ingrese Una Cedula de Identidad" v-on:keyup.enter="getUsuario(cedula)" autofocus>
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary" type="button">Buscar</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<br>
+							</div>
+							
+							<!--================Presidente Actual=================-->
+							<div class="col-lg-5">
+								<div class="card">
+									<div class="card-body">
+										<div class="article border-bottom">
+											<h3>Presidente Actual</h3>	
+										</div>
+										<br>
+										<div class="article border-bottom">
+											<div class="text-center">
+												<img src="/images/img/user.png" class="rounded-circle img-fluid" alt="Cinque Terre" style="width: 50%">
+											</div>
+											<br>
+										</div>
+										<br>
+										<fieldset disabled>
+											<div class="form-group row">
+												<label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Nombre</label>
+												<div class="col-sm-9">
+													<input type="text" class="form-control form-control-sm" v-model="presidente.nombre">
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Apellido</label>
+												<div class="col-sm-9">
+												   	<input type="text" class="form-control form-control-sm" v-model="presidente.apellido">
+												</div>
+											</div>
+
+											<div class="form-group row">
+											    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">C.I</label>
+											    <div class="col-sm-9">
+											    	<input type="text" class="form-control form-control-sm" v-model="presidente.cedula">
+											    </div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>
+							
+							<!--==============Icono================-->
+							<div class="col-lg-2 text-center">
+								<br><br>
+								<p style="font-size: 50pt"><span class="glyphicon glyphicon-log-in" ></span><i class="fa fa-exchange"></i></p>
+							</div>
+							
+							<!--=============Candidato==========================-->
+							<div class="col-lg-5">
+								<div class="card">
+									<div class="card-body">
+										<div class="article border-bottom">
+											<h3>Candidato</h3>	
+										</div>
+										<br>
+										<div class="article border-bottom">
+											<div class="text-center">
+												<img src="/images/img/user.png" class="rounded-circle img-fluid" alt="Cinque Terre" style="width: 50%">
+											</div>
+											<br>
+										</div>
+										<br>
+										<fieldset disabled>
+											<div class="form-group row">
+												<label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Nombre</label>
+												<div class="col-sm-9">
+													<input type="text" class="form-control form-control-sm" v-model="usuario.nombre">
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Apellido</label>
+												<div class="col-sm-9">
+												   	<input type="text" class="form-control form-control-sm" v-model="usuario.apellido">
+												</div>
+											</div>
+
+											<div class="form-group row">
+											    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">C.I</label>
+											    <div class="col-sm-9">
+											    	<input type="text" class="form-control form-control-sm" v-model="usuario.cedula">
+											    </div>
+											</div>
+
+											<div class="form-group row">
+											    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Cargo</label>
+											    <div class="col-sm-9">
+											    	<input type="text" class="form-control form-control-sm" v-model="rol.nombre">
+											    </div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-md-12">
+								<br>
+								<div class="form-group" v-if="variable">
+									<div class="article border-top">
+										<br>
+										<form method="POST"	action="/admin/updatePresidente">
+											<!--==========Datos del Presidente Actual=============-->
+											<input type="hidden" name="cedulaPresidente" v-model="presidente.cedula">
+											<input type="hidden" name="nucleoPresidente" v-model="presidente.nucleoCodigo">
+											<input type="hidden" name="unidadPresidente" v-model="presidente.unidadCodigo">
+											<input type="hidden" name="cargoPresidente" v-model="presidente.cargoId">
+											<input type="hidden" name="rolPresidente" v-model="presidente.rolId">
+
+											<!--============Datos del Candidato======================-->
+											<input type="hidden" name="cedulaCandidato" v-model="usuario.cedula">
+											<input type="hidden" name="nucleoCandidato" v-model="usuario.nucleoCodigo">
+											<input type="hidden" name="unidadCandidato" v-model="usuario.unidadCodigo">
+											<input type="hidden" name="cargoCandidato" v-model="usuario.cargoId">
+											<input type="hidden" name="rolCandidato" v-model="usuario.rolId">
+											
+											<!--=============Boton para Enviar el Formulario===============-->
+											<button class="btn btn-primary btn-block">Reemplazar</button>
+											
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<br>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+
+	<footer class="footer" style="background: #BEBCB0;">
+		<div class="container">
+			<span class="text-muted">Pie de Pagina</span>
+		</div>
+	</footer>
+	
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#main',
+			data: {
+				cedula: '',
+				usuario: {},
+				rol: {},
+				admin: {},
+				presidente: {},
+				variable: false
+			}, 
+			created() {
+				this.getPresi();
+				this.getAdmin();
+			},
+			methods: {
+				getAdmin() {
+					axios.get('/admin/getAdmin')
+						.then(res => {
+							this.admin = res.data
+						}).catch(err => {
+							console.log(err)
+						})
+				},
+
+				getPresi() {
+					axios.get('/admin/getPresidente')
+						.then(res => {
+							this.presidente = res.data
+						}).catch(err => {
+							console.log(err)
+						})
+				},
+
+				getUsuario(cedula) {
+					if(cedula == this.admin.cedula) {
+						alert("Esta Cedula le Pertenece al Admin Actual de la Web de CREDIUDO");
+					}
+					else if(cedula == this.presidente.cedula) {
+						alert("Esta Cedula le Pertenece al Presidente Actual de CREDIUDO");
+					} else{
+						axios.get('/admin/buscarUsuario/' + cedula)
+							.then(res => {
+								//Si no se encuentra un Usuario con la ceula ingresada
+								if(res.data == false) {
+									alert("Este Usuario no Existe")
+									this.cedula = ''
+								}
+								//Si se encuentra un Usuario con la cedula ingresada
+								else {
+									this.rol = res.data.rol
+									this.usuario = res.data;
+									this.variable = true;
+									this.cedula = ''	
+								}
+							}).catch(err => {
+								console.log(err)
+							})	
+					}
+				}
+			}
+		})
+	</script>
+</body>
+</html>
