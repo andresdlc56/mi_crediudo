@@ -124,6 +124,24 @@ exports.cambiarPresi = function(req, res) {
 	})
 }
 
+exports.cambiarCoordPlani = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		res.render('admin/cambiar/coordPlani', { Usuario })
+	})
+}
+
+exports.cambiarCoordEval = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		res.render('admin/cambiar/coordEval', { Usuario })
+	})
+}
+
 /*================================Controladores para Axios============================*/
 exports.buscarUsuario = function(req, res) {
 	models.usuario.findOne({
@@ -173,6 +191,17 @@ exports.getCoordPlani = function(req, res) {
 	})
 }
 
+exports.getCoordEval = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { rolId: 4 }
+	}).then(CoordEval => {
+		res.json(CoordEval)
+	}).catch(err => {
+		console.log(err)
+	})
+}
+
 /*===============================Reemplazar================================*/
 exports.reemplazar = function(req, res) {
 	models.usuario.update({
@@ -182,19 +211,19 @@ exports.reemplazar = function(req, res) {
 		rolId: req.body.rolCandidato
 	},{
 		where: {
-			cedula: req.body.cedulaPresidente
+			cedula: req.body.cedulaReemplazado
 		}
-	}).then(exPresidente => {
+	}).then(exEncargado => {
 		models.usuario.update({
-			nucleoCodigo: req.body.nucleoPresidente,
-			unidadCodigo: req.body.unidadPresidente,
-			cargoId: req.body.cargoPresidente,
-			rolId: req.body.rolPresidente	
+			nucleoCodigo: req.body.nucleoReemplazado,
+			unidadCodigo: req.body.unidadReemplazado,
+			cargoId: req.body.cargoReemplazado,
+			rolId: req.body.rolReemplazado	
 		}, {
 			where: {
 				cedula: req.body.cedulaCandidato
 			}
-		}).then(newPresidente => {
+		}).then(newEncargado => {
 			console.log('=====================Usuarios Actualizados Exitosamente========================');
 			req.flash('info', 'Actualización Exitosa!');
 			res.redirect('/admin');

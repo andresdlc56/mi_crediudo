@@ -12,11 +12,15 @@ module.exports = function(app) {
         app.get('/admin/asignar-presi', isLoggedIn, adminController.asignarPresi);
         app.post('/admin/asignar-presi', isLoggedIn, adminController.asignaPresi);
 
-        //Cambiar Presidente
+        //Cambiar Cargos
             app.get('/admin/cambiarPresidente', isLoggedIn, adminController.cambiarPresi);
             app.post('/admin/updatePresidente', isLoggedIn, adminController.reemplazar);
-       
+
+            app.get('/admin/cambiarCoordPlani', isLoggedIn, adminController.cambiarCoordPlani);
+            app.post('/admin/updateCoordPlani', isLoggedIn, adminController.reemplazar);
             
+            app.get('/admin/cambiarCoordEval', isLoggedIn, adminController.cambiarCoordEval);
+            app.post('/admin/updateCoordEval', isLoggedIn, adminController.reemplazar);
 
 
     //RUTA PARA ASIGNAR EL ROL "Coord Planificacion" A UN USUARIO CON ROL "Empleado"
@@ -40,6 +44,7 @@ module.exports = function(app) {
         app.get('/admin/getAdmin', isLoggedIn, adminController.getAdmin);
         app.get('/admin/getPresidente', isLoggedIn, adminController.getPresidente);
         app.get('/admin/getCoordPlani', isLoggedIn, adminController.getCoordPlani);
+        app.get('/admin/getCoordEval', isLoggedIn, adminController.getCoordEval);
     
 
     

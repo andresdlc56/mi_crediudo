@@ -77,12 +77,12 @@
 								<br>
 							</div>
 							
-							<!--================Presidente Actual=================-->
+							<!--===========Coord. Planificación Actual=================-->
 							<div class="col-lg-5">
 								<div class="card">
 									<div class="card-body">
 										<div class="article border-bottom">
-											<h3>Presidente Actual</h3>	
+											<h3>Coord. Planificación Actual</h3>	
 										</div>
 										<br>
 										<div class="article border-bottom">
@@ -96,21 +96,21 @@
 											<div class="form-group row">
 												<label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Nombre</label>
 												<div class="col-sm-9">
-													<input type="text" class="form-control form-control-sm" v-model="presidente.nombre">
+													<input type="text" class="form-control form-control-sm" v-model="coord.nombre">
 												</div>
 											</div>
 
 											<div class="form-group row">
 												<label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Apellido</label>
 												<div class="col-sm-9">
-												   	<input type="text" class="form-control form-control-sm" v-model="presidente.apellido">
+												   	<input type="text" class="form-control form-control-sm" v-model="coord.apellido">
 												</div>
 											</div>
 
 											<div class="form-group row">
 											    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">C.I</label>
 											    <div class="col-sm-9">
-											    	<input type="text" class="form-control form-control-sm" v-model="presidente.cedula">
+											    	<input type="text" class="form-control form-control-sm" v-model="coord.cedula">
 											    </div>
 											</div>
 										</fieldset>
@@ -177,13 +177,13 @@
 								<div class="form-group" v-if="variable">
 									<div class="article border-top">
 										<br>
-										<form method="POST"	action="/admin/updatePresidente">
-											<!--==========Datos del Presidente Actual=============-->
-											<input type="hidden" name="cedulaReemplazado" v-model="presidente.cedula">
-											<input type="hidden" name="nucleoReemplazado" v-model="presidente.nucleoCodigo">
-											<input type="hidden" name="unidadReemplazado" v-model="presidente.unidadCodigo">
-											<input type="hidden" name="cargoReemplazado" v-model="presidente.cargoId">
-											<input type="hidden" name="rolReemplazado" v-model="presidente.rolId">
+										<form method="POST"	action="/admin/updateCoordPlani">
+											<!--==========Datos del Coord Plani Actual=============-->
+											<input type="hidden" name="cedulaReemplazado" v-model="coord.cedula">
+											<input type="hidden" name="nucleoReemplazado" v-model="coord.nucleoCodigo">
+											<input type="hidden" name="unidadReemplado" v-model="coord.unidadCodigo">
+											<input type="hidden" name="cargoReemplazado" v-model="coord.cargoId">
+											<input type="hidden" name="rolReemplazado" v-model="coord.rolId">
 
 											<!--============Datos del Candidato======================-->
 											<input type="hidden" name="cedulaCandidato" v-model="usuario.cedula">
@@ -227,11 +227,11 @@
 				usuario: {},
 				rol: {},
 				admin: {},
-				presidente: {},
+				coord: {},
 				variable: false
 			}, 
 			created() {
-				this.getPresi();
+				this.getCoord();
 				this.getAdmin();
 			},
 			methods: {
@@ -244,10 +244,10 @@
 						})
 				},
 
-				getPresi() {
-					axios.get('/admin/getPresidente')
+				getCoord() {
+					axios.get('/admin/getCoordPlani')
 						.then(res => {
-							this.presidente = res.data
+							this.coord = res.data
 						}).catch(err => {
 							console.log(err)
 						})
@@ -256,9 +256,11 @@
 				getUsuario(cedula) {
 					if(cedula == this.admin.cedula) {
 						alert("Esta Cedula le Pertenece al Admin Actual de la Web de CREDIUDO");
+						this.cedula = '';
 					}
-					else if(cedula == this.presidente.cedula) {
-						alert("Esta Cedula le Pertenece al Presidente Actual de CREDIUDO");
+					else if(cedula == this.coord.cedula) {
+						alert("Esta Cedula le Pertenece al Coord. Planificación Actual de CREDIUDO");
+						this.cedula = '';
 					} else{
 						axios.get('/admin/buscarUsuario/' + cedula)
 							.then(res => {
