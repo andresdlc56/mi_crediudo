@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Coord. Evaluación</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+</head>
+<body>
+	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+	</div>	
+
+	<%- include('../../partials/coord_eval/navbar.html') %>
+
+	<div class="container-fluid" id="main">
+		<div class="row justify-content-md-center">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12">
+						<!--=======MIGAS DE PAN=========-->
+						<nav aria-label="breadcrumb" style="margin-top: 1%">
+							<ol class="breadcrumb">
+							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							</ol>
+						</nav>
+						<!--=======FIN MIGAS DE PAN=========-->
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12 col-md-3">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card">
+								  	<div class="card-header">
+								    	Datos Personales:
+								  	</div>
+								  
+								  	<div class="card-body">
+								    	<div class="form-group">
+								    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+								    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+								    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+								    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
+								    	</div>
+								  	</div>
+								</div>	
+							</div>
+
+							<div class="col-md-12">
+								<br>
+								<div class="card">
+									<div class="card-header">
+										Nuevo Factor
+									</div>
+									<div class="card-body text-center">
+										<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#exampleModalCenter">Add Factor</button>
+
+										<!-- Modal -->
+										<form method="POST" action="/coord_ev/addFactor">
+											<input type="hidden" name="idInstrumento" value="<%-Instrumento.id%>">
+											<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+											  	<div class="modal-dialog modal-dialog-centered" role="document">
+												    <div class="modal-content">
+												      		<div class="modal-header">
+												        		<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+												        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												          			<span aria-hidden="true">&times;</span>
+												        		</button>
+												      		</div>
+												      		<div class="modal-body">
+												        		<div class="form-group row">
+																    <label for="inputPassword" class="col-sm-3 col-form-label">Factor:</label>
+																    <div class="col-sm-9">
+																      <input type="text" class="form-control" placeholder="Ingrese el Nuevo Factor" name="factor">
+																    </div>
+																  </div>
+												      		</div>
+												      		<div class="modal-footer">
+												        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+												        		<button class="btn btn-primary">Save changes</button>
+												      		</div>
+												    </div>
+											  	</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<br>
+					</div>
+
+					<div class="col-md-9">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="article border-bottom">
+											<h3>Datos del Nuevo Instrumento</h3>
+										</div>
+										<form method="POST" action="">
+											<fieldset disabled>
+												<br>
+												<div class="form-group">
+													<label for="nombre">Nombre o Titulo:</label>
+													<input type="text" name="titulo" value="<%- Instrumento.titulo %>" class="form-control" required>
+												</div>
+
+												<div class="row">
+												    <div class="col">
+												      	<label for="categoria">Categoria:</label>
+												      	<select name="categoria" class="form-control" required>
+												      		<option>
+																<% for(let i = 0; i < Categorias.length; i ++) {%>
+																	<% if(Categorias[i].id == Instrumento.categoriumId) {%>
+																		<%- Categorias[i].nombre %>
+																	<%}%>
+																<%}%>
+												      		</option>
+													    </select>
+												    </div>
+												    <div class="col">
+												    	<label for="tipo">Tipo:</label>
+												      	<select name="tipo" class="form-control" required>
+													     	<option>
+													     		<% for(let i = 0; i < Tipo.length; i++) {%>
+																	<% if(Tipo[i].id == Instrumento.tipoEvalId) {%>
+																		<%- Tipo[i].nombre %>
+																	<%}%>
+													     		<%}%>
+													     	</option>
+													    </select>
+												    </div>
+												</div>
+												<hr>
+												<input type="submit" name="crear" class="btn btn-primary btn-block" value="Crear" disabled>
+											</fieldset>
+										</form>
+									</div>
+								</div>
+								<br>
+							</div>
+							
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-body">
+										<form @submit.prevent="addPregunta(<%- Instrumento.id %>)">
+											
+											<div class="row">
+											    <div class="col-md-4">
+											    	<label>Factor:</label>
+											      	<!--
+											      	<select name="" class="form-control">
+											      		<option>Seleccione una Opción</option>
+											      		<% for(let i = 0; i < Factores.length; i ++) {%>
+															<option value="<%- Factores[i].id %>"><%- Factores[i].nombre %></option>
+											      		<%}%>
+											      	</select>
+											      	-->
+											      	<select v-model="pregunta.factor" name="" class="form-control">
+											      		<option value=""> --Seleccione una Opción-- </option>
+											      		<option v-for="option in options" v-bind:value="option.id">
+															{{ option.nombre }}
+														</option>
+											      	</select>
+											    </div>
+											    <div class="col-md-8">
+											    	<label>Item:</label>
+											      	<input type="text" v-model="pregunta.item" class="form-control" placeholder="Ingrese un Item">
+											    </div>
+											</div>
+											<hr>
+											<button class="btn btn-primary">Add</button>
+										</form>	
+									</div>
+								</div>
+								<br>
+							</div>
+
+							<div class="col-md-12">
+								<table class="table table-hover table-sm table-bordered">
+									<thead>
+										<tr>
+									    	<th scope="col" style="width: 5%">#</th>
+										    <th scope="col" style="width: 55%">Item</th>
+										   	<th scope="col" style="width: 20%">Factor</th>
+									     	<th scope="col" style="width: 20%">Acción</th>
+									    </tr>
+									</thead>
+									<tbody>
+										<tr v-for="pregunta of preguntas">
+											<th scope="row">1</th>
+										    <td>{{ pregunta.nombre }}</td>
+										    <td>{{ pregunta.factor.nombre }}</td>
+										    <td>@mdo</td>
+										</tr>
+									</tbody>
+								</table>
+								<hr>
+								<a href="/coord_ev/instrumentos" class="btn btn-primary btn-block">Finalizar</a>	
+							</div>
+						</div>
+						<br>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="footer" style="background: #BEBCB0;">
+		<div class="container">
+			<span class="text-muted">Pie de Pagina</span>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#main',
+			data: {
+				pregunta: {
+					factor: '',
+					item: ''
+				},
+				options: [],
+				preguntas: []
+			},
+			created() {
+				var currentUrl = window.location.pathname.split('/');
+				var id = currentUrl[3];
+        		
+				this.getFactores();
+				this.getPreguntas(id);
+			},
+			methods: {
+				getFactores() {
+					axios.get('/coord_ev/getFactores')
+						.then(res => {
+							this.options = res.data
+						}).catch(err => {
+							console.log(err)
+						})
+				},
+				addPregunta(id) {
+					axios.post('/coord_ev/addPregunta/' + id, {
+						factor: this.pregunta.factor,
+						nombre: this.pregunta.item
+					}).then(res => {
+						this.getPreguntas(id);
+						console.log(res);
+						this.pregunta.factor = '';
+						this.pregunta.item = ''
+					}).catch(err => {
+						console.log(err)
+					})
+				},
+				getPreguntas(id) {
+					axios.get('/coord_ev/instrum/' + id)
+						.then(res => {
+							this.preguntas = res.data;
+							console.log(this.preguntas);
+						}).catch(err => {
+							console.log(err)
+						})
+				}
+			}
+		})
+	</script>
+</body>
+</html>

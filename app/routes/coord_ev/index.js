@@ -9,6 +9,39 @@ module.exports = function(app) {
 
     app.get('/coord_ev/instrumentos', isLoggedIn, coord_evController.instrumentos);
 
+
+    //========================================
+    app.get('/coord_ev/addInstrumento', isLoggedIn, coord_evController.agregarInstrumento);
+
+    app.post('/coord_ev/add-instrument', isLoggedIn, coord_evController.createInstrument);
+
+        //2do paso para la creacion de un instrumento
+        app.get('/coord_ev/instrumento/:id', isLoggedIn, coord_evController.completarIntrumento);
+
+            //Creación de un Factor
+            app.post('/coord_ev/addFactor', isLoggedIn, coord_evController.addFactor);
+
+            //Rutas axios
+            app.get('/coord_ev/getFactores', isLoggedIn, coord_evController.getFactores);
+
+            app.post('/coord_ev/addPregunta/:id', isLoggedIn, coord_evController.addPregunta);
+
+            app.get('/coord_ev/instrum/:id', isLoggedIn, coord_evController.getPreguntas);
+
+            app.get('/coord_ev/getInstrumento/:id', isLoggedIn, coord_evController.getInstrumento);
+
+            app.get('/coord_ev/getCategorias', isLoggedIn, coord_evController.getCategorias);
+
+            app.get('/coord_ev/getTipos', isLoggedIn, coord_evController.getTipos);
+
+            app.post('/coord_ev/updateInstrumento/:id', isLoggedIn, coord_evController.updateInstrumento);
+
+    app.get('/coord_ev/verInstrumento/:id', isLoggedIn, coord_evController.verInstrumento);
+
+    app.get('/coord_ev/editIntrumento/:id', isLoggedIn, coord_evController.editInstrumento);
+    //========================================
+
+
     app.get('/coord_ev/factor', isLoggedIn, coord_evController.factor);
 
     app.post('/coord_ev/add-factor', isLoggedIn, coord_evController.addFactor);
@@ -17,7 +50,6 @@ module.exports = function(app) {
 
     app.get('/coord_ev/add-instrument', isLoggedIn, coord_evController.addInstrument);
 
-    app.post('/coord_ev/add-instrument', isLoggedIn, coord_evController.createInstrument);
 
     app.get('/coord_ev/instrument/:id', isLoggedIn, coord_evController.verInstrument);
 

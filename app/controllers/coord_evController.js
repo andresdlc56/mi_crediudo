@@ -19,23 +19,6 @@ exports.factor = function(req, res) {
 	res.render('coord_ev/factor/index');
 }
 
-//agregando un nuevo factor
-exports.addFactor = function(req, res) {
-	models.factor.findOne({
-		where: { nombre: req.body.nombre }
-	}).then(Factor => {
-		if(Factor == undefined){
-			models.factor.create({
-				nombre: req.body.nombre
-			}).then(Factor => {
-				res.redirect('/coord_ev/factor');
-				//res.send('Factor');
-			})
-		} else{
-			res.send('El factor existe');
-		}
-	});
-}
 
 //buscando todos los intrumentos
 exports.instrument = function(req, res) {	
@@ -57,18 +40,6 @@ exports.addInstrument = function(req, res) {
 		}).then(tipoEval => {
 			res.render('coord_ev/instrumento/add', { Categorias, tipoEval });
 		})
-	})
-}
-
-//creando un nuevo instrumento de evaluacion
-exports.createInstrument = function(req, res) {
-	models.instrument.create({
-		titulo: req.body.titulo,
-		categoriumId: req.body.categoria,
-		tipoEvalId: req.body.t_instrument
-	}).then(Instrument => {
-		res.redirect('/coord_ev/instrument');
-		//res.send('Instrumento Creado Exitosamente');
 	})
 }
 
@@ -409,3 +380,275 @@ exports.instrumentos = function(req, res) {
 		})
 	})
 }
+
+//Ruta para agregar Instrumento
+exports.agregarInstrumento = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: {
+			cedula: req.user.cedula
+		}
+	}).then(Usuario => {
+		models.categoria.findAll({
+
+		}).then(Categorias => {
+			models.tipoEval.findAll({
+
+			}).then(Tipo => {
+				res.render('coord_ev/instrumento/agregar', { Usuario, Categorias, Tipo });
+			})
+		});	
+	})
+}
+
+//creando un nuevo instrumento de evaluacion
+exports.createInstrument = function(req, res) {
+	models.instrument.create({
+		titulo: req.body.titulo,
+		categoriumId: req.body.categoria,
+		tipoEvalId: req.body.tipo
+	}).then(Instrument => {
+		models.instrument.findOne({
+			order: [
+				['id', 'DESC']
+			]
+		}).then(Instrumento => {
+			res.redirect('/coord_ev/instrumento/' + Instrumento.id);
+		})
+	})
+}
+
+//2do Paso para la creación del instrumento de evaluación
+exports.completarIntrumento = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: {
+			cedula: req.user.cedula
+		}
+	}).then(Usuario => {
+		models.instrument.findOne({
+			include: [ models.categoria, models.tipoEval ],
+			where: { id: req.params.id }
+		}).then(Instrumento => {
+			models.categoria.findAll({
+
+			}).then(Categorias => {
+				models.tipoEval.findAll({
+
+				}).then(Tipo => {
+					models.factor.findAll({
+
+					}).then(Factores => {
+						res.render('coord_ev/instrumento/completar', { 
+							Usuario, 
+							Instrumento, 
+							Categorias,
+							Tipo, 
+							Factores
+						});
+					})
+				})	
+			})
+		})
+	})
+}
+
+//agregando un nuevo factor
+exports.addFactor = function(req, res) {
+	//Pasos para transformar la primera letra de una cadena a mayuscula
+		var cadena = req.body.factor;
+		var minuscula = cadena.toLowerCase();
+		var mayuscula = minuscula.charAt(0).toUpperCase() + minuscula.slice(1);
+
+	models.factor.findOne({
+		where: { nombre: mayuscula }
+	}).then(Factor => {
+		//Si el factor no existe en la DB
+		if(Factor == undefined){
+			models.factor.create({
+				nombre: mayuscula
+			}).then(Factor => {
+				res.redirect('/coord_ev/instrumento/' + req.body.idInstrumento);
+				//res.send('Factor');
+			})
+		} 
+		//Si el Factor Existe en DB
+		else{
+			res.send('El factor existe');
+		}
+	});
+}
+
+//==================Ver Instrumento de Evaluación
+exports.verInstrumento = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: {
+			cedula: req.user.cedula
+		}
+	}).then(Usuario => {
+		res.render('coord_ev/instrumento/ver_2', { Usuario });
+	})
+}
+
+
+
+//=================Aun sin definir el para q su uso
+exports.editInstrumento = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: {
+			cedula: req.user.cedula
+		}
+	}).then(Usuario => {
+		models.instrument.findOne({
+			include: [ models.categoria, models.tipoEval ],
+			where: { id: req.params.id }
+		}).then(Instrumento => {
+			models.categoria.findAll({
+
+			}).then(Categorias => {
+				models.tipoEval.findAll({
+
+				}).then(Tipos => {
+					res.render('coord_ev/instrumento/edit', { Usuario, Instrumento, Categorias, Tipos });
+				})	
+			})
+		})	
+	});
+}
+
+//=============Controladores axios
+	//=============Solicitar Factores
+	exports.getFactores = function(req, res) {
+		models.factor.findAll({
+
+		}).then(Factores => {
+			res.json(Factores);
+		})
+	}
+
+	//=============add Preguntas
+	exports.addPregunta = function(req, res) {
+		var Factor = req.body.factor;
+
+		//buscando todos los Factores asociados a instrumentos en la tabla instrumentFactor
+		models.instrumentFactor.findAll({
+			
+		}).then(instrumentFactor => {
+			if (instrumentFactor.length > 0) {
+				//res.send(instrumentFactor);
+				for(var i = 0; i < instrumentFactor.length; i ++){
+					if (instrumentFactor[i].factorId == Factor && instrumentFactor[i].instrumentId == req.params.id) {
+						//res.send('no procede');
+							models.item.create({
+								nombre: req.body.nombre,
+								valor: 0,
+								factorId: req.body.factor,
+								instrumentId: req.params.id
+							}).then(Item => {
+								res.json('Listo');
+							})
+					} else {
+						//res.send('No Tiene conetenido');
+						models.instrumentFactor.create({
+							factorId: req.body.factor,
+							instrumentId: req.params.id
+						}).then(instrumentFactor => {
+							models.item.create({
+								nombre: req.body.nombre,
+								valor: 0,
+								factorId: req.body.factor,
+								instrumentId: req.params.id
+							}).then(Item => {
+								res.json('Listo');
+							});
+						});
+					}
+				}
+			} else {
+				//res.send('No Tiene conetenido');
+				models.instrumentFactor.create({
+					factorId: req.body.factor,
+					instrumentId: req.params.id
+				}).then(instrumentFactor => {
+					models.item.create({
+						nombre: req.body.nombre,
+						valor: 0,
+						factorId: req.body.factor,
+						instrumentId: req.params.id
+					}).then(Item => {
+						res.json('Listo');
+					});
+				});
+			}
+		})
+	}
+
+	//===============Ver Preguntas
+	exports.getPreguntas = function(req, res) {
+		//buscando un instrumento en especifico
+		models.instrument.findById(req.params.id).then(Instruments => {
+			//buscando todos los factores
+			models.factor.findAll({
+
+			}).then(Factores => {
+				//buscando todos los items que pertenecen al instrumento que inicialmente buscamos
+				models.item.findAll({
+					include: [models.factor],
+					where: { instrumentId: req.params.id }
+				}).then(Items => {
+					res.json(Items)	
+				})
+			});
+		});
+	}
+
+	//===========Obtener datos de un Instrumento determinado
+	exports.getInstrumento = function(req, res) {
+		models.instrument.findOne({
+			include: [ models.categoria, models.tipoEval ],
+			where: { id: req.params.id }
+		}).then(Instrumento => {
+			res.json(Instrumento);
+		}).catch(err => {
+			console.log(err);
+		})
+	}
+
+	//==============Obtener todas las Categorias
+	exports.getCategorias = function(req, res) {
+		models.categoria.findAll({
+
+		}).then(Categorias => {
+			res.json(Categorias);
+		}).catch(err => {
+			console.log(err);
+		})
+	}
+
+	//===============Obtener todos los Tipos de Evaluaciones
+	exports.getTipos = function(req, res) {
+		models.tipoEval.findAll({
+
+		}).then(Tipos => {
+			res.json(Tipos);
+		}).catch(err => {
+			console.log(err);
+		})
+	}
+
+	//============Editar los Datos Principales de un Instrumento
+	exports.updateInstrumento = function(req, res) {
+		models.instrument.update({
+			titulo: req.body.titulo,
+			categoriumId: req.body.categoriumId,
+			tipoEvalId: req.body.tipoEvalId
+		}, {
+			where: { id: req.params.id }
+		}).then(Instrumento => {
+			console.log('Instrumento Actualizado');
+		}).catch(err => {
+			console.log(err);
+		})
+	}
