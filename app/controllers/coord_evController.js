@@ -596,6 +596,9 @@ exports.editInstrumento = function(req, res) {
 				//buscando todos los items que pertenecen al instrumento que inicialmente buscamos
 				models.item.findAll({
 					include: [models.factor],
+					order: [
+						['id', 'ASC']
+					],
 					where: { instrumentId: req.params.id }
 				}).then(Items => {
 					res.json(Items)	
@@ -648,6 +651,20 @@ exports.editInstrumento = function(req, res) {
 			where: { id: req.params.id }
 		}).then(Instrumento => {
 			console.log('Instrumento Actualizado');
+		}).catch(err => {
+			console.log(err);
+		})
+	}
+
+	//============Update una Pregunta en especifica
+	exports.updatePregunta = function(req, res) {
+		models.item.update({
+			nombre: req.body.nombre,
+			factorId: req.body.factorId,
+		}, {
+			where: { id: req.params.id }
+		}).then(Item => {
+			res.json(Item);
 		}).catch(err => {
 			console.log(err);
 		})

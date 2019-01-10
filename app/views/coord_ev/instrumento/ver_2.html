@@ -105,14 +105,14 @@
 													    </tr>
 													</thead>
 													<tbody>
-														<tr v-for="pregunta of preguntas">
-															<th scope="row">1</th>
+														<tr v-for="(pregunta, index) of preguntas">
+															<th scope="row">{{ index + 1 }}</th>
 														    <td>
-														    	<input type="text" v-model="pregunta.nombre" class="form-control" v-bind:disabled="habilitaPregunta">
+														    	<input type="text" v-model="pregunta.nombre" class="form-control" v-bind:disabled="pregunta.id !== preguntaSeleccionada">
 														    	
 														    </td>
 														    <td>
-														    	<select v-model="pregunta.factorId" class="form-control" v-bind:disabled="habilitaPregunta">
+														    	<select v-model="pregunta.factorId" class="form-control" v-bind:disabled="pregunta.id !== preguntaSeleccionada">
 														    		<option v-for="opti in factores" v-bind:value="opti.id">
 														    			{{ opti.nombre }}
 														    		</option>
@@ -120,7 +120,9 @@
 														    	
 														    </td>
 														    <td>
-														    	<a href="javascript:void(0)" v-if="habilitado" v-on:click="habilitarPregunta(pregunta.id)" class="btn btn-primary btn-sm">Editar</a>
+														    	<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="edicionPregunta(pregunta.id)" class="btn btn-primary btn-sm btn-block">Editar</a>
+
+														    	<a href="javascript:void(0)" v-if="preguntaSeleccionada === pregunta.id" v-on:click="guardarEdicion(pregunta.id, pregunta.nombre, pregunta.factorId)" class="btn btn-success btn-sm btn-block">Save</a>
 														    </td>
 														</tr>
 													</tbody>
@@ -170,7 +172,8 @@
 				habilitado: true,
 				preguntas: [],
 				factores: [],
-				habilitaPregunta: true
+				preguntaSeleccionada: null
+				//habilitaPregunta: true
 			},
 			created() {
 				var currentUrl = window.location.pathname.split('/');
@@ -251,9 +254,26 @@
 							console.log(this.factores);
 						})
 				},
-				habilitarPregunta(id) {
-					this.habilitaPregunta = false;
-				}
+				edicionPregunta(id) {
+					this.preguntaSeleccionada = id
+					//this.habilitaPregunta = false;
+				},
+				guardarEdicion(id, item, factor) {
+					axios.post('/coord_ev/updatePregunta/' + id, {
+						nombre: item,
+						factorId: factor
+					}).then(res => {
+						console.log('Pregunta Actualizada');
+					}).catch(err => {
+						console.log(err);
+					});
+
+					var currentUrl = window.location.pathname.split('/');
+					var id = currentUrl[3];
+
+			      	this.preguntaSeleccionada = null;
+			      	this.getPreguntas(id);
+			    }
 			}
 		});
 	</script>

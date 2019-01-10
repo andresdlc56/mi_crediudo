@@ -36,6 +36,8 @@ module.exports = function(app) {
 
             app.post('/coord_ev/updateInstrumento/:id', isLoggedIn, coord_evController.updateInstrumento);
 
+            app.post('/coord_ev/updatePregunta/:id', isLoggedIn, coord_evController.updatePregunta);
+
     app.get('/coord_ev/verInstrumento/:id', isLoggedIn, coord_evController.verInstrumento);
 
     app.get('/coord_ev/editIntrumento/:id', isLoggedIn, coord_evController.editInstrumento);
