@@ -669,3 +669,39 @@ exports.editInstrumento = function(req, res) {
 			console.log(err);
 		})
 	}
+
+	//================Creando Factor por medio de Axios
+	exports.crearFactor = function(req, res) {
+		//Pasos para transformar la primera letra de una cadena a mayuscula
+		var cadena = req.body.factor;
+		var minuscula = cadena.toLowerCase();
+		var mayuscula = minuscula.charAt(0).toUpperCase() + minuscula.slice(1);
+
+		models.factor.findOne({
+			where: { nombre: mayuscula }
+		}).then(Factor => {
+			//Si el factor no existe en la DB
+			if(Factor == undefined){
+				models.factor.create({
+					nombre: mayuscula
+				}).then(Factor => {
+					res.json(Factor);
+				})
+			} 
+			//Si el Factor Existe en DB
+			else{
+				res.json('Este Factor ya Existe');
+			}
+		});
+	}
+
+	//=============Eliminando Item
+	exports.deleteItem = function(req, res) {
+		models.item.destroy({
+			where: { id: req.params.id }
+		}).then(Item => {
+			console.log('Eliminado');
+		}).catch(err => {
+			console.log(err);
+		})
+	}

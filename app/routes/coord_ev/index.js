@@ -38,6 +38,12 @@ module.exports = function(app) {
 
             app.post('/coord_ev/updatePregunta/:id', isLoggedIn, coord_evController.updatePregunta);
 
+            //---------------Creando Factores por medio de axios---------------------
+            app.post('/cord_ev/crearFactor/:id', isLoggedIn, coord_evController.crearFactor);
+
+            //-------------Eliminando un Item------------------------
+            app.delete('/coord_ev/deleteItem/:id', isLoggedIn, coord_evController.deleteItem);
+
     app.get('/coord_ev/verInstrumento/:id', isLoggedIn, coord_evController.verInstrumento);
 
     app.get('/coord_ev/editIntrumento/:id', isLoggedIn, coord_evController.editInstrumento);
