@@ -5,8 +5,10 @@ var authController = require('../../controllers/authController.js');
 
 module.exports = function(app) {
 
+    //================Ruta Inicial===============
     app.get('/coord_plani',isLoggedIn, coord_planiController.index);
 
+    //=======================Ruta para Planificar una Evaluación(formulario)===========
     app.get('/coord_plani/plani_eval', isLoggedIn, coord_planiController.planiEval);
 
     app.post('/coord_plani/plani_eval', isLoggedIn, coord_planiController.addEval);
@@ -24,6 +26,9 @@ module.exports = function(app) {
     app.get('/getNucleos', coord_planiController.getNucleos);
 
     app.get('/getUnidades/:id', coord_planiController.getUnidades);
+
+    //=========================Rutas Axios========================
+        app.get('/coord_plani/getInstrumentos', isLoggedIn, coord_planiController.getInstrumentos);
 
     app.get('/logout',authController.logout);
 

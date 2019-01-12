@@ -3,8 +3,15 @@
 <head>
 	<meta charset="UTF-8">
 	<title>CREDIUDO | Coord. Planificación</title>
+	<link rel="shortcut icon" href="/images/title/favicon-96x96.png">
+
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!--===================Cargando Pagina===================-->
+	<script type="text/javascript" src="/js/pace.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+
 	<!-- Custom styles for this template -->
     <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
 
@@ -25,7 +32,7 @@
 
 	<div class="container-fluid" id="main">
 		<div class="row justify-content-md-center">
-			<div class="col-md-10">
+			<div class="col-md-12">
 				<div class="row">
 					<div class="col-md-12">
 						<!--=======MIGAS DE PAN=========-->
@@ -66,71 +73,73 @@
 									</div>
 
 									<div class="card-body">
-										<form method="post" action="/coord_plani/plani_eval" id="plani_eval">
-											<div class="form-row">
-												<div class="form-group col-md-6">
-													<label>Personal a Evaluar:</label>
-													<select name="categoria" id="categoria" class="form-control" autofocus>
-														<option value=""> --Seleccione una Opción-- </option>
-														<% for(var i = 0; i < Categorias.length; i ++) {%>
-															<option value="<%= Categorias[i].id %>"><%= Categorias[i].nombre %></option>
-														<%}%>
-													</select>
+										<fieldset v-bind:disabled="deshabilitar">
+											<form method="post" action="/coord_plani/plani_eval" id="plani_eval">
+												<div class="form-row">
+													<div class="form-group col-md-6">
+														<label>Personal a Evaluar:</label>
+														<select name="categoria" id="categoria" class="form-control" autofocus>
+															<option value=""> --Seleccione una Opción-- </option>
+															<% for(var i = 0; i < Categorias.length; i ++) {%>
+																<option value="<%= Categorias[i].id %>"><%= Categorias[i].nombre %></option>
+															<%}%>
+														</select>
+													</div>
+
+													<!--
+													<div class="form-group col-md-6">
+														<label>Nucleo: </label>
+														<select name="nucleo" id="nucleo" class="form-control">
+															<option value=""> --Seleccione una Opción-- </option>
+															<% for(var j = 0; j < Nucleos.length; j ++) {%>
+																<option value="<%= Nucleos[j].codigo %>"><%= Nucleos[j].nombre %></option>
+															<%}%>
+														</select>
+													</div>
+													-->
+													<div class="form-group col-md-6">
+														<label>Nucleo: </label>
+														<select v-model="nucleo" name="nucleo" class="form-control" @change="getUnidades(nucleo)">
+															<option disabled value="">Please select one</option>
+															<option v-for="option in options" v-bind:value="option.codigo">
+																{{ option.nombre }}
+															</option>
+														</select>
+													</div>
 												</div>
 
-												<!--
-												<div class="form-group col-md-6">
-													<label>Nucleo: </label>
-													<select name="nucleo" id="nucleo" class="form-control">
-														<option value=""> --Seleccione una Opción-- </option>
-														<% for(var j = 0; j < Nucleos.length; j ++) {%>
-															<option value="<%= Nucleos[j].codigo %>"><%= Nucleos[j].nombre %></option>
-														<%}%>
-													</select>
-												</div>
-												-->
-												<div class="form-group col-md-6">
-													<label>Nucleo: </label>
-													<select v-model="nucleo" name="nucleo" class="form-control" @change="getUnidades(nucleo)">
+												<div class="form-group">
+													<label>Unidad:</label>
+													<select name="unidad" class="form-control">
 														<option disabled value="">Please select one</option>
-														<option v-for="option in options" v-bind:value="option.codigo">
-															{{ option.nombre }}
+														<option v-for="uni in unidades" v-bind:value="uni.codigo">
+															{{ uni.nombre }}
 														</option>
-													</select>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label>Unidad:</label>
-												<select name="unidad" class="form-control">
-													<option disabled value="">Please select one</option>
-													<option v-for="uni in unidades" v-bind:value="uni.codigo">
-														{{ uni.nombre }}
-													</option>
-												</select>	
-											</div>
-
-											<div class="form-group">
-												<label>Nombre de la Evaluación:</label>
-												<input type="text" name="nombre" placeholder="Nombre o Titulo de la Evaluación" class="form-control">	
-											</div>
-
-											<div class="form-row">
-												<div class="form-group col-md-6">
-													<label>Fecha de Inicio:</label>
-													<input type="date" name="fecha_i" class="form-control">
+													</select>	
 												</div>
 
-												<div class="form-group col-md-6">
-													<label>Fecha de Fin:</label>
-													<input type="date" name="fecha_f" class="form-control">
+												<div class="form-group">
+													<label>Nombre de la Evaluación:</label>
+													<input type="text" name="nombre" placeholder="Nombre o Titulo de la Evaluación" class="form-control">	
 												</div>
-											</div>
 
-											<hr>
+												<div class="form-row">
+													<div class="form-group col-md-6">
+														<label>Fecha de Inicio:</label>
+														<input type="date" name="fecha_i" class="form-control">
+													</div>
 
-											<input type="submit" name="aceptar" value="Aceptar" class="btn btn-primary btn-block">
-										</form>
+													<div class="form-group col-md-6">
+														<label>Fecha de Fin:</label>
+														<input type="date" name="fecha_f" class="form-control">
+													</div>
+												</div>
+
+												<hr>
+
+												<input type="submit" name="aceptar" value="Aceptar" class="btn btn-primary btn-block">
+											</form>
+										</fieldset>
 									</div>
 								</div>
 							</div>
@@ -165,11 +174,32 @@
 				unidades: [],
 				nucleo: {},
 				options: [],
+				instrumentos: '',
+				deshabilitar: true
 			},
 			created() {
+				this.getInstrumentos();
 				this.getNucleos()
 			},
 			methods: {
+				/*
+					Solicitar el num de Instrumentos disponibles para poder planificar una 
+					Evaluacion (debe existir uno de cada tipo de Eval para que pueda continuar)
+				*/
+				getInstrumentos() {
+					axios.get('/coord_plani/getInstrumentos')
+						.then(res => {
+							this.instrumentos = res.data;
+							//console.log(this.instrumentos);
+							if(this.instrumentos === false) {
+								alert("No puede Planificar Ninguna Evaluación, hasta que los Instrumentos de Evaluación esten Disponible. Pongase en Contacto con el Coord. Evaluación");
+							} else {
+								this.deshabilitar = false;
+							}
+						}).catch(err => {
+							console.log(err)
+						})
+				},
 				getNucleos() {
 					axios.get('/getNucleos')
 						.then(res => {

@@ -4,6 +4,7 @@ var models = require('../models');
 var Sequelize = require('sequelize');
 var Op = Sequelize.Op;
 
+//================Controlador Inicial Coord Planificación =============
 exports.index = function(req, res) {
 	var usuario = req.user;
 	/*
@@ -37,6 +38,7 @@ exports.index = function(req, res) {
 	});
 }
 
+//===============Controlador para Mostrar Formulario de planificación de Evaluacion====
 exports.planiEval = function(req, res) {
 	//buscando todas las categorias
 	models.categoria.findAll({
@@ -439,3 +441,33 @@ exports.getUnidades = function(req, res) {
 		res.json(Unidades)
 	})
 }
+
+ //=================Controladores para Axios============
+ exports.getInstrumentos = function(req, res) {
+ 	models.instrument.findOne({
+ 		where: { tipoEvalId: 1 }
+ 	}).then(autoEval => {
+ 		models.instrument.findOne({
+ 			where: { tipoEvalId: 2 }
+ 		}).then(coEval => {
+ 			models.instrument.findOne({
+ 				where: { tipoEvalId: 3 }
+ 			}).then(eval_a_jefe => {
+ 				models.instrument.findOne({
+ 					where: { tipoEvalId: 4 }
+ 				}).then(eval_a_subor => {
+ 					var Instrumentos = false;
+
+ 					if((!autoEval || !coEval || !eval_a_jefe || eval_a_subor)) {
+ 						res.json(Instrumentos);
+ 					} else {
+ 						Instrumentos = true
+ 						res.json(Instrumentos);
+ 					}
+ 				}).catch(err => {
+ 					console.log(err)
+ 				})
+ 			})
+ 		})
+ 	})
+ }

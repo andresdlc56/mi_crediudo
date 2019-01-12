@@ -50,6 +50,7 @@ module.exports = function(app) {
             //-------------Eliminando un Item------------------------
             app.delete('/coord_ev/deleteItem/:id', isLoggedIn, coord_evController.deleteItem);
 
+    //=======================Ver Instrumento Especifico(id)==============
     app.get('/coord_ev/verInstrumento/:id', isLoggedIn, coord_evController.verInstrumento);
 
     app.get('/coord_ev/editIntrumento/:id', isLoggedIn, coord_evController.editInstrumento);
