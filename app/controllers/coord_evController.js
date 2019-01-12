@@ -4,6 +4,7 @@ var models = require('../models');
 var multer = require('multer'); //para el manejo de multipart/form usado para cargar archivos
 const path = require('path');
 
+//==============Controlador Inicial============
 exports.index = function(req, res) {
 	models.usuario.findOne({
 		include: [ models.nucleo, models.unidad ],
@@ -43,6 +44,7 @@ exports.addInstrument = function(req, res) {
 	})
 }
 
+//============Ver Datos de Un Instrumento en especifico(id)
 exports.verInstrument = function(req, res) {
 	//buscando un instrumento en especifico
 	models.instrument.findById(req.params.id).then(Instruments => {

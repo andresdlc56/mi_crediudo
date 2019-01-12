@@ -1,34 +1,40 @@
-//RUTAS INDEX
+//================RUTAS Coordinador de Evaluación==================
 
 var coord_evController = require('../../controllers/coord_evController.js');
 var authController = require('../../controllers/authController.js');
 
 module.exports = function(app) {
 
+    //===========Ruta Principal Coord Evaluacion============
     app.get('/coord_ev', isLoggedIn, coord_evController.index);
 
+    //===================Ruta Instrumentos de Evaluación =====================
     app.get('/coord_ev/instrumentos', isLoggedIn, coord_evController.instrumentos);
 
-
-    //========================================
+    //===========================Ruta Crear Nuevo Instrumento (Formulario)======================
     app.get('/coord_ev/addInstrumento', isLoggedIn, coord_evController.agregarInstrumento);
 
+    //=================Procesar Creación de Nuevo Instrumento=================
     app.post('/coord_ev/add-instrument', isLoggedIn, coord_evController.createInstrument);
 
-        //2do paso para la creacion de un instrumento
+        //2do paso para la creacion de un instrumento (creando Items y factores)=========
         app.get('/coord_ev/instrumento/:id', isLoggedIn, coord_evController.completarIntrumento);
 
-            //Creación de un Factor
+            //===============Procesando Creación de un Factor =====================
             app.post('/coord_ev/addFactor', isLoggedIn, coord_evController.addFactor);
 
             //Rutas axios
-            app.get('/coord_ev/getFactores', isLoggedIn, coord_evController.getFactores);
+                //==================Solicitar Factores================
+                app.get('/coord_ev/getFactores', isLoggedIn, coord_evController.getFactores);
 
-            app.post('/coord_ev/addPregunta/:id', isLoggedIn, coord_evController.addPregunta);
+                //=================Procesar Creación de Pregunta (Item + Factor)
+                app.post('/coord_ev/addPregunta/:id', isLoggedIn, coord_evController.addPregunta);
 
-            app.get('/coord_ev/instrum/:id', isLoggedIn, coord_evController.getPreguntas);
+                //=================Solicitar todos los datos de un intrumento determinado(id)
+                app.get('/coord_ev/instrum/:id', isLoggedIn, coord_evController.getPreguntas);
 
-            app.get('/coord_ev/getInstrumento/:id', isLoggedIn, coord_evController.getInstrumento);
+                //=================
+                app.get('/coord_ev/getInstrumento/:id', isLoggedIn, coord_evController.getInstrumento);
 
             app.get('/coord_ev/getCategorias', isLoggedIn, coord_evController.getCategorias);
 

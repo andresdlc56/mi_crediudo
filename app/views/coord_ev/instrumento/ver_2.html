@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>CREDIUDO | Coord. Evaluación</title>
+	<link rel="shortcut icon" href="/images/title/favicon-96x96.png">
 
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -144,7 +145,7 @@
 												<hr>		
 											</fieldset>
 											
-											<a href="javascript:void(0)" v-if="habilitado" v-on:click="habilitar()" class="btn btn-primary btn-block">Editar</a>
+											<a href="javascript:void(0)" v-if="habilitado" v-on:click="habilitar()" class="btn btn-primary btn-block"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
 
 											<input type="submit" v-else class="btn btn-success btn-block" value="Guardar">
 										</form>										
@@ -186,8 +187,8 @@
 										<tr>
 											<th scope="col" style="width: 5%">#</th>
 											<th scope="col" style="width: 55%">Item</th>
-											<th scope="col" style="width: 20%">Factor</th>
-											<th scope="col" style="width: 20%">Acción</th>
+											<th scope="col" style="width: 30%">Factor</th>
+											<th scope="col" style="width: 10%">Acción</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -204,9 +205,9 @@
 												</select>   	
 											</td>
 											<td>
-												<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="edicionPregunta(pregunta.id)" class="btn btn-primary btn-sm">Editar</a>
+												<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="edicionPregunta(pregunta.id)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="right" title="Editar Item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
 												
-												<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="deleteItem(pregunta.id)" class="btn btn-danger btn-sm">Eliminar</a>
+												<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="deleteItem(pregunta.id)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="right" title="Eliminar Item"><i class="fa fa-times" aria-hidden="true"></i></a>
 
 												<a href="javascript:void(0)" v-if="preguntaSeleccionada === pregunta.id" v-on:click="guardarEdicion(pregunta.id, pregunta.nombre, pregunta.factorId)" class="btn btn-success btn-sm btn-block">Save</a>
 											</td>
