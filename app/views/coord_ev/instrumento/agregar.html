@@ -81,7 +81,11 @@
 											      	<select name="tipo" class="form-control" required>
 												     	<option>Seleccione una Opción</option>
 												     	<% for(let i = 0; i < Tipo.length; i ++) {%>
-															<option value="<%- Tipo[i].id %>"><%- Tipo[i].nombre %></option>
+												     		<% if((Tipo[i].id == (autoEval && autoEval.tipoEvalId)) || (Tipo[i].id == (coEval && coEval.tipoEvalId)) || (Tipo[i].id == (eval_a_jefe && eval_a_jefe.tipoEvalId)) || (Tipo[i].id == (eval_a_subor && eval_a_subor.tipoEvalId))) {%>
+																<option value="<%- Tipo[i].id %>" disabled><%- Tipo[i].nombre %></option>
+												     		<%} else {%>
+																<option value="<%- Tipo[i].id %>"><%- Tipo[i].nombre %></option>
+												     		<%}%>
 												     	<%}%>
 												    </select>
 											    </div>

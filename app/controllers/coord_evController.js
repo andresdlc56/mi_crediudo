@@ -397,7 +397,35 @@ exports.agregarInstrumento = function(req, res) {
 			models.tipoEval.findAll({
 
 			}).then(Tipo => {
-				res.render('coord_ev/instrumento/agregar', { Usuario, Categorias, Tipo });
+				models.instrument.findOne({
+					include: [ models.tipoEval ],
+					where: { tipoEvalId: 1 }
+				}).then(autoEval => {
+					models.instrument.findOne({
+						include: [ models.tipoEval ],
+						where: { tipoEvalId: 2 }
+					}).then(coEval => {
+						models.instrument.findOne({
+							include: [ models.tipoEval ],
+							where: { tipoEvalId: 3 }
+						}).then(eval_a_jefe => {
+							models.instrument.findOne({
+								include: [ models.tipoEval ],
+								where: { tipoEvalId: 4 }
+							}).then(eval_a_subor => {
+								res.render('coord_ev/instrumento/agregar', { 
+									Usuario, 
+									Categorias, 
+									Tipo,
+									autoEval,
+									coEval,
+									eval_a_jefe,
+									eval_a_subor 
+								});
+							})
+						})
+					})
+				})
 			})
 		});	
 	})
