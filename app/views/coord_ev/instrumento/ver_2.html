@@ -207,7 +207,7 @@
 											<td>
 												<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="edicionPregunta(pregunta.id)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="right" title="Editar Item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
 												
-												<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="deleteItem(pregunta.id)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="right" title="Eliminar Item"><i class="fa fa-times" aria-hidden="true"></i></a>
+												<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="deleteItem(pregunta.id, pregunta.factorId)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="right" title="Eliminar Item"><i class="fa fa-times" aria-hidden="true"></i></a>
 
 												<a href="javascript:void(0)" v-if="preguntaSeleccionada === pregunta.id" v-on:click="guardarEdicion(pregunta.id, pregunta.nombre, pregunta.factorId)" class="btn btn-success btn-sm btn-block">Save</a>
 											</td>
@@ -358,10 +358,11 @@
 			      	this.preguntaSeleccionada = null;
 			      	this.getPreguntas(id);
 			    },
-			    deleteItem(id) {
+			    deleteItem(id, factorId) {
+
 			    	var respuesta = confirm("Esta seguro que desea Eliminar este Item");
 			    	if(respuesta == true) {
-			    		axios.delete('/coord_ev/deleteItem/' + id)
+			    		axios.delete('/coord_ev/deleteItem/' + id +'/factor/' + factorId)
 			    			.then(res => {
 			    				console.log('Item Eliminado');
 			    			}).catch(err => {

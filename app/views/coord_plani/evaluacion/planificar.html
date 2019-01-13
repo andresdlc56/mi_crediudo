@@ -191,8 +191,9 @@
 						.then(res => {
 							this.instrumentos = res.data;
 							//console.log(this.instrumentos);
-							if(this.instrumentos === false) {
+							if(this.instrumentos == false) {
 								alert("No puede Planificar Ninguna Evaluación, hasta que los Instrumentos de Evaluación esten Disponible. Pongase en Contacto con el Coord. Evaluación");
+								console.log(this.instrumentos)
 							} else {
 								this.deshabilitar = false;
 							}

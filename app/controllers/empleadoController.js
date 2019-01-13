@@ -13,28 +13,39 @@ exports.index = function(req, res) {
 			cedula: User.cedula
 		}
 	}).then(Usuario => {
-		models.evaluacionUsuario.findOne({
-			where: {
-				[Op.and]: [
-					{usuarioCedula: User.cedula},
-					{usuarioEvaluado: User.cedula}, 
-					{evaluacionId: req.params.id}
-				]
-			} 
-		}).then(dataEval => {
-			models.evaluacionUsuario.findOne({
-				where: {
-					[Op.and]: [
-						{usuarioCedula: User.cedula},
-						{usuarioEvaluado: User.cedula}, 
-						{evaluacionId: req.params.id},
-						{status: false}	
-					]
-				}
-			}).then(autoEval => {
-				res.render('empleado/evaluacion/autoEval', { Usuario, dataEval, autoEval });
-			});
-		});
+		models.instrument.findOne({
+			where: { tipoEvalId: 1 }
+		}).then(Instrument => {
+			models.evaluacion.findOne({
+				where: { instrumentId: Instrument.id }
+			}).then(Eval => {
+				models.evaluacionUsuario.findOne({
+					where: {
+						[Op.and]: [
+							{usuarioCedula: User.cedula},
+							{usuarioEvaluado: User.cedula}, 
+							{evaluacionId: Eval.id}
+						]
+					} 
+				}).then(dataEval => {
+					models.evaluacionUsuario.findOne({
+						where: {
+							[Op.and]: [
+								{usuarioCedula: User.cedula},
+								{usuarioEvaluado: User.cedula}, 
+								{evaluacionId: Eval.id},
+								{status: false}	
+							]
+						}
+					}).then(autoEval => {
+						res.render('empleado/evaluacion/autoEval', { Usuario, dataEval, autoEval });
+					});
+				})
+			})	
+		})
+		
+		
+		
 	});
 }
 

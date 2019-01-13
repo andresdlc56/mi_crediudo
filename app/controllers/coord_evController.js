@@ -730,7 +730,23 @@ exports.editInstrumento = function(req, res) {
 		models.item.destroy({
 			where: { id: req.params.id }
 		}).then(Item => {
-			console.log('Eliminado');
+			models.item.findOne({
+				where: {
+					factorId: req.params.factorId
+				}
+			}).then(itemFactor => {
+				if(!itemFactor) {
+					models.instrumentFactor.destroy({
+						where: { factorId: req.params.factorId }
+					}).then(instrumentFactor => {
+						console.log('Item y Factor Eliminado');
+					}).catch(err => {
+						console.log(err)
+					})
+				} else {
+					console.log('Solo Elimina el Item')
+				}
+			})
 		}).catch(err => {
 			console.log(err);
 		})

@@ -48,7 +48,7 @@ module.exports = function(app) {
             app.post('/cord_ev/crearFactor/:id', isLoggedIn, coord_evController.crearFactor);
 
             //-------------Eliminando un Item------------------------
-            app.delete('/coord_ev/deleteItem/:id', isLoggedIn, coord_evController.deleteItem);
+            app.delete('/coord_ev/deleteItem/:id/factor/:factorId', isLoggedIn, coord_evController.deleteItem);
 
     //=======================Ver Instrumento Especifico(id)==============
     app.get('/coord_ev/verInstrumento/:id', isLoggedIn, coord_evController.verInstrumento);
