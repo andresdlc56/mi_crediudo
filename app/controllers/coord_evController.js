@@ -376,7 +376,10 @@ exports.instrumentos = function(req, res) {
 		}
 	}).then(Usuario => {
 		models.instrument.findAll({
-			include: [ models.categoria, models.tipoEval ]
+			include: [ models.categoria, models.tipoEval ],
+			order: [
+						['id', 'ASC']
+			]
 		}).then(Instrumentos => {
 			res.render('coord_ev/instrumento/home', { Usuario, Instrumentos });	
 		})
@@ -433,15 +436,13 @@ exports.agregarInstrumento = function(req, res) {
 
 //creando un nuevo instrumento de evaluacion
 exports.createInstrument = function(req, res) {
-	models.instrument.create({
-		titulo: req.body.titulo,
-		categoriumId: req.body.categoria,
-		tipoEvalId: req.body.tipo
+	models.instrument.update({
+		titulo: req.body.titulo
+	}, {
+		where: { tipoEvalId: req.body.tipo }
 	}).then(Instrument => {
 		models.instrument.findOne({
-			order: [
-				['id', 'DESC']
-			]
+			where: { id: Instrument.id }
 		}).then(Instrumento => {
 			res.redirect('/coord_ev/instrumento/' + Instrumento.id);
 		})

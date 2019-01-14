@@ -5,7 +5,18 @@ var authController = require('../../controllers/authController.js');
 
 module.exports = function(app) {
 
-    app.get('/dashboard/eval/:id', isLoggedIn, empleadoController.index);
+    //app.get('/dashboard/eval/:id', isLoggedIn, empleadoController.index);
+
+    //==============Nuevas Rutas (Probando)===========================
+        app.get('/dashboard/eval/:id', isLoggedIn, empleadoController.evaluaciones);
+
+    //================Probando Rutas==================
+        app.get('/getInstrumentAutoE', empleadoController.buscarAutoEval);
+
+
+    //===============================================
+
+
 
     app.get('/dashboard/coEval/:id', isLoggedIn, empleadoController.verCoEval);
 

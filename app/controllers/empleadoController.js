@@ -525,55 +525,42 @@ exports.comparar = function(req, res) {
 			})	
 		})
 	})
+}
 
-	/*models.instrumentFactor.findAll({
-		where: { instrumentId: req.body.evalA },
-		include: [ models.factor ]
-	}).then(Factores => {
-		models.itemUsuario.findAll({
+exports.evaluaciones = function(req, res) {
+	var idEvaluacion = parseInt(req.params.id);
+
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		models.evaluacionUsuario.findAll({
 			where: {
 				[Op.and]: [
-					{evaluacionId: req.body.evalIdA}, 
-					{evaluado: req.user.cedula},
-				]
-			},
-			include: [ models.item ]
-		}).then(respEvalA => {
-			models.itemUsuario.findAll({
-				where: {
-					[Op.and]: [
-						{evaluacionId: req.body.evalIdB}, 
-						{evaluado: req.user.cedula},
-					]
-				},
-				include: [ models.item ]	
-			}).then(respEvalB => {
-				var acomulador = [];
-				var calificacionFactor = [];
-
-				for(let i = 0; i < Factores.length; i ++) {
-					acomulador[i] = 0;
-							
-					var n = 0;
-					console.log('================Nombre Factor: '+Factores[i].factor.nombre+'====================');
-					for(let j = 0; j < respEvalA.length; j ++) {
-								
-						if(respEvalA[j].item.factorId == Factores[i].factorId) {
-							n = n + 1;
-							//console.log(Item[j].item.nombre);
-							acomulador[i] = acomulador[i] + respEvalA[j].calificacion;
-							console.log('Acomulador'+[i]+': '+acomulador[i]);
-						}
-								
-						calificacionFactor[i] = acomulador[i]/n;
+					{usuarioCedula: Usuario.cedula}, 
+					{
+						[Op.or]: [
+							{evaluacionId: idEvaluacion},
+							{evaluacionId: idEvaluacion - 1},
+							{evaluacionId: idEvaluacion - 2},
+							{evaluacionId: idEvaluacion - 3}
+						]
 					}
-					console.log('calificacion factor '+Factores[i].factor.nombre+': '+calificacionFactor[i]);
-					console.log('nro. de preguntas: '+n);
-				}
-
-				//res.send(respEvalB);
-				res.render('empleado/comparacion/comparar', { Factores, calificacionFactor });	
-			})	
+				]
+			}
+		}).then(Evaluaciones => {
+			//console.log(Evaluaciones);
+			//res.send(Evaluaciones);
+			res.render('empleado/evaluacion/evaluaciones', { Usuario });
 		})
-	});*/
+	})
+}
+
+//===============
+exports.buscarAutoEval = function(req, res) {
+	models.instrument.findOne({
+		where: { tipoEvalId: 1 }
+	}).then(Instrument => {
+		res.json(Instrument)
+	})
 }

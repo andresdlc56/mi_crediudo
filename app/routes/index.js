@@ -13,7 +13,7 @@ module.exports = function(app,passport) {
     app.get('/login', authController.signin);
 
     //RUTA INICIAL PARA LOS USUARIOS EMPLEADOS QUE HAN INICIADO SESION
-    app.get('/dashboard',isLoggedIn, authController.dashboard);
+    app.get('/dashboard', isLoggedIn, authController.dashboard);
 
     //RUTA PARA EL PROCESAMIENTO DE LOS USUARIOS QUE INTENTAN LOGEARSE 
     app.post('/login', passport.authenticate('local-signin', {
@@ -22,6 +22,9 @@ module.exports = function(app,passport) {
             failureFlash: 'Cedula o Password Incorrecto'
 	    }
 	));
+
+
+    //================Rutas axios=============
 
     //RUTA PARA FINALIZAR SESION
     app.get('/logout',authController.logout);

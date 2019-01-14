@@ -19,7 +19,7 @@
 
 		<%- include('../partials/empleado/navbar.html') %>
 
-	<div class="container-fluid">
+	<div class="container-fluid" id="main">
 		<div class="row justify-content-md-center">
 			<div class="col-md-12">
 				<div class="row">
@@ -37,9 +37,10 @@
 					<div class="col-sm-12 col-md-12 col-lg-3">
 						<div class="row">
 							<!--Notificador de Observaciones-->
+							<!--
 							<div class="col-sm-12 col-md-12 col-lg-12">
 								<% if(Observacion && Observacion.length > 0) {%>
-									<!-- Default dropright button -->
+									
 									<div class="btn-group dropright d-flex justify-content-center">
 									  	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									    Observaciones <span class="badge badge-light"><%= Observacion.length %></span>
@@ -54,41 +55,47 @@
 									</div>
 								<%}%>
 							</div>
+							-->
 
 							<!--Datos del Inicio de Sesion-->
 							<div class="col-sm-6 col-md-6 col-lg-12">
-								<div class="card">
-								  	<div class="card-header">
-								    	Datos Personales:
-								  	</div>
-								  
-								  	<div class="card-body">
-								    	<div class="form-group">
-								    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
-								    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
-								    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
-								    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
-								    	</div>
-								  	</div>
-								</div>
-								<br>
-							</div>
-							
-							<!--Como Evaluar-->
-							<div class="col-sm-6 col-md-6 col-lg-12">
-								<div class="card">
-								  	<div class="card-header">
-								    	¿Sabes como Evaluar?
-								  	</div>
-								  
-								  	<div class="card-body">
-								    	<div class="form-group">
-								    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
-								    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
-								    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
-								    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
-								    	</div>
-								  	</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="card">
+										  	<div class="card-header">
+										    	Datos Personales:
+										  	</div>
+										  
+										  	<div class="card-body">
+										    	<div class="form-group">
+										    		<input type="hidden" id="cedula" value="<%- Usuario.cedula %>">
+										    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
+										    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
+										    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
+										    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
+										    	</div>
+										  	</div>
+										</div>
+										<br>		
+									</div>
+
+									<!--Como Evaluar-->
+									<div class="col-md-12">
+										<div class="card">
+										  	<div class="card-header">
+										    	¿Sabes como Evaluar?
+										  	</div>
+										  
+										  	<div class="card-body">
+										    	<div class="form-group">
+										    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
+										    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
+										    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
+										    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
+										    	</div>
+										  	</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -115,6 +122,7 @@
 						    	<p class="lead">Tienes n Evaluaciones Disponibles</p>
 						  	</div>
 						</div>
+						
 						
 						<div class="card">
 							<div class="card-body">
@@ -156,7 +164,7 @@
 						</div>
 
 						<br>
-
+						
 						<%if(evalCulminada && evalCulminada.length > 0) {%>
 							<div class="card">
 								<div class="card-body">
@@ -193,70 +201,6 @@
 								</div>
 							</div>
 						<%}%>
-						
-						
-						<!--
-						<div class="card">
-							<div class="card-body">
-								<h3>Evaluaciones Pendientes</h3>
-								<hr>
-								<% if(evaluacionUsuario != 0) {%>			
-									<table class="table">
-									  	<thead>
-									    	<tr>
-									      		<th scope="col">Nombre</th>
-									      		<th scope="col">Apellido</th>
-									      		<th scope="col">Cedula</th>
-									      		<th scope="col">Evaluación</th>
-									    	</tr>
-									  	</thead>
-									  	<tbody>
-									  		<% var fechaActual = new Date() %>
-									  		<!--BUSQUEDA PARA IR COMPARANDO CEDULAS E IMPRIMIR LOS NOMBRES Y APELLIDOS DE LOS USUARIOS A SER EVALUADOS
-											<% for(var i = 0; i < evaluacionUsuario.length; i ++) {%>
-												<% if(Usuario.cargoId == 2 || Usuario.cargoId == 3) {%>
-												  	<tr>
-												  		<td>
-															<% for(var j = 0; j < Empleado.length; j ++) {%>
-																<% if(evaluacionUsuario[i].usuarioEvaluado == Empleado[j].cedula) {%>
-															  		<%= Empleado[j].nombre %>
-														  		<%}%>
-															<%}%>
-														</td>
-														<td>
-															<% for(var j = 0; j < Empleado.length; j ++) {%>
-																<% if(evaluacionUsuario[i].usuarioEvaluado == Empleado[j].cedula) {%>
-															  		<%= Empleado[j].apellido %>
-														  		<%}%>
-															<%}%>
-														</td>
-														<td><%=evaluacionUsuario[i].usuarioEvaluado%></td>
-														
-														<td>
-															<input type="hidden" name="fecha_i" id="fecha_i" value="<%=evaluacionUsuario[i].evaluacion.fecha_i%>">
-
-															<input type="hidden" name="fecha_f" id="fecha_f" value="<%=evaluacionUsuario[i].evaluacion.fecha_f%>">
-
-															<!--<a href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>/ue/<%=evaluacionUsuario[i].usuarioEvaluado%>" id="evaluacion"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
-
-															<% if(evaluacionUsuario[i].evaluacion.fecha_i > fechaActual) {%>
-																<a onclick="verificarFecha('<%=evaluacionUsuario[i].evaluacion.fecha_i%>')" href="#"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
-															<%} else{%>
-																<a onclick="verificarFecha('<%=evaluacionUsuario[i].evaluacion.fecha_i%>')" href="/dashboard/evaluacion/<%=evaluacionUsuario[i].evaluacionId%>/u/<%=evaluacionUsuario[i].usuarioCedula%>/ue/<%=evaluacionUsuario[i].usuarioEvaluado%>"><%=evaluacionUsuario[i].evaluacion.nombre%></a>
-															<%}%>
-														</td>
-												  	</tr>
-												<%}%>
-											<%}%>
-											<!-- FIN 
-									  	</tbody>
-									</table>
-								<%} else {%>
-									<h3 class="display-4 text-center">Ninguna</h3>
-								<%}%>
-							</div>
-						</div>
-						-->
 						<br>
 					</div>
 				</div>
