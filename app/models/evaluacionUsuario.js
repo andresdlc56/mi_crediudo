@@ -16,15 +16,12 @@ module.exports = function(sequelize, Sequelize) {
         status: {
             type: Sequelize.BOOLEAN,
             defaultValue: false
-        },
-        usuarioEvaluado: {
-            type: Sequelize.INTEGER
         }
     });
     // Class Method
     evaluacionUsuario.associate = function (models) {
         evaluacionUsuario.belongsTo(models.evaluacion);
-        //evaluacionUsuario.belongsTo(models.usuario);
+        evaluacionUsuario.belongsTo(models.usuario, {foreignKey: 'usuarioEvaluado'});
         //evaluacionUsuario.belongsTo(models.usuario, {foreignKey: 'usuarioEvaluado'});
     };
  

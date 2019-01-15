@@ -537,7 +537,11 @@ exports.evaluaciones = function(req, res) {
 		models.evaluacion.findOne({
 			where: { id: req.params.id }
 		}).then(dataEvaluacion => {
-			res.render('empleado/evaluacion/evaluaciones', { Usuario, dataEvaluacion });	
+			models.usuario.findAll({
+
+			}).then(Usuarios => {
+				res.render('empleado/evaluacion/evaluaciones', { Usuario, dataEvaluacion, Usuarios });
+			})	
 		})
 	})
 }
@@ -553,6 +557,32 @@ exports.buscarAutoE = function(req, res) {
 		}
 	}).then(autoEval => {
 		res.json(autoEval)
+	}).catch(err => {
+		console.log(err)
+	})
+}
+
+exports.buscarCoEvals = function(req, res) {
+	models.evaluacionUsuario.findAll({
+		include: [ models.usuario ],
+		where: {
+			[Op.and]: [
+				{usuarioCedula: req.params.cedula}, 
+				{evaluacionId: req.params.id}
+			]
+		}
+	}).then(coEvals => {
+		res.json(coEvals);
+	}).catch(err => {
+		console.log(err);
+	})
+}
+
+exports.getUsuarios = function(req, res) {
+	models.usuario.findAll({
+
+	}).then(Usuarios => {
+		res.json(Usuarios);
 	}).catch(err => {
 		console.log(err)
 	})

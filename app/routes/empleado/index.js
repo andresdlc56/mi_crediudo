@@ -11,11 +11,11 @@ module.exports = function(app) {
         app.get('/dashboard/eval/:id', isLoggedIn, empleadoController.evaluaciones);
 
     //================Probando Rutas==================
-        
-
         app.get('/buscarAutoEval/:id/empleado/:cedula', empleadoController.buscarAutoE);
 
+        app.get('/buscarCoEvals/:id/empleado/:cedula', empleadoController.buscarCoEvals);
 
+        app.get('/getUsuarios', empleadoController.getUsuarios);
     //===============================================
 
 

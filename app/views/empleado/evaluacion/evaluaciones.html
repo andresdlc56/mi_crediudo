@@ -131,7 +131,7 @@
 
 										<!--CoEvaluacion-->
 										<div class="col-sm-6 col-md-6 col-lg-4 text-center">
-											<a href="" class="btn btn-outline-success" style="width: 90%">
+											<a href="javascript:void(0)" v-on:click="buscarCoEval()" class="btn btn-outline-success" style="width: 90%" v-bind:class="{ active: botonCoE }">
 												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-users" style="font-size: 30pt;"></i>
 												<hr style="margin: 2px">
 												<p><strong>CoEvaluación</strong></p>
@@ -155,7 +155,7 @@
 						<br>
 
 						<div class="card" v-if="activo">
-							<div class="card-body">
+							<div class="card-body" v-if="botonAutoE">
 								<div class="row">
 									<div class="col-sm-3 col-md-3 text-center">
 										<div class="card">
@@ -169,6 +169,37 @@
 										<a v-bind:href="url" class="btn btn-primary btn-lg btn-block">Ejecutar</a>
 										<hr style="margin: 7px">
 										<p>algo</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="card-body" v-if="botonCoE">
+								<div class="row">
+									<div class="col-md-6" v-for="coEval in coEvals">
+										<div class="card">
+											<div class="card-body">
+												<div class="row">
+													<div class="col-sm-3 col-md-4 col-lg-3 text-center">
+														<div class="card">
+															<div class="card-body">
+																<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-pencil-square-o" style="font-size: 40pt;"></i>
+															</div>
+														</div>	
+													</div>
+
+													<div class="col-sm-9 col-md-8 col-lg-9">
+														<a v-bind:href="'/dashboard/eval/'+idCoEval+'/u/'+ coEval.usuarioEvaluado" class="btn btn-success btn-lg btn-block">Ejecutar</a>
+														<hr style="margin: 7px">
+														<p>
+															Evaluar A: 
+															{{ coEval.usuario.nombre }}
+															{{ coEval.usuario.apellido }}
+														</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<br>
 									</div>
 								</div>
 							</div>
@@ -200,14 +231,27 @@
 			el: '#main',
 			data: {
 				botonAutoE: false,
+				botonCoE: false,
 				activo: false,
 				autoEval: {},
-				url: ''
+				url: '',
+				coEvals: [],
+				usuarios: {},
+				idCoEval: ''
 			},
 			created() {
-
+				this.getUsuarios();
 			},
 			methods: {
+				getUsuarios() {
+					axios.get('/getUsuarios')
+						.then(res => {
+							this.usuarios = res.data;
+							console.log(this.usuarios)
+						}).catch(err => {
+							console.log(err)
+						})
+				},
 				buscarAutoEval() {
 					var currentUrl = window.location.pathname.split('/');
 					var idEval = currentUrl[3];
@@ -219,6 +263,7 @@
 					var link = '/dashboard/eval/'+idEval+'/u/'+cedula
 
 					this.botonAutoE = true;
+					this.botonCoE = false;
 					this.activo = true;
 
 					axios.get('/buscarAutoEval/' + idEval + '/empleado/' + cedula)
@@ -229,6 +274,25 @@
 						}).catch(err => {
 							console.log(err)
 						});
+				},
+				buscarCoEval() {
+					var currentUrl = window.location.pathname.split('/');
+					var idEval = currentUrl[3];
+					idEval = idEval - 2;
+					var cedula = document.getElementById("cedula").value;
+					
+					this.botonCoE = true;
+					this.botonAutoE = false;
+					this.activo = true;
+					this.idCoEval = idEval;
+
+					axios.get('/buscarCoEvals/'+idEval+'/empleado/'+cedula)
+						.then(res => {
+							this.coEvals = res.data;
+							console.log(this.coEvals);
+						}).catch(err => {
+							console.log(err);
+						})
 				}
 			}
 		});
