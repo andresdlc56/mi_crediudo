@@ -47,6 +47,7 @@
 								  
 								  	<div class="card-body">
 								    	<div class="form-group">
+								    		<input type="hidden" id="cedula" value="<%- Usuario.cedula %>">
 								    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
 								    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
 								    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
@@ -66,7 +67,6 @@
 								  
 								  	<div class="card-body">
 								    	<div class="form-group">
-								    		<input type="hidden" id="cedula" value="<%- Usuario.cedula %>">
 								    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
 								    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
 								    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
@@ -82,13 +82,29 @@
 					<!--Contenido-->
 					<div class="col-sm-12 col-md-12 col-lg-9">
 						
-						<div class="jumbotron jumbotron-fluid">
-							<div class="container">
-						    	<h1 class="display-5">Bienvenido(a) <%= Usuario.nombre %></h1>
-						    	<p class="lead">Tienes n Evaluaciones Disponibles</p>
-						  	</div>
+						<div class="card">
+							<div class="card-body">
+								<div class="article border-bottom">
+									<h2>Datos de La Evaluación</h2>
+								</div>
+								<br>
+								<div class="row">
+									<div class="col-sm-3 col-md-3 col-lg-3 text-center">
+										<div class="card">
+											<div class="card-body">
+												<img src="/images/title/favicon-96x96.png">
+											</div>
+										</div>	
+									</div>
+									<div class="col-sm-9 col-md-9 col-lg-9">
+										<p style="font-size: 17pt"><b>Nombre: </b><%- dataEvaluacion.nombre %></p>
+										<p style="font-size: 17pt"><b>Fecha de Inicio: </b><%- dataEvaluacion.fecha_i.getDate() %>/<%- dataEvaluacion.fecha_i.getMonth() + 1%>/<%- dataEvaluacion.fecha_i.getFullYear() %></p>
+										<p style="font-size: 17pt"><b>Fecha de Fin: </b><%- dataEvaluacion.fecha_f.getDate() %>/<%- dataEvaluacion.fecha_f.getMonth() + 1%>/<%- dataEvaluacion.fecha_f.getFullYear() %></p>
+									</div>
+								</div>
+							</div>
 						</div>
-
+						<br>
 						<div class="card">
 							<div class="card-body">
 								<div class="article border-bottom">
@@ -141,7 +157,19 @@
 						<div class="card" v-if="activo">
 							<div class="card-body">
 								<div class="row">
-									
+									<div class="col-sm-3 col-md-3 text-center">
+										<div class="card">
+											<div class="card-body">
+												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-pencil-square-o" style="font-size: 40pt;"></i>
+											</div>
+										</div>	
+									</div>
+										
+									<div class="col-sm-9 col-md-9">
+										<a v-bind:href="url" class="btn btn-primary btn-lg btn-block">Ejecutar</a>
+										<hr style="margin: 7px">
+										<p>algo</p>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -173,20 +201,31 @@
 			data: {
 				botonAutoE: false,
 				activo: false,
-				autoEval: {}
+				autoEval: {},
+				url: ''
 			},
 			created() {
-				var cedula = document.getElementById("cedula").value;
 
 			},
 			methods: {
 				buscarAutoEval() {
+					var currentUrl = window.location.pathname.split('/');
+					var idEval = currentUrl[3];
+
+					idEval = idEval - 3;
+
+					var cedula = document.getElementById("cedula").value;
+
+					var link = '/dashboard/eval/'+idEval+'/u/'+cedula
+
 					this.botonAutoE = true;
 					this.activo = true;
 
-					axios.get('/buscarAutoEval')
+					axios.get('/buscarAutoEval/' + idEval + '/empleado/' + cedula)
 						.then(res => {
-							this.autoEval = res.data
+							this.autoEval = res.data;
+							this.url = link;
+							console.log(this.autoEval)
 						}).catch(err => {
 							console.log(err)
 						});

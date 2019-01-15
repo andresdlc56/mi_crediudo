@@ -534,33 +534,26 @@ exports.evaluaciones = function(req, res) {
 		include: [ models.nucleo, models.unidad ],
 		where: { cedula: req.user.cedula }
 	}).then(Usuario => {
-		models.evaluacionUsuario.findAll({
-			where: {
-				[Op.and]: [
-					{usuarioCedula: Usuario.cedula}, 
-					{
-						[Op.or]: [
-							{evaluacionId: idEvaluacion},
-							{evaluacionId: idEvaluacion - 1},
-							{evaluacionId: idEvaluacion - 2},
-							{evaluacionId: idEvaluacion - 3}
-						]
-					}
-				]
-			}
-		}).then(Evaluaciones => {
-			//console.log(Evaluaciones);
-			//res.send(Evaluaciones);
-			res.render('empleado/evaluacion/evaluaciones', { Usuario });
+		models.evaluacion.findOne({
+			where: { id: req.params.id }
+		}).then(dataEvaluacion => {
+			res.render('empleado/evaluacion/evaluaciones', { Usuario, dataEvaluacion });	
 		})
 	})
 }
 
 //===============
-exports.buscarAutoEval = function(req, res) {
-	models.instrument.findOne({
-		where: { tipoEvalId: 1 }
-	}).then(Instrument => {
-		res.json(Instrument)
+exports.buscarAutoE = function(req, res) {
+	models.evaluacionUsuario.findOne({
+		where: {
+			[Op.and]: [
+				{usuarioCedula: req.params.cedula}, 
+				{evaluacionId: req.params.id}
+			]
+		}
+	}).then(autoEval => {
+		res.json(autoEval)
+	}).catch(err => {
+		console.log(err)
 	})
 }

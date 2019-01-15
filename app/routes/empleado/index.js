@@ -11,7 +11,9 @@ module.exports = function(app) {
         app.get('/dashboard/eval/:id', isLoggedIn, empleadoController.evaluaciones);
 
     //================Probando Rutas==================
-        app.get('/getInstrumentAutoE', empleadoController.buscarAutoEval);
+        
+
+        app.get('/buscarAutoEval/:id/empleado/:cedula', empleadoController.buscarAutoE);
 
 
     //===============================================
