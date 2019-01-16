@@ -48,6 +48,10 @@
 								  	<div class="card-body">
 								    	<div class="form-group">
 								    		<input type="hidden" id="cedula" value="<%- Usuario.cedula %>">
+								    		<% if(Jefe) {%>
+												<input type="hidden" id="evaluado" value="<%- Jefe.cedula %>">
+								    		<%}%>
+								    		
 								    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
 								    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
 								    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
@@ -141,7 +145,7 @@
 
 										<!--Evaluacion al Jefe-->
 										<div class="col-sm-6 col-md-6 col-lg-4 text-center">
-											<a href="" class="btn btn-outline-secondary" style="width: 90%">
+											<a href="javascript:void(0)" v-on:click="buscarEvalaJefe()" class="btn btn-outline-secondary" style="width: 90%" v-bind:class="{ active: botonEvalaJefe }">
 												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-users" style="font-size: 30pt;"></i>
 												<hr style="margin: 2px">
 												<p><strong>Evaluar al Jefe</strong></p>
@@ -155,6 +159,7 @@
 						<br>
 
 						<div class="card" v-if="activo">
+							<!--==========AutoEvaluacion=========-->
 							<div class="card-body" v-if="botonAutoE">
 								<div class="row">
 									<div class="col-sm-3 col-md-3 text-center">
@@ -172,7 +177,8 @@
 									</div>
 								</div>
 							</div>
-
+							
+							<!--========CoEvaluaciones===========-->
 							<div class="card-body" v-if="botonCoE">
 								<div class="row">
 									<div class="col-md-6" v-for="coEval in coEvals">
@@ -203,6 +209,25 @@
 									</div>
 								</div>
 							</div>
+
+							<!--=======Evaluación a Jefe=========-->
+							<div class="card-body" v-if="botonEvalaJefe">
+								<div class="row">
+									<div class="col-sm-3 col-md-3 text-center">
+										<div class="card">
+											<div class="card-body">
+												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-pencil-square-o" style="font-size: 40pt;"></i>
+											</div>
+										</div>	
+									</div>
+										
+									<div class="col-sm-9 col-md-9">
+										<a v-bind:href="url" class="btn btn-secondary btn-lg btn-block">Ejecutar</a>
+										<hr style="margin: 7px">
+										<p>Evaluar a: <%- Jefe.nombre %>  <%- Jefe.apellido %></p>
+									</div>
+								</div>
+							</div>
 						</div>
 						<br>
 					</div>
@@ -230,28 +255,24 @@
 		new Vue({
 			el: '#main',
 			data: {
+				/*=======Botones=====*/
 				botonAutoE: false,
 				botonCoE: false,
+				botonEvalaJefe: false,
+
+				/*======Zona de Evaluaciones=====*/
 				activo: false,
+
+				/*======Variables=====*/
 				autoEval: {},
 				url: '',
 				coEvals: [],
-				usuarios: {},
 				idCoEval: ''
 			},
 			created() {
-				this.getUsuarios();
+			
 			},
 			methods: {
-				getUsuarios() {
-					axios.get('/getUsuarios')
-						.then(res => {
-							this.usuarios = res.data;
-							console.log(this.usuarios)
-						}).catch(err => {
-							console.log(err)
-						})
-				},
 				buscarAutoEval() {
 					var currentUrl = window.location.pathname.split('/');
 					var idEval = currentUrl[3];
@@ -264,6 +285,7 @@
 
 					this.botonAutoE = true;
 					this.botonCoE = false;
+					this.botonEvalaJefe = false;
 					this.activo = true;
 
 					axios.get('/buscarAutoEval/' + idEval + '/empleado/' + cedula)
@@ -283,6 +305,7 @@
 					
 					this.botonCoE = true;
 					this.botonAutoE = false;
+					this.botonEvalaJefe = false;
 					this.activo = true;
 					this.idCoEval = idEval;
 
@@ -293,6 +316,20 @@
 						}).catch(err => {
 							console.log(err);
 						})
+				},
+				buscarEvalaJefe() {
+					this.botonAutoE = false;
+					this.botonCoE = false;
+					this.botonEvalaJefe = true;
+					this.activo = true;
+
+					var currentUrl = window.location.pathname.split('/');
+					var idEval = currentUrl[3] - 1;
+					var evaluado = document.getElementById('evaluado').value;
+
+					this.url = '/dashboard/eval/'+idEval+'/u/'+evaluado;
+
+					console.log(this.url);
 				}
 			}
 		});

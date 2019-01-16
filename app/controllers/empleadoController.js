@@ -537,11 +537,18 @@ exports.evaluaciones = function(req, res) {
 		models.evaluacion.findOne({
 			where: { id: req.params.id }
 		}).then(dataEvaluacion => {
-			models.usuario.findAll({
-
-			}).then(Usuarios => {
-				res.render('empleado/evaluacion/evaluaciones', { Usuario, dataEvaluacion, Usuarios });
-			})	
+			
+				models.usuario.findOne({
+					where: {
+						[Op.and]: [
+							{unidadCodigo: Usuario.unidadCodigo}, 
+							{cargoId: 2}
+						]
+					}
+				}).then(Jefe => {
+					res.render('empleado/evaluacion/evaluaciones', { Usuario, dataEvaluacion, Jefe });		
+				})
+				
 		})
 	})
 }
