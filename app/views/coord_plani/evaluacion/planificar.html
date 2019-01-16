@@ -74,7 +74,7 @@
 
 									<div class="card-body">
 										<fieldset v-bind:disabled="deshabilitar">
-											<form method="post" action="/coord_plani/plani_eval" id="plani_eval">
+											<form v-on:submit="checkForm" method="post" action="/coord_plani/plani_eval">
 												<div class="form-row">
 													<div class="form-group col-md-6">
 														<label>Personal a Evaluar:</label>
@@ -126,12 +126,12 @@
 												<div class="form-row">
 													<div class="form-group col-md-6">
 														<label>Fecha de Inicio:</label>
-														<input type="date" name="fecha_i" class="form-control">
+														<input type="date" v-model="fecha_i" name="fecha_i" id="fecha_i" class="form-control">
 													</div>
 
 													<div class="form-group col-md-6">
 														<label>Fecha de Fin:</label>
-														<input type="date" name="fecha_f" class="form-control">
+														<input type="date" v-model="fecha_f" name="fecha_f" id="fecha_f" class="form-control">
 													</div>
 												</div>
 
@@ -175,11 +175,13 @@
 				nucleo: {},
 				options: [],
 				instrumentos: '',
-				deshabilitar: true
+				deshabilitar: true,
+				fecha_i: '',
+				fecha_f: ''
 			},
 			created() {
 				this.getInstrumentos();
-				this.getNucleos()
+				this.getNucleos();
 			},
 			methods: {
 				/*
@@ -216,7 +218,26 @@
 						}).catch(err => {
 							console.log(err)
 						})
-				}
+				},
+
+				checkForm() {
+			      let fechaActual = new Date();
+			      let fechaInicio = new Date(this.fecha_i);
+			      let fechaFinal = new Date(this.fecha_f);
+
+			      if(fechaActual.getTime() > fechaInicio.getTime()) {
+			      	alert("La Fecha de Inicio No puede ser Menor a la Fecha Actual");
+			      	event.preventDefault();
+			      } else if(fechaInicio.getTime() >= fechaActual.getTime()){
+			      	if((fechaFinal.getTime() <= fechaActual.getTime()) || (fechaFinal.getTime() <= fechaInicio.getTime())) {
+			      		alert("La Fecha Final No puede ser Menor a la Fecha Actual o a la Fecha de Inicio");
+			      		event.preventDefault();
+			      	} else {
+			      		console.log("Exito, Evaluacion Planificada");
+			      		return true;
+			      	}
+			      }
+			    }
 			}
 		})
 	</script>
