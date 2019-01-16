@@ -594,3 +594,14 @@ exports.getUsuarios = function(req, res) {
 		console.log(err)
 	})
 }
+
+exports.buscarEvalsaSubor = function(req, res) {
+	models.evaluacionUsuario.findAll({
+		include: [ models.usuario ],
+		where: { evaluacionId: req.params.id }
+	}).then(evalsaSubor => {
+		res.json(evalsaSubor);
+	}).catch(err => {
+		console.log(err)
+	})
+}

@@ -15,6 +15,8 @@ module.exports = function(app) {
 
         app.get('/buscarCoEvals/:id/empleado/:cedula', empleadoController.buscarCoEvals);
 
+        app.get('/buscarEvalsaSubor/:id', empleadoController.buscarEvalsaSubor);
+
         app.get('/getUsuarios', empleadoController.getUsuarios);
     //===============================================
 

@@ -119,9 +119,22 @@
 								<div class="row">
 									<%if(Usuario.cargoId == 2) {%>
 										<!--AutoEvaluacion-->
-										
+										<div class="col-sm-6 col-md-6 col-lg-6 text-center">
+											<a href="javascript:void(0)" v-on:click="buscarAutoEval()" class="btn btn-outline-primary" style="width: 90%" v-bind:class="{ active: botonAutoE }">
+												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-child" style="font-size: 30pt;"></i>
+												<hr style="margin: 1px">
+												<p><strong>AutoEvaluación</strong></p>
+											</a>
+										</div>
 
 										<!--Evaluacion a Subordinados-->
+										<div class="col-sm-6 col-md-6 col-lg-6 text-center">
+											<a href="javascript:void(0)" v-on:click="buscarEvalaSubor()" class="btn btn-outline-dark" style="width: 90%" v-bind:class="{ active: botonEvalaSubor }">
+												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-secret" style="font-size: 30pt;"></i>
+												<hr style="margin: 1px">
+												<p><strong>Eval al Subor</strong></p>
+											</a>
+										</div>
 										
 									<%} else if(Usuario.cargoId == 3) {%>
 										<!--AutoEvaluacion-->
@@ -228,6 +241,38 @@
 									</div>
 								</div>
 							</div>
+
+							<!--=======Evaluación a Subordinados=======-->
+							<div class="card-body" v-if="botonEvalaSubor">
+								<div class="row">
+									<div class="col-md-6" v-for="eval in evalsSubor">
+										<div class="card">
+											<div class="card-body">
+												<div class="row">
+													<div class="col-sm-3 col-md-4 col-lg-3 text-center">
+														<div class="card">
+															<div class="card-body">
+																<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-pencil-square-o" style="font-size: 40pt;"></i>
+															</div>
+														</div>	
+													</div>
+															
+													<div class="col-sm-9 col-md-8 col-lg-9">
+														<a v-bind:href="'/dashboard/eval/'+idEvalSubor+'/u/'+eval.usuarioEvaluado" class="btn btn-dark btn-lg btn-block">Ejecutar</a>
+														<hr style="margin: 7px">
+														<p>
+															Evaluar A: 
+															{{ eval.usuario.nombre }}
+															{{ eval.usuario.apellido }}
+														</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<br>
+									</div>
+								</div>
+							</div>
 						</div>
 						<br>
 					</div>
@@ -259,6 +304,7 @@
 				botonAutoE: false,
 				botonCoE: false,
 				botonEvalaJefe: false,
+				botonEvalaSubor: false,
 
 				/*======Zona de Evaluaciones=====*/
 				activo: false,
@@ -267,7 +313,9 @@
 				autoEval: {},
 				url: '',
 				coEvals: [],
-				idCoEval: ''
+				idCoEval: '',
+				evalsSubor: [],
+				idEvalSubor: ''
 			},
 			created() {
 			
@@ -286,6 +334,7 @@
 					this.botonAutoE = true;
 					this.botonCoE = false;
 					this.botonEvalaJefe = false;
+					this.botonEvalaSubor = false;
 					this.activo = true;
 
 					axios.get('/buscarAutoEval/' + idEval + '/empleado/' + cedula)
@@ -330,6 +379,25 @@
 					this.url = '/dashboard/eval/'+idEval+'/u/'+evaluado;
 
 					console.log(this.url);
+				},
+				buscarEvalaSubor() {
+					this.activo = true;
+					this.botonAutoE = false;
+					this.botonCoE = false;
+					this.botonEvalaJefe = false;
+					this.botonEvalaSubor = true;
+
+					var currentUrl = window.location.pathname.split('/');
+					var idEval = currentUrl[3];
+
+					this.idEvalSubor = idEval;
+
+					axios.get('/buscarEvalsaSubor/'+idEval)
+						.then(res => {
+							this.evalsSubor = res.data;
+						}).catch(err => {
+							console.log(err);
+						})
 				}
 			}
 		});
