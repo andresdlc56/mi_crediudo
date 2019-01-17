@@ -47,36 +47,24 @@ module.exports = function(app) {
                     app.get('/coord_ev/getTipos', isLoggedIn, coord_evController.getTipos);
 
 
-
-
-
-
+/*---------------------Rutas activas pero no las estoy usando-----------------------------------------*/
     //===========================Ruta Crear Nuevo Instrumento (Formulario)======================
-    app.get('/coord_ev/addInstrumento', isLoggedIn, coord_evController.agregarInstrumento);
+        app.get('/coord_ev/addInstrumento', isLoggedIn, coord_evController.agregarInstrumento);
 
-    //=================Procesar Creación de Nuevo Instrumento=================
-    app.post('/coord_ev/add-instrument', isLoggedIn, coord_evController.createInstrument);
+        //=================Procesar Creación de Nuevo Instrumento=================
+            app.post('/coord_ev/add-instrument', isLoggedIn, coord_evController.createInstrument);
 
-        //2do paso para la creacion de un instrumento (creando Items y factores)=========
-        app.get('/coord_ev/instrumento/:id', isLoggedIn, coord_evController.completarIntrumento);
+            //2do paso para la creacion de un instrumento (creando Items y factores)=========
+                app.get('/coord_ev/instrumento/:id', isLoggedIn, coord_evController.completarIntrumento);
 
             //===============Procesando Creación de un Factor =====================
-            app.post('/coord_ev/addFactor', isLoggedIn, coord_evController.addFactor);
+                app.post('/coord_ev/addFactor', isLoggedIn, coord_evController.addFactor);
+/*---------------------------------------------------------------------------------------------------------*/
 
-            //Rutas axios
-                
 
-                
-
-                //=================Solicitar todos los datos de un intrumento determinado(id)
-                app.get('/coord_ev/instrum/:id', isLoggedIn, coord_evController.getPreguntas);
-
-                
-
-            
-
-            
-            
+    //Rutas axios
+        //=================Solicitar todos los datos de un intrumento determinado(id)
+            app.get('/coord_ev/instrum/:id', isLoggedIn, coord_evController.getPreguntas);
 
             app.post('/coord_ev/updatePregunta/:id', isLoggedIn, coord_evController.updatePregunta);
 
