@@ -23,12 +23,20 @@ module.exports = function(app) {
 
     app.get('/coord_plani/editEval/:id', isLoggedIn, coord_planiController.editEval);
 
+    app.post('/coord_plani/editEval/:id', isLoggedIn, coord_planiController.actualizaEval);
+
     app.get('/getNucleos', coord_planiController.getNucleos);
 
     app.get('/getUnidades/:id', coord_planiController.getUnidades);
 
     //=========================Rutas Axios========================
         app.get('/coord_plani/getInstrumentos', isLoggedIn, coord_planiController.getInstrumentos);
+
+        app.get('/getEvaluacion/:id', coord_planiController.getEvaluacion);
+
+        app.get('/getNucleos', coord_planiController.getNucleos);
+
+        app.get('/getUnidades/:id', coord_planiController.getUnidades);
 
     app.get('/logout',authController.logout);
 
