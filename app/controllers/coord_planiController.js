@@ -26,14 +26,19 @@ exports.index = function(req, res) {
 		models.tipoEval.findAll({
 
 		}).then(tipoEval => {
-			//res.send(Evaluaciones);
-			res.render('coord_plani/index', { 
-				Evaluaciones, 
-				tipoEval,
-				usuario,
-				message: req.flash('info'),
-        		error: req.flash('error')
-			});	
+			models.evento.findAll({
+
+			}).then(Eventos => {
+				//res.send(Evaluaciones);
+				res.render('coord_plani/index', { 
+					Evaluaciones, 
+					tipoEval,
+					usuario,
+					Eventos,
+					message: req.flash('info'),
+	        		error: req.flash('error')
+				});
+			})	
 		});
 	});
 }
