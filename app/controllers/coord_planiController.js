@@ -447,6 +447,8 @@ exports.getNucleos = function(req, res) {
 
 	}).then(Nucleos => {
 		res.json(Nucleos);
+	}).catch(err => {
+		console.log(err);
 	})
 }
 
@@ -485,5 +487,16 @@ exports.getUnidades = function(req, res) {
  				})
  			})
  		})
+ 	})
+ }
+
+ exports.getEvaluacion = function(req, res) {
+ 	models.evaluacion.findOne({
+ 		include: [ models.nucleo, models.unidad ],
+ 		where: { id: req.params.id }
+ 	}).then(Evaluacion => {
+ 		res.json(Evaluacion);
+ 	}).catch(err => {
+ 		console.log(err);
  	})
  }

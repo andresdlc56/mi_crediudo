@@ -15,9 +15,9 @@
 
 	<%- include('../../partials/coord_plani/navbar.html') %>
 
-	<div class="container-fluid">
+	<div class="container-fluid" id="main">
 		<div class="row justify-content-md-center">
-			<div class="col-md-10">
+			<div class="col-md-12">
 				<div class="row">
 					<div class="col-md-12">
 						<!--=======MIGAS DE PAN=========-->
@@ -103,11 +103,10 @@
 							                          		<div class="form-row">
 							                          			<div class="form-group col-md-6">
 							                          				<label>Nucleo: </label>
-							                          				<select name="nucleo" class="form-control">
-							                          					<option value="<%- Evaluacion.nucleoId %>"><%- Evaluacion.nucleo.nombre %></option>
-							                          					<% for(let i = 0; i < Nucleos.length; i ++) {%>
-																			<option value="<%- Nucleos[i].id %>"><%- Nucleos[i].nombre %></option>
-							                          					<%}%>
+							                          				<select v-model="evaluacion.nucleoCodigo" class="form-control" required>
+							                          					<option v-for="option in nucleos" v-bind:value="option.id">
+																			{{ option.nombre }}
+																		</option>
 							                          				</select>
 							                          			</div>
 
@@ -195,5 +194,44 @@
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#main',
+			data: {
+				evaluacion: {},
+				nucleos: []
+			},
+			created() {
+				var currentUrl = window.location.pathname.split('/');
+				var id = currentUrl[3];
+
+				this.getEvaluacion(id);
+				this.getNucleos();
+			},
+			methods: {
+				getEvaluacion(id) {
+					axios.get('/getEvaluacion/'+id)
+						.then(res => {
+							this.evaluacion = res.data;
+							this.evaluacion.nucleoCodigo = 2;
+							console.log(this.evaluacion.nucleoCodigo);
+						}).catch(err => {
+							console.log(err);
+						})
+				},
+				getNucleos() {
+					axios.get('/getNucleos')
+						.then(res => {
+							this.nucleos = res.data;
+							console.log(this.nucleos)
+						}).catch(err => {
+							console.log(err)
+						})
+				}
+			}
+		})
+	</script>
 </body>
 </html>

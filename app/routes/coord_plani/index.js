@@ -30,6 +30,8 @@ module.exports = function(app) {
     //=========================Rutas Axios========================
         app.get('/coord_plani/getInstrumentos', isLoggedIn, coord_planiController.getInstrumentos);
 
+        app.get('/getEvaluacion/:id', coord_planiController.getEvaluacion);
+
     app.get('/logout',authController.logout);
 
 	function isLoggedIn(req, res, next) {
