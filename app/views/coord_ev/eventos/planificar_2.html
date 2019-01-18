@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Coord. Evaluación</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+</head>
+<body>
+	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+	</div>	
+
+	<%- include('../../partials/coord_eval/navbar.html') %>
+
+	<div class="container-fluid" id="main">
+		<div class="row justify-content-md-center">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12">
+						<!--=======MIGAS DE PAN=========-->
+						<nav aria-label="breadcrumb" style="margin-top: 1%">
+							<ol class="breadcrumb">
+							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							</ol>
+						</nav>
+						<!--=======FIN MIGAS DE PAN=========-->
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12 col-md-3">
+						<div class="card">
+						  	<div class="card-header">
+						    	Datos Personales:
+						  	</div>
+						  
+						  	<div class="card-body">
+						    	<div class="form-group">
+						    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+						    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+						    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+						    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
+						    	</div>
+						  	</div>
+						</div>
+
+						<br>
+					</div>
+
+					<div class="col-md-9">
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-lg-12">
+								<!--=======mensaje de alerta==========-->
+								<% if(message == false) {%>
+
+								<%} else {%>
+									<div class="alert alert-success alert-dismissible fade show" role="alert">
+							            <%= message %>
+							            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+							        </div>
+								<%}%>
+
+								<div class="card">
+									<div class="card-body">
+										<div class="article border-bottom">
+											<h3>Planificar Evento</h3>
+										</div>
+										<form method="POST" action="/coord_ev/enviarEvento" enctype="multipart/form-data">
+											<div class="form-row">
+											    <div class="form-group col-md-6">
+											      <label for="nombre">Nombre:</label>
+											      <input type="text" name="nombre" class="form-control" placeholder="Ingrese el Nombre o Titulo del Evento" required autofocus>
+											    </div>
+											    <div class="form-group col-md-6">
+											      <label for="direccion">Dirección:</label>
+											      <input type="text" name="direccion" class="form-control" placeholder="Ingrese la Dirección" required>
+											    </div>
+											</div>
+
+											<div class="form-row">
+											    <div class="form-group col-md-6">
+											      	<label>Fecha:</label>
+													<input type="date" name="fecha" name="fecha" class="form-control" required>
+											    </div>
+											    <div class="form-group col-md-6">
+											      <label>Nucleo: </label>
+													<select name="nucleo" name="nucleo" class="form-control" required>
+														<option disabled value="">Please select one</option>
+														<% for(let i = 0; i < Nucleos.length; i ++) {%>
+															<option value="<%- Nucleos[i].codigo %>"><%- Nucleos[i].nombre %></option>
+														<%}%>
+													</select>
+											    </div>
+											</div>
+
+											<div class="form-row">
+											    <div class="form-group col-md-4">
+											      	<label>Dirigido a:</label>
+													<input type="text" name="publico" name="publico" class="form-control" placeholder="Publico" required>
+											    </div>
+											    <div class="form-group col-md-4">
+											      <label>Tipo:</label>
+													<select name="tipo" class="form-control" required>
+														<option disabled value="">Please select one</option>
+														<% for(let i = 0; i < tipoEvent.length; i ++) {%>
+															<option value="<%- tipoEvent[i].id %>"><%- tipoEvent[i].nombre %></option>
+														<%}%>
+													</select>
+											    </div>
+											    <div class="form-group col-md-4">
+											      	<label>Cupos:</label>
+													<input type="number" name="cupos" class="form-control" required>
+											    </div>
+											    <div class="form-group col-md-12">
+												  	<label for="descripcion">Descripción:</label>
+												  	<textarea class="form-control" rows="5" name="descripcion" required></textarea>
+												</div>
+											</div>
+
+											<div class="form-row">
+												<div class="form-group col-md-12">
+													<!--<input type="file" class="form-control">-->
+													<input type="file" name="urlImg" class="form-control" required>
+												</div>
+											</div>
+
+											<hr>
+
+											<input type="submit" name="guardar" value="Guardar" class="btn btn-primary">
+										</form>
+									</div>
+								</div>
+								<br>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="footer" style="background: #BEBCB0;">
+		<div class="container">
+			<span class="text-muted">Pie de Pagina</span>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
+</body>
+</html>
