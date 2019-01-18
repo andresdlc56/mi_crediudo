@@ -559,7 +559,8 @@ exports.buscarAutoE = function(req, res) {
 		where: {
 			[Op.and]: [
 				{usuarioCedula: req.params.cedula}, 
-				{evaluacionId: req.params.id}
+				{evaluacionId: req.params.id},
+				{status: false}
 			]
 		}
 	}).then(autoEval => {
@@ -575,13 +576,35 @@ exports.buscarCoEvals = function(req, res) {
 		where: {
 			[Op.and]: [
 				{usuarioCedula: req.params.cedula}, 
-				{evaluacionId: req.params.id}
+				{evaluacionId: req.params.id},
+				{status: false}
 			]
 		}
 	}).then(coEvals => {
 		res.json(coEvals);
 	}).catch(err => {
 		console.log(err);
+	})
+}
+
+
+exports.buscarEvalaJefe = function(req, res) {
+	var cedula = parseInt(req.params.cedula);
+	var id = parseInt(req.params.id);
+
+	models.evaluacionUsuario.findOne({
+		where: {
+			[Op.and]: [
+				{usuarioCedula: req.params.evaluador},
+				{usuarioEvaluado: cedula}, 
+				{evaluacionId: id},
+				{status: false}
+			]
+		}
+	}).then(evalaJefe => {
+		res.json(evalaJefe);
+	}).catch(err => {
+		res.json('error');
 	})
 }
 
@@ -598,7 +621,12 @@ exports.getUsuarios = function(req, res) {
 exports.buscarEvalsaSubor = function(req, res) {
 	models.evaluacionUsuario.findAll({
 		include: [ models.usuario ],
-		where: { evaluacionId: req.params.id }
+		where: {
+			[Op.and]: [
+				{ evaluacionId: req.params.id }, 
+				{status: false}
+			]
+		}
 	}).then(evalsaSubor => {
 		res.json(evalsaSubor);
 	}).catch(err => {

@@ -294,7 +294,7 @@ exports.detalles = function(req, res) {
 		models.evaluacionUsuario.findAll({
 			include: [models.evaluacion],
 			where: {
-				evaluacionId: 5
+				evaluacionId: idD
 			}
 		}).then(autoEval => {
 			models.evaluacionUsuario.findAll({
