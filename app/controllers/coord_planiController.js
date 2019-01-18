@@ -412,17 +412,17 @@ exports.deleteEval = function(req, res) {
     }).then(EvaluacionA => {
     	models.evaluacion.destroy({
 	        where: {
-	          id: id - 1
+	          id: id + 1
 	        }
 	    }).then(EvaluacionB => {
 	    	models.evaluacion.destroy({
 		        where: {
-		          id: id - 2
+		          id: id + 2
 		        }
 		    }).then(EvaluacionC => {
 		    	models.evaluacion.destroy({
 			        where: {
-			          id: id - 3
+			          id: id + 3
 			        }
 			    }).then(EvalucionD => {
 					req.flash('error', 'Evaluación Eliminada Exitosamente!');
