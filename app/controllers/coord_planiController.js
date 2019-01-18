@@ -503,8 +503,6 @@ exports.getUnidades = function(req, res) {
  	}).catch(err => {
  		console.log(err);
  	})
-<<<<<<< HEAD
-=======
  }
 
  exports.getNucleos = function(req, res) {
@@ -550,5 +548,4 @@ exports.getUnidades = function(req, res) {
  		req.flash('info', 'Evaluacion Actualizada!');
 		res.redirect('/coord_plani');
  	})
->>>>>>> origin/Coord-Plani
  }
