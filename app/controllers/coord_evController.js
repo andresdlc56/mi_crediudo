@@ -21,44 +21,222 @@ const path = require('path');
 		})
 	}
 
-
-//=============Pantalla Principal de Instrumentos===========
-	exports.instrumentos = function(req, res) {
-		models.usuario.findOne({
-			include: [ models.nucleo, models.unidad ],
-			where: {
-				cedula: req.user.cedula
+	//---------------Rutas para Instrumentos---------------
+		//=============Pantalla Principal de Instrumentos===========
+			exports.instrumentos = function(req, res) {
+				models.usuario.findOne({
+					include: [ models.nucleo, models.unidad ],
+					where: {
+						cedula: req.user.cedula
+					}
+				}).then(Usuario => {
+					models.instrument.findAll({
+						include: [ models.categoria, models.tipoEval ],
+						order: [
+									['id', 'ASC']
+						]
+					}).then(Instrumentos => {
+						res.render('coord_ev/instrumento/index', { Usuario, Instrumentos });	
+					})
+				})
 			}
-		}).then(Usuario => {
-			models.instrument.findAll({
-				include: [ models.categoria, models.tipoEval ],
-				order: [
-							['id', 'ASC']
-				]
-			}).then(Instrumentos => {
-				res.render('coord_ev/instrumento/index', { Usuario, Instrumentos });	
-			})
-		})
-	}
 
-	//==================Ver Instrumento de Evaluación Especifico
-		exports.verInstrumento = function(req, res) {
-			models.usuario.findOne({
-				include: [ models.nucleo, models.unidad ],
-				where: {
-					cedula: req.user.cedula
+		//==================Ver Instrumento de Evaluación Especifico
+			exports.verInstrumento = function(req, res) {
+				models.usuario.findOne({
+					include: [ models.nucleo, models.unidad ],
+					where: {
+						cedula: req.user.cedula
+					}
+				}).then(Usuario => {
+					res.render('coord_ev/instrumento/verInstrumento', { Usuario });
+				})
+			}
+
+			//--------------Controladores Axios para Instrumentos de Evaluación--------
+				//===========Obtener datos de un Instrumento determinado
+					exports.getInstrumento = function(req, res) {
+						models.instrument.findOne({
+							include: [ models.categoria, models.tipoEval ],
+							where: { id: req.params.id }
+						}).then(Instrumento => {
+							res.json(Instrumento);
+						}).catch(err => {
+							console.log(err);
+						})
+					}
+
+				//==============Obtener todas las Categorias
+					exports.getCategorias = function(req, res) {
+						models.categoria.findAll({
+
+						}).then(Categorias => {
+							res.json(Categorias);
+						}).catch(err => {
+							console.log(err);
+						})
+					}
+
+				//============Ver Datos de Un Instrumento en especifico(id)
+					exports.verInstrument = function(req, res) {
+						//buscando un instrumento en especifico
+						models.instrument.findById(req.params.id).then(Instruments => {
+							//buscando todos los factores
+							models.factor.findAll({
+
+							}).then(Factores => {
+								//buscando todos los items que pertenecen al instrumento que inicialmente buscamos
+								models.item.findAll({
+									include: [models.factor],
+									where: { instrumentId: req.params.id }
+								}).then(Items => {
+									res.render('coord_ev/instrumento/ver', { Instruments, Factores, Items });	
+								})
+							});
+						});
+					}
+
+				//=============Solicitar Factores
+					exports.getFactores = function(req, res) {
+						models.factor.findAll({
+
+						}).then(Factores => {
+							res.json(Factores);
+						})
+					}
+
+		//---------------Rutas para Eventos--------------
+			//----------------Index de Eventos----------------
+				exports.verEventos = function(req, res) {
+					models.usuario.findOne({
+						include: [ models.nucleo, models.unidad ],
+						where: { cedula: req.user.cedula }
+					}).then(Usuario => {
+						models.evento.findAll({
+
+						}).then(Eventos => {
+							res.render('coord_ev/eventos/index', { 
+								Usuario, 
+								Eventos, 
+								message: req.flash('info'),
+								error: req.flash('error') 
+							})
+						})
+					})
 				}
-			}).then(Usuario => {
-				res.render('coord_ev/instrumento/verInstrumento', { Usuario });
-			})
-		}
+
+			//---------------Planificar Evento------------------
+				exports.planificarEvento = function(req, res) {
+					models.usuario.findOne({
+						include: [ models.nucleo, models.unidad ],
+						where: { cedula: req.user.cedula }
+					}).then(Usuario => {
+						models.nucleo.findAll({
+
+						}).then(Nucleos => {
+							models.tipoEvento.findAll({
+
+							}).then(tipoEvent => {
+								res.render('coord_ev/eventos/planificar', { 
+									Usuario,  
+									Nucleos,
+									tipoEvent,
+									message: req.flash('info'),
+									error: req.flash('error') 
+								});
+							})
+						
+						})
+					})
+				}
+
+			//==============Creacion de Eventos==============
+				exports.enviarEvento = function(req, res) {
+					//Set storage Engine
+					const storage = multer.diskStorage({
+						destination: './public/uploads/eventos',
+						filename: function(req, file, cb){
+							cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+						}
+					});
+
+					//Init Upload
+					const upload = multer({
+						storage: storage, 
+						limits: { fileSize: 1000000 },
+						fileFilter: function(req, file, cb){
+							checkFileType(file, cb);
+						}
+					}).single('urlImg');
+
+					// Check File Type
+					function checkFileType(file, cb){
+						//allowed ext
+						const filetypes = /jpeg|jpg|png|gif/;
+
+						//Check ext
+						const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+						//check mime
+						const mimetype = filetypes.test(file.mimetype);
+
+						if(mimetype && extname){
+							return cb(null,true);
+						} else{
+							cb('Error: Images Only!');
+						}
+					}
+
+					upload(req,res,(err) => {
+						if(err){
+							console.log('error');
+							res.send('algun error')
+						} else{
+							if(req.file == undefined){
+								console.log(req.file);
+								res.send('indefinido')
+							} else{
+								console.log(req.file.filename);
+								models.evento.create({
+									nombre: req.body.nombre,
+									direccion: req.body.direccion,
+									fecha: req.body.fecha,
+									nucleoCodigo: req.body.nucleo,
+									publico: req.body.publico,
+									tipoEventoId: req.body.tipo,
+									cupos: req.body.cupos,
+									descripcion: req.body.descripcion,
+									files: req.file.filename
+								}).then(Evento => {
+									req.flash('info', 'Evento: '+req.body.nombre+' Planificado Exitosamente');
+									res.redirect('/coord_ev/eventos');
+								}).catch(err => {
+									console.log(err)
+								});
+							}
+						}
+					});
+				}
 
 
+			//----------------Rutas Axios para Eventos-------------
+				//--------------Buscar Eventos-----------------
+				exports.buscaEvento = function(req, res) {
+					models.evento.findOne({
+						where: { id: req.params.id }
+					}).then(Evento => {
+						res.json(Evento)
+					}).catch(err => {
+						res.json(err)
+					})
+				}
 
+//-----------------------------------------------------------------------------------------
 //============Controlador para Factores (Version Vieja)========
 	exports.factor = function(req, res) {
 		res.render('coord_ev/factor/index');
 	}
+
 
 
 //buscando todos los intrumentos
@@ -84,24 +262,7 @@ exports.addInstrument = function(req, res) {
 	})
 }
 
-//============Ver Datos de Un Instrumento en especifico(id)
-exports.verInstrument = function(req, res) {
-	//buscando un instrumento en especifico
-	models.instrument.findById(req.params.id).then(Instruments => {
-		//buscando todos los factores
-		models.factor.findAll({
 
-		}).then(Factores => {
-			//buscando todos los items que pertenecen al instrumento que inicialmente buscamos
-			models.item.findAll({
-				include: [models.factor],
-				where: { instrumentId: req.params.id }
-			}).then(Items => {
-				res.render('coord_ev/instrumento/ver', { Instruments, Factores, Items });	
-			})
-		});
-	});
-}
 
 //agregando Item
 exports.addItem = function(req, res) {
@@ -188,100 +349,11 @@ exports.addItem = function(req, res) {
 			})
 		}
 
-	//===============Planificacion de Eventos==========
-		exports.planificarEvento = function(req, res) {
-			models.usuario.findOne({
-				include: [ models.nucleo, models.unidad ],
-				where: { cedula: req.user.cedula }
-			}).then(Usuario => {
-				models.nucleo.findAll({
+		
 
-				}).then(Nucleos => {
-					models.tipoEvento.findAll({
+	
 
-					}).then(tipoEvent => {
-						res.render('coord_ev/eventos/planificar', { 
-							Usuario,  
-							Nucleos,
-							tipoEvent,
-							message: req.flash('info'),
-							error: req.flash('error') 
-						});
-					})
-				
-				})
-			})
-		}
 
-	//==============Creacion de Eventos==============
-		exports.enviarEvento = function(req, res) {
-			//Set storage Engine
-			const storage = multer.diskStorage({
-				destination: './public/uploads/eventos',
-				filename: function(req, file, cb){
-					cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-				}
-			});
-
-			//Init Upload
-			const upload = multer({
-				storage: storage, 
-				limits: { fileSize: 1000000 },
-				fileFilter: function(req, file, cb){
-					checkFileType(file, cb);
-				}
-			}).single('urlImg');
-
-			// Check File Type
-			function checkFileType(file, cb){
-				//allowed ext
-				const filetypes = /jpeg|jpg|png|gif/;
-
-				//Check ext
-				const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-
-				//check mime
-				const mimetype = filetypes.test(file.mimetype);
-
-				if(mimetype && extname){
-					return cb(null,true);
-				} else{
-					cb('Error: Images Only!');
-				}
-			}
-
-			upload(req,res,(err) => {
-				if(err){
-					console.log('error');
-					res.send('algun error')
-				} else{
-					if(req.file == undefined){
-						console.log(req.file);
-						res.send('indefinido')
-					} else{
-						console.log(req.file.filename);
-						models.evento.create({
-							nombre: req.body.nombre,
-							direccion: req.body.direccion,
-							fecha: req.body.fecha,
-							nucleoCodigo: req.body.nucleo,
-							publico: req.body.publico,
-							tipoEventoId: req.body.tipo,
-							cupos: req.body.cupos,
-							descripcion: req.body.descripcion,
-							files: req.file.filename
-						}).then(Evento => {
-							req.flash('info', 'Evento: '+req.body.nombre+' Planificado Exitosamente');
-							res.redirect('/coord_ev/eventos');
-						}).catch(err => {
-							console.log(err)
-						});
-					}
-				}
-			});
-		}
-
-//====================Fin Eventos===================
 
 
 
@@ -299,23 +371,7 @@ exports.eventTodos = function(req, res) {
 //enviarEvento
 
 
-exports.verEventos = function(req, res) {
-	models.usuario.findOne({
-		include: [ models.nucleo, models.unidad ],
-		where: { cedula: req.user.cedula }
-	}).then(Usuario => {
-		models.evento.findAll({
 
-		}).then(Eventos => {
-			res.render('coord_ev/eventos/index', { 
-				Usuario, 
-				Eventos, 
-				message: req.flash('info'),
-				error: req.flash('error') 
-			})
-		})
-	})
-}
 
 exports.deleteEvento = function(req, res) {
 	models.evento.destroy({
@@ -598,14 +654,7 @@ exports.editInstrumento = function(req, res) {
 }
 
 //=============Controladores axios
-	//=============Solicitar Factores
-	exports.getFactores = function(req, res) {
-		models.factor.findAll({
-
-		}).then(Factores => {
-			res.json(Factores);
-		})
-	}
+	
 
 	//=============add Preguntas
 	exports.addPregunta = function(req, res) {
@@ -686,28 +735,9 @@ exports.editInstrumento = function(req, res) {
 		});
 	}
 
-	//===========Obtener datos de un Instrumento determinado
-	exports.getInstrumento = function(req, res) {
-		models.instrument.findOne({
-			include: [ models.categoria, models.tipoEval ],
-			where: { id: req.params.id }
-		}).then(Instrumento => {
-			res.json(Instrumento);
-		}).catch(err => {
-			console.log(err);
-		})
-	}
+	
 
-	//==============Obtener todas las Categorias
-	exports.getCategorias = function(req, res) {
-		models.categoria.findAll({
-
-		}).then(Categorias => {
-			res.json(Categorias);
-		}).catch(err => {
-			console.log(err);
-		})
-	}
+	
 
 	//===============Obtener todos los Tipos de Evaluaciones
 	exports.getTipos = function(req, res) {

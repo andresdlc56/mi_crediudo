@@ -8,7 +8,7 @@ module.exports = function(app) {
     //===========Ruta Principal Coord Evaluacion============
         app.get('/coord_ev', isLoggedIn, coord_evController.index);
 
-    //===================Ruta Instrumentos de Evaluación =====================
+    //===================Rutas Instrumentos de Evaluación =====================
         app.get('/coord_ev/instrumentos', isLoggedIn, coord_evController.instrumentos);
 
         //=======================Ver Instrumento Especifico(id)==============
@@ -45,6 +45,19 @@ module.exports = function(app) {
 
                 //----------------Obtener Todos los Tipos de Evaluaciones---------------
                     app.get('/coord_ev/getTipos', isLoggedIn, coord_evController.getTipos);
+
+
+    /*====================Rutas Eventos=======================*/
+        app.get('/coord_ev/eventos', isLoggedIn, coord_evController.verEventos);
+
+        app.get('/coord_ev/eventos/planificar', isLoggedIn, coord_evController.planificarEvento);
+
+        app.post('/coord_ev/enviarEvento', isLoggedIn, coord_evController.enviarEvento);
+
+        /*---------------------Rutas axios Eventos------------------*/
+            //------------------buscar Evento---------------------
+                app.get('/buscaEvento/:id', coord_evController.buscaEvento)
+
 
 
 /*---------------------Rutas activas pero no las estoy usando-----------------------------------------*/
@@ -93,12 +106,12 @@ module.exports = function(app) {
     app.post('/coord_ev/instrument/:id/add-item', isLoggedIn, coord_evController.addItem);
 
 
-    /*========================Eventos=======================*/
-        app.get('/coord_ev/eventos', isLoggedIn, coord_evController.verEventos);
+    
+        
 
-        app.get('/coord_ev/eventos/planificar', isLoggedIn, coord_evController.planificarEvento);
+        
 
-        app.post('/coord_ev/enviarEvento', isLoggedIn, coord_evController.enviarEvento);
+        
 
     //app.get('/coord_ev/eventos', isLoggedIn, coord_evController.getEventos);
 
