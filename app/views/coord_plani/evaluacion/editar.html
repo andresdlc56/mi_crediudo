@@ -98,21 +98,21 @@
 												%>
 
 												<% if(Evaluacion.fecha_i > hoy) {%>
-													<form method="POST" action="">
+													<form method="POST" action="/coord_plani/editEval/<%- Evaluacion.id %>">
 							                        	<div class="modal-body">
 							                          		<div class="form-row">
 							                          			<div class="form-group col-md-6">
 							                          				<label>Nucleo: </label>
-							                          				<select v-model="evaluacion.nucleoCodigo" class="form-control" required>
-							                          					<option v-for="option in nucleos" v-bind:value="option.id">
-																			{{ option.nombre }}
-																		</option>
+							                          				<select v-model="evaluacion.nucleoCodigo" name="nucleo" class="form-control" @change="getUnidades(evaluacion.nucleoCodigo)">
+							                          					<option v-for="option in nucleos" v-bind:value="option.codigo">{{ option.nombre }}</option>
 							                          				</select>
 							                          			</div>
 
 							                          			<div class="form-group col-md-6">
 							                          				<label>Unidad: </label>
-							                          				<input type="text" name="unidad" class="form-control">
+							                          				<select v-model="evaluacion.unidadCodigo" name="unidad" class="form-control">
+							                          					<option v-for="option in unidades" v-bind:value="option.codigo">{{ option.nombre }}</option>
+							                          				</select>
 							                          			</div>
 							                          		</div>
 
@@ -193,15 +193,16 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
-	<script src="/js/main.js"></script>
+	
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
 	<script type="text/javascript">
 		new Vue({
-			el: '#main',
+			el:'#main',
 			data: {
 				evaluacion: {},
-				nucleos: []
+				nucleos: [],
+				unidades: []
 			},
 			created() {
 				var currentUrl = window.location.pathname.split('/');
@@ -215,20 +216,28 @@
 					axios.get('/getEvaluacion/'+id)
 						.then(res => {
 							this.evaluacion = res.data;
-							this.evaluacion.nucleoCodigo = 2;
-							console.log(this.evaluacion.nucleoCodigo);
+							this.getUnidades(this.evaluacion.nucleoCodigo);
 						}).catch(err => {
-							console.log(err);
-						})
+							console.log();
+						});
 				},
 				getNucleos() {
 					axios.get('/getNucleos')
 						.then(res => {
 							this.nucleos = res.data;
-							console.log(this.nucleos)
+							//console.log(this.nucleos);
 						}).catch(err => {
-							console.log(err)
-						})
+							console.log(err);
+						});
+				},
+				getUnidades(nucleoCodigo) {
+					axios.get('/getUnidades/'+nucleoCodigo)
+						.then(res => {
+							this.unidades = res.data;
+							//console.log(this.unidades);
+						}).catch(err => {
+							console.log(err);
+						});
 				}
 			}
 		})

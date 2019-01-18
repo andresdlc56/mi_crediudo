@@ -367,21 +367,25 @@ exports.eval_encurso = function(req, res) {
 }
 
 exports.update_eval = function(req, res) {
-	models.evaluacion.update({
-		fecha_f: req.body.fecha_f
-	}, {
-		where: {
-			[Op.or]: [
-				{id: req.body.id}, 
-				{id: parseInt(req.body.id) - 1}, 
-				{id: parseInt(req.body.id) - 2}, 
-				{id: parseInt(req.body.id) - 3}
-			]
-		}
-	}).then(Eval => {
-		req.flash('info', 'Fecha de Culminacion Actualizada!');
-		res.redirect('/coord_plani/eval_encurso');
-	})
+	var idEval = parseInt(req.body.id);
+ 	
+ 	models.evaluacion.findAll({
+ 		where: {
+ 			[Op.and]: [
+		      { id: [idEval, idEval+1, idEval+2, idEval+3] }
+		    ]
+ 		}
+ 	}).then(Evaluaciones => {
+ 		for(let i = 0; i < Evaluaciones.length; i ++) {
+ 			models.evaluacion.update({
+		 		fecha_f: req.body.fecha_f
+		 	}, {
+		 		where: { id: Evaluaciones[i].id }
+		 	})
+ 		}
+ 		req.flash('info', 'Evaluacion Actualizada!');
+		res.redirect('/coord_plani');
+ 	})
 }
 
 exports.eval_culminado = function(req, res) {
@@ -499,4 +503,52 @@ exports.getUnidades = function(req, res) {
  	}).catch(err => {
  		console.log(err);
  	})
+<<<<<<< HEAD
+=======
+ }
+
+ exports.getNucleos = function(req, res) {
+ 	models.nucleo.findAll({
+
+ 	}).then(Nucleos => {
+ 		res.json(Nucleos);
+ 	}).catch(err => {
+ 		res.json(err);
+ 	})
+ }
+
+ exports.getUnidades = function(req, res) {
+ 	models.unidad.findAll({
+ 		where: { nucleoCodigo: req.params.id }
+ 	}).then(Unidades => {
+ 		res.json(Unidades);
+ 	}).catch(err => {
+ 		res.json(err);
+ 	})
+ }
+
+ exports.actualizaEval = function(req, res) {
+ 	var idEval = parseInt(req.params.id);
+ 	console.log(typeof(idEval))
+ 	models.evaluacion.findAll({
+ 		where: {
+ 			[Op.and]: [
+		      { id: [idEval, idEval+1, idEval+2, idEval+3] }
+		    ]
+ 		}
+ 	}).then(Evaluaciones => {
+ 		for(let i = 0; i < Evaluaciones.length; i ++) {
+ 			models.evaluacion.update({
+		 		nucleoCodigo: req.body.nucleo,
+		 		unidadCodigo: req.body.unidad,
+		 		fecha_i: req.body.fecha_i,
+		 		fecha_f: req.body.fecha_f
+		 	}, {
+		 		where: { id: Evaluaciones[i].id }
+		 	})
+ 		}
+ 		req.flash('info', 'Evaluacion Actualizada!');
+		res.redirect('/coord_plani');
+ 	})
+>>>>>>> origin/Coord-Plani
  }
