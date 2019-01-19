@@ -81,10 +81,10 @@
 
 						<div class="col-md-9">
 							<form method="post" action="" id="formEvaluacion">
-								<input type="hidden" name="factores" value=<%=Factor.length%>>
-								<input type="hidden" name="items" value="<%=Item.length%>">
-								<input type="hidden" name="instrumentId" value="<%=Evaluacion.instrumentId%>">
-								<input type="hidden" name="Evaluador" value="<%- Evaluador.cedula %>">
+								<input type="hidden" name="factores" value=<%- Factor.length %>>
+								<input type="hidden" name="items" value=<%- Item.length %>>
+								<input type="hidden" name="instrumentId" value=<%- Evaluacion.instrumentId %>>
+								<input type="hidden" name="Evaluador" value=<%- Evaluador.cedula %>>
 							
 
 								<table class="table">
@@ -102,8 +102,8 @@
 								      		<th>8 ptos</th>
 								      		<th>10 ptos</th>
 								    	</tr>
-								    	<% var k=0 %>
-								    	<% for(var j = 0; j < Item.length; j ++) {%>
+								    	<% let k=0 %>
+								    	<% for(let j = 0; j < Item.length; j ++) {%>
 											<%if(Item[j].factorId == Factor[i].factorId){%>
 												<tr>
 											    	<td width="5%"></td>
