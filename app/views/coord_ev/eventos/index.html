@@ -66,74 +66,72 @@
 							        </div>
 								<%}%>
 
+								<% if(error == false) {%>
+
+								<%} else {%>
+									<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							            <%= error %>
+							            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+							        </div>
+								<%}%>
+								<!--=======fin mensaje de alerta==========-->
+
 								<div class="card">
 									<div class="card-body">
 										<div class="article border-bottom">
-											<h3>Planificar Evento</h3>
+											<div class="row">
+												<div class="col-md-9">
+													<p style="font-size: 25pt">
+														<i class="fa fa-bullhorn" aria-hidden="true"></i>
+														Eventos Planificados	
+													</p>
+												</div>
+												<div class="col-md-3 text-right">
+													<a href="/coord_ev/eventos/planificar" data-toggle="tooltip" data-placement="right" title="Nuevo Instrumento">
+														<i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+													</a>
+												</div>
+											</div>
 										</div>
-										<form method="POST" action="/coord_ev/enviarEvento" enctype="multipart/form-data">
-											<div class="form-row">
-											    <div class="form-group col-md-6">
-											      <label for="nombre">Nombre:</label>
-											      <input type="text" name="nombre" class="form-control" placeholder="Ingrese el Nombre o Titulo del Evento" required autofocus>
-											    </div>
-											    <div class="form-group col-md-6">
-											      <label for="direccion">Dirección:</label>
-											      <input type="text" name="direccion" class="form-control" placeholder="Ingrese la Dirección" required>
-											    </div>
-											</div>
+										<table class="table">
+											<thead>
+												<tr>
+													<th>#</th>
+													<th scope="col" style="width: 20%">Nombre</th>
+													<th scope="col">Fecha</th>
+											      	<th scope="col">Img</th>
+											      	<th scope="col" style="width: 30%">Acción</th>
+											    </tr>
+											</thead>
+										  	<tbody>
+										  		<% for(let i = 0; i < Eventos.length; i ++) {%>
+												<tr>
+													<td><%- Eventos[i].id %></td>
+													<td><%- Eventos[i].nombre %></td>
+													<td>
+														<%- Eventos[i].fecha.getDate() %>/<%- Eventos[i].fecha.getMonth() + 1%>/<%- Eventos[i].fecha.getFullYear() %>
+													</td>
+													<td>
+														<a href="javascript:;" v-on:click="buscaEvento(<%- Eventos[i].id %>)"><img src="../../../../uploads/eventos/<%=Eventos[i].files%>" class="img-thumbnail" style="width: 30%" data-toggle="modal" data-target="#exampleModalCenter"/></a>
 
-											<div class="form-row">
-											    <div class="form-group col-md-6">
-											      	<label>Fecha:</label>
-													<input type="date" name="fecha" name="fecha" class="form-control" required>
-											    </div>
-											    <div class="form-group col-md-6">
-											      <label>Nucleo: </label>
-													<select name="nucleo" name="nucleo" class="form-control" required>
-														<option disabled value="">Please select one</option>
-														<% for(let i = 0; i < Nucleos.length; i ++) {%>
-															<option value="<%- Nucleos[i].codigo %>"><%- Nucleos[i].nombre %></option>
-														<%}%>
-													</select>
-											    </div>
-											</div>
-
-											<div class="form-row">
-											    <div class="form-group col-md-4">
-											      	<label>Dirigido a:</label>
-													<input type="text" name="publico" name="publico" class="form-control" placeholder="Publico" required>
-											    </div>
-											    <div class="form-group col-md-4">
-											      <label>Tipo:</label>
-													<select name="tipo" class="form-control" required>
-														<option disabled value="">Please select one</option>
-														<% for(let i = 0; i < tipoEvent.length; i ++) {%>
-															<option value="<%- tipoEvent[i].id %>"><%- tipoEvent[i].nombre %></option>
-														<%}%>
-													</select>
-											    </div>
-											    <div class="form-group col-md-4">
-											      	<label>Cupos:</label>
-													<input type="number" name="cupos" class="form-control" required>
-											    </div>
-											    <div class="form-group col-md-12">
-												  	<label for="descripcion">Descripción:</label>
-												  	<textarea class="form-control" rows="5" name="descripcion" required></textarea>
-												</div>
-											</div>
-
-											<div class="form-row">
-												<div class="form-group col-md-12">
-													<!--<input type="file" class="form-control">-->
-													<input type="file" name="urlImg" class="form-control" required>
-												</div>
-											</div>
-
-											<hr>
-
-											<input type="submit" name="guardar" value="Guardar" class="btn btn-primary">
-										</form>
+														<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+														  <div class="modal-dialog modal-lg modal-dialog-centered">
+														    <div class="modal-content">
+														      <img v-bind:src="'../../../../uploads/eventos/' + evento.files" class="img-thumbnail"/>
+														    </div>
+														  </div>
+														</div>
+													</td>
+													<td>
+														<a href="/coord_ev/editEvento/<%- Eventos[i].id %>" class="btn btn-warning btn-xs">Edit</a>
+														<a href="/coord_ev/deleteEvento/<%- Eventos[i].id %>" class="btn btn-danger btn-xs">Delete</a>
+													</td>
+												</tr>
+												<%}%>
+										  	</tbody>
+										</table>
 									</div>
 								</div>
 								<br>
@@ -155,6 +153,29 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
-	<script src="/js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#main',
+			data: {
+				evento: {}
+			},
+			created() {
+				
+			},
+			methods: {
+				buscaEvento(id) {
+					axios.get('/buscaEvento/'+id)
+						.then(res => {
+							this.evento = res.data;
+							console.log(this.evento);
+						}).catch(err => {
+							console.log(err);
+						})
+				}
+			}
+		})
+	</script>
 </body>
 </html>

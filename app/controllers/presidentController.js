@@ -277,9 +277,9 @@ exports.autoEval = function(req, res) {
 /* Controlador para ver los detalles de una Evalucacion */
 exports.detalles = function(req, res) {
 	var usuario = req.user; //Datos del Usuario que inicio sesion
-	var idB = parseInt(req.params.id) + 1;
-	var idC = parseInt(req.params.id) + 2;
-	var idD = parseInt(req.params.id) + 3;
+	var idB = parseInt(req.params.id) - 1;
+	var idC = parseInt(req.params.id) - 2;
+	var idD = parseInt(req.params.id) - 3;
 	/*
 		Buscar los datos de la evaluacion que viene por parametro
 	*/
@@ -294,27 +294,27 @@ exports.detalles = function(req, res) {
 		models.evaluacionUsuario.findAll({
 			include: [models.evaluacion],
 			where: {
-				evaluacionId: req.params.id  
+				evaluacionId: idD
 			}
 		}).then(autoEval => {
 			models.evaluacionUsuario.findAll({
 				include: [models.evaluacion],
 				where: {
-					evaluacionId: parseInt(req.params.id) + 1		
+					evaluacionId: idC		
 				}
 			}).then(coEval => {
 				//Evaluacion que realizan los jefes para calificar al subordinado
 				models.evaluacionUsuario.findAll({
 					include: [models.evaluacion],
 					where: {
-						evaluacionId: parseInt(req.params.id) + 3		
+						evaluacionId: req.params.id		
 					}
 				}).then(evalSubor => {
 					//Evaluacion que realizan los subordinados para calificar al Jefe
 					models.evaluacionUsuario.findAll({
 						include: [models.evaluacion],
 						where: {
-							evaluacionId: parseInt(req.params.id) + 2		
+							evaluacionId: idB		
 						}	
 					}).then(evalJefe => {
 						models.usuario.findAll({

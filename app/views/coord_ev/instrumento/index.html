@@ -3,38 +3,124 @@
 <head>
 	<meta charset="UTF-8">
 	<title>CREDIUDO | Coord. Evaluación</title>
+	<link rel="shortcut icon" href="/images/title/favicon-96x96.png">
 
-	<style>
-		table, th, td {
-		    border: 1px solid black;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<!--===================Cargando Pagina===================-->
+	<script type="text/javascript" src="/js/pace.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
 </head>
 <body>
-	<h3>Index | Instrumento de Evaluación</h3>
+	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+	</div>	
 
-	<a href="/coord_ev/add-instrument">Crear Instrumento de Eval.</a>
+	<%- include('../../partials/coord_eval/navbar.html') %>
 
-	<br><br>
+	<div class="container-fluid" id="main">
+		<div class="row justify-content-md-center">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12">
+						<!--=======MIGAS DE PAN=========-->
+						<nav aria-label="breadcrumb" style="margin-top: 1%">
+							<ol class="breadcrumb">
+							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							</ol>
+						</nav>
+						<!--=======FIN MIGAS DE PAN=========-->
+					</div>
+				</div>
 
-	<table style="width:30%">
-		<tr>
-	    	<th>Titulo</th>
-	    	<th>Categoria</th> 
-	    	<th>Tipo</th>
-	    	<th>Item</th>
-	    	<th>Operación</th>
-	  	</tr>
+				<div class="row">
+					<div class="col-sm-12 col-md-3">
+						<div class="card">
+						  	<div class="card-header">
+						    	Datos Personales:
+						  	</div>
+						  
+						  	<div class="card-body">
+						    	<div class="form-group">
+						    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+						    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+						    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+						    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
+						    	</div>
+						  	</div>
+						</div>
 
-	  	<%for(let i = 0; i < Instruments.length; i ++) {%>
-			<tr>
-		    	<td><%= Instruments[i].titulo %></td>
-		    	<td><%= Instruments[i].categorium.nombre %></td> 
-		    	<td><%= Instruments[i].tipoEval.nombre %></td>
-		    	<td><a href="/coord_ev/instrument/<%= Instruments[i].id %>">Ver</a></td>
-		    	<td>50</td>
-		  	</tr>
-	  	<%}%>
-	</table>
+						<br>
+					</div>
+
+					<div class="col-md-9">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="article border-bottom">
+											<div class="row">
+												<div class="col-md-9">
+													<p style="font-size: 25pt">
+														<i class="fa fa-file-text" aria-hidden="true"></i>
+														Instrumentos de Evaluación Existentes	
+													</p>
+												</div>
+												<!--<div class="col-md-3 text-right">
+													<a href="/coord_ev/addInstrumento" data-toggle="tooltip" data-placement="right" title="Nuevo Instrumento">
+														<i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+													</a>
+												</div>-->
+											</div>
+										</div>
+										<table class="table">
+											<thead>
+												<th>#</th>
+												<th>Titulo</th>
+												<th>Categoria</th>
+												<th>Tipo</th>
+												<th>Acción</th>
+											</thead>
+											<tbody>
+												<% for(let i = 0; i < Instrumentos.length; i ++) {%>
+													<tr>
+														<td><%- i + 1 %></td>
+														<td><%- Instrumentos[i].titulo %></td>
+														<td><%- Instrumentos[i].categorium.nombre %></td>
+														<td><%- Instrumentos[i].tipoEval.nombre %></td>
+														<td>
+															<!--<a href="/coord_ev/editIntrumento/<%- Instrumentos[i].id %>" class="btn btn-warning btn-sm">edit</a>-->
+															<a href="/coord_ev/verInstrumento/<%- Instrumentos[i].id %>" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="right" title="Ver Instrumento"><i class="fa fa-eye" aria-hidden="true"></i> Ver</a>
+														</td>
+													</tr>
+												<%}%>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<br>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="footer" style="background: #BEBCB0;">
+		<div class="container">
+			<span class="text-muted">Pie de Pagina</span>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
 </body>
 </html>
