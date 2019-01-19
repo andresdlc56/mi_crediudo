@@ -98,7 +98,7 @@
 												%>
 
 												<% if(Evaluacion.fecha_i > hoy) {%>
-													<form method="POST" action="/coord_plani/editEval/<%- Evaluacion.id %>">
+													<form v-on:submit="checkForm" method="POST" action="/coord_plani/editEval/<%- Evaluacion.id %>">
 							                        	<div class="modal-body">
 							                          		<div class="form-row">
 							                          			<div class="form-group col-md-6">
@@ -136,7 +136,7 @@
 							                        	</div>
 							                      	</form>
 												<%} else {%>
-													<form method="POST" action="/coord_plani/eval_encurso">
+													<form v-on:submit="verificarForm" method="POST" action="/coord_plani/eval_encurso">
 														<input type="hidden" name="id" value="<%- Evaluacion.id %>">
 							                        	<div class="modal-body">
 							                          		<div class="form-row">
@@ -154,12 +154,12 @@
 							                          		<div class="form-row">
 							                          			<div class="form-group col-md-6">
 							                          				<label>Fecha Inicio: </label>
-							                          				<input type="date" name="fecha_i" class="form-control" value="<%- fecha_completaI %>" disabled>
+							                          				<input type="date" v-model="fecha_i" name="evaluacion.fecha_i" class="form-control"  disabled>
 							                          			</div>
 
 							                          			<div class="form-group col-md-6">
 							                          				<label>Fecha Final: </label>
-							                          				<input type="date" name="fecha_f" class="form-control" value="<%- fecha_completaF %>">
+							                          				<input type="date" v-model="fecha_f" name="fecha_f" class="form-control" value="<%- fecha_completaF %>">
 							                          			</div>
 							                          		</div>
 
@@ -202,7 +202,9 @@
 			data: {
 				evaluacion: {},
 				nucleos: [],
-				unidades: []
+				unidades: [],
+				fecha_i: '',
+				fecha_f: ''
 			},
 			created() {
 				var currentUrl = window.location.pathname.split('/');
@@ -217,6 +219,9 @@
 						.then(res => {
 							this.evaluacion = res.data;
 							this.getUnidades(this.evaluacion.nucleoCodigo);
+							var fecha = this.evaluacion.fecha_i;
+							var cadena = fecha.substring(0, 10);
+							console.log(cadena)
 						}).catch(err => {
 							console.log();
 						});
@@ -238,7 +243,40 @@
 						}).catch(err => {
 							console.log(err);
 						});
-				}
+				},
+				checkForm() {
+			      let fechaActual = new Date();
+			      let fechaInicio = new Date(this.fecha_i);
+			      let fechaFinal = new Date(this.fecha_f);
+
+			      if(fechaActual.getTime() > fechaInicio.getTime()) {
+			      	alert("La Fecha de Inicio No puede ser Menor a la Fecha Actual");
+			      	event.preventDefault();
+			      } else if(fechaInicio.getTime() >= fechaActual.getTime()){
+			      	if((fechaFinal.getTime() <= fechaActual.getTime()) || (fechaFinal.getTime() <= fechaInicio.getTime())) {
+			      		alert("La Fecha Final No puede ser Menor a la Fecha Actual o a la Fecha de Inicio");
+			      		event.preventDefault();
+			      	} else {
+			      		console.log("Exito, Evaluacion Planificada");
+			      		return true;
+			      	}
+			      }
+			    },
+			    verificarForm() {
+			    	let fechaActual = new Date();
+			      	let fechaInicio = new Date(this.fecha_i);
+			      	let fechaFinal = new Date(this.fecha_f);
+
+			      	
+			      		if((fechaFinal.getTime() <= fechaActual.getTime()) || (fechaFinal.getTime() <= fechaInicio.getTime())) {
+			      				alert("La Fecha Final No puede ser Menor a la Fecha Actual o a la Fecha de Inicio");
+			      				event.preventDefault();
+			      		} else {
+			      			console.log("Exito, Evaluacion Planificada");
+			      			return true;
+			      		}
+			      	
+			    }
 			}
 		})
 	</script>
