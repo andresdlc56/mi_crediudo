@@ -270,113 +270,84 @@ exports.procesarPrueba = function(req, res) {
 		res.redirect('/dashboard');
 	});
 }
-/*FIN DE PRUEBA*/
 
-/*
-exports.evaluacion = function(req, res) {
-	var user = req.user;
-	//busca un usuario que tenga como cedula el id que viene por parametro
-	models.usuario.findById(req.params.idu).then(Usuario => {
-		//busca una evaluacion que tenga como id el id que viene por parametro 
-		models.evaluacion.findOne({
-			include: [models.instrument, models.nucleo, models.unidad],
-			where: { id: req.params.id }
-		}).then(Evaluacion => {
-			/*
-				busca todos los factores que estan relacionados con el instrumento que a su ves esta relacionado 
-				a la evaluacion encontrada anteriormente
-			
-			models.instrumentFactor.findAll({
-				include: [models.factor],
+exports.procesarPruebaOtro = function(req, res) {
+	let factores = [];
+	let acumulador = [];
+	var preguntas = [];
+	var n = [];
+	var x = [];
+	var calificacionFactor = [];
+	/*-------Datos de la Evaluación------*/
+	models.evaluacion.findOne({
+		include: [ models.instrument ],
+		where: { id: req.params.id }
+	}).then(Evaluacion => {
+		/*--------Factores que se usan en esta Evaluacion--------*/
+		models.instrumentFactor.findAll({
+			include: [ models.factor ],
+			where: { instrumentId: Evaluacion.instrumentId }
+		}).then(Factores => {
+			/*---------Items que se usan en esta evaluacion----------*/
+			models.item.findAll({
 				where: { instrumentId: Evaluacion.instrumentId }
-			}).then(instrumentFactor => {
-				/*
-					busca todos los items que estan relacionados con el instrumento que a su ves esta relacionado
-					con esta evaluacion
-				
-				models.item.findAll({
-					where: { instrumentId: Evaluacion.instrumentId }
-				}).then(Items => {
-					
-					models.evaluacionUsuario.findOne({
-						where: { 
-								[Op.and]: [
-									{usuarioCedula: req.params.idu}, 
-									{evaluacionId:req.params.id},
-									{usuarioEvaluado:req.params.idue}
-								] 
-							}
-					}).then(evaluacionUsuario => {
-						models.usuario.findAll({
+			}).then(Items => {
+				//var arrayBidimensional= new Array(Items.length);
+				let totalFactores = 0;
+				for(let j = 0; j < Factores.length; j ++) {
+					acumulador[j] = 0;
+					n[j] = 0;
+					x[j] = 0;
+					calificacionFactor[j] = 0;
+					for(let i = 0; i < Items.length; i ++) {
+						//arrayBidimensional[i] = new Array(Factores.length);
+						if(Items[i].factorId == Factores[j].factorId){
+							n[i] = parseInt(req.body.item[i])
+							if(n[i]){
+								x[j] = x[j] + 1;
+								acumulador[j] = acumulador[j] + n[i];
+								console.log('x['+j+']: ' + x[j]);
 
-						}).then(usuariosTodos => {
-							if (Usuario.nucleoCodigo == Evaluacion.nucleoCodigo && Usuario.unidadCodigo == Evaluacion.unidadCodigo) {
-								//res.send(evaluacionUsuario);
-								res.render('empleado/evaluacion/examen/index', { 
-									Usuario, 
-									Evaluacion, 
-									instrumentFactor, 
-									Items,
-									evaluacionUsuario,
-									usuariosTodos,
-									user
-								});
-							} else{
-								res.send('Negativo');
+								models.itemUsuario.create({
+									calificacion: n[i],
+									evaluacionId: req.params.id,
+									itemId: Items[i].id,
+									evaluado: req.params.idu,
+									evaluador: req.body.Evaluador
+								}).then(itemUsuario => {
+									console.log('====Respuesta Almacenada=====');
+								})
 							}	
-						})
-					})
-				})
+						}
+					} 
+					console.log('Factor '+j+': '+acumulador[j]);
+					calificacionFactor[j] = acumulador[j] / x[j];
+					console.log('========Factor['+j+']: '+calificacionFactor[j]);
+					totalFactores = totalFactores + calificacionFactor[j];
+				}
+				console.log('==============totalFactores: '+totalFactores);
+				var calificacionFinal = totalFactores / Factores.length;
+				console.log('===============Calificacion Final: '+calificacionFinal);
+
+				models.evaluacionUsuario.update({
+					calificacion: calificacionFinal,
+					status: true
+				}, {
+					where: {
+						usuarioEvaluado: req.params.idu,
+						evaluacionId: req.params.id,
+						usuarioCedula: req.body.Evaluador
+					}
+				}).then(evaluacionUsuario => {
+					console.log('Calificacion final Almacenada Exitosamente');
+				});
+				req.flash('info', 'Gracias por su tiempo, Sus respuestas se han enviado Exitosamente!');
+				res.redirect('/dashboard');
 			})
 		})
 	})
 }
 
-exports.procesarEval = function(req, res) {
-	console.log('=================Procesando Evaluacion===================');
-	var item = [];
-	var acomulado = 0;
-	var calificacionFinal = 0;
-	console.log('========Buscando Items==========');
-	models.item.findAll({
-		where: { instrumentId: req.body.instrumentId }
-	}).then(Items => {
-		for(let i = 0; i < Items.length; i ++) {
-			item[i] = parseInt(req.body.item[i]); 
-			acomulado = acomulado + item[i];
-			console.log(Items[i].nombre+': '+item[i]);
-
-			models.itemUsuario.create({
-				calificacion: item[i],
-				evaluacionId: req.params.id,
-				itemId: Items[i].id,
-				evaluado: req.params.idue,
-				evaluador: req.params.idu
-			}).then(itemUsuario => {
-				console.log('====Respuesta Almacenada=====');
-			})
-		}
-
-		calificacionFinal = (acomulado / Items.length).toFixed(2);
-		console.log('Calificacion Final: '+calificacionFinal);
-
-		models.evaluacionUsuario.update({
-			calificacion: calificacionFinal,
-			status: true
-		}, {
-			where: {
-				usuarioEvaluado: req.params.idue,
-				evaluacionId: req.params.id,
-				usuarioCedula: req.params.idu
-			}
-		}).then(evaluacionUsuario => {
-			console.log('Calificacion final Almacenada Exitosamente');
-		});
-		req.flash('info', 'Gracias por su tiempo, Sus respuestas se han enviado Exitosamente!');
-		res.redirect('/dashboard');
-	});
-}
-*/
 exports.observaciones = function(req, res) {
 	var user = req.user;
 

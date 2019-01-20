@@ -10,6 +10,17 @@ module.exports = function(app) {
     //==============Nuevas Rutas (Probando)===========================
         app.get('/dashboard/eval/:id', isLoggedIn, empleadoController.evaluaciones);
 
+        //---------------Ruta para Realiazar la Prueba--------------
+            app.get('/dashboard/eval/:id/u/:idu', isLoggedIn, empleadoController.prueba);
+
+        //---------------Procesar Prueba-------------------------
+            app.post('/dashboard/eval/:id/u/:idu',isLoggedIn, empleadoController.procesarPruebaOtro);
+
+            //----------------Rutas axios-------------------
+                //----------Solicitar Pregunta---------------
+
+
+
     //================Probando Rutas==================
         app.get('/buscarAutoEval/:id/empleado/:cedula', empleadoController.buscarAutoE);
 
@@ -29,18 +40,6 @@ module.exports = function(app) {
     app.get('/dashboard/eval-a-jefe/:id', isLoggedIn, empleadoController.verEvalAJefe);
 
     app.get('/dashboard/eval-a-subord/:id', isLoggedIn, empleadoController.verEvalaSubor);
-
-    /*HACIENDO UNA PRUEBA PARA VER EL EXAMEN*/
-    app.get('/dashboard/eval/:id/u/:idu', isLoggedIn, empleadoController.prueba);
-
-    app.post('/dashboard/eval/:id/u/:idu',isLoggedIn, empleadoController.procesarPrueba);
-    /*FIN DE PRUEBA*/
-
-    /*
-    app.get('/dashboard/eval/:id/u/:idu/ue/:idue',isLoggedIn, empleadoController.evaluacion);
-
-    app.post('/dashboard/evaluacion/:id/u/:idu/ue/:idue',isLoggedIn, empleadoController.procesarEval);
-    */
 
     app.get('/dashboard/observaciones/:id',isLoggedIn, empleadoController.observaciones);
 
