@@ -231,7 +231,7 @@
 			      	} else if(fechaInicio.getTime() >= fechaActual.getTime()){
 			      		if((fechaFinal.getTime() <= fechaActual.getTime()) || (fechaFinal.getTime() <= fechaInicio.getTime())) {
 			      			alert("La Fecha Final No puede ser Menor a la Fecha Actual o a la Fecha de Inicio");
-			      			return false;
+			      			event.preventDefault();
 			      		} else {
 			      			console.log("Exito, Evaluacion Planificada");
 			      			return true;
