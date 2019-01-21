@@ -5,8 +5,6 @@ var authController = require('../../controllers/authController.js');
 
 module.exports = function(app) {
 
-    //app.get('/dashboard/eval/:id', isLoggedIn, empleadoController.index);
-
     //==============Nuevas Rutas (Probando)===========================
         app.get('/dashboard/eval/:id', isLoggedIn, empleadoController.evaluaciones);
 
@@ -17,36 +15,28 @@ module.exports = function(app) {
             app.post('/dashboard/eval/:id/u/:idu',isLoggedIn, empleadoController.procesarPruebaOtro);
 
             //----------------Rutas axios-------------------
-                //----------Solicitar Pregunta---------------
+                //----------Solicitar autoEval disponibles---------------
+                    app.get('/buscarAutoEval/:id/empleado/:cedula', empleadoController.buscarAutoE);
 
+                //------------Solicitar coEvals disponibles----------------
+                    app.get('/buscarCoEvals/:id/empleado/:cedula', empleadoController.buscarCoEvals);
 
+                //------------Solicitar eval-a-jefe disponible-------------
+                    app.get('/buscarEvalaJefe/:id/jefe/:cedula/empleado/:evaluador', empleadoController.buscarEvalaJefe);
 
-    //================Probando Rutas==================
-        app.get('/buscarAutoEval/:id/empleado/:cedula', empleadoController.buscarAutoE);
+                //-----------Solicitar eval-a-subor disponible-------------
+                    app.get('/buscarEvalsaSubor/:id', empleadoController.buscarEvalsaSubor);
 
-        app.get('/buscarCoEvals/:id/empleado/:cedula', empleadoController.buscarCoEvals);
+    //==================================================================================
 
-        app.get('/buscarEvalaJefe/:id/jefe/:cedula/empleado/:evaluador', empleadoController.buscarEvalaJefe);
+    /*-------------Rutas sin definir su objetivo------------------------*/
+            app.get('/dashboard/comparacion',isLoggedIn, empleadoController.comparacion);
 
-        app.get('/buscarEvalsaSubor/:id', empleadoController.buscarEvalsaSubor);
+            app.post('/dashboard/comparar',isLoggedIn, empleadoController.comparar);
 
-        app.get('/getUsuarios', empleadoController.getUsuarios);
-    //===============================================
+    //=============================================================
 
-
-
-    app.get('/dashboard/coEval/:id', isLoggedIn, empleadoController.verCoEval);
-
-    app.get('/dashboard/eval-a-jefe/:id', isLoggedIn, empleadoController.verEvalAJefe);
-
-    app.get('/dashboard/eval-a-subord/:id', isLoggedIn, empleadoController.verEvalaSubor);
-
-    app.get('/dashboard/observaciones/:id',isLoggedIn, empleadoController.observaciones);
-
-    app.get('/dashboard/comparacion',isLoggedIn, empleadoController.comparacion);
-
-    app.post('/dashboard/comparar',isLoggedIn, empleadoController.comparar);
-
+    //===============funcion para logear un usuario============
 	function isLoggedIn(req, res, next) {
         if (req.isAuthenticated())
             return next();
