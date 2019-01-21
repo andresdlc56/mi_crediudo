@@ -401,9 +401,9 @@ exports.verPersonal = function(req, res) {
 exports.verCalificacion = function(req, res) {
 	var usuario = req.user; //info del usuario que inicio sesion
 
-	var idB = parseInt(req.params.id)+1;//id q representa la coevaluacion
-	var idC = parseInt(req.params.id)+2;//id q representa evaluacion al jefe
-	var idD = parseInt(req.params.id)+3;//id q representa evaluacion al subordinado
+	var idB = parseInt(req.params.id)-2;//id q representa la coevaluacion
+	var idC = parseInt(req.params.id)-1;//id q representa evaluacion al jefe
+	var idD = parseInt(req.params.id);//id q representa evaluacion al subordinado
 
 	/*
 		Buscar la informacion de la evaluacion que viene por parametro
@@ -437,7 +437,7 @@ exports.verCalificacion = function(req, res) {
 						[Op.and]: [
 							{usuarioCedula: User.cedula},
 							{usuarioEvaluado: User.cedula}, 
-							{evaluacionId: req.params.id},
+							{evaluacionId: parseInt(req.params.id) - 3},
 							{status: true}
 						]
 					}
@@ -526,7 +526,7 @@ exports.verCalificacion = function(req, res) {
 						[Op.and]: [
 							{usuarioCedula: User.cedula},
 							{usuarioEvaluado: User.cedula}, 
-							{evaluacionId: req.params.id},
+							{evaluacionId: parseInt(req.params.id) - 3},
 							{status: true}
 						]
 					}
