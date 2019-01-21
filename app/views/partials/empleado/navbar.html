@@ -31,7 +31,44 @@
 			</li>
 		</ul>
 
-		<ul class="navbar-nav navbar-right">
+		<ul class="navbar-nav ml-auto ml-md-0">
+			<!--==========Notificaciones=========-->
+			<li class="nav-item dropdown no-arrow mx-1">
+	          	<a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	            	<i class="fa fa-bell-o" aria-hidden="true"></i>
+	            	<% if(Observacion && Observacion.length > 0) {%>
+						<span class="badge badge-danger"><%- Observacion.length %></span>
+	            	<%}%>		
+	          	</a>
+	          	<div class="dropdown-menu dropdown-menu-right" style="width: 400px">
+	            	<ul class="list-group">
+	            		<% if(Observacion && Observacion.length > 0) {%>
+							<% for(let i = 0; i < Observacion.length; i ++) {%>
+								<a href="">
+			            			<li class="list-group-item-action">
+			            				<p style="margin: 10px; font-size: 15pt">
+			            					<i class="fa fa-comment" aria-hidden="true"></i>
+			            					  Notificación 1
+			            				</p>
+			            			</li>
+			            		</a>
+			            		<li class="dropdown-divider"></li>
+							<%}%>
+	            		<%}%>
+	            		
+
+	            		<a href="">
+	            			<li class="list-group-item-action text-center">
+	            				<p style="margin: 10px">
+	            					Todas las Calificaciones
+	            				</p>
+	            			</li>
+	            		</a>
+	            	</ul>
+	          	</div>
+	        </li>
+
+	        <!--=========Logout=========-->
       		<li><a href="/logout" class="btn btn-outline-success"><span class="glyphicon glyphicon-log-in"></span><i class="fa fa-sign-out"></i> Logout</a></li>
 		</ul>
 			    

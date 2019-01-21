@@ -32,35 +32,15 @@
 						</nav>
 						<!--=======FIN MIGAS DE PAN=========-->				
 					</div>
+
 					
 					<!--info izquierdo-->
 					<div class="col-sm-12 col-md-12 col-lg-3">
 						<div class="row">
-							<!--Notificador de Observaciones-->
-							<!--
-							<div class="col-sm-12 col-md-12 col-lg-12">
-								<% if(Observacion && Observacion.length > 0) {%>
-									
-									<div class="btn-group dropright d-flex justify-content-center">
-									  	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									    Observaciones <span class="badge badge-light"><%= Observacion.length %></span>
-									  	</button>
-									  	<div class="dropdown-menu">
-									  		<% for(let i = 0; i < Observacion.length; i ++) {%>
-										  		<a class="dropdown-item" href="/dashboard/observaciones/<%- Observacion[i].id %>">
-										  			<%- Observacion[i].evaluacion.nombre %>
-										  		</a>
-									  		<%}%>
-										</div>
-									</div>
-								<%}%>
-							</div>
-							-->
-
 							<!--Datos del Inicio de Sesion-->
-							<div class="col-sm-6 col-md-6 col-lg-12">
+							<div class="col-sm-12 col-md-12 col-lg-12">
 								<div class="row">
-									<div class="col-md-12">
+									<div class="col-sm-6 col-md-6 col-lg-12">
 										<div class="card">
 										  	<div class="card-header">
 										    	Datos Personales:
@@ -80,7 +60,7 @@
 									</div>
 
 									<!--Como Evaluar-->
-									<div class="col-md-12">
+									<div class="col-sm-6 col-md-6 col-lg-12">
 										<div class="card">
 										  	<div class="card-header">
 										    	¿Sabes como Evaluar?

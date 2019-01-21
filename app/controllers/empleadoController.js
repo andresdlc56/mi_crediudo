@@ -39,7 +39,20 @@ var Op = Sequelize.Op;
 								]
 							}
 						}).then(autoEval => {
-							res.render('empleado/evaluacion/autoEval', { Usuario, dataEval, autoEval });
+							models.observacion.findAll({
+								where: {
+									usuarioCedula: req.user.cedula,
+									status: false
+								},
+								include: [ models.evaluacion ]
+							}).then(Observacion => {
+								res.render('empleado/evaluacion/autoEval', { 
+									Usuario, 
+									dataEval, 
+									autoEval,
+									Observacion 
+								});
+							})
 						});
 					})
 				})	
@@ -67,7 +80,20 @@ var Op = Sequelize.Op;
 								]
 							}
 						}).then(Jefe => {
-							res.render('empleado/evaluacion/evaluaciones', { Usuario, dataEvaluacion, Jefe });		
+							models.observacion.findAll({
+								where: {
+									usuarioCedula: req.user.cedula,
+									status: false
+								},
+								include: [ models.evaluacion ]
+							}).then(Observacion => {
+								res.render('empleado/evaluacion/evaluaciones', { 
+									Usuario, 
+									dataEvaluacion, 
+									Jefe, 
+									Observacion
+								});		
+							})
 						})
 						
 				})
@@ -120,18 +146,27 @@ var Op = Sequelize.Op;
 										include: [ models.nucleo, models.unidad ],
 										where: { cedula: Usuario.usuarioEvaluado }
 									}).then(Evaluado => {
-										if (Evaluador.nucleoCodigo == Evaluacion.nucleoCodigo && Evaluador.unidadCodigo == Evaluacion.unidadCodigo) {
-											//res.send(evaluacionUsuario);
-											res.render('empleado/evaluacion/examen/prueba', { 
-												Evaluador,
-												Evaluado, 
-												Evaluacion, 
-												Factor, 
-												Item
-											});
-										} else{
-											res.send('Negativo');
-										}
+										models.observacion.findAll({
+											where: {
+												usuarioCedula: req.user.cedula,
+												status: false
+											},
+											include: [ models.evaluacion ]
+										}).then(Observacion => {
+											if (Evaluador.nucleoCodigo == Evaluacion.nucleoCodigo && Evaluador.unidadCodigo == Evaluacion.unidadCodigo) {
+												//res.send(evaluacionUsuario);
+												res.render('empleado/evaluacion/examen/prueba', { 
+													Evaluador,
+													Evaluado, 
+													Evaluacion, 
+													Factor, 
+													Item,
+													Observacion
+												});
+											} else{
+												res.send('Negativo');
+											}
+										})
 									})
 								})	
 							})

@@ -77,7 +77,8 @@ exports.dashboard = function(req, res) {
 					}).then(Empleado => {
 						models.observacion.findAll({
 							where: {
-								usuarioCedula: req.user.cedula
+								usuarioCedula: req.user.cedula,
+								status: false
 							},
 							include: [ models.evaluacion ]
 						}).then(Observacion => {
