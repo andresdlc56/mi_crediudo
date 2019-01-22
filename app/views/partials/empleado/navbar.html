@@ -44,20 +44,24 @@
 	            	<ul class="list-group">
 	            		<% if(Observacion && Observacion.length > 0) {%>
 							<% for(let i = 0; i < Observacion.length; i ++) {%>
-								<a href="">
+								<a href="/dashboard/verResultado/<%- Observacion[i].evaluacionId %>" v-on:click="cambiarStatus(<%- Observacion[i].evaluacionId %>)">
 			            			<li class="list-group-item-action">
 			            				<p style="margin: 10px; font-size: 15pt">
 			            					<i class="fa fa-comment" aria-hidden="true"></i>
-			            					  Notificación 1
+			            						Calificación - <%- Observacion[i].evaluacion.nombre %>
 			            				</p>
 			            			</li>
 			            		</a>
 			            		<li class="dropdown-divider"></li>
 							<%}%>
+	            		<%} else {%>
+							<li class="text-center" style="padding-top: 5px; padding-bottom: 5px">
+	            				<h1 class="display-4" style="font-size: 20pt">Sin Notificaciones Nuevas</h1>
+	            			</li>
+	            			<li class="dropdown-divider"></li>
 	            		<%}%>
-	            		
 
-	            		<a href="">
+	            		<a href="/dashboard/resultadosTodos">
 	            			<li class="list-group-item-action text-center">
 	            				<p style="margin: 10px">
 	            					Todas las Calificaciones

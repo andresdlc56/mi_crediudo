@@ -13,186 +13,188 @@
     <link href="css/sticky-footer-navbar.css" rel="stylesheet">
 </head>
 <body>
-	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+	<div id="main">
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
 			<img src="images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
 		</div>	
 
 		<%- include('../partials/empleado/navbar.html') %>
 
-	<div class="container-fluid" id="main">
-		<div class="row justify-content-md-center">
-			<div class="col-md-12">
-				<div class="row">
-					<div class="col-md-12">
-						<!--=======MIGAS DE PAN=========-->
-						<nav aria-label="breadcrumb" style="margin-top: 1%">
-							<ol class="breadcrumb">
-							    <li class="breadcrumb-item active" aria-current="page">Home</li>
-							</ol>
-						</nav>
-						<!--=======FIN MIGAS DE PAN=========-->				
-					</div>
+		<div class="container-fluid">
+			<div class="row justify-content-md-center">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-12">
+							<!--=======MIGAS DE PAN=========-->
+							<nav aria-label="breadcrumb" style="margin-top: 1%">
+								<ol class="breadcrumb">
+								    <li class="breadcrumb-item active" aria-current="page">Home</li>
+								</ol>
+							</nav>
+							<!--=======FIN MIGAS DE PAN=========-->				
+						</div>
 
-					
-					<!--info izquierdo-->
-					<div class="col-sm-12 col-md-12 col-lg-3">
-						<div class="row">
-							<!--Datos del Inicio de Sesion-->
-							<div class="col-sm-12 col-md-12 col-lg-12">
-								<div class="row">
-									<div class="col-sm-6 col-md-6 col-lg-12">
-										<div class="card">
-										  	<div class="card-header">
-										    	Datos Personales:
-										  	</div>
-										  
-										  	<div class="card-body">
-										    	<div class="form-group">
-										    		<input type="hidden" id="cedula" value="<%- Usuario.cedula %>">
-										    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
-										    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
-										    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
-										    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
-										    	</div>
-										  	</div>
+						
+						<!--info izquierdo-->
+						<div class="col-sm-12 col-md-12 col-lg-3">
+							<div class="row">
+								<!--Datos del Inicio de Sesion-->
+								<div class="col-sm-12 col-md-12 col-lg-12">
+									<div class="row">
+										<div class="col-sm-6 col-md-6 col-lg-12">
+											<div class="card">
+											  	<div class="card-header">
+											    	Datos Personales:
+											  	</div>
+											  
+											  	<div class="card-body">
+											    	<div class="form-group">
+											    		<input type="hidden" id="cedula" value="<%- Usuario.cedula %>">
+											    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
+											    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
+											    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
+											    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
+											    	</div>
+											  	</div>
+											</div>
+											<br>		
 										</div>
-										<br>		
-									</div>
 
-									<!--Como Evaluar-->
-									<div class="col-sm-6 col-md-6 col-lg-12">
-										<div class="card">
-										  	<div class="card-header">
-										    	¿Sabes como Evaluar?
-										  	</div>
-										  
-										  	<div class="card-body">
-										    	<div class="form-group">
-										    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
-										    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
-										    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
-										    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
-										    	</div>
-										  	</div>
+										<!--Como Evaluar-->
+										<div class="col-sm-6 col-md-6 col-lg-12">
+											<div class="card">
+											  	<div class="card-header">
+											    	¿Sabes como Evaluar?
+											  	</div>
+											  
+											  	<div class="card-body">
+											    	<div class="form-group">
+											    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
+											    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
+											    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
+											    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
+											    	</div>
+											  	</div>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
+							<br>
 						</div>
-						<br>
-					</div>
-					
-					<!--Contenido-->
-					<div class="col-sm-12 col-md-12 col-lg-9">
-						<!--=======mensaje de alerta==========-->
-						<% if(message == false) {%>
+						
+						<!--Contenido-->
+						<div class="col-sm-12 col-md-12 col-lg-9">
+							<!--=======mensaje de alerta==========-->
+							<% if(message == false) {%>
 
-						<%} else {%>
-							<div class="alert alert-success alert-dismissible fade show" role="alert">
-					            <%= message %>
-					            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-					        </div>
-						<%}%>
-						<!--=======fin mensaje de alerta==========-->
-						<div class="jumbotron jumbotron-fluid">
-							<div class="container">
-						    	<h1 class="display-5">Bienvenido(a) <%= Usuario.nombre %></h1>
-						    	<p class="lead">Tienes n Evaluaciones Disponibles</p>
-						  	</div>
-						</div>
-						
-						
-						<div class="card">
-							<div class="card-body">
-								<h3>Evaluaciones Pendientes</h3>
-								<hr>
-								<%if(Evaluacion && Evaluacion.length > 0) {%>
-									<table class="table">
-										<thead>
-										    <tr>
-										      	<th scope="col">Nombre de Eval</th>
-										      	<th scope="col">Fecha I</th>
-										      	<th scope="col">Fecha F</th>
-										      	<th scope="col">Acción</th>
-										    </tr>
-										</thead>
-										<tbody>
-											<%for(let i = 0; i < Evaluacion.length; i ++) {%>
-												<tr>
-													<td>
-														<p><%- Evaluacion[i].nombre %></p>
-													</td>
-													<td>
-														<p><%- Evaluacion[i].fecha_i.getDate() %>/<%- Evaluacion[i].fecha_i.getMonth() + 1%>/<%- Evaluacion[i].fecha_i.getFullYear() %></p>
-													</td>
-													<td>
-														<p><%- Evaluacion[i].fecha_f.getDate() %>/<%- Evaluacion[i].fecha_f.getMonth() + 1%>/<%- Evaluacion[i].fecha_f.getFullYear() %></p>
-													</td>
-													<td>
-														<a href="/dashboard/eval/<%- Evaluacion[i].id %>" class="btn btn-primary" onclick="return verificarFecha('<%- Evaluacion[i].fecha_i %>');">Ver</a>
-													</td>
-												</tr>
-											<%}%>
-										</tbody>
-									</table>	
-								<%} else {%>
-									<h3 class="display-4 text-center">Ninguna</h3>
-								<%}%>
+							<%} else {%>
+								<div class="alert alert-success alert-dismissible fade show" role="alert">
+						            <%= message %>
+						            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+						        </div>
+							<%}%>
+							<!--=======fin mensaje de alerta==========-->
+							<div class="jumbotron jumbotron-fluid">
+								<div class="container">
+							    	<h1 class="display-5">Bienvenido(a) <%= Usuario.nombre %></h1>
+							    	<p class="lead">Tienes n Evaluaciones Disponibles</p>
+							  	</div>
 							</div>
-						</div>
-
-						<br>
-						
-						<%if(evalCulminada && evalCulminada.length > 0) {%>
+							
+							
 							<div class="card">
 								<div class="card-body">
-									<h3>Ultimas Evaluaciones Culminadas</h3>
+									<h3>Evaluaciones Pendientes</h3>
 									<hr>
-									<table class="table">
-										<thead>
-										    <tr>
-										      	<th scope="col">Nombre de Eval</th>
-										      	<th scope="col">Fecha I</th>
-										      	<th scope="col">Fecha F</th>
-										      	<th scope="col">Acción</th>
-										    </tr>
-										</thead>
-										<tbody>
-											<%for(let i = 0; i < evalCulminada.length; i ++) {%>
-												<tr>
-													<td>
-														<p><%- evalCulminada[i].nombre %></p>
-													</td>
-													<td>
-														<p><%- evalCulminada[i].fecha_i.getDate() %>/<%- evalCulminada[i].fecha_i.getMonth() + 1%>/<%- evalCulminada[i].fecha_i.getFullYear() %></p>
-													</td>
-													<td>
-														<p><%- evalCulminada[i].fecha_f.getDate() %>/<%- evalCulminada[i].fecha_f.getMonth() + 1%>/<%- evalCulminada[i].fecha_f.getFullYear() %></p>
-													</td>
-													<td>
-														<a href="" class="btn btn-primary">Ver Resultados</a>
-													</td>
-												</tr>
-											<%}%>
-										</tbody>
-									</table>
+									<%if(Evaluacion && Evaluacion.length > 0) {%>
+										<table class="table">
+											<thead>
+											    <tr>
+											      	<th scope="col">Nombre de Eval</th>
+											      	<th scope="col">Fecha I</th>
+											      	<th scope="col">Fecha F</th>
+											      	<th scope="col">Acción</th>
+											    </tr>
+											</thead>
+											<tbody>
+												<%for(let i = 0; i < Evaluacion.length; i ++) {%>
+													<tr>
+														<td>
+															<p><%- Evaluacion[i].nombre %></p>
+														</td>
+														<td>
+															<p><%- Evaluacion[i].fecha_i.getDate() %>/<%- Evaluacion[i].fecha_i.getMonth() + 1%>/<%- Evaluacion[i].fecha_i.getFullYear() %></p>
+														</td>
+														<td>
+															<p><%- Evaluacion[i].fecha_f.getDate() %>/<%- Evaluacion[i].fecha_f.getMonth() + 1%>/<%- Evaluacion[i].fecha_f.getFullYear() %></p>
+														</td>
+														<td>
+															<a href="/dashboard/eval/<%- Evaluacion[i].id %>" class="btn btn-primary" onclick="return verificarFecha('<%- Evaluacion[i].fecha_i %>');">Ver</a>
+														</td>
+													</tr>
+												<%}%>
+											</tbody>
+										</table>	
+									<%} else {%>
+										<h3 class="display-4 text-center">Ninguna</h3>
+									<%}%>
 								</div>
 							</div>
-						<%}%>
-						<br>
+
+							<br>
+							
+							<%if(evalCulminada && evalCulminada.length > 0) {%>
+								<div class="card">
+									<div class="card-body">
+										<h3>Ultimas Evaluaciones Culminadas</h3>
+										<hr>
+										<table class="table">
+											<thead>
+											    <tr>
+											      	<th scope="col">Nombre de Eval</th>
+											      	<th scope="col">Fecha I</th>
+											      	<th scope="col">Fecha F</th>
+											      	<th scope="col">Acción</th>
+											    </tr>
+											</thead>
+											<tbody>
+												<%for(let i = 0; i < evalCulminada.length; i ++) {%>
+													<tr>
+														<td>
+															<p><%- evalCulminada[i].nombre %></p>
+														</td>
+														<td>
+															<p><%- evalCulminada[i].fecha_i.getDate() %>/<%- evalCulminada[i].fecha_i.getMonth() + 1%>/<%- evalCulminada[i].fecha_i.getFullYear() %></p>
+														</td>
+														<td>
+															<p><%- evalCulminada[i].fecha_f.getDate() %>/<%- evalCulminada[i].fecha_f.getMonth() + 1%>/<%- evalCulminada[i].fecha_f.getFullYear() %></p>
+														</td>
+														<td>
+															<a href="" class="btn btn-primary">Ver Resultados</a>
+														</td>
+													</tr>
+												<%}%>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							<%}%>
+							<br>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<footer class="footer" style="background: #BEBCB0;">
-		<div class="container">
-			<span class="text-muted">Pie de Pagina</span>
-		</div>
-	</footer>
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
+	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -200,5 +202,29 @@
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
 	<script src="/js/misFunciones.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#main',
+			data: {
+				status: ''
+			}, 
+			created() {
+				
+			},
+			methods: {
+				cambiarStatus(id) {
+					axios.get('/cambiarStatus/'+id)
+						.then(res => {
+							this.status = res.data;
+							console.log(this.status);
+						}).catch(err => {
+							console.log(err);
+						})
+				}
+			}
+		})
+	</script>
 </body>
 </html>

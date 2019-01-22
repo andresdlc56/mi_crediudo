@@ -12,7 +12,7 @@ module.exports = function(app) {
             app.get('/dashboard/eval/:id/u/:idu', isLoggedIn, empleadoController.prueba);
 
         //---------------Procesar Prueba-------------------------
-            app.post('/dashboard/eval/:id/u/:idu',isLoggedIn, empleadoController.procesarPruebaOtro);
+            app.post('/dashboard/eval/:id/u/:idu', isLoggedIn, empleadoController.procesarPruebaOtro);
 
             //----------------Rutas axios-------------------
                 //----------Solicitar autoEval disponibles---------------
@@ -26,6 +26,16 @@ module.exports = function(app) {
 
                 //-----------Solicitar eval-a-subor disponible-------------
                     app.get('/buscarEvalsaSubor/:id', empleadoController.buscarEvalsaSubor);
+
+                //------------Cambiar el status de una notificacion a true(visto)---------
+                    app.get('/cambiarStatus/:id', isLoggedIn, empleadoController.cambiarStatus)
+
+        //-----------------Ver Calificacion de una Evaluacion--------------
+            //app.get('/dashboard/verCalificacion/:id', isLoggedIn, empleadoController.verCalificacion);
+
+            app.get('/dashboard/verResultado/:id', isLoggedIn, empleadoController.verResultado);
+
+            app.get('/dashboard/resultadosTodos', isLoggedIn, empleadoController.resultadosTodos);
 
     //==================================================================================
 
