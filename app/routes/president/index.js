@@ -28,8 +28,11 @@ module.exports = function(app) {
     /*==========Ruta para empezar a evaluar al personal de una unidad (home)==========*/
         app.get('/president/detalles/:id/personal',isLoggedIn, presidentController.verPersonal); 
 
+        /*----------------Ruta para ver los resultados de un usuario en una evluacion y calificarlo-------------*/
+            app.get('/president/detalles/:id/personal/:idUser', isLoggedIn, presidentController.verCalificacion);
 
-
+            /*---------------------*/
+                app.post('/president/detalles/:id/personal/:idUser', isLoggedIn, presidentController.calificar);
 
 
     //ver Evaluaciones Planificadas
@@ -61,9 +64,7 @@ module.exports = function(app) {
     
        
 
-    app.get('/president/detalles/:id/personal/:idUser', isLoggedIn, presidentController.verCalificacion);
-
-    app.post('/president/detalles/:id/personal/:idUser', isLoggedIn, presidentController.calificar);
+    
 
 
 

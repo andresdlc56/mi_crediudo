@@ -227,7 +227,7 @@
 
 			    	if(fechaActual.getTime() > fechaInicio.getTime()) {
 			      		alert("La Fecha de Inicio No puede ser Menor a la Fecha Actual");
-			      		return false;
+			      		event.preventDefault();
 			      	} else if(fechaInicio.getTime() >= fechaActual.getTime()){
 			      		if((fechaFinal.getTime() <= fechaActual.getTime()) || (fechaFinal.getTime() <= fechaInicio.getTime())) {
 			      			alert("La Fecha Final No puede ser Menor a la Fecha Actual o a la Fecha de Inicio");

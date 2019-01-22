@@ -164,7 +164,7 @@ exports.evalProceso = function(req, res) {
 					fecha_f: {
 						[Op.gt]: fechaActual
 					},
-					instrumentId: 4	
+					instrumentId: 1	
 				}
 			}
 		}).then(evalProceso => {
@@ -277,9 +277,9 @@ exports.autoEval = function(req, res) {
 /* Controlador para ver los detalles de una Evalucacion */
 exports.detalles = function(req, res) {
 	var usuario = req.user; //Datos del Usuario que inicio sesion
-	var idB = parseInt(req.params.id) - 1;
-	var idC = parseInt(req.params.id) - 2;
-	var idD = parseInt(req.params.id) - 3;
+	var idB = parseInt(req.params.id) + 1;
+	var idC = parseInt(req.params.id) + 2;
+	var idD = parseInt(req.params.id) + 3;
 	/*
 		Buscar los datos de la evaluacion que viene por parametro
 	*/
@@ -294,27 +294,27 @@ exports.detalles = function(req, res) {
 		models.evaluacionUsuario.findAll({
 			include: [models.evaluacion],
 			where: {
-				evaluacionId: idD
+				evaluacionId: req.params.id
 			}
 		}).then(autoEval => {
 			models.evaluacionUsuario.findAll({
 				include: [models.evaluacion],
 				where: {
-					evaluacionId: idC		
+					evaluacionId: idB		
 				}
 			}).then(coEval => {
 				//Evaluacion que realizan los jefes para calificar al subordinado
 				models.evaluacionUsuario.findAll({
 					include: [models.evaluacion],
 					where: {
-						evaluacionId: req.params.id		
+						evaluacionId: idD		
 					}
 				}).then(evalSubor => {
 					//Evaluacion que realizan los subordinados para calificar al Jefe
 					models.evaluacionUsuario.findAll({
 						include: [models.evaluacion],
 						where: {
-							evaluacionId: idB		
+							evaluacionId: idC		
 						}	
 					}).then(evalJefe => {
 						models.usuario.findAll({
@@ -401,9 +401,9 @@ exports.verPersonal = function(req, res) {
 exports.verCalificacion = function(req, res) {
 	var usuario = req.user; //info del usuario que inicio sesion
 
-	var idB = parseInt(req.params.id)-2;//id q representa la coevaluacion
-	var idC = parseInt(req.params.id)-1;//id q representa evaluacion al jefe
-	var idD = parseInt(req.params.id);//id q representa evaluacion al subordinado
+	var idB = parseInt(req.params.id)+1;//id q representa la coevaluacion
+	var idC = parseInt(req.params.id)+2;//id q representa evaluacion al jefe
+	var idD = parseInt(req.params.id)+3;//id q representa evaluacion al subordinado
 
 	/*
 		Buscar la informacion de la evaluacion que viene por parametro
@@ -437,7 +437,7 @@ exports.verCalificacion = function(req, res) {
 						[Op.and]: [
 							{usuarioCedula: User.cedula},
 							{usuarioEvaluado: User.cedula}, 
-							{evaluacionId: parseInt(req.params.id) - 3},
+							{evaluacionId: parseInt(req.params.id)},
 							{status: true}
 						]
 					}
@@ -526,7 +526,7 @@ exports.verCalificacion = function(req, res) {
 						[Op.and]: [
 							{usuarioCedula: User.cedula},
 							{usuarioEvaluado: User.cedula}, 
-							{evaluacionId: parseInt(req.params.id) - 3},
+							{evaluacionId: parseInt(req.params.id)},
 							{status: true}
 						]
 					}
@@ -601,27 +601,6 @@ exports.verCalificacion = function(req, res) {
 				});
 			}
 		});
-
-		/*
-			Buscar toda la info de la evaluacion ya realizada por el usuario
-			donde el usuarioEvaluado sea el q viene por parametro y su status sea true
-		
-		models.evaluacionUsuario.findAll({
-			include: [ models.evaluacion ],
-			where: {
-				[Op.and]: [
-					{usuarioEvaluado: req.params.idUser}, 
-					{status: true},
-					{
-						[Op.or]: [{evaluacionId: req.params.id}, {evaluacionId: idB}, {evaluacionId: idC}, {evaluacionId: idD}]
-					}
-				]
-			}
-		}).then(dataEvaluacion => {
-			//res.send(infoUser);
-			res.render('president/detalles/personal/calificacion', { usuario, infoEval, dataEvaluacion });
-		});
-		*/	
 	});
 }
 

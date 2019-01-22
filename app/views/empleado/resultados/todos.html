@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Inicio</title>
+	<link rel="shortcut icon" href="/images/title/favicon-96x96.png">
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!--Barra de Progreso-->
+	<script type="text/javascript" src="/js/pace.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+	<!-- Pie de Pagina -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+</head>
+<body>
+	<div id="main">
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
+
+		<%- include('../../partials/empleado/navbar.html') %>
+
+		<div class="container-fluid">
+			<div class="row justify-content-md-center">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-12">
+							<!--=======MIGAS DE PAN=========-->
+							<nav aria-label="breadcrumb" style="margin-top: 1%">
+								<ol class="breadcrumb">
+								    <li class="breadcrumb-item active" aria-current="page">Home</li>
+								</ol>
+							</nav>
+							<!--=======FIN MIGAS DE PAN=========-->				
+						</div>
+
+						
+						<!--info izquierdo-->
+						<div class="col-sm-12 col-md-12 col-lg-3">
+							<div class="row">
+								<!--Datos del Inicio de Sesion-->
+								<div class="col-sm-12 col-md-12 col-lg-12">
+									<div class="row">
+										<div class="col-sm-6 col-md-6 col-lg-12">
+											<div class="card">
+											  	<div class="card-header">
+											    	Datos Personales:
+											  	</div>
+											  
+											  	<div class="card-body">
+											    	<div class="form-group">
+											    		<input type="hidden" id="cedula" value="<%- Usuario.cedula %>">
+											    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
+											    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
+											    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
+											    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
+											    	</div>
+											  	</div>
+											</div>
+											<br>		
+										</div>
+
+										<!--Como Evaluar-->
+										<div class="col-sm-6 col-md-6 col-lg-12">
+											<div class="card">
+											  	<div class="card-header">
+											    	¿Sabes como Evaluar?
+											  	</div>
+											  
+											  	<div class="card-body">
+											    	<div class="form-group">
+											    		<p><b>Nombre: </b><%= Usuario.nombre %></p>
+											    		<p><b>Apellido: </b><%= Usuario.apellido %></p>
+											    		<p><b>Nucleo: </b><%= Usuario.nucleo.nombre %></p>
+											    		<p><b>Unidad: </b><%= Usuario.unidad.nombre %></p>
+											    	</div>
+											  	</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<br>
+						</div>
+						
+						<!--Contenido-->
+						<div class="col-sm-12 col-md-12 col-lg-9">
+							<div class="card">
+								<div class="card-body">
+									<div class="article border-bottom">
+										<h3>Resultados de Evaluaciones</h3>
+									</div>
+									<br>
+									<% if(Resultados && Resultados.length > 0) {%>
+										<table style="width:100%" class="table">
+											<tr>
+												<th>#</th>
+												<th>Nombre</th>
+												<th>Calificación</th>
+												<th>Detalles</th>
+											</tr>
+											<% for(let i = 0; i < Resultados.length; i++) {%>
+												<tr>
+													<td><%- i + 1 %></td>
+													<td><%- Resultados[i].evaluacion.nombre %></td>
+													<td><%- Resultados[i].calificacion %> Ptos</td>
+													<td><a href="/dashboard/verResultado/<%- Resultados[i].evaluacionId %>" class="btn btn-primary btn-sm">Ver</a></td>
+												</tr>
+											<%}%>
+										</table>
+									<%}%>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
+	<script src="/js/misFunciones.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#main',
+			data: {
+				
+			}, 
+			created() {
+				
+			},
+			methods: {
+				
+			}
+		})
+	</script>
+</body>
+</html>
