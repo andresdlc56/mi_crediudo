@@ -10,6 +10,7 @@ module.exports = function(sequelize, Sequelize) {
     Factor.associate = function (models) {
         Factor.hasMany(models.item);
         Factor.belongsToMany(models.instrument, {through: 'instrumentFactor'});
+        Factor.belongsToMany(models.usuario, {through: 'factorUsuario'});
         //Rol.hasMany(models.usuario);
         //Cargo.belongsToMany(models.empleado, {through: 'empleadoCargo', foreignKey: 'cargoId'});
         //Factor.belongsToMany(models.usuario, {through: 'instrumentFactor'});

@@ -31,8 +31,8 @@ module.exports = function(app) {
         /*----------------Ruta para ver los resultados de un usuario en una evluacion y calificarlo-------------*/
             app.get('/president/detalles/:id/personal/:idUser', isLoggedIn, presidentController.verCalificacion);
 
-            /*---------------------*/
-                app.post('/president/detalles/:id/personal/:idUser', isLoggedIn, presidentController.calificar);
+        /*-------------Ruta para Enviar una Observacion --------*/
+            app.post('/president/detalles/:id/personal/:idUser', isLoggedIn, presidentController.calificar);
 
 
     //ver Evaluaciones Planificadas
