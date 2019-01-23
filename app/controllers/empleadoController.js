@@ -305,42 +305,56 @@ var Op = Sequelize.Op;
 	exports.procesarPruebaOtro = function(req, res) {
 		let factores = [];
 		let acumulador = [];
-		var preguntas = [];
-		var n = [];
-		var x = [];
+		var preguntas = []; //arreglo para almacenar el numero de preguntas de un factor (j)
+		var valueItem = []; //arreglo para almacenar el valor de los items seleccionados por el user
 		var calificacionFactor = [];
 		/*-------Datos de la Evaluación------*/
 		models.evaluacion.findOne({
 			include: [ models.instrument ],
 			where: { id: req.params.id }
 		}).then(Evaluacion => {
-			/*--------Factores que se usan en esta Evaluacion--------*/
+			/*--------Factores q pertenecen a un instrumento q se usa en esta Evaluacion--------*/
 			models.instrumentFactor.findAll({
 				include: [ models.factor ],
 				where: { instrumentId: Evaluacion.instrumentId }
 			}).then(Factores => {
-				/*---------Items que se usan en esta evaluacion----------*/
+				/*---------Items q pertenecen a un instrumento que se usa en esta evaluacion----------*/
 				models.item.findAll({
 					where: { instrumentId: Evaluacion.instrumentId }
 				}).then(Items => {
-					//var arrayBidimensional= new Array(Items.length);
+					
 					let totalFactores = 0;
+
+					/*---Recorrer todos los factores encontrados---*/
 					for(let j = 0; j < Factores.length; j ++) {
 						acumulador[j] = 0;
-						n[j] = 0;
-						x[j] = 0;
+						//n[j] = 0;
+						preguntas[j] = 0;
 						calificacionFactor[j] = 0;
+						/*----Recorrer todos los items encontrados----*/
 						for(let i = 0; i < Items.length; i ++) {
-							//arrayBidimensional[i] = new Array(Factores.length);
+							/*---
+								Si el item seleccionado en el ciclo "i" 
+								tiene factorId == al Factor seleccionado 
+								en el ciclo "j"
+							---*/
 							if(Items[i].factorId == Factores[j].factorId){
-								n[i] = parseInt(req.body.item[i])
-								if(n[i]){
-									x[j] = x[j] + 1;
-									acumulador[j] = acumulador[j] + n[i];
-									console.log('x['+j+']: ' + x[j]);
+								/*--guardar el valor de la respuesta dada por el usuario en el arreglo valueItem[i]--*/
+								valueItem[i] = parseInt(req.body.item[i])
+
+								if(valueItem[i]){
+									/*---Sumar 1 al contador de preguntas pertenecientes al factor "j"--*/
+									preguntas[j] = preguntas[j] + 1;
+
+									/*---
+										(acumulador) arreglo que almacena o reune el valor de todos los items selecionados que
+										pertenecen a el factor j 
+									---*/
+									acumulador[j] = acumulador[j] + valueItem[i];
+									console.log('Nro de preguntas pertenecientes al factor '+j+': ' + preguntas[j]);
 
 									models.itemUsuario.create({
-										calificacion: n[i],
+										calificacion: valueItem[i],
 										evaluacionId: req.params.id,
 										itemId: Items[i].id,
 										evaluado: req.params.idu,
@@ -351,13 +365,25 @@ var Op = Sequelize.Op;
 								}	
 							}
 						} 
+						/*---Imprimir en consola cuanto tiene acumulado el factor j---*/
 						console.log('Factor '+j+': '+acumulador[j]);
-						calificacionFactor[j] = acumulador[j] / x[j];
-						console.log('========Factor['+j+']: '+calificacionFactor[j]);
+
+						/*---Calcular la Calificacion del Factor "j"--*/
+						calificacionFactor[j] = acumulador[j] / preguntas[j];
+
+						/*----Imprimir en consola la calificacion de un usuario en el factor "j"----*/
+						console.log('========Calificacion en el Factor '+Factores[j].factor.nombre+': '+calificacionFactor[j]);
+
+						/*----(totalFactores) varible q almacena o acumula la calificacion de los factores--*/
 						totalFactores = totalFactores + calificacionFactor[j];
 					}
-					console.log('==============totalFactores: '+totalFactores);
+					/*----Imprimir por consola las calificaciones de los factores acumuladas-----*/
+					console.log('==============Calificaciones de factores acumuladas: '+totalFactores);
+
+					/*-----variable que almacena la calificacion final de un usuario en ese examen o prueba------*/
 					var calificacionFinal = totalFactores / Factores.length;
+
+					/*----Imprimir por consola la calificacion final de un usuario en el examen que presento----*/
 					console.log('===============Calificacion Final: '+calificacionFinal);
 
 					models.evaluacionUsuario.update({
