@@ -307,7 +307,8 @@ var Op = Sequelize.Op;
 		let acumulador = [];
 		var preguntas = []; //arreglo para almacenar el numero de preguntas de un factor (j)
 		var valueItem = []; //arreglo para almacenar el valor de los items seleccionados por el user
-		var calificacionFactor = [];
+		var calificacionFactor = []; //arreglo que almacena la calificacion que obtuvo el usuario en los factores
+		
 		/*-------Datos de la Evaluación------*/
 		models.evaluacion.findOne({
 			include: [ models.instrument ],
@@ -324,10 +325,12 @@ var Op = Sequelize.Op;
 				}).then(Items => {
 					
 					let totalFactores = 0;
+					let acumuladorFactores = 0;
 
 					/*---Recorrer todos los factores encontrados---*/
 					for(let j = 0; j < Factores.length; j ++) {
 						acumulador[j] = 0;
+						
 						//n[j] = 0;
 						preguntas[j] = 0;
 						calificacionFactor[j] = 0;
@@ -371,12 +374,23 @@ var Op = Sequelize.Op;
 						/*---Calcular la Calificacion del Factor "j"--*/
 						calificacionFactor[j] = acumulador[j] / preguntas[j];
 
+						/*----acumular la calificacion de todos los factores en una variable---*/
+						acumuladorFactores = acumuladorFactores + calificacionFactor[j];
+
+
+
 						/*----Imprimir en consola la calificacion de un usuario en el factor "j"----*/
 						console.log('========Calificacion en el Factor '+Factores[j].factor.nombre+': '+calificacionFactor[j]);
 
 						/*----(totalFactores) varible q almacena o acumula la calificacion de los factores--*/
 						totalFactores = totalFactores + calificacionFactor[j];
 					}
+
+					/*----Calculando la media por cada factor------*/
+					media = acumuladorFactores / Factores.length; 
+
+					
+
 					/*----Imprimir por consola las calificaciones de los factores acumuladas-----*/
 					console.log('==============Calificaciones de factores acumuladas: '+totalFactores);
 
@@ -386,6 +400,9 @@ var Op = Sequelize.Op;
 					/*----Imprimir por consola la calificacion final de un usuario en el examen que presento----*/
 					console.log('===============Calificacion Final: '+calificacionFinal);
 
+					/*
+						Actualizar la calificacion y el status de la evaluacion realizada por el usuario
+					*/
 					models.evaluacionUsuario.update({
 						calificacion: calificacionFinal,
 						status: true

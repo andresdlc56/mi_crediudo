@@ -5,7 +5,11 @@ module.exports = function(sequelize, Sequelize) {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
-          }
+          },
+          calificacion: {
+            type: Sequelize.DECIMAL,
+            defaultValue: 0
+        }
     });
     // Class Method
     factorUsuario.associate = function (models) {
