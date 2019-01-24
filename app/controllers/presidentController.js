@@ -695,7 +695,6 @@ exports.calificar = function(req, res) {
 		
 		
 
-	/*
 		models.observacion.create({
 			contenido: req.body.observacion,
 			calificacion: calificacion,
@@ -704,7 +703,6 @@ exports.calificar = function(req, res) {
 		}).then(Observacion => {
 			res.redirect('/president/detalles/'+ req.params.id +'/personal');
 		});
-	*/
 }
 
 exports.verAutoEval = function(req, res) {

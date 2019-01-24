@@ -581,10 +581,10 @@ exports.verCalificacion = function(req, res) {
 }
 
 exports.verResultado = function(req, res) {
-	var idA = parseInt(req.params.id);
-	var idB = parseInt(req.params.id)+1;
-	var idC = parseInt(req.params.id)+2;
-	var idD = parseInt(req.params.id)+3;
+	var idA = parseInt(req.params.id); //AutoEval
+	var idB = parseInt(req.params.id)+1; //CoEval
+	var idC = parseInt(req.params.id)+2; //EvalaJefe
+	var idD = parseInt(req.params.id)+3; //EvalaSubordinados
 
 	models.usuario.findOne({
 		include: [ models.nucleo, models.unidad ],
@@ -603,32 +603,37 @@ exports.verResultado = function(req, res) {
 				include: [ models.evaluacion ],
 				where: { evaluacionId: req.params.id }
 			}).then(Resultado => {
-				models.instrumentFactor.findAll({
-					include: [ models.factor ],
-					where: { instrumentId: Resultado.evaluacion.instrumentId }
-				}).then(Factores => {
-					models.itemUsuario.findAll({
-						include: [ models.item ],
-						where: {
-							[Op.and]: [
-								{evaluado: req.user.cedula},
-								{evaluacionId: {
-									[Op.and]: [
-								        [idA,idB,idD]
-								    ]
-								}}
-							]
-						}
-					}).then(Items => {
-						for(let i = 0; i < Factores.length; i++) {
-							for(let j = 0; j < Items.length; j ++) {
-
-							}
-						}
-						res.send(Factores);
-						//res.render('empleado/resultados/uno', { Usuario, Observacion, Resultado, Factores });
-					})
-					
+				models.factorUsuario.findAll({
+					include: [ models.evaluacion ],
+					where: {
+						evaluacionId: [idA, idB, idC, idD],
+						usuarioCedula: req.user.cedula
+					}
+				}).then(calificacionFactor => {
+					if(Usuario.cargoId == 3) {
+						models.evaluacion.findOne({
+							include: [ models.instrument ],
+							where: { id: idA }
+						}).then(dataEval => {
+							models.instrumentFactor.findAll({
+								include: [ models.factor ],
+								where: {
+									instrumentId: dataEval.instrumentId
+								}
+							}).then(Factores => {
+								res.render('empleado/resultados/uno', { 
+									Usuario, 
+									Observacion, 
+									Resultado,
+									calificacionFactor,
+									Factores
+								});
+								//res.send(Factores);
+							})
+						})
+					} else {
+						res.send("Controlador en contruccion para usuario de cargo 2");
+					}
 				})
 			})
 		})
