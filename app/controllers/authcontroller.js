@@ -91,12 +91,12 @@ exports.dashboard = function(req, res) {
 										{instrumentId: 4},
 										{
 											fecha_i: {
-												[Op.lte]: fecha_actual
+												[Op.gte]: fecha_actual
 											}
 										},
 										{
 											fecha_f: {
-												[Op.lt]: fecha_actual
+												[Op.lte]: fecha_actual
 											}
 										}
 									] 

@@ -356,6 +356,7 @@ var Op = Sequelize.Op;
 									acumulador[j] = acumulador[j] + valueItem[i];
 									console.log('Nro de preguntas pertenecientes al factor '+j+': ' + preguntas[j]);
 
+									
 									models.itemUsuario.create({
 										calificacion: valueItem[i],
 										evaluacionId: req.params.id,
@@ -384,12 +385,17 @@ var Op = Sequelize.Op;
 
 						/*----(totalFactores) varible q almacena o acumula la calificacion de los factores--*/
 						totalFactores = totalFactores + calificacionFactor[j];
+
+						/*-----almacenando la calificacion de un usuario en un factor de una evaluacion determinada------*/
+						models.factorUsuario.create({
+							calificacion: calificacionFactor[j],
+							evaluacionId: req.params.id,
+							factorId: Factores[j].factorId,
+							usuarioCedula: req.params.idu
+						}).then(califiFactor => {
+							console.log('----------------Calificacion del Usuario '+req.params.idu+' en el factor '+Factores[j].factor.nombre+' almacenada');
+						})
 					}
-
-					/*----Calculando la media por cada factor------*/
-					media = acumuladorFactores / Factores.length; 
-
-					
 
 					/*----Imprimir por consola las calificaciones de los factores acumuladas-----*/
 					console.log('==============Calificaciones de factores acumuladas: '+totalFactores);
@@ -403,6 +409,7 @@ var Op = Sequelize.Op;
 					/*
 						Actualizar la calificacion y el status de la evaluacion realizada por el usuario
 					*/
+					
 					models.evaluacionUsuario.update({
 						calificacion: calificacionFinal,
 						status: true
