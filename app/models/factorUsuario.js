@@ -6,14 +6,21 @@ module.exports = function(sequelize, Sequelize) {
             primaryKey: true,
             autoIncrement: true
           },
-          calificacion: {
+        calificacion: {
             type: Sequelize.DECIMAL,
             defaultValue: 0
+        },
+        factorId: {
+            type: Sequelize.INTEGER
+        },
+        usuarioCedula: {
+            type: Sequelize.INTEGER 
         }
     });
     // Class Method
     factorUsuario.associate = function (models) {
         factorUsuario.belongsTo(models.evaluacion);
+        //factorUsuario.belongsTo(models.usuario);
     };
  
     return factorUsuario;
