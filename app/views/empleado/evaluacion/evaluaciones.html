@@ -120,7 +120,7 @@
 									<%if(Usuario.cargoId == 2) {%>
 										<!--AutoEvaluacion-->
 										<div class="col-sm-6 col-md-6 col-lg-6 text-center">
-											<a href="javascript:void(0)" v-on:click="buscarAutoEval()" class="btn btn-outline-primary" style="width: 90%" v-bind:class="{ active: botonAutoE }">
+											<a href="javascript:void(0)" v-on:click="buscarAutoEvalJefe()" class="btn btn-outline-primary" style="width: 90%" v-bind:class="{ active: botonAutoE }">
 												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-child" style="font-size: 30pt;"></i>
 												<hr style="margin: 1px">
 												<p><strong>AutoEvaluación</strong></p>
@@ -258,7 +258,7 @@
 													</div>
 															
 													<div class="col-sm-9 col-md-8 col-lg-9">
-														<a v-bind:href="'/dashboard/eval/'+idEvalSubor+'/u/'+eval.usuarioEvaluado" class="btn btn-dark btn-lg btn-block">Ejecutar</a>
+														<a v-bind:href="'/dashboard/eval/'+idEvalSubor+'/u/'+eval.usuarioCedula" class="btn btn-dark btn-lg btn-block">Ejecutar</a>
 														<hr style="margin: 7px">
 														<p>
 															Evaluar A: 
@@ -399,13 +399,41 @@
 					var idEval = currentUrl[3];
 
 					this.idEvalSubor = idEval;
+					console.log(this.idEvalSubor);
 
 					axios.get('/buscarEvalsaSubor/'+idEval)
 						.then(res => {
 							this.evalsSubor = res.data;
+							console.log(this.evalsSubor);
 						}).catch(err => {
 							console.log(err);
 						})
+				},
+				buscarAutoEvalJefe() {
+					var currentUrl = window.location.pathname.split('/');
+					var idEval = currentUrl[3];
+
+					idEval = parseInt(idEval) + 1;
+
+					var cedula = document.getElementById("cedula").value;
+
+					var link = '/dashboard/eval/'+idEval+'/u/'+cedula;
+					//console.log(link);
+
+					this.botonAutoE = true;
+					this.botonCoE = false;
+					this.botonEvalaJefe = false;
+					this.botonEvalaSubor = false;
+					this.activo = true;
+
+					axios.get('/buscarAutoEval/'+idEval+'/empleado/'+cedula)
+						.then(res => {
+							this.autoEval = res.data;
+							this.url = link;
+							//console.log(this.autoEval)
+						}).catch(err => {
+							console.log(err)
+						});
 				}
 			}
 		});
