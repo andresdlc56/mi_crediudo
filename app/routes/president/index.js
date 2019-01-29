@@ -4,14 +4,39 @@ var presidentController = require('../../controllers/presidentController.js');
 var authController = require('../../controllers/authController.js');
 
 module.exports = function(app) {
-    
-    app.get('/president',isLoggedIn, presidentController.index);
+    /*==============Ruta Inicial del Presidente de CREDIUDO===========*/
+        app.get('/president',isLoggedIn, presidentController.index);
+
+    /*==============Ruta para ver las evaluaciones que no han culminado segun la fecha====*/
+        app.get('/president/evalProceso', isLoggedIn, presidentController.evalProceso);
+
+        /*--------------Ruta para ver en detalle el desarrollo de una unidad en una evaluacion----*/
+            app.get('/president/detalles/:id',isLoggedIn, presidentController.detalles);
+
+            //------Ruta para ver detalles de una autoEvaluación Concluida-----------
+                app.get('/president/detalles/:id/verAutoe/:idUser', isLoggedIn, presidentController.verAutoEval);
+
+            //------Ruta para ver detalles de una CoEvaluación concluida-----------
+                app.get('/president/detalles/:id/vercoEval/:idUser/:idEvaluador', isLoggedIn, presidentController.verCoEval);
+
+            //------Ruta para ver detalles de una Eval A Subordinado concluida---------
+                app.get('/president/detalles/:id/verEvalSubor/:idEvaluador/:idUser', isLoggedIn, presidentController.verEvalSubor);
+
+            //------Ruta para ver detalles de una Eval A Jefe concluida------------- 
+                app.get('/president/detalles/:id/verEvalJefe/:idEvaluador/:idUser', isLoggedIn, presidentController.verEvalJefe);
+
+    /*==========Ruta para empezar a evaluar al personal de una unidad (home)==========*/
+        app.get('/president/detalles/:id/personal',isLoggedIn, presidentController.verPersonal); 
+
+        /*----------------Ruta para ver los resultados de un usuario en una evluacion y calificarlo-------------*/
+            app.get('/president/detalles/:id/personal/:idUser', isLoggedIn, presidentController.verCalificacion);
+
+        /*-------------Ruta para Enviar una Observacion --------*/
+            app.post('/president/detalles/:id/personal/:idUser', isLoggedIn, presidentController.calificar);
+
 
     //ver Evaluaciones Planificadas
     app.get('/president/evalPlani', isLoggedIn, presidentController.evalPlanificadas);
-
-    //Ver Evaluaciones en Proceso
-    app.get('/president/evalProceso', isLoggedIn, presidentController.evalProceso);
 
     //Ver Evaluaciones Culminadas
     app.get('/president/evalCulmi', isLoggedIn, presidentController.evalCulmi);
@@ -32,34 +57,24 @@ module.exports = function(app) {
 
     app.get('/president/auto', isLoggedIn, presidentController.autoEval);
 
-    app.get('/president/detalles/:id',isLoggedIn, presidentController.detalles);
+    
 
     app.post('/president/detalles/:id',isLoggedIn, presidentController.observacion);
 
-    //Ruta para ver el personal de la unidad que estasiendo evaluada
-    app.get('/president/detalles/:id/personal',isLoggedIn, presidentController.verPersonal);    
+    
+       
 
-    app.get('/president/detalles/:id/personal/:idUser', isLoggedIn, presidentController.verCalificacion);
-
-    app.post('/president/detalles/:id/personal/:idUser', isLoggedIn, presidentController.calificar);
+    
 
 
 
 
     app.post('/president/detalles/editObs/:id', isLoggedIn, presidentController.editObserv);
 
-    //Ruta para ver detalles de una autoEvaluación Concluida
-    app.get('/president/detalles/:id/verAutoe/:idUser', isLoggedIn, presidentController.verAutoEval);
-
-    //Ruta para ver detalles de una CoEvaluación concluida
-    app.get('/president/detalles/:id/vercoEval/:idUser/:idEvaluador', isLoggedIn, presidentController.verCoEval);
-
-    //Ruta para ver detalles de una Eval A Subordinado concluida
-    app.get('/president/detalles/:id/verEvalSubor/:idEvaluador/:idUser', isLoggedIn, presidentController.verEvalSubor);
-
-    //Ruta para ver detalles de una Eval A Jefe concluida
-    app.get('/president/detalles/:id/verEvalJefe/:idEvaluador/:idUser', isLoggedIn, presidentController.verEvalJefe);
-
+   
+   
+    
+    
 
 
     app.get('/president/cambiar_coordP', isLoggedIn, presidentController.cambiarCoordPla);

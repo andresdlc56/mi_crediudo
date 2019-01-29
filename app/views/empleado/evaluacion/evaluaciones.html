@@ -120,7 +120,7 @@
 									<%if(Usuario.cargoId == 2) {%>
 										<!--AutoEvaluacion-->
 										<div class="col-sm-6 col-md-6 col-lg-6 text-center">
-											<a href="javascript:void(0)" v-on:click="buscarAutoEval()" class="btn btn-outline-primary" style="width: 90%" v-bind:class="{ active: botonAutoE }">
+											<a href="javascript:void(0)" v-on:click="buscarAutoEvalJefe()" class="btn btn-outline-primary" style="width: 90%" v-bind:class="{ active: botonAutoE }">
 												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-child" style="font-size: 30pt;"></i>
 												<hr style="margin: 1px">
 												<p><strong>AutoEvaluación</strong></p>
@@ -158,7 +158,7 @@
 
 										<!--Evaluacion al Jefe-->
 										<div class="col-sm-6 col-md-6 col-lg-4 text-center">
-											<a href="javascript:void(0)" v-on:click="buscarEvalaJefe()" class="btn btn-outline-secondary" style="width: 90%" v-bind:class="{ active: botonEvalaJefe }">
+											<a href="javascript:void(0)" v-on:click="buscarEvalaJefe(<%- Jefe.cedula %>)" class="btn btn-outline-secondary" style="width: 90%" v-bind:class="{ active: botonEvalaJefe }">
 												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-users" style="font-size: 30pt;"></i>
 												<hr style="margin: 2px">
 												<p><strong>Evaluar al Jefe</strong></p>
@@ -174,7 +174,7 @@
 						<div class="card" v-if="activo">
 							<!--==========AutoEvaluacion=========-->
 							<div class="card-body" v-if="botonAutoE">
-								<div class="row">
+								<div v-if="autoEval" class="row">
 									<div class="col-sm-3 col-md-3 text-center">
 										<div class="card">
 											<div class="card-body">
@@ -225,7 +225,7 @@
 
 							<!--=======Evaluación a Jefe=========-->
 							<div class="card-body" v-if="botonEvalaJefe">
-								<div class="row">
+								<div class="row" v-if="evalaJefe">
 									<div class="col-sm-3 col-md-3 text-center">
 										<div class="card">
 											<div class="card-body">
@@ -315,7 +315,8 @@
 				coEvals: [],
 				idCoEval: '',
 				evalsSubor: [],
-				idEvalSubor: ''
+				idEvalSubor: '',
+				evalaJefe: {}
 			},
 			created() {
 			
@@ -337,7 +338,7 @@
 					this.botonEvalaSubor = false;
 					this.activo = true;
 
-					axios.get('/buscarAutoEval/' + idEval + '/empleado/' + cedula)
+					axios.get('/buscarAutoEval/'+idEval+'/empleado/'+cedula)
 						.then(res => {
 							this.autoEval = res.data;
 							this.url = link;
@@ -366,7 +367,7 @@
 							console.log(err);
 						})
 				},
-				buscarEvalaJefe() {
+				buscarEvalaJefe(cedula) {
 					this.botonAutoE = false;
 					this.botonCoE = false;
 					this.botonEvalaJefe = true;
@@ -374,11 +375,18 @@
 
 					var currentUrl = window.location.pathname.split('/');
 					var idEval = currentUrl[3] - 1;
+					var evaluador = document.getElementById("cedula").value;
 					var evaluado = document.getElementById('evaluado').value;
 
 					this.url = '/dashboard/eval/'+idEval+'/u/'+evaluado;
 
-					console.log(this.url);
+					axios.get('/buscarEvalaJefe/'+idEval+'/jefe/'+cedula+'/empleado/'+evaluador)
+						.then(res => {
+							this.evalaJefe = res.data;
+							console.log(this.evalaJefe)
+						}).catch(err => {
+							console.log('ashbjhasdv');
+						})
 				},
 				buscarEvalaSubor() {
 					this.activo = true;
@@ -391,13 +399,41 @@
 					var idEval = currentUrl[3];
 
 					this.idEvalSubor = idEval;
+					console.log(this.idEvalSubor);
 
 					axios.get('/buscarEvalsaSubor/'+idEval)
 						.then(res => {
 							this.evalsSubor = res.data;
+							console.log(this.evalsSubor);
 						}).catch(err => {
 							console.log(err);
 						})
+				},
+				buscarAutoEvalJefe() {
+					var currentUrl = window.location.pathname.split('/');
+					var idEval = currentUrl[3];
+
+					idEval = parseInt(idEval) + 1;
+
+					var cedula = document.getElementById("cedula").value;
+
+					var link = '/dashboard/eval/'+idEval+'/u/'+cedula;
+					//console.log(link);
+
+					this.botonAutoE = true;
+					this.botonCoE = false;
+					this.botonEvalaJefe = false;
+					this.botonEvalaSubor = false;
+					this.activo = true;
+
+					axios.get('/buscarAutoEval/'+idEval+'/empleado/'+cedula)
+						.then(res => {
+							this.autoEval = res.data;
+							this.url = link;
+							//console.log(this.autoEval)
+						}).catch(err => {
+							console.log(err)
+						});
 				}
 			}
 		});

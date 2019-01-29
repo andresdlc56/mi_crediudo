@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Coord. Evaluación</title>
+	<link rel="shortcut icon" href="/images/title/favicon-96x96.png">
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+</head>
+<body>
+	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+	</div>	
+
+	<%- include('../../partials/coord_eval/navbar.html') %>
+
+	<div class="container-fluid" id="main">
+		<div class="row justify-content-md-center">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12">
+						<!--=======MIGAS DE PAN=========-->
+						<nav aria-label="breadcrumb" style="margin-top: 1%">
+							<ol class="breadcrumb">
+							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							</ol>
+						</nav>
+						<!--=======FIN MIGAS DE PAN=========-->
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12 col-md-3">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card">
+								  	<div class="card-header">
+								    	Datos Personales:
+								  	</div>
+								  
+								  	<div class="card-body">
+								    	<div class="form-group">
+								    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+								    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+								    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+								    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
+								    	</div>
+								  	</div>
+								</div>
+								<br>
+							</div>
+
+							<div class="col-md-12" v-if="!crearPregunta">
+								<div class="card">
+									<div class="card-header">
+										Nueva Pregunta
+									</div>
+									<div class="card-body">
+										<a href="javascript:void(0)" v-on:click="creandoPregunta()" class="btn btn-primary btn-block">Crear Pregunta</a>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-12" v-else>
+								<div class="card">
+									<div class="card-header">
+										Nueva Factor
+									</div>
+									<div class="card-body">
+										<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#exampleModalCenter">Crear Factor</button>
+
+										<!-- Modal -->
+										<form @submit.prevent="addFactor(instrumento.id)">	
+											<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+											  	<div class="modal-dialog modal-dialog-centered" role="document">
+												    <div class="modal-content">
+												      		<div class="modal-header">
+												        		<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+												        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												          			<span aria-hidden="true">&times;</span>
+												        		</button>
+												      		</div>
+												      		<div class="modal-body">
+												        		<div class="form-group row">
+																    <label for="inputPassword" class="col-sm-3 col-form-label">Factor:</label>
+																    <div class="col-sm-9">
+																      	<input type="text" class="form-control" placeholder="Ingrese el Nuevo Factor" v-model="newFactor">
+																    </div>
+																</div>
+												      		</div>
+												      		<div class="modal-footer">
+												        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+												        		<input type="submit" name="save" class="btn btn-primary" value="Save changes">
+												      		</div>
+												    </div>
+											  	</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>								
+						</div>
+						<br>
+					</div>
+
+					<div class="col-md-9">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="article border-bottom">
+											<h3>Datos del Nuevo Instrumento</h3>
+										</div>
+
+										<form @submit.prevent="editarInicio(instrumento.id)">
+											<fieldset v-bind:disabled="habilitado">
+												<br>
+												<div class="form-group">
+													<label for="nombre">Nombre o Titulo:</label>
+													<input type="text" v-model="instrumento.titulo" class="form-control" required>
+												</div>
+
+												<div class="row">
+												    <div class="col">
+												      	<label for="categoria">Categoria:</label>
+												      	<select v-model="instrumento.categoriumId" class="form-control" required>
+												      		<option v-for="option in categorias" v-bind:value="option.id">
+																{{ option.nombre }}
+															</option>
+													    </select>
+												    </div>
+												    <div class="col">
+												    	<label for="tipo">Tipo:</label>
+												      	<select v-model="instrumento.tipoEvalId" class="form-control" required>
+													     	<option v-for="opt in tipos" v-bind:value="opt.id">
+																{{ opt.nombre }}
+															</option>
+													    </select>
+												    </div>
+												</div>
+												<hr>		
+											</fieldset>
+											
+											<a href="javascript:void(0)" v-if="habilitado" v-on:click="habilitar()" class="btn btn-primary btn-block"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
+
+											<input type="submit" v-else class="btn btn-success btn-block" value="Guardar">
+										</form>										
+									</div>
+								</div>
+								<br>
+							</div>
+
+							<div class="col-md-12" v-if="crearPregunta">
+								<div class="card">
+									<div class="card-body">
+										<form @submit.prevent="addPregunta(instrumento.id)">
+											<div class="row">
+											    <div class="col-md-4">
+											    	<label>Factor:</label>
+											      	<select v-model="pregunta.factor" name="" class="form-control">
+											      		<option value=""> --Seleccione una Opción-- </option>
+											      		<option v-for="option in factores" v-bind:value="option.id">
+															{{ option.nombre }}
+														</option>
+											      	</select>
+											    </div>
+											    <div class="col-md-8">
+											    	<label>Item:</label>
+											      	<input type="text" v-model="pregunta.item" class="form-control" placeholder="Ingrese un Item">
+											    </div>
+											</div>
+											<hr>
+											<button class="btn btn-primary">Add</button>
+										</form>										
+									</div>
+								</div>
+								<br>
+							</div>
+
+							<div class="col-md-12">
+								<table class="table table-hover table-sm table-bordered">
+									<thead>
+										<tr>
+											<th scope="col" style="width: 5%">#</th>
+											<th scope="col" style="width: 55%">Item</th>
+											<th scope="col" style="width: 30%">Factor</th>
+											<th scope="col" style="width: 10%">Acción</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="(pregunta, index) of preguntas">
+											<th scope="row">{{ index + 1 }}</th>
+											<td>
+												<input type="text" v-model="pregunta.nombre" class="form-control" v-bind:disabled="pregunta.id !== preguntaSeleccionada">	
+											</td>
+											<td>
+												<select v-model="pregunta.factorId" class="form-control" v-bind:disabled="pregunta.id !== preguntaSeleccionada">
+													<option v-for="opti in factores" v-bind:value="opti.id">
+														{{ opti.nombre }}
+													</option>
+												</select>   	
+											</td>
+											<td>
+												<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="edicionPregunta(pregunta.id)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="right" title="Editar Item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+												
+												<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="deleteItem(pregunta.id, pregunta.factorId)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="right" title="Eliminar Item"><i class="fa fa-times" aria-hidden="true"></i></a>
+
+												<a href="javascript:void(0)" v-if="preguntaSeleccionada === pregunta.id" v-on:click="guardarEdicion(pregunta.id, pregunta.nombre, pregunta.factorId)" class="btn btn-success btn-sm btn-block">Save</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="footer" style="background: #BEBCB0;">
+		<div class="container">
+			<span class="text-muted">Pie de Pagina</span>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#main',
+			data: {
+				instrumento: {
+					titulo: '',
+					categorium: '',
+					categoriumId: '',
+					tipo: '',
+					tipoId: ''
+				},
+				pregunta: {
+					factor: '',
+					item: ''
+				},
+				newFactor: '',
+				categorias: [],
+				tipos: [],
+				habilitado: true,
+				preguntas: [],
+				factores: [],
+				preguntaSeleccionada: null,
+				crearPregunta: false
+				//habilitaPregunta: true
+			},
+			created() {
+				var currentUrl = window.location.pathname.split('/');
+				var id = currentUrl[3];
+
+				this.getInstrumento(id);
+				this.getCategorias();
+				this.getTipos();
+				this.getPreguntas(id);
+				this.getFactores();
+			},
+			methods: {
+				getInstrumento(id) {
+					axios.get('/coord_ev/getInstrumento/' + id)
+						.then(res => {
+							this.instrumento = res.data;
+							this.instrumento.categorium = res.data.categorium.nombre;
+							this.instrumento.categoriumId = res.data.categoriumId;
+							this.instrumento.tipoEvalId = res.data.tipoEvalId;
+							
+						}).catch(err => {
+							console.log(err);
+						});
+				},
+				getCategorias() {
+					axios.get('/coord_ev/getCategorias')
+						.then(res => {
+							this.categorias = res.data;
+							console.log(this.categorias)
+						}).catch(err => {
+							console.log(err);
+						});
+				},
+				getTipos() {
+					axios.get('/coord_ev/getTipos')
+						.then(res => {
+							this.tipos = res.data;
+						}).catch(err => {
+							console.log(err);
+						});
+				},
+				habilitar() {
+					this.habilitado = false;
+				},
+				editarInicio(id) {
+					axios.post('/coord_ev/updateInstrumento/' + id, {
+						titulo: this.instrumento.titulo,
+						categoriumId: this.instrumento.categoriumId,
+						tipoEvalId: this.instrumento.tipoEvalId
+					}).then(res => {
+						console.log('Datos Enviados');
+					}).catch(err => {
+						console.log(err);
+					});
+
+					this.habilitado = true;
+
+					var currentUrl = window.location.pathname.split('/');
+					var id = currentUrl[3];
+
+					this.getInstrumento(id);
+					this.getCategorias();
+					this.getTipos();
+				},
+				getPreguntas(id) {
+					axios.get('/coord_ev/instrum/' + id)
+						.then(res => {
+							this.preguntas = res.data;
+							console.log(this.preguntas);
+						}).catch(err => {
+							console.log(err)
+						})
+				},
+				getFactores() {
+					axios.get('/coord_ev/getFactores')
+						.then(res => {
+							this.factores = res.data;
+							console.log(this.factores);
+						})
+				},
+				edicionPregunta(id) {
+					this.preguntaSeleccionada = id
+					//this.habilitaPregunta = false;
+				},
+				guardarEdicion(id, item, factor) {
+					axios.post('/coord_ev/updatePregunta/' + id, {
+						nombre: item,
+						factorId: factor
+					}).then(res => {
+						console.log('Pregunta Actualizada');
+					}).catch(err => {
+						console.log(err);
+					});
+
+					var currentUrl = window.location.pathname.split('/');
+					var id = currentUrl[3];
+
+			      	this.preguntaSeleccionada = null;
+			      	this.getPreguntas(id);
+			    },
+			    deleteItem(id, factorId) {
+
+			    	var respuesta = confirm("Esta seguro que desea Eliminar este Item");
+			    	if(respuesta == true) {
+			    		axios.delete('/coord_ev/deleteItem/' + id +'/factor/' + factorId)
+			    			.then(res => {
+			    				console.log('Item Eliminado');
+			    			}).catch(err => {
+			    				console.log(err);
+			    			});
+			    		var currentUrl = window.location.pathname.split('/');
+						var urlId = currentUrl[3];
+
+						this.getPreguntas(urlId);
+			    	} else {
+			    		console.log('No elimines');
+			    	}
+			    },
+			    creandoPregunta() {
+			    	this.crearPregunta = true;
+			    },
+			    addPregunta(id) {
+					axios.post('/coord_ev/addPregunta/' + id, {
+						factor: this.pregunta.factor,
+						nombre: this.pregunta.item
+					}).then(res => {
+						this.getPreguntas(id);
+						console.log(res);
+						this.pregunta.factor = '';
+						this.pregunta.item = ''
+					}).catch(err => {
+						console.log(err)
+					})
+				},
+				addFactor(id) {
+					axios.post('/cord_ev/crearFactor/' + id, {
+						factor: this.newFactor
+					}).then(res => {
+						console.log('Factor Creado');
+					}).catch(err => {
+						console.log(err);
+					})
+					this.getFactores();
+				}
+			}
+		});
+	</script>
+</body>
+</html>

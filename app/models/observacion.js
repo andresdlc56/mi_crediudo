@@ -8,6 +8,10 @@ module.exports = function(sequelize, Sequelize) {
         },
         calificacion: {
             type: Sequelize.DECIMAL
+        },
+        status: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false
         }
     });
     // Class Method

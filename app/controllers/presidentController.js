@@ -164,7 +164,7 @@ exports.evalProceso = function(req, res) {
 					fecha_f: {
 						[Op.gt]: fechaActual
 					},
-					instrumentId: 4	
+					instrumentId: 1	
 				}
 			}
 		}).then(evalProceso => {
@@ -294,27 +294,27 @@ exports.detalles = function(req, res) {
 		models.evaluacionUsuario.findAll({
 			include: [models.evaluacion],
 			where: {
-				evaluacionId: req.params.id  
+				evaluacionId: req.params.id
 			}
 		}).then(autoEval => {
 			models.evaluacionUsuario.findAll({
 				include: [models.evaluacion],
 				where: {
-					evaluacionId: parseInt(req.params.id) + 1		
+					evaluacionId: idB		
 				}
 			}).then(coEval => {
 				//Evaluacion que realizan los jefes para calificar al subordinado
 				models.evaluacionUsuario.findAll({
 					include: [models.evaluacion],
 					where: {
-						evaluacionId: parseInt(req.params.id) + 3		
+						evaluacionId: idD		
 					}
 				}).then(evalSubor => {
 					//Evaluacion que realizan los subordinados para calificar al Jefe
 					models.evaluacionUsuario.findAll({
 						include: [models.evaluacion],
 						where: {
-							evaluacionId: parseInt(req.params.id) + 2		
+							evaluacionId: idC		
 						}	
 					}).then(evalJefe => {
 						models.usuario.findAll({
@@ -437,7 +437,7 @@ exports.verCalificacion = function(req, res) {
 						[Op.and]: [
 							{usuarioCedula: User.cedula},
 							{usuarioEvaluado: User.cedula}, 
-							{evaluacionId: req.params.id},
+							{evaluacionId: parseInt(req.params.id)},
 							{status: true}
 						]
 					}
@@ -526,7 +526,7 @@ exports.verCalificacion = function(req, res) {
 						[Op.and]: [
 							{usuarioCedula: User.cedula},
 							{usuarioEvaluado: User.cedula}, 
-							{evaluacionId: req.params.id},
+							{evaluacionId: parseInt(req.params.id)},
 							{status: true}
 						]
 					}
@@ -601,42 +601,108 @@ exports.verCalificacion = function(req, res) {
 				});
 			}
 		});
-
-		/*
-			Buscar toda la info de la evaluacion ya realizada por el usuario
-			donde el usuarioEvaluado sea el q viene por parametro y su status sea true
-		
-		models.evaluacionUsuario.findAll({
-			include: [ models.evaluacion ],
-			where: {
-				[Op.and]: [
-					{usuarioEvaluado: req.params.idUser}, 
-					{status: true},
-					{
-						[Op.or]: [{evaluacionId: req.params.id}, {evaluacionId: idB}, {evaluacionId: idC}, {evaluacionId: idD}]
-					}
-				]
-			}
-		}).then(dataEvaluacion => {
-			//res.send(infoUser);
-			res.render('president/detalles/personal/calificacion', { usuario, infoEval, dataEvaluacion });
-		});
-		*/	
 	});
 }
 
+/*=============Subir Observacion mas Calificacion=======*/
 exports.calificar = function(req, res) {
 	var calificacion = parseFloat(req.body.calificacion);
 	calificacion = calificacion.toFixed(2);
 
-	models.observacion.create({
-		contenido: req.body.observacion,
-		calificacion: calificacion,
-		evaluacionId: req.params.id,
-		usuarioCedula: req.params.idUser
-	}).then(Observacion => {
-		res.redirect('/president/detalles/'+ req.params.id +'/personal');
-	});
+	var factorAutoE = [];
+	var factorCoEval = [];
+	
+	var autoEval = [];
+	var n = [];
+	var parcialAutoEval = [];
+
+	var coEval = [];
+	var m = [];
+	var parcialCoeval = [];
+	var media = [];
+
+	/*----Tratando de calcular la calificacion general de un factor----*/
+		/*----------Buscar los datos de la evaluacion-------*/
+			models.evaluacion.findOne({
+				where: { id: req.params.id }
+			}).then(Evaluacion => {
+				models.itemUsuario.findAll({
+					include: [ models.item ],
+					where: {
+						evaluacionId: req.params.id,
+						evaluado: req.params.idUser
+					}
+				}).then(ItemsAutoE => {
+					models.itemUsuario.findAll({
+						include: [ models.item ],
+						where: {
+							evaluacionId: parseInt(req.params.id)+1,
+							evaluado: req.params.idUser
+						}
+					}).then(ItemsCoEval => {
+						models.instrumentFactor.findAll({
+							include: [ models.factor ],
+							where: { instrumentId: Evaluacion.instrumentId }
+						}).then(Factores => {
+							for(let i = 0; i < Factores.length; i ++) {
+
+								factorAutoE[i] = 0;
+								autoEval[i] = 0;
+								n[i] = 0;
+								parcialAutoEval[i] = 0;
+								
+								/*--Para Calcular cuantos puntos tiene acomulado un factor (AutoEval)--*/
+								for(let j = 0; j < ItemsAutoE.length; j ++) {
+									if(ItemsAutoE[j].item.factorId == Factores[i].factorId) {
+										factorAutoE[i] = factorAutoE[i] + ItemsAutoE[j].calificacion;
+										n[i] = n[i] + 1;
+									}
+								}
+
+								factorCoEval[i] = 0;
+								coEval[i] = 0;
+								m[i] = 0;
+								parcialCoeval[i] = 0;
+								media[i] = 0;
+
+								/*--Para Calcular cuantos puntos tiene acomulado un factor (CoEval)--*/
+								for(let k = 0; k < ItemsCoEval.length; k ++) {
+									if(ItemsCoEval[k].item.factorId == Factores[i].factorId) {
+										factorCoEval[i] = factorCoEval[i] + ItemsCoEval[k].calificacion;
+										m[i] = m[i] + 1;
+									}
+								}
+
+								
+								autoEval[i] = factorAutoE[i] / n[i];
+								//coEval[i] = (factorCoEval[i] / m[i]) / 3;
+
+								//media[i] = media[i] + coEval[i];
+
+								/*----Para calcular tiene este factor segun la autoEval (20% de la nota general)*/
+								parcialAutoEval[i] = (autoEval[i] * 2) / 10;
+								
+								/*----Para calcular tiene este factor segun la autoEval (20% de la nota general)*/
+								//parcialCoeval[i] = (media[i] * 5) / 10;
+								
+								console.log('----------'+Factores[i].factor.nombre+': '+parcialAutoEval[i]);
+								//console.log('----------'+Factores[i].factor.nombre+': '+parcialCoeval[i]);
+							}
+						})
+					})
+				})
+			})
+		
+		
+
+		models.observacion.create({
+			contenido: req.body.observacion,
+			calificacion: calificacion,
+			evaluacionId: req.params.id,
+			usuarioCedula: req.params.idUser
+		}).then(Observacion => {
+			res.redirect('/president/detalles/'+ req.params.id +'/personal');
+		});
 }
 
 exports.verAutoEval = function(req, res) {
