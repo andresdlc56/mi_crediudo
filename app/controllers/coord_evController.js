@@ -3,6 +3,9 @@ var exports = module.exports = {}
 var models = require('../models');
 var multer = require('multer'); //para el manejo de multipart/form usado para cargar archivos
 const path = require('path');
+var Sequelize = require('sequelize');
+var Op = Sequelize.Op;
+
 
 //==============Controlador Inicial============
 	exports.index = function(req, res) {
@@ -767,50 +770,37 @@ exports.editInstrumento = function(req, res) {
 
 	//============Update una Pregunta en especifica
 	exports.updatePregunta = function(req, res) {
-		var encontrados = [];
-		models.item.update({
-			nombre: req.body.nombre,
-			factorId: req.body.factorId,
-		}, {
+		models.item.findOne({
 			where: { id: req.params.id }
 		}).then(Item => {
-			models.instrumentFactor.findAll({
-				where: { instrumentId: req.params.idInstrument }
-			}).then(Factores => {
+			models.item.update({
+				nombre: req.body.nombre,
+				factorId: req.body.factorId,
+			}, {
+				where: { id: req.params.id }
+			}).then(() => {
 				models.item.findAll({
-					where: { instrumentId: req.params.idInstrument }
-				}).then(Items => {
-					for(let i = 0; i < Factores.length; i ++) {
-						encontrados[i] = 0;
-						for(let j = 0; j < Items.length; j ++) {
-							if(Items[j].factorId !== Factores[i].factorId) {
-								models.instrumentFactor.create({
-									factorId: req.body.factorId,
-									instrumentId: req.params.idInstrument
-								}).then(() => {
-									console.log('Factor Asociado a instrumento')
-								})
-							}
-
-							/*=====
-								Si buscamos entre losFactores que estan asociados a un instrumento
-								y los comparamos con todos los items.factorId que pertenecen a dicho instrumento
-							*/
-							if(Factores[i].factorId == Items[j].factorId) {
-								encontrados[i] = encontrados[i] + 1;
-
-								console.log('=================Encontrados['+i+']: '+encontados[i]);
-							}
+					where: {
+						[Op.and]: {
+							factorId: Item.factorId,
+							instrumentId: req.params.idInstrument
 						}
 					}
-					res.json("Listo");
-				}).catch(err => {
-					res.json(err)
+				}).then(Items => {
+					if(Items.length == 0) {
+						models.instrumentFactor.destroy({
+							where: {
+								[Op.and]: {
+									factorId: Item.factorId,
+									instrumentId: req.params.idInstrument
+								}
+							}
+						}).then(Eliminado => {
+							res.json("Factor Eliminado")
+						})
+					}
 				})
 			})
-			
-		}).catch(err => {
-			console.log(err);
 		})
 	}
 
