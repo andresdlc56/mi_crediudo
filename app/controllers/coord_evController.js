@@ -767,13 +767,48 @@ exports.editInstrumento = function(req, res) {
 
 	//============Update una Pregunta en especifica
 	exports.updatePregunta = function(req, res) {
+		var encontrados = [];
 		models.item.update({
 			nombre: req.body.nombre,
 			factorId: req.body.factorId,
 		}, {
 			where: { id: req.params.id }
 		}).then(Item => {
-			res.json(Item);
+			models.instrumentFactor.findAll({
+				where: { instrumentId: req.params.idInstrument }
+			}).then(Factores => {
+				models.item.findAll({
+					where: { instrumentId: req.params.idInstrument }
+				}).then(Items => {
+					for(let i = 0; i < Factores.length; i ++) {
+						encontrados[i] = 0;
+						for(let j = 0; j < Items.length; j ++) {
+							if(Items[j].factorId !== Factores[i].factorId) {
+								models.instrumentFactor.create({
+									factorId: req.body.factorId,
+									instrumentId: req.params.idInstrument
+								}).then(() => {
+									console.log('Factor Asociado a instrumento')
+								})
+							}
+
+							/*=====
+								Si buscamos entre losFactores que estan asociados a un instrumento
+								y los comparamos con todos los items.factorId que pertenecen a dicho instrumento
+							*/
+							if(Factores[i].factorId == Items[j].factorId) {
+								encontrados[i] = encontrados[i] + 1;
+
+								console.log('=================Encontrados['+i+']: '+encontados[i]);
+							}
+						}
+					}
+					res.json("Listo");
+				}).catch(err => {
+					res.json(err)
+				})
+			})
+			
 		}).catch(err => {
 			console.log(err);
 		})
@@ -811,19 +846,20 @@ exports.editInstrumento = function(req, res) {
 		}).then(Item => {
 			models.item.findOne({
 				where: {
-					factorId: req.params.factorId
+					factorId: req.params.factorId,
+					instrumentId: req.params.idInstrument
 				}
 			}).then(itemFactor => {
 				if(!itemFactor) {
 					models.instrumentFactor.destroy({
 						where: { factorId: req.params.factorId }
 					}).then(instrumentFactor => {
-						console.log('Item y Factor Eliminado');
+						res.json('Item y Factor Eliminado');
 					}).catch(err => {
-						console.log(err)
+						res.json(err)
 					})
 				} else {
-					console.log('Solo Elimina el Item')
+					res.json('Solo Elimina el Item')
 				}
 			})
 		}).catch(err => {
