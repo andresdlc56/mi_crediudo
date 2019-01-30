@@ -206,9 +206,9 @@
 											<td>
 												<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="edicionPregunta(pregunta.id)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="right" title="Editar Item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
 												
-												<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="deleteItem(pregunta.id, pregunta.factorId)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="right" title="Eliminar Item"><i class="fa fa-times" aria-hidden="true"></i></a>
+												<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="deleteItem(pregunta.id, pregunta.factorId, instrumento.id)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="right" title="Eliminar Item"><i class="fa fa-times" aria-hidden="true"></i></a>
 
-												<a href="javascript:void(0)" v-if="preguntaSeleccionada === pregunta.id" v-on:click="guardarEdicion(pregunta.id, pregunta.nombre, pregunta.factorId)" class="btn btn-success btn-sm btn-block">Save</a>
+												<a href="javascript:void(0)" v-if="preguntaSeleccionada === pregunta.id" v-on:click="guardarEdicion(pregunta.id, pregunta.nombre, pregunta.factorId, instrumento.id)" class="btn btn-success btn-sm btn-block">Save</a>
 											</td>
 										</tr>
 									</tbody>
@@ -285,7 +285,7 @@
 					axios.get('/coord_ev/getCategorias')
 						.then(res => {
 							this.categorias = res.data;
-							console.log(this.categorias)
+							//console.log(this.categorias)
 						}).catch(err => {
 							console.log(err);
 						});
@@ -325,7 +325,7 @@
 					axios.get('/coord_ev/instrum/' + id)
 						.then(res => {
 							this.preguntas = res.data;
-							console.log(this.preguntas);
+							//console.log(this.preguntas);
 						}).catch(err => {
 							console.log(err)
 						})
@@ -341,12 +341,12 @@
 					this.preguntaSeleccionada = id
 					//this.habilitaPregunta = false;
 				},
-				guardarEdicion(id, item, factor) {
-					axios.post('/coord_ev/updatePregunta/' + id, {
+				guardarEdicion(id, item, factor, idInstrument) {
+					axios.post('/coord_ev/updatePregunta/' + id +'/instrumento/'+ idInstrument, {
 						nombre: item,
 						factorId: factor
 					}).then(res => {
-						console.log('Pregunta Actualizada');
+						console.log(res.data);
 					}).catch(err => {
 						console.log(err);
 					});
@@ -357,11 +357,11 @@
 			      	this.preguntaSeleccionada = null;
 			      	this.getPreguntas(id);
 			    },
-			    deleteItem(id, factorId) {
-
+			    deleteItem(id, factorId, instrumentId) {
 			    	var respuesta = confirm("Esta seguro que desea Eliminar este Item");
 			    	if(respuesta == true) {
-			    		axios.delete('/coord_ev/deleteItem/' + id +'/factor/' + factorId)
+			    		//console.log(id);
+			    		axios.delete('/coord_ev/deleteItem/' + id +'/factor/' + factorId + '/instrumento/' + instrumentId)
 			    			.then(res => {
 			    				console.log('Item Eliminado');
 			    			}).catch(err => {

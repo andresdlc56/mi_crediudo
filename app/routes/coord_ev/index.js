@@ -41,7 +41,7 @@ module.exports = function(app) {
                     app.post('/coord_ev/addPregunta/:id', isLoggedIn, coord_evController.addPregunta);
 
                 //-------------Eliminando un Item------------------------
-                    app.delete('/coord_ev/deleteItem/:id/factor/:factorId', isLoggedIn, coord_evController.deleteItem);
+                    app.delete('/coord_ev/deleteItem/:id/factor/:factorId/instrumento/:idInstrument', isLoggedIn, coord_evController.deleteItem);
 
                 //----------------Obtener Todos los Tipos de Evaluaciones---------------
                     app.get('/coord_ev/getTipos', isLoggedIn, coord_evController.getTipos);
@@ -79,7 +79,7 @@ module.exports = function(app) {
         //=================Solicitar todos los datos de un intrumento determinado(id)
             app.get('/coord_ev/instrum/:id', isLoggedIn, coord_evController.getPreguntas);
 
-            app.post('/coord_ev/updatePregunta/:id', isLoggedIn, coord_evController.updatePregunta);
+            app.post('/coord_ev/updatePregunta/:id/instrumento/:idInstrument', isLoggedIn, coord_evController.updatePregunta);
 
             
 

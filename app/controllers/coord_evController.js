@@ -3,6 +3,9 @@ var exports = module.exports = {}
 var models = require('../models');
 var multer = require('multer'); //para el manejo de multipart/form usado para cargar archivos
 const path = require('path');
+var Sequelize = require('sequelize');
+var Op = Sequelize.Op;
+
 
 //==============Controlador Inicial============
 	exports.index = function(req, res) {
@@ -767,15 +770,37 @@ exports.editInstrumento = function(req, res) {
 
 	//============Update una Pregunta en especifica
 	exports.updatePregunta = function(req, res) {
-		models.item.update({
-			nombre: req.body.nombre,
-			factorId: req.body.factorId,
-		}, {
+		models.item.findOne({
 			where: { id: req.params.id }
 		}).then(Item => {
-			res.json(Item);
-		}).catch(err => {
-			console.log(err);
+			models.item.update({
+				nombre: req.body.nombre,
+				factorId: req.body.factorId,
+			}, {
+				where: { id: req.params.id }
+			}).then(() => {
+				models.item.findAll({
+					where: {
+						[Op.and]: {
+							factorId: Item.factorId,
+							instrumentId: req.params.idInstrument
+						}
+					}
+				}).then(Items => {
+					if(Items.length == 0) {
+						models.instrumentFactor.destroy({
+							where: {
+								[Op.and]: {
+									factorId: Item.factorId,
+									instrumentId: req.params.idInstrument
+								}
+							}
+						}).then(Eliminado => {
+							res.json("Factor Eliminado")
+						})
+					}
+				})
+			})
 		})
 	}
 
@@ -811,19 +836,20 @@ exports.editInstrumento = function(req, res) {
 		}).then(Item => {
 			models.item.findOne({
 				where: {
-					factorId: req.params.factorId
+					factorId: req.params.factorId,
+					instrumentId: req.params.idInstrument
 				}
 			}).then(itemFactor => {
 				if(!itemFactor) {
 					models.instrumentFactor.destroy({
 						where: { factorId: req.params.factorId }
 					}).then(instrumentFactor => {
-						console.log('Item y Factor Eliminado');
+						res.json('Item y Factor Eliminado');
 					}).catch(err => {
-						console.log(err)
+						res.json(err)
 					})
 				} else {
-					console.log('Solo Elimina el Item')
+					res.json('Solo Elimina el Item')
 				}
 			})
 		}).catch(err => {
