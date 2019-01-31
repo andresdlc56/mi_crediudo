@@ -770,15 +770,21 @@ exports.editInstrumento = function(req, res) {
 
 	//============Update una Pregunta en especifica
 	exports.updatePregunta = function(req, res) {
+		/*--Busca un Item donde id es igual al id del item que viene por parameto--*/
 		models.item.findOne({
 			where: { id: req.params.id }
 		}).then(Item => {
+			/*--actualiza el item donde id es igual al id del instrumento que viene por parame--*/
 			models.item.update({
 				nombre: req.body.nombre,
 				factorId: req.body.factorId,
 			}, {
 				where: { id: req.params.id }
 			}).then(() => {
+				/*--
+					Busca todos los items donde su factorId es igual al factorId del Item
+					que seleccionamos editar
+				--*/
 				models.item.findAll({
 					where: {
 						[Op.and]: {
@@ -787,7 +793,15 @@ exports.editInstrumento = function(req, res) {
 						}
 					}
 				}).then(Items => {
+					/*--
+						si no encuentra ningun item q cumpla con los paremtros anteriores
+					--*/
 					if(Items.length == 0) {
+						/*--
+							Elimina un factor de la relacion intrumentFactor donde 
+							factorId sea igual al factor del item que seleccionamos editar
+							y que pertenezca al mismo instrumento que estamos editando
+						--*/
 						models.instrumentFactor.destroy({
 							where: {
 								[Op.and]: {
@@ -797,6 +811,42 @@ exports.editInstrumento = function(req, res) {
 							}
 						}).then(Eliminado => {
 							res.json("Factor Eliminado")
+						})
+					} 
+					/*--
+						Si encuentras al menos uno 
+					--*/
+					else {
+						console.log('======================ENTRO=================')
+						/*
+							Busca todos los instrumentFactors donde factorId sea igual al 
+							factorId seleccionado por el usuario y que estos instrumentFactors
+							pertenezcan al mismo instrumento que esta siendo editado
+						*/
+						models.instrumentFactor.findAll({
+							where: {
+								[Op.and]: {
+									factorId: req.body.factorId,
+									instrumentId: req.params.idInstrument
+								}
+							}
+						}).then(instrumentFactors => {
+							/*--
+								Si no encontramos ningun instrumentFactor donde su factorId es igual
+								a factor seleccionado por el coordinador y pertenezca al instrumento 
+								que se esta editando
+							--*/
+							if(instrumentFactors.length == 0) {
+								/*--
+									crear un instrumentFactor 
+								--*/
+								models.instrumentFactor.create({
+									factorId: req.body.factorId,
+									instrumentId: req.params.idInstrument
+								}).then(() => {
+									res.json('instrumentFactor Creado')
+								})
+							}
 						})
 					}
 				})
