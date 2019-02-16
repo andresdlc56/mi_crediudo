@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var passport   = require('passport');
 var session    = require('express-session');
+var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var env = require('dotenv').load();
 var multer = require('multer'); //para el manejo de multipart/form usado para cargar archivos
@@ -11,6 +12,9 @@ var flash = require('connect-flash');
 //For BodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(cookieParser());
+
 
 // For Passport
 app.use(session({ secret: 'keyboard cat',resave: true, saveUninitialized:true})); // session secret
@@ -22,12 +26,6 @@ app.use(express.static(path.join(__dirname, 'public'))); // lo declaramos para u
 app.set('views', './app/views')
 app.engine('html', require('ejs').renderFile);// para usar html en vez de jade como motor de plantilla
 app.set("view engine", "html");
-
-/*
-app.get('/', function(req, res) {
-    res.send('Welcome to Passport with Sequelize');
-});
-*/
 
 //Models
 var models = require("./app/models");

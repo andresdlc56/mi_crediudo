@@ -12,6 +12,11 @@ module.exports = function(app,passport) {
     //RUTA DE INICIO DE SESION
     app.get('/login', authController.signin);
 
+    //RUTA DE INICIO DE SESION
+    app.get('/olvidePassword', indexController.olvidePassword);
+
+    app.post('/forgot', indexController.forgot);
+
     //RUTA INICIAL PARA LOS USUARIOS EMPLEADOS QUE HAN INICIADO SESION
     app.get('/dashboard', isLoggedIn, authController.dashboard);
 

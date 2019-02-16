@@ -29,7 +29,10 @@ module.exports = function(sequelize, Sequelize) {
             allowNull: false
         },
  
-        last_login: {
+        resetPasswordToken: {
+            type: Sequelize.STRING
+        },
+        resetPasswordExpires: {
             type: Sequelize.DATE
         }
     });
