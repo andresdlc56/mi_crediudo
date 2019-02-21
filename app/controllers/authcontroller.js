@@ -46,11 +46,6 @@ exports.dashboard = function(req, res) {
 					{unidadCodigo:usuario.unidadCodigo},
 					{instrumentId: 4},
 					{
-						fecha_i: {
-							[Op.lte]: fecha_actual
-						}
-					},
-					{
 						fecha_f: {
 							[Op.gte]: fecha_actual
 						}
