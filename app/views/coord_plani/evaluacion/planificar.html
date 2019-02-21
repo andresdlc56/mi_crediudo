@@ -68,11 +68,13 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="card">
-									<div class="card-header">
-										Planificar Evaluación
-									</div>
+									
 
 									<div class="card-body">
+										<div class="article border-bottom">
+											<h3>Planificar Evaluación</h3>
+										</div>
+										<br>
 										<fieldset v-bind:disabled="deshabilitar">
 											<form v-on:submit="checkForm()" method="post" action="/coord_plani/plani_eval">
 												<div class="form-row">
@@ -160,13 +162,13 @@
 		</div>
 	</footer>
 
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+	<script src="/js/vue.js"></script>
+	<script src="/js/axios.js"></script>
 	<script type="text/javascript">
 		new Vue({
 			el:'#main',
