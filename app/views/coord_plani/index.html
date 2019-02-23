@@ -13,15 +13,14 @@
     <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
 </head>
 <body>
-	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
-		<img src="images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
-	</div>	
+	<div id="main">
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
 
-	<%- include('../partials/coord_plani/navbar.html') %>
+		<%- include('../partials/coord_plani/navbar.html') %>
 
-	<div class="conatiner-fluid">
-		
-		
+		<div class="conatiner-fluid">
 			<div class="col-sm-12 col-md-12 col-lg-12">
 				<div class="row">
 					<div class="col-sm-12 col-md-12 col-lg-12">
@@ -44,10 +43,10 @@
 						  
 						  	<div class="card-body">
 						    	<div class="form-group">
-						    		<p><b>Nombre: </b><%- usuario.nombre %></p>
-						    		<p><b>Apellido: </b><%- usuario.apellido %></p>
-						    		<p><b>Nucleo: </b><%- usuario.nucleoCodigo %></p>
-						    		<p><b>Unidad: </b><%- usuario.unidadCodigo %></p>
+						    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+						    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+						    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+						    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
 						    	</div>
 						  	</div>
 						</div>
@@ -82,7 +81,7 @@
 								<!--=======fin mensaje de alerta==========-->
 								<div class="jumbotron jumbotron-fluid">
 									<div class="container">
-								    	<h1 class="display-5">Bienvenido(a) <%- usuario.nombre %></h1>
+								    	<h1 class="display-5">Bienvenido(a) <%- Usuario.nombre %></h1>
 								    	<p class="lead">Coord. de Planificación</p>
 								  	</div>
 								</div>
@@ -160,13 +159,14 @@
 					</div>
 				</div>
 			</div>
-	</div>
-	<br>
-	<footer class="footer" style="background: #BEBCB0;">
-		<div class="container">
-			<span class="text-muted">Pie de Pagina</span>
 		</div>
-	</footer>
+		<br>
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
+	</div>
 
 	<script src="/js/jquery-3.3.1.min.js"></script>
 	<script src="/js/popper.min.js"></script>
@@ -174,5 +174,22 @@
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
 	<script src="/js/misFunciones.js"></script>
+	<script src="/js/vue.js"></script>
+	<script src="/js/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#main',
+			data: {
+				inicio: true,
+				evaluacion: false
+			},
+			created() {
+				
+			},
+			methods: {
+				
+			}
+		});
+	</script>
 </body>
 </html>

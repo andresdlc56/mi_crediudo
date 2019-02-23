@@ -24,143 +24,145 @@
 	<!--======fin estilo para el error=====-->  
 </head>
 <body>
-	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
-		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
-	</div>	
+	<div id="main">
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
 
-	<%- include('../../partials/coord_plani/navbar.html') %>
+		<%- include('../../partials/coord_plani/navbar.html') %>
 
-	<div class="container-fluid" id="main">
-		<div class="row justify-content-md-center">
-			<div class="col-md-12">
-				<div class="row">
-					<div class="col-md-12">
-						<!--=======MIGAS DE PAN=========-->
-						<nav aria-label="breadcrumb" style="margin-top: 1%">
-							<ol class="breadcrumb">
-							    <li class="breadcrumb-item active" aria-current="page">Home</li>
-							    <li class="breadcrumb-item active" aria-current="page">Planificar Evaluación</li>
-							</ol>
-						</nav>
-						<!--=======FIN MIGAS DE PAN=========-->
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-3">
-						<div class="card">
-						  	<div class="card-header">
-						    	Datos Personales:
-						  	</div>
-						  
-						  	<div class="card-body">
-						    	<div class="form-group">
-						    		<p><b>Nombre: </b></p>
-						    		<p><b>Apellido: </b></p>
-						    		<p><b>Nucleo: </b></p>
-						    		<p><b>Unidad: </b></p>
-						    	</div>
-						  	</div>
+		<div class="container-fluid">
+			<div class="row justify-content-md-center">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-12">
+							<!--=======MIGAS DE PAN=========-->
+							<nav aria-label="breadcrumb" style="margin-top: 1%">
+								<ol class="breadcrumb">
+								    <li class="breadcrumb-item active" aria-current="page"><a href="/coord_plani">Home</a></li>
+								    <li class="breadcrumb-item active" aria-current="page">Planificar Evaluación</li>
+								</ol>
+							</nav>
+							<!--=======FIN MIGAS DE PAN=========-->
 						</div>
 					</div>
 
-					<div class="col-md-9">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="card">
-									
+					<div class="row">
+						<div class="col-md-3">
+							<div class="card">
+							  	<div class="card-header">
+							    	Datos Personales:
+							  	</div>
+							  
+							  	<div class="card-body">
+							    	<div class="form-group">
+							    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+							    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+							    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+							    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
+							    	</div>
+							  	</div>
+							</div>
+						</div>
 
-									<div class="card-body">
-										<div class="article border-bottom">
-											<h3>Planificar Evaluación</h3>
-										</div>
-										<br>
-										<fieldset v-bind:disabled="deshabilitar">
-											<form v-on:submit="checkForm()" method="post" action="/coord_plani/plani_eval">
-												<div class="form-row">
-													<div class="form-group col-md-6">
-														<label>Personal a Evaluar:</label>
-														<select name="categoria" id="categoria" class="form-control" autofocus>
-															<option value=""> --Seleccione una Opción-- </option>
-															<% for(var i = 0; i < Categorias.length; i ++) {%>
-																<option value="<%= Categorias[i].id %>"><%= Categorias[i].nombre %></option>
-															<%}%>
-														</select>
+						<div class="col-md-9">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+										
+
+										<div class="card-body">
+											<div class="article border-bottom">
+												<h3>Planificar Evaluación</h3>
+											</div>
+											<br>
+											<fieldset v-bind:disabled="deshabilitar">
+												<form v-on:submit="checkForm()" method="post" action="/coord_plani/plani_eval">
+													<div class="form-row">
+														<div class="form-group col-md-6">
+															<label>Personal a Evaluar:</label>
+															<select name="categoria" id="categoria" class="form-control" autofocus>
+																<option value=""> --Seleccione una Opción-- </option>
+																<% for(var i = 0; i < Categorias.length; i ++) {%>
+																	<option value="<%= Categorias[i].id %>"><%= Categorias[i].nombre %></option>
+																<%}%>
+															</select>
+														</div>
+
+														<!--
+														<div class="form-group col-md-6">
+															<label>Nucleo: </label>
+															<select name="nucleo" id="nucleo" class="form-control">
+																<option value=""> --Seleccione una Opción-- </option>
+																<% for(var j = 0; j < Nucleos.length; j ++) {%>
+																	<option value="<%= Nucleos[j].codigo %>"><%= Nucleos[j].nombre %></option>
+																<%}%>
+															</select>
+														</div>
+														-->
+														<div class="form-group col-md-6">
+															<label>Nucleo: </label>
+															<select v-model="nucleo" name="nucleo" class="form-control" @change="getUnidades(nucleo)">
+																<option disabled value="">Please select one</option>
+																<option v-for="option in options" v-bind:value="option.codigo">
+																	{{ option.nombre }}
+																</option>
+															</select>
+														</div>
 													</div>
 
-													<!--
-													<div class="form-group col-md-6">
-														<label>Nucleo: </label>
-														<select name="nucleo" id="nucleo" class="form-control">
-															<option value=""> --Seleccione una Opción-- </option>
-															<% for(var j = 0; j < Nucleos.length; j ++) {%>
-																<option value="<%= Nucleos[j].codigo %>"><%= Nucleos[j].nombre %></option>
-															<%}%>
-														</select>
-													</div>
-													-->
-													<div class="form-group col-md-6">
-														<label>Nucleo: </label>
-														<select v-model="nucleo" name="nucleo" class="form-control" @change="getUnidades(nucleo)">
+													<div class="form-group">
+														<label>Unidad:</label>
+														<select name="unidad" class="form-control">
 															<option disabled value="">Please select one</option>
-															<option v-for="option in options" v-bind:value="option.codigo">
-																{{ option.nombre }}
+															<option v-for="uni in unidades" v-bind:value="uni.codigo">
+																{{ uni.nombre }}
 															</option>
-														</select>
-													</div>
-												</div>
-
-												<div class="form-group">
-													<label>Unidad:</label>
-													<select name="unidad" class="form-control">
-														<option disabled value="">Please select one</option>
-														<option v-for="uni in unidades" v-bind:value="uni.codigo">
-															{{ uni.nombre }}
-														</option>
-													</select>	
-												</div>
-
-												<div class="form-group">
-													<label>Nombre de la Evaluación:</label>
-													<input type="text" name="nombre" placeholder="Nombre o Titulo de la Evaluación" class="form-control">	
-												</div>
-
-												<div class="form-row">
-													<div class="form-group col-md-6">
-														<label>Fecha de Inicio:</label>
-														<input type="date" v-model="fecha_i" name="fecha_i" id="fecha_i" class="form-control">
+														</select>	
 													</div>
 
-													<div class="form-group col-md-6">
-														<label>Fecha de Fin:</label>
-														<input type="date" v-model="fecha_f" name="fecha_f" id="fecha_f" class="form-control">
+													<div class="form-group">
+														<label>Nombre de la Evaluación:</label>
+														<input type="text" name="nombre" placeholder="Nombre o Titulo de la Evaluación" class="form-control">	
 													</div>
-												</div>
 
-												<hr>
+													<div class="form-row">
+														<div class="form-group col-md-6">
+															<label>Fecha de Inicio:</label>
+															<input type="date" v-model="fecha_i" name="fecha_i" id="fecha_i" class="form-control">
+														</div>
 
-												<input type="submit" name="aceptar" value="Aceptar" class="btn btn-primary btn-block">
-											</form>
-										</fieldset>
+														<div class="form-group col-md-6">
+															<label>Fecha de Fin:</label>
+															<input type="date" v-model="fecha_f" name="fecha_f" id="fecha_f" class="form-control">
+														</div>
+													</div>
+
+													<hr>
+
+													<input type="submit" name="aceptar" value="Aceptar" class="btn btn-primary btn-block">
+												</form>
+											</fieldset>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+
+
 					</div>
-
-
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<br>
-	
-	<footer class="footer" style="background: #BEBCB0;">
-		<div class="container">
-			<span class="text-muted">Pie de Pagina</span>
-		</div>
-	</footer>
+		<br>
+		
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
+	</div>
 
 	<script src="/js/jquery-3.3.1.min.js"></script>
 	<script src="/js/popper.min.js"></script>
@@ -173,6 +175,8 @@
 		new Vue({
 			el:'#main',
 			data: {
+				inicio: false,
+				evaluacion: true,
 				unidades: [],
 				nucleo: {},
 				options: [],

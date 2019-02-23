@@ -6,55 +6,64 @@ var Op = Sequelize.Op;
 
 //================Controlador Inicial Coord Planificación =============
 exports.index = function(req, res) {
-	var usuario = req.user;
-	/*
-		buscando 3 evalucaiones donde
-		donde usen un instrumento de evaluacion de tipo 1 (AutoEvaluacion)
-		y ordenalos de forma decendente  
-	*/
-	models.evaluacion.findAll({
-		include: [models.categoria, models.nucleo, models.unidad, models.instrument],
-		limit: 3,
-		where: {
-			instrumentId: 1	
-		},
-		order: [
-			['fecha_i', 'DESC']
-		]
-	}).then(Evaluaciones => {
-		//buscando todos los tipos de valuaciones
-		models.tipoEval.findAll({
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		/*
+			buscando 3 evalucaiones donde
+			donde usen un instrumento de evaluacion de tipo 1 (AutoEvaluacion)
+			y ordenalos de forma decendente  
+		*/
+		models.evaluacion.findAll({
+			include: [models.categoria, models.nucleo, models.unidad, models.instrument],
+			limit: 3,
+			where: {
+				instrumentId: 1	
+			},
+			order: [
+				['fecha_i', 'DESC']
+			]
+		}).then(Evaluaciones => {
+			//buscando todos los tipos de valuaciones
+			models.tipoEval.findAll({
 
-		}).then(tipoEval => {
-			models.evento.findAll({
+			}).then(tipoEval => {
+				models.evento.findAll({
 
-			}).then(Eventos => {
-				//res.send(Evaluaciones);
-				res.render('coord_plani/index', { 
-					Evaluaciones, 
-					tipoEval,
-					usuario,
-					Eventos,
-					message: req.flash('info'),
-	        		error: req.flash('error')
-				});
-			})	
+				}).then(Eventos => {
+					//res.send(Evaluaciones);
+					res.render('coord_plani/index', { 
+						Evaluaciones, 
+						tipoEval,
+						Usuario,
+						Eventos,
+						message: req.flash('info'),
+		        		error: req.flash('error')
+					});
+				})	
+			});
 		});
 	});
 }
 
 //===============Controlador para Mostrar Formulario de planificación de Evaluacion====
 exports.planiEval = function(req, res) {
-	//buscando todas las categorias
-	models.categoria.findAll({
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		//buscando todas las categorias
+		models.categoria.findAll({
 
-	}).then(Categorias => {
-		//buscando todos los nucleos
-		models.nucleo.findAll({
+		}).then(Categorias => {
+			//buscando todos los nucleos
+			models.nucleo.findAll({
 
-		}).then(Nucleos => {
-			res.render('coord_plani/evaluacion/planificar', { Categorias, Nucleos });	
-		});
+			}).then(Nucleos => {
+				res.render('coord_plani/evaluacion/planificar', { Usuario, Categorias, Nucleos });	
+			});
+		});	
 	});
 }
 
