@@ -25,7 +25,9 @@
 						<!--=======MIGAS DE PAN=========-->
 						<nav aria-label="breadcrumb" style="margin-top: 1%">
 							<ol class="breadcrumb">
-							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							    <li class="breadcrumb-item active" aria-current="page"><a href="/dashboard">Home</a></li>
+							    <li class="breadcrumb-item active" aria-current="page"><a href="/coord_ev/instrumentos">Instrumentos</a></li>
+							    <li class="breadcrumb-item active" aria-current="page">{{ instrumento.tipoEval }}</li>
 							</ol>
 						</nav>
 						<!--=======FIN MIGAS DE PAN=========-->
@@ -241,7 +243,7 @@
 					titulo: '',
 					categorium: '',
 					categoriumId: '',
-					tipo: '',
+					tipoEval: '',
 					tipoId: ''
 				},
 				pregunta: {
@@ -276,7 +278,8 @@
 							this.instrumento.categorium = res.data.categorium.nombre;
 							this.instrumento.categoriumId = res.data.categoriumId;
 							this.instrumento.tipoEvalId = res.data.tipoEvalId;
-							
+							this.instrumento.tipoEval = res.data.tipoEval.nombre
+							//console.log(this.instrumento.tipoEval.nombre)
 						}).catch(err => {
 							console.log(err);
 						});
