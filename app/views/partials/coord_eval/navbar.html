@@ -9,11 +9,11 @@
 
 	<div class="collapse navbar-collapse navegador" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
+			<li class="nav-item" v-bind:class="{ active: activar }">
 			    <a class="nav-link" href="/dashboard">Home <span class="sr-only">(current)</span></a>
 			</li>
 			      
-			<li class="nav-item dropdown">
+			<li class="nav-item dropdown" v-bind:class="{ active: activarEventos }">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			    	Eventos
 			    </a>
@@ -24,9 +24,9 @@
 					<a class="dropdown-item" href="">Culminada</a>
 				</div>
 			</li>
-			      
-			<li class="nav-item">
-			    <a class="nav-link disabled" href="#">Disabled</a>
+
+			<li class="nav-item" v-bind:class="{ active: activarInstrumentos }">
+			    <a class="nav-link" href="/coord_ev/instrumentos">Instrumentos <span class="sr-only">(current)</span></a>
 			</li>
 		</ul>
 

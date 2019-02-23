@@ -10,144 +10,146 @@
     <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
 </head>
 <body>
-	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
-		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
-	</div>	
+	<div id="main">
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
 
-	<%- include('../../partials/coord_eval/navbar.html') %>
+		<%- include('../../partials/coord_eval/navbar.html') %>
 
-	<div class="container-fluid" id="main">
-		<div class="row justify-content-md-center">
-			<div class="col-md-12">
-				<div class="row">
-					<div class="col-md-12">
-						<!--=======MIGAS DE PAN=========-->
-						<nav aria-label="breadcrumb" style="margin-top: 1%">
-							<ol class="breadcrumb">
-							    <li class="breadcrumb-item active" aria-current="page">Home</li>
-							</ol>
-						</nav>
-						<!--=======FIN MIGAS DE PAN=========-->
+		<div class="container-fluid" id="main">
+			<div class="row justify-content-md-center">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-12">
+							<!--=======MIGAS DE PAN=========-->
+							<nav aria-label="breadcrumb" style="margin-top: 1%">
+								<ol class="breadcrumb">
+								    <li class="breadcrumb-item active" aria-current="page">Home</li>
+								</ol>
+							</nav>
+							<!--=======FIN MIGAS DE PAN=========-->
+						</div>
 					</div>
-				</div>
 
-				<div class="row">
-					<div class="col-sm-12 col-md-3">
-						<div class="card">
-						  	<div class="card-header">
-						    	Datos Personales:
-						  	</div>
-						  
-						  	<div class="card-body">
-						    	<div class="form-group">
-						    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
-						    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
-						    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
-						    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
-						    	</div>
-						  	</div>
+					<div class="row">
+						<div class="col-sm-12 col-md-3">
+							<div class="card">
+							  	<div class="card-header">
+							    	Datos Personales:
+							  	</div>
+							  
+							  	<div class="card-body">
+							    	<div class="form-group">
+							    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+							    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+							    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+							    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
+							    	</div>
+							  	</div>
+							</div>
+
+							<br>
 						</div>
 
-						<br>
-					</div>
+						<div class="col-md-9">
+							<div class="row">
+								<div class="col-sm-12 col-md-12 col-lg-12">
+									<!--=======mensaje de alerta==========-->
+									<% if(message == false) {%>
 
-					<div class="col-md-9">
-						<div class="row">
-							<div class="col-sm-12 col-md-12 col-lg-12">
-								<!--=======mensaje de alerta==========-->
-								<% if(message == false) {%>
+									<%} else {%>
+										<div class="alert alert-success alert-dismissible fade show" role="alert">
+								            <%= message %>
+								            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+								        </div>
+									<%}%>
 
-								<%} else {%>
-									<div class="alert alert-success alert-dismissible fade show" role="alert">
-							            <%= message %>
-							            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-							        </div>
-								<%}%>
+									<% if(error == false) {%>
 
-								<% if(error == false) {%>
+									<%} else {%>
+										<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								            <%= error %>
+								            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+								        </div>
+									<%}%>
+									<!--=======fin mensaje de alerta==========-->
 
-								<%} else {%>
-									<div class="alert alert-danger alert-dismissible fade show" role="alert">
-							            <%= error %>
-							            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-							        </div>
-								<%}%>
-								<!--=======fin mensaje de alerta==========-->
-
-								<div class="card">
-									<div class="card-body">
-										<div class="article border-bottom">
-											<div class="row">
-												<div class="col-md-9">
-													<p style="font-size: 25pt">
-														<i class="fa fa-bullhorn" aria-hidden="true"></i>
-														Eventos Planificados	
-													</p>
-												</div>
-												<div class="col-md-3 text-right">
-													<a href="/coord_ev/eventos/planificar" data-toggle="tooltip" data-placement="right" title="Nuevo Instrumento">
-														<i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
-													</a>
+									<div class="card">
+										<div class="card-body">
+											<div class="article border-bottom">
+												<div class="row">
+													<div class="col-md-9">
+														<p style="font-size: 25pt">
+															<i class="fa fa-bullhorn" aria-hidden="true"></i>
+															Eventos Planificados	
+														</p>
+													</div>
+													<div class="col-md-3 text-right">
+														<a href="/coord_ev/eventos/planificar" data-toggle="tooltip" data-placement="right" title="Nuevo Instrumento">
+															<i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+														</a>
+													</div>
 												</div>
 											</div>
-										</div>
-										<table class="table">
-											<thead>
-												<tr>
-													<th>#</th>
-													<th scope="col" style="width: 20%">Nombre</th>
-													<th scope="col">Fecha</th>
-											      	<th scope="col">Img</th>
-											      	<th scope="col" style="width: 30%">Acción</th>
-											    </tr>
-											</thead>
-										  	<tbody>
-										  		<% for(let i = 0; i < Eventos.length; i ++) {%>
-												<tr>
-													<td><%- Eventos[i].id %></td>
-													<td><%- Eventos[i].nombre %></td>
-													<td>
-														<%- Eventos[i].fecha.getDate() %>/<%- Eventos[i].fecha.getMonth() + 1%>/<%- Eventos[i].fecha.getFullYear() %>
-													</td>
-													<td>
-														<a href="javascript:;" v-on:click="buscaEvento(<%- Eventos[i].id %>)"><img src="../../../../uploads/eventos/<%=Eventos[i].files%>" class="img-thumbnail" style="width: 30%" data-toggle="modal" data-target="#exampleModalCenter"/></a>
+											<table class="table">
+												<thead>
+													<tr>
+														<th>#</th>
+														<th scope="col" style="width: 20%">Nombre</th>
+														<th scope="col">Fecha</th>
+												      	<th scope="col">Img</th>
+												      	<th scope="col" style="width: 30%">Acción</th>
+												    </tr>
+												</thead>
+											  	<tbody>
+											  		<% for(let i = 0; i < Eventos.length; i ++) {%>
+													<tr>
+														<td><%- Eventos[i].id %></td>
+														<td><%- Eventos[i].nombre %></td>
+														<td>
+															<%- Eventos[i].fecha.getDate() %>/<%- Eventos[i].fecha.getMonth() + 1%>/<%- Eventos[i].fecha.getFullYear() %>
+														</td>
+														<td>
+															<a href="javascript:;" v-on:click="buscaEvento(<%- Eventos[i].id %>)"><img src="../../../../uploads/eventos/<%=Eventos[i].files%>" class="img-thumbnail" style="width: 30%" data-toggle="modal" data-target="#exampleModalCenter"/></a>
 
-														<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-														  <div class="modal-dialog modal-lg modal-dialog-centered">
-														    <div class="modal-content">
-														      <img v-bind:src="'../../../../uploads/eventos/' + evento.files" class="img-thumbnail"/>
-														    </div>
-														  </div>
-														</div>
-													</td>
-													<td>
-														<a href="/coord_ev/editEvento/<%- Eventos[i].id %>" class="btn btn-warning btn-xs">Edit</a>
-														<a href="/coord_ev/deleteEvento/<%- Eventos[i].id %>" class="btn btn-danger btn-xs">Delete</a>
-													</td>
-												</tr>
-												<%}%>
-										  	</tbody>
-										</table>
+															<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+															  <div class="modal-dialog modal-lg modal-dialog-centered">
+															    <div class="modal-content">
+															      <img v-bind:src="'../../../../uploads/eventos/' + evento.files" class="img-thumbnail"/>
+															    </div>
+															  </div>
+															</div>
+														</td>
+														<td>
+															<a href="/coord_ev/editEvento/<%- Eventos[i].id %>" class="btn btn-warning btn-xs">Edit</a>
+															<a href="/coord_ev/deleteEvento/<%- Eventos[i].id %>" class="btn btn-danger btn-xs">Delete</a>
+														</td>
+													</tr>
+													<%}%>
+											  	</tbody>
+											</table>
+										</div>
 									</div>
+									<br>
 								</div>
-								<br>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<footer class="footer" style="background: #BEBCB0;">
-		<div class="container">
-			<span class="text-muted">Pie de Pagina</span>
-		</div>
-	</footer>
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
+	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -159,10 +161,14 @@
 		new Vue({
 			el: '#main',
 			data: {
-				evento: {}
+				evento: {},
+				activo: false
 			},
 			created() {
-				
+				var currentUrl = window.location.pathname.split('/');
+				var seccion = currentUrl[2];
+
+				this.activarEventos(seccion);
 			},
 			methods: {
 				buscaEvento(id) {
@@ -173,6 +179,11 @@
 						}).catch(err => {
 							console.log(err);
 						})
+				},
+				activarEventos(seccion) {
+					if(seccion == 'eventos') {
+						activo: true;
+					}
 				}
 			}
 		})

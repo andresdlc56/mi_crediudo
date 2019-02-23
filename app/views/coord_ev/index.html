@@ -16,106 +16,108 @@
     <link href="css/sticky-footer-navbar.css" rel="stylesheet">
 </head>
 <body>
-	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
-		<img src="images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
-	</div>	
+	<div id="main">
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
 
-	<%- include('../partials/coord_eval/navbar.html') %>
+		<%- include('../partials/coord_eval/navbar.html') %>
 
-	<div class="container-fluid">
-		<div class="row justify-content-md-center">
-			<div class="col-md-12">
-				<div class="row">
-					<div class="col-md-12">
-						<!--=======MIGAS DE PAN=========-->
-						<nav aria-label="breadcrumb" style="margin-top: 1%">
-							<ol class="breadcrumb">
-							    <li class="breadcrumb-item active" aria-current="page">Home</li>
-							</ol>
-						</nav>
-						<!--=======FIN MIGAS DE PAN=========-->
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-3">
-						<div class="card">
-						  	<div class="card-header">
-						    	Datos Personales:
-						  	</div>
-						  
-						  	<div class="card-body">
-						    	<div class="form-group">
-						    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
-						    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
-						    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
-						    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
-						    	</div>
-						  	</div>
+		<div class="container-fluid">
+			<div class="row justify-content-md-center">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-12">
+							<!--=======MIGAS DE PAN=========-->
+							<nav aria-label="breadcrumb" style="margin-top: 1%">
+								<ol class="breadcrumb">
+								    <li class="breadcrumb-item active" aria-current="page">Home</li>
+								</ol>
+							</nav>
+							<!--=======FIN MIGAS DE PAN=========-->
 						</div>
-
-						<br>
 					</div>
 
-					<div class="col-md-9">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="jumbotron jumbotron-fluid">
-									<div class="container">
-								    	<h1 class="display-5">Bienvenido(a) <%- Usuario.nombre %> <%- Usuario.apellido %></h1>
-								    	<p class="lead">Coord. de Evaluación</p>
-								  	</div>
-								</div>
+					<div class="row">
+						<div class="col-md-3">
+							<div class="card">
+							  	<div class="card-header">
+							    	Datos Personales:
+							  	</div>
+							  
+							  	<div class="card-body">
+							    	<div class="form-group">
+							    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+							    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+							    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+							    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
+							    	</div>
+							  	</div>
 							</div>
 
-							<div class="col-md-12">
-								<div class="row">
-									<div class="col-md-4">
-										<div class="card border-primary">
-											<div class="card-body text-white bg-primary">
-												<div class="row">
-													<div class="col-md-3">
-												   		<i class="fa fa-bullhorn fa-5x"></i>
-													</div>
-													<div class="col-md-9 text-right">
-													   	<div><h2>
-													   		<%- Eventos.length %>		
-													   	</h2></div>
-		                                    			<div><p style="font-size: 15pt">Eventos</p></div>
-													</div>	
-												</div>
-												    	
-											</div>
-											<a href="/coord_ev/eventos">
-												<div class="card-footer text-muted">
-				    								2 days ago
-				  								</div>
-			  								</a>
-										</div>
-										<br>
-									</div>
+							<br>
+						</div>
 
-									<div class="col-md-4">
-										<div class="card border-primary">
-											<div class="card-body text-white bg-danger">
-												<div class="row">
-													<div class="col-md-3">
-												   		<i class="fa fa-file-text fa-5x" aria-hidden="true"></i>
+						<div class="col-md-9">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="jumbotron jumbotron-fluid">
+										<div class="container">
+									    	<h1 class="display-5">Bienvenido(a) <%- Usuario.nombre %> <%- Usuario.apellido %></h1>
+									    	<p class="lead">Coord. de Evaluación</p>
+									  	</div>
+									</div>
+								</div>
+
+								<div class="col-md-12">
+									<div class="row">
+										<div class="col-md-4">
+											<div class="card border-primary">
+												<div class="card-body text-white bg-primary">
+													<div class="row">
+														<div class="col-md-3">
+													   		<i class="fa fa-bullhorn fa-5x"></i>
+														</div>
+														<div class="col-md-9 text-right">
+														   	<div><h2>
+														   		<%- Eventos.length %>		
+														   	</h2></div>
+			                                    			<div><p style="font-size: 15pt">Eventos</p></div>
+														</div>	
 													</div>
-													<div class="col-md-9 text-right">
-													   	<div><h2>4</h2></div>
-		                                    			<div><p style="font-size: 15pt">Instrumentos</p></div>
-													</div>	
+													    	
 												</div>
-												    	
+												<a href="/coord_ev/eventos">
+													<div class="card-footer text-muted">
+					    								2 days ago
+					  								</div>
+				  								</a>
 											</div>
-											<a href="/coord_ev/instrumentos">
-												<div class="card-footer text-muted">
-				    								2 days ago
-				  								</div>
-			  								</a>
+											<br>
 										</div>
-										<br>
+
+										<div class="col-md-4">
+											<div class="card border-primary">
+												<div class="card-body text-white bg-danger">
+													<div class="row">
+														<div class="col-md-3">
+													   		<i class="fa fa-file-text fa-5x" aria-hidden="true"></i>
+														</div>
+														<div class="col-md-9 text-right">
+														   	<div><h2>4</h2></div>
+			                                    			<div><p style="font-size: 15pt">Instrumentos</p></div>
+														</div>	
+													</div>
+													    	
+												</div>
+												<a href="/coord_ev/instrumentos">
+													<div class="card-footer text-muted">
+					    								2 days ago
+					  								</div>
+				  								</a>
+											</div>
+											<br>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -124,23 +126,46 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<h3>Index | Coord. Evaluación</h3>
-	<a href="/coord_ev/factor">Factor</a>
-	<br>
-	<a href="/coord_ev/instrument">Instrumento de Eval.</a>
-	<a href="">enlace</a>
+		<h3>Index | Coord. Evaluación</h3>
+		<a href="/coord_ev/factor">Factor</a>
+		<br>
+		<a href="/coord_ev/instrument">Instrumento de Eval.</a>
+		<a href="">enlace</a>
 
-	<footer class="footer" style="background: #BEBCB0;">
-		<div class="container">
-			<span class="text-muted">Pie de Pagina</span>
-		</div>
-	</footer>
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
+	</div>
 
 	<script src="/js/jquery-3.3.1.min.js"></script>
 	<script src="/js/popper.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
+	<script src="/js/vue.js"></script>
+	<script src="/js/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#main',
+			data: {
+				activo: false
+			},
+			created() {
+				var currentUrl = window.location.pathname.split('/');
+				var seccion = currentUrl[1];
+
+				this.activar(seccion);
+			},
+			methods: {
+				activar(seccion) {
+					if(seccion == 'coord_ev') {
+						activo: true;
+					}
+				}
+			}
+		});
+	</script>
 </body>
 </html>

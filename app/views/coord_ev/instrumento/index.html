@@ -16,112 +16,137 @@
     <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
 </head>
 <body>
-	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
-		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
-	</div>	
+	<div id="main">
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
 
-	<%- include('../../partials/coord_eval/navbar.html') %>
+		<%- include('../../partials/coord_eval/navbar.html') %>
 
-	<div class="container-fluid" id="main">
-		<div class="row justify-content-md-center">
-			<div class="col-md-12">
-				<div class="row">
-					<div class="col-md-12">
-						<!--=======MIGAS DE PAN=========-->
-						<nav aria-label="breadcrumb" style="margin-top: 1%">
-							<ol class="breadcrumb">
-							    <li class="breadcrumb-item" aria-current="page"><a href="/dashboard">Home</a></li>
-							    <li class="breadcrumb-item active" aria-current="page">Instrumentos</li>
-							</ol>
-						</nav>
-						<!--=======FIN MIGAS DE PAN=========-->
+		<div class="container-fluid" id="main">
+			<div class="row justify-content-md-center">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-12">
+							<!--=======MIGAS DE PAN=========-->
+							<nav aria-label="breadcrumb" style="margin-top: 1%">
+								<ol class="breadcrumb">
+								    <li class="breadcrumb-item" aria-current="page"><a href="/dashboard">Home</a></li>
+								    <li class="breadcrumb-item active" aria-current="page">Instrumentos</li>
+								</ol>
+							</nav>
+							<!--=======FIN MIGAS DE PAN=========-->
+						</div>
 					</div>
-				</div>
 
-				<div class="row">
-					<div class="col-sm-12 col-md-3">
-						<div class="card">
-						  	<div class="card-header">
-						    	Datos Personales:
-						  	</div>
-						  
-						  	<div class="card-body">
-						    	<div class="form-group">
-						    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
-						    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
-						    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
-						    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
-						    	</div>
-						  	</div>
+					<div class="row">
+						<div class="col-sm-12 col-md-3">
+							<div class="card">
+							  	<div class="card-header">
+							    	Datos Personales:
+							  	</div>
+							  
+							  	<div class="card-body">
+							    	<div class="form-group">
+							    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+							    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+							    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+							    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
+							    	</div>
+							  	</div>
+							</div>
+
+							<br>
 						</div>
 
-						<br>
-					</div>
-
-					<div class="col-md-9">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-body">
-										<div class="article border-bottom">
-											<div class="row">
-												<div class="col-md-9">
-													<p style="font-size: 25pt">
-														<i class="fa fa-file-text" aria-hidden="true"></i>
-														Instrumentos de Evaluación Existentes	
-													</p>
+						<div class="col-md-9">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="article border-bottom">
+												<div class="row">
+													<div class="col-md-9">
+														<p style="font-size: 25pt">
+															<i class="fa fa-file-text" aria-hidden="true"></i>
+															Instrumentos de Evaluación Existentes	
+														</p>
+													</div>
+													<!--<div class="col-md-3 text-right">
+														<a href="/coord_ev/addInstrumento" data-toggle="tooltip" data-placement="right" title="Nuevo Instrumento">
+															<i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+														</a>
+													</div>-->
 												</div>
-												<!--<div class="col-md-3 text-right">
-													<a href="/coord_ev/addInstrumento" data-toggle="tooltip" data-placement="right" title="Nuevo Instrumento">
-														<i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
-													</a>
-												</div>-->
 											</div>
+											<table class="table">
+												<thead>
+													<th>#</th>
+													<th>Titulo</th>
+													<th>Categoria</th>
+													<th>Tipo</th>
+													<th>Acción</th>
+												</thead>
+												<tbody>
+													<% for(let i = 0; i < Instrumentos.length; i ++) {%>
+														<tr>
+															<td><%- i + 1 %></td>
+															<td><%- Instrumentos[i].titulo %></td>
+															<td><%- Instrumentos[i].categorium.nombre %></td>
+															<td><%- Instrumentos[i].tipoEval.nombre %></td>
+															<td>
+																<!--<a href="/coord_ev/editIntrumento/<%- Instrumentos[i].id %>" class="btn btn-warning btn-sm">edit</a>-->
+																<a href="/coord_ev/verInstrumento/<%- Instrumentos[i].id %>" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="right" title="Ver Instrumento"><i class="fa fa-eye" aria-hidden="true"></i> Ver</a>
+															</td>
+														</tr>
+													<%}%>
+												</tbody>
+											</table>
 										</div>
-										<table class="table">
-											<thead>
-												<th>#</th>
-												<th>Titulo</th>
-												<th>Categoria</th>
-												<th>Tipo</th>
-												<th>Acción</th>
-											</thead>
-											<tbody>
-												<% for(let i = 0; i < Instrumentos.length; i ++) {%>
-													<tr>
-														<td><%- i + 1 %></td>
-														<td><%- Instrumentos[i].titulo %></td>
-														<td><%- Instrumentos[i].categorium.nombre %></td>
-														<td><%- Instrumentos[i].tipoEval.nombre %></td>
-														<td>
-															<!--<a href="/coord_ev/editIntrumento/<%- Instrumentos[i].id %>" class="btn btn-warning btn-sm">edit</a>-->
-															<a href="/coord_ev/verInstrumento/<%- Instrumentos[i].id %>" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="right" title="Ver Instrumento"><i class="fa fa-eye" aria-hidden="true"></i> Ver</a>
-														</td>
-													</tr>
-												<%}%>
-											</tbody>
-										</table>
 									</div>
+									<br>
 								</div>
-								<br>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<footer class="footer" style="background: #BEBCB0;">
-		<div class="container">
-			<span class="text-muted">Pie de Pagina</span>
-		</div>
-	</footer>
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
+	</div>
 
 	<script src="/js/jquery-3.3.1.min.js"></script>
 	<script src="/js/popper.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
+	<script src="/js/vue.js"></script>
+	<script src="/js/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#main',
+			data: {
+				activo: false
+			},
+			created() {
+				var currentUrl = window.location.pathname.split('/');
+				var seccion = currentUrl[2];
+
+				this.activarInstrumentos(seccion);
+			},
+			methods: {
+				activarInstrumentos(seccion) {
+					if(seccion == 'instrumentos') {
+						activo: true;
+					}
+				}
+			}
+		});
+	</script>
 </body>
 </html>
