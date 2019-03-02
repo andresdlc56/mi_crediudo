@@ -238,7 +238,7 @@ exports.addEval = function(req, res) {
 																					de sus tres posiciones se debe repetir el proceso de seleccion aleatoria 
 																					hasta que este arreglo tenga valores diferentes en sus tres posiciones
 																				*/
-																				while((aleatorio[0] == aleatorio[1]) || (aleatorio[0] == aleatorio[2]) || (aleatorio[1] == aleatorio[2])) {
+																				while((aleatorio[0] == aleatorio[1]) || (aleatorio[0] == aleatorio[2]) || (aleatorio[1] == aleatorio[0]) || (aleatorio[1] == aleatorio[2]) || (aleatorio[2] == aleatorio[0]) || (aleatorio[2] == aleatorio[1])) {
 																					console.log('=============Cambiando==============');
 																					aleatorio[n] = Evaluador[Math.floor(Math.random() * Evaluador.length)].cedula;
 																					console.log('Evaluador: '+aleatorio[n] +'-------->'+Evaluado[m].nombre);															
