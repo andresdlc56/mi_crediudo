@@ -251,7 +251,7 @@ exports.addEval = function(req, res) {
 																					calificacion: null,
 																					status: false,
 																					evaluacionId: Evaluaciones[3].id,
-																					usuarioCedula: Evaluador[n].cedula,
+																					usuarioCedula: aleatorio[n],
 																					usuarioEvaluado: Evaluado[m].cedula
 																				});
 																			}
