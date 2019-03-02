@@ -564,6 +564,7 @@ exports.verCalificacion = function(req, res) {
 								}
 								calificacion = acomulado / evalAlJefe.length;
 
+								/*-----Aqui se maneja el porcentaje o peso para calificar al jefe---*/
 								acomuladoAutoeval = (autoEval.calificacion * 3)/10;
 								acomuladoSubor = (calificacion * 7)/10;
 								califiGeneral = acomuladoAutoeval + acomuladoSubor;
