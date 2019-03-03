@@ -590,11 +590,12 @@ exports.verResultado = function(req, res) {
 		include: [ models.nucleo, models.unidad ],
 		where: { cedula: req.user.cedula }
 	}).then(Usuario => {
-		models.observacion.findAll({
+		models.observacion.findOne({
 			where: {
 				[Op.and]: [
 					{usuarioCedula: req.user.cedula},
-					{status: false}
+					{status: true},
+					{ evaluacionId: req.params.id }
 				]
 			},
 			include: [ models.evaluacion ]
@@ -628,7 +629,7 @@ exports.verResultado = function(req, res) {
 									calificacionFactor,
 									Factores
 								});
-								//res.send(Factores);
+								//res.send(Observacion);
 							})
 						})
 					} else {

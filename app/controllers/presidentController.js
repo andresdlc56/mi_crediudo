@@ -404,6 +404,7 @@ exports.verCalificacion = function(req, res) {
 	var idB = parseInt(req.params.id)+1;//id q representa la coevaluacion
 	var idC = parseInt(req.params.id)+2;//id q representa evaluacion al jefe
 	var idD = parseInt(req.params.id)+3;//id q representa evaluacion al subordinado
+	var idE = parseInt(req.params.id)+4;//id q representa autoEvaluacion Jefe
 
 	/*
 		Buscar la informacion de la evaluacion que viene por parametro
@@ -480,9 +481,9 @@ exports.verCalificacion = function(req, res) {
 								var acomuladoCoeval = 0;
 								var acomuladoJefe = 0;
 
-								acomuladoAutoeval = (autoEval.calificacion * 2) / 10;
-								acomuladoJefe = (evaldJefe.calificacion * 3) / 10;
-								acomuladoCoeval = (calificacion * 5) / 10;
+								acomuladoAutoeval = autoEval.calificacion * 0.10;
+								acomuladoJefe = evaldJefe.calificacion * 0.40;
+								acomuladoCoeval = calificacion * 0.50;
 								califiGeneral = acomuladoAutoeval + acomuladoCoeval + acomuladoJefe;
 
 								models.observacion.findOne({
@@ -526,7 +527,7 @@ exports.verCalificacion = function(req, res) {
 						[Op.and]: [
 							{usuarioCedula: User.cedula},
 							{usuarioEvaluado: User.cedula}, 
-							{evaluacionId: parseInt(req.params.id)},
+							{evaluacionId: idE},
 							{status: true}
 						]
 					}
@@ -565,8 +566,8 @@ exports.verCalificacion = function(req, res) {
 								calificacion = acomulado / evalAlJefe.length;
 
 								/*-----Aqui se maneja el porcentaje o peso para calificar al jefe---*/
-								acomuladoAutoeval = (autoEval.calificacion * 3)/10;
-								acomuladoSubor = (calificacion * 7)/10;
+								acomuladoAutoeval = autoEval.calificacion * 0.30;
+								acomuladoSubor = calificacion * 0.70;
 								califiGeneral = acomuladoAutoeval + acomuladoSubor;
 
 								models.observacion.findOne({
@@ -582,6 +583,7 @@ exports.verCalificacion = function(req, res) {
 									console.log('Calificacion AutoEval: '+autoEval.calificacion);
 									console.log('Nro de veces que ha sido evaluado por un Subordinado: '+evalAlJefe.length);
 									console.log('Calificacion segun subordinados: '+calificacion);
+									console.log('Calificacion General: '+califiGeneral);
 									res.render('president/detalles/personal/calificacion', { 
 										usuario, 
 										infoEval, 
@@ -607,8 +609,7 @@ exports.verCalificacion = function(req, res) {
 
 /*=============Subir Observacion mas Calificacion=======*/
 exports.calificar = function(req, res) {
-	var calificacion = parseFloat(req.body.calificacion);
-	calificacion = calificacion.toFixed(2);
+	var calificacion = parseInt(req.body.calificacion);
 
 	var factorAutoE = [];
 	var factorCoEval = [];
