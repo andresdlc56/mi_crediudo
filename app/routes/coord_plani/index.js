@@ -42,6 +42,10 @@ module.exports = function(app) {
 
         app.get('/getUnidades/:id', coord_planiController.getUnidades);
 
+
+    //==============Actualizar Datos====================
+        app.get('/coord_plani/actualizarDatos', isLoggedIn, coord_planiController.actualizarDatos);
+
     app.get('/logout',authController.logout);
 
 	function isLoggedIn(req, res, next) {

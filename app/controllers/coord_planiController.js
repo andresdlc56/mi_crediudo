@@ -634,3 +634,12 @@ exports.getEvaluacionesTodas = function(req, res) {
 		res.json(err);
 	});
 }
+
+exports.actualizarDatos = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		res.render('coord_plani/perfil/actualizar', { Usuario });
+	})
+}
