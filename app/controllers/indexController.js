@@ -7,7 +7,7 @@ exports.index = function(req, res) {
 
     }).then(Evaluaciones => {
     	
-    	res.render('index/index', { Evaluaciones });	
+    	res.render('index/indexPedro', { Evaluaciones });	
     })
     
     //res.send('Ruta Index');
