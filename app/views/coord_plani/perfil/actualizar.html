@@ -80,13 +80,13 @@
 										    </div>
 										    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
 										      <div class="card-body">
-										      	<form method="POST" action="/coord_plani/passwordUpdate">
+										      	<form id="updatePass" name="updatePass" method="POST" action="/coord_plani/passwordUpdate" id="updatePass">
 										        <div class="row">
 										        	<div class="col-md-12">
 										        		<div class="form-group row">
 														    <label for="status" class="col-sm-3 col-form-label">Actual</label>
 														    <div class="col-sm-9">
-														      <input type="password" name="password" placeholder="Ingrese su Contraseña Acutal" class="form-control" required>
+														      <input type="password" name="password" id="password" placeholder="Ingrese su Contraseña Acutal" class="form-control">
 														    </div>
 														</div>
 										        	</div>
@@ -95,7 +95,7 @@
 										        		<div class="form-group row">
 														    <label for="status" class="col-sm-3 col-form-label">Nueva</label>
 														    <div class="col-sm-9">
-														      <input type="password" name="passwordNuevo" placeholder="Ingrese su Nueva Contraseña" class="form-control" required>
+														      <input type="password" name="newPassword" id="newPassword" placeholder="Ingrese su Nueva Contraseña" class="form-control">
 														    </div>
 														</div>
 										        	</div>
@@ -105,7 +105,7 @@
 											        		<div class="form-group row">
 															    <label for="status" class="col-sm-3 col-form-label">Confirmar</label>
 															    <div class="col-sm-9">
-															      <input type="password" name="passwordConfirm" placeholder="Ingrese Nuevamente su Nueva Contraseña" class="form-control" required>
+															      <input type="password" name="confirm" id="confirm" placeholder="Ingrese Nuevamente su Nueva Contraseña" class="form-control">
 															    </div>
 															</div>
 														</div>
@@ -197,7 +197,7 @@
 	<script src="/js/popper.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
-	<script src="/js/main.js"></script>
+	
 	<script src="/js/vue.js"></script>
 	<script src="/js/axios.js"></script>
 	<script type="text/javascript">
@@ -230,5 +230,7 @@
 			}
 		})
 	</script>
+
+	<script src="/js/main.js"></script>
 </body>
 </html>
