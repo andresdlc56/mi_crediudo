@@ -42,9 +42,15 @@ module.exports = function(app) {
 
         app.get('/getUnidades/:id', coord_planiController.getUnidades);
 
+        app.get('/coord_plani/getUsuario', coord_planiController.getUsuario);
+
 
     //==============Actualizar Datos====================
         app.get('/coord_plani/actualizarDatos', isLoggedIn, coord_planiController.actualizarDatos);
+
+        app.post('/coord_plani/updateDatos', isLoggedIn, coord_planiController.updateDatos);
+
+        app.post('/coord_plani/passwordUpdate', isLoggedIn, coord_planiController.passwordUpdate)
 
     app.get('/logout',authController.logout);
 

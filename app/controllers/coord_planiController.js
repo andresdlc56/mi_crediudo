@@ -3,6 +3,7 @@ var exports = module.exports = {}
 var models = require('../models');
 var Sequelize = require('sequelize');
 var Op = Sequelize.Op;
+var bCrypt = require('bcrypt-nodejs');
 
 //================Controlador Inicial Coord Planificación =============
 exports.index = function(req, res) {
@@ -641,5 +642,55 @@ exports.actualizarDatos = function(req, res) {
 		where: { cedula: req.user.cedula }
 	}).then(Usuario => {
 		res.render('coord_plani/perfil/actualizar', { Usuario });
+	})
+}
+
+exports.getUsuario = function(req, res) {
+	models.usuario.findOne({
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		res.json(Usuario)
+	}).catch(err => {
+		res.json(err)
+	});
+}
+
+exports.updateDatos = function(req, res) {
+	models.usuario.update({
+		email: req.body.email
+	},{
+		where: { cedula: req.user.cedula }
+	}).then(Actualizado => {
+		req.flash('info', 'Datos Actualizados!');
+		res.redirect('/coord_plani');
+	}).catch(err => {
+		res.send('error');
+	});
+}
+
+exports.passwordUpdate = function(req, res) {
+	console.log('===========passwordUpdate============');
+	
+	var isValidPassword = function(userpass, password) { 
+    	return bCrypt.compareSync(password, userpass);
+    }
+
+    var password = req.body.password;
+
+	models.usuario.findOne({
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		var tipoPass = typeof(password);
+		var passDB = typeof(Usuario.password);
+
+		if(isValidPassword(Usuario.password, password)) {
+			
+			console.log('Password Correcto');
+		}
+
+		else {
+			
+			console.log('Password Incorecto')
+		}
 	})
 }

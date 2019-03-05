@@ -49,20 +49,79 @@
 
 					<div class="row">
 						<div class="col-md-3">
-							<div class="card">
-							  	<div class="card-header">
-							    	Datos Personales:
-							  	</div>
-							  
-							  	<div class="card-body">
-							    	<div class="form-group">
-							    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
-							    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
-							    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
-							    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
-							    	</div>
-							  	</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+									  	<div class="card-header">
+									    	Datos Personales:
+									  	</div>
+									  
+									  	<div class="card-body">
+									    	<div class="form-group">
+									    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+									    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+									    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+									    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
+									    	</div>
+									  	</div>
+									</div>
+									<br>		
+								</div>
+
+								<div class="col-md-12">
+									<div id="accordion">
+										<div class="card">
+										    <div class="card-header" id="headingTwo">
+										      <h5 class="mb-0">
+										        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+										          ¿Cambiar Contraseña?
+										        </button>
+										      </h5>
+										    </div>
+										    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+										      <div class="card-body">
+										      	<form method="POST" action="/coord_plani/passwordUpdate">
+										        <div class="row">
+										        	<div class="col-md-12">
+										        		<div class="form-group row">
+														    <label for="status" class="col-sm-3 col-form-label">Actual</label>
+														    <div class="col-sm-9">
+														      <input type="password" name="password" placeholder="Ingrese su Contraseña Acutal" class="form-control" required>
+														    </div>
+														</div>
+										        	</div>
+
+										        	<div class="col-md-12">
+										        		<div class="form-group row">
+														    <label for="status" class="col-sm-3 col-form-label">Nueva</label>
+														    <div class="col-sm-9">
+														      <input type="password" name="passwordNuevo" placeholder="Ingrese su Nueva Contraseña" class="form-control" required>
+														    </div>
+														</div>
+										        	</div>
+
+										        	<div class="col-md-12">
+										        		<div class="article border-bottom">
+											        		<div class="form-group row">
+															    <label for="status" class="col-sm-3 col-form-label">Confirmar</label>
+															    <div class="col-sm-9">
+															      <input type="password" name="passwordConfirm" placeholder="Ingrese Nuevamente su Nueva Contraseña" class="form-control" required>
+															    </div>
+															</div>
+														</div>
+														<br>
+														<input type="submit" name="guardar" value="Guardar" class="btn btn-primary btn-block">
+										        	</div>
+										        </div>
+										        </form>
+										      </div>
+										    </div>
+										  </div>  
+									</div>
+									<br>
+								</div>
 							</div>
+							
 						</div>
 
 						<div class="col-md-9">
@@ -80,36 +139,46 @@
 												</div>
 												<br>
 											</div>
+											
 											<br>
-											<fieldset disabled>
-												<div class="form-group row">
-													<label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Nombre</label>
-													<div class="col-sm-9">
-														<input type="text" class="form-control form-control-sm">
-													</div>
-												</div>
 
-												<div class="form-group row">
-													<label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Apellido</label>
-													<div class="col-sm-9">
-													   	<input type="text" class="form-control form-control-sm">
-													</div>
+											<form method="POST" action="/coord_plani/updateDatos">
+												<div class="article border-bottom">
+													<div class="form-row">
+												    	<div class="form-group col-md-6">
+												      		<label for="nombre">Nombre</label>
+												      		<input type="text" class="form-control" v-model="usuario.nombre" placeholder="nombre" disabled>
+												    	</div>
+												    	<div class="form-group col-md-6">
+												      		<label for="apellido">Apellido</label>
+												      		<input type="text" class="form-control" v-model="usuario.apellido" disabled>
+												    	</div>
+												  	</div>
+												  
+												  	<div class="form-row">
+												    	<div class="form-group col-md-6">
+												      		<label for="cedula">Cedula de Identidad</label>
+												      		<input type="text" class="form-control" v-model="usuario.cedula" disabled>
+												    	</div>
+												    	<div class="form-group col-md-6">
+												      		<label for="email">Correo Electronico</label>
+												      		<input type="email" class="form-control" name="email" v-model="usuario.email" placeholder="Ingrese su Correo Electronico" v-bind:disabled="habilitado">
+												    	</div>
+												  	</div>
 												</div>
+												<br>
+				
+												<a href="javascript:void(0)" v-if="habilitado" v-on:click="habilitar()" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
 
-												<div class="form-group row">
-												    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">C.I</label>
-												    <div class="col-sm-9">
-												    	<input type="text" class="form-control form-control-sm">
-												    </div>
-												</div>
-											</fieldset>
+												<input type="submit" name="guarda" value="Guardar" class="btn btn-success" v-else>
+
+												<a href="javascript:void(0)" v-if="!habilitado" v-on:click="cancelar()" class="btn btn-primary"> Cancelar</a>												
+											</form>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-
-
 					</div>
 				</div>
 			</div>
@@ -135,13 +204,29 @@
 		new Vue({
 			el: '#main',
 			data: {
-				
+				usuario: {},
+				habilitado: true
 			}, 
 			created() {
-				
+				this.getUsuario();
 			},
 			methods: {
-				
+				getUsuario() {
+					axios.get('/coord_plani/getUsuario')
+						.then(res => {
+							this.usuario = res.data;
+							console.log(this.usuario);
+						}).catch(err => {
+							console.log(err);
+						})
+				},
+				habilitar() {
+					this.habilitado = false
+				},
+				cancelar() {
+					this.habilitado = true;
+					this.getUsuario();
+				}
 			}
 		})
 	</script>
