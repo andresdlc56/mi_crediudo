@@ -641,7 +641,10 @@ exports.actualizarDatos = function(req, res) {
 		include: [ models.nucleo, models.unidad ],
 		where: { cedula: req.user.cedula }
 	}).then(Usuario => {
-		res.render('coord_plani/perfil/actualizar', { Usuario });
+		res.render('coord_plani/perfil/actualizar', { 
+			Usuario,
+			message: req.flash('err')
+		});
 	})
 }
 
@@ -676,6 +679,7 @@ exports.passwordUpdate = function(req, res) {
     }
 
     var password = req.body.password;
+    var newPass = req.body.newPassword;
 
 	models.usuario.findOne({
 		where: { cedula: req.user.cedula }
@@ -684,13 +688,23 @@ exports.passwordUpdate = function(req, res) {
 		var passDB = typeof(Usuario.password);
 
 		if(isValidPassword(Usuario.password, password)) {
-			
-			console.log('Password Correcto');
+			var newContrasena = bCrypt.hashSync(newPass, bCrypt.genSaltSync(8), null);
+
+			models.usuario.update({
+				password: newContrasena
+			}, {
+				where: { cedula: req.user.cedula }
+			}).then(Actualizado => {
+				res.redirect('/logout');
+			}).catch(err => {
+				console.log(err);
+			})
 		}
 
 		else {
-			
-			console.log('Password Incorecto')
+			console.log('Password Incorecto');
+			req.flash('err', 'Contraseña Actual Incorrecta!');
+			res.redirect('/coord_plani/actualizarDatos');
 		}
 	})
 }
