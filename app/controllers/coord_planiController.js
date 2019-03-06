@@ -787,3 +787,121 @@ exports.addNoticia = function(req, res) {
 		}
 	});
 }
+
+exports.verNoticia = function(req, res) {
+	var sesion = true;
+
+	models.noticia.findOne({
+		where: { id: req.params.id }
+	}).then(Noticia => {
+		models.usuario.findOne({
+			include: [ models.nucleo, models.unidad, models.rol ],
+			where: { cedula: req.user.cedula }
+		}).then(Usuario => {
+			res.render('coord_plani/noticias/verNoticia', { Noticia, sesion, Usuario });	
+		})
+	})
+}
+
+exports.editNoticia = function(req, res) {
+	var sesion = true;
+
+	models.noticia.findOne({
+		where: { id: req.params.id }
+	}).then(Noticia => {
+		models.usuario.findOne({
+			include: [ models.nucleo, models.unidad, models.rol ],
+			where: { cedula: req.user.cedula }
+		}).then(Usuario => {
+			res.render('coord_plani/noticias/edit', { Noticia, sesion, Usuario });	
+		})
+	})
+}
+
+exports.getNoticia = function(req, res) {
+	models.noticia.findOne({
+		where: { id: req.params.id }
+	}).then(Noticia => {
+		res.json(Noticia);
+	}).catch(err => {
+		res.json(err)
+	})
+}
+
+exports.updateNoticia = function(req, res) {
+	//Set storage Engine
+	const storage = multer.diskStorage({
+		destination: './public/uploads/noticias',
+		filename: function(req, file, cb){
+			cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+		}
+	});
+
+	//Init Upload
+	const upload = multer({
+		storage: storage, 
+		limits: { fileSize: 1000000 },
+		fileFilter: function(req, file, cb){
+			checkFileType(file, cb);
+		}
+	}).single('urlImg');
+
+	// Check File Type
+	function checkFileType(file, cb){
+		//allowed ext
+		const filetypes = /jpeg|jpg|png|gif/;
+
+		//Check ext
+		const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+		//check mime
+		const mimetype = filetypes.test(file.mimetype);
+
+		if(mimetype && extname){
+			return cb(null,true);
+		} else{
+			cb('Error: Images Only!');
+		}
+	}
+
+	upload(req,res,(err) => {
+		if(err){
+			console.log('error');
+			res.send('algun error')
+		} else{
+			if(req.file == undefined){
+				models.noticia.update({
+					titulo: req.body.titulo,
+					resumen: req.body.resumen,
+					descripcion: req.body.descripcion
+				}, {
+					where: {
+						id: req.body.id
+					}
+				}).then(Evento => {
+					console.log('=========Noticia Editada Sin Img============');
+					
+					res.redirect('/coord_plani');
+				})
+				console.log(req.file);
+			} else{
+				models.noticia.update({
+					titulo: req.body.titulo,
+					resumen: req.body.resumen,
+					descripcion: req.body.descripcion,
+					urlImg: req.file.filename
+				}, {
+					where: {
+						id: req.body.id
+					}
+				}).then(Evento => {
+					console.log('============Noticia Editada Con Img==============');
+					
+					res.redirect('/coord_plani')
+				}).catch(err => {
+					console.log(err)
+				});
+			}
+		}
+	})
+}

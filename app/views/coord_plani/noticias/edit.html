@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Coord. Planificación</title>
+	<link rel="shortcut icon" href="/images/title/favicon-96x96.png">
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!--===================Cargando Pagina===================-->
+	<script type="text/javascript" src="/js/pace.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+
+    <!--======estilo para el error=====-->
+	<style>
+        label.error{
+            color: red;
+        }
+	</style>
+	<!--======fin estilo para el error=====-->  
+</head>
+<body>
+	<div id="main">
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
+
+		<%- include('../../partials/coord_plani/navbar.html') %>
+
+		<div class="container-fluid">
+			<div class="row justify-content-md-center">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-12">
+							<!--=======MIGAS DE PAN=========-->
+							<nav aria-label="breadcrumb" style="margin-top: 1%">
+								<ol class="breadcrumb">
+								    <li class="breadcrumb-item active" aria-current="page"><a href="/coord_plani">Inicio</a></li>
+								    <li class="breadcrumb-item active" aria-current="page"><a href="">Noticia</a></li>
+								    <li class="breadcrumb-item active" aria-current="page">Editar</li>
+								</ol>
+							</nav>
+							<!--=======FIN MIGAS DE PAN=========-->
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-3">
+							<div class="card">
+							  	<div class="card-header">
+							    	Datos Personales:
+							  	</div>
+							  
+							  	<div class="card-body">
+							    	<div class="form-group">
+							    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+							    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+							    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+							    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
+							    		<p><b>Cargo: </b><%- Usuario.rol.nombre %></p>
+							    	</div>
+							  	</div>
+							</div>
+						</div>
+
+						<div class="col-md-9">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="article border-bottom">
+												<h3>Editar Noticia</h3>
+											</div>
+											<br>
+											<form method="POST" action="/coord_plani/updateNoticia" id="updateNoticia" enctype="multipart/form-data">	
+													<input type="hidden" name="id" v-model="noticia.id">
+													<div class="form-group">
+														<label for="titulo">Titulo</label>
+														<input type="text" name="titulo" v-model="noticia.titulo" class="form-control" placeholder="Ingrese el Titulo de la Noticia" required autofocus>
+													</div>
+
+													<div class="form-group">
+														<label for="Resumen">Resumen</label>
+														<textarea class="form-control" rows="5" maxlength="400" name="resumen" placeholder="Ingrese el resumen de la noticia" v-model="noticia.resumen" required></textarea>
+													</div>
+
+													<div class="form-group">
+														<label for="Descripción">Descripción</label>
+														<textarea class="form-control" rows="10" v-model="noticia.descripcion" name="descripcion" placeholder="Ingrese la descripción de la noticia" required></textarea>
+													</div>
+
+													<div class="form-group">
+														<input type="file" name="urlImg" class="form-control">
+													</div>
+												
+												<br>
+												<input type="submit" name="edit" value="Edit" class="btn btn-primary">
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<br>
+		
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
+	</div>
+
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
+	<script src="/js/vue.js"></script>
+	<script src="/js/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el:'#main',
+			data: {
+				noticia: {}
+			},
+			created() {
+				var currentUrl = window.location.pathname.split('/');
+				var id = currentUrl[3];
+
+				this.getNoticia(id);	
+			},
+			methods: {
+				getNoticia(id) {
+					axios.get('/coord_plani/getNoticia/'+id)
+						.then(res => {
+							this.noticia = res.data;
+							console.log(this.noticia);
+						}).catch(err => {
+							console.log(err);
+						})
+				}
+			}
+		})
+	</script>
+</body>
+</html>

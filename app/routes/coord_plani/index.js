@@ -57,6 +57,15 @@ module.exports = function(app) {
 
         app.post('/coord_plani/addNoticia', isLoggedIn, coord_planiController.addNoticia);
 
+        app.get('/coord_plani/verNoticia/:id', isLoggedIn, coord_planiController.verNoticia);
+
+        app.get('/coord_plani/editNoticia/:id', isLoggedIn, coord_planiController.editNoticia);
+
+        /*------Axios Solicitar Noticia--------*/
+            app.get('/coord_plani/getNoticia/:id', isLoggedIn, coord_planiController.getNoticia);
+
+        app.post('/coord_plani/updateNoticia', isLoggedIn, coord_planiController.updateNoticia);
+
     app.get('/logout',authController.logout);
 
 	function isLoggedIn(req, res, next) {
