@@ -1,6 +1,8 @@
 var exports = module.exports = {}
 
 var models = require('../models');
+var multer = require('multer'); //para el manejo de multipart/form usado para cargar archivos
+const path = require('path');
 var Sequelize = require('sequelize');
 var Op = Sequelize.Op;
 var bCrypt = require('bcrypt-nodejs');
@@ -33,15 +35,20 @@ exports.index = function(req, res) {
 				models.evento.findAll({
 
 				}).then(Eventos => {
-					//res.send(Evaluaciones);
-					res.render('coord_plani/index', { 
-						Evaluaciones, 
-						tipoEval,
-						Usuario,
-						Eventos,
-						message: req.flash('info'),
-		        		error: req.flash('error')
-					});
+					models.noticia.findAll({
+
+					}).then(Noticias => {
+						//res.send(Evaluaciones);
+						res.render('coord_plani/index', { 
+							Evaluaciones, 
+							tipoEval,
+							Usuario,
+							Eventos,
+							Noticias,
+							message: req.flash('info'),
+			        		error: req.flash('error')
+						});
+					})
 				})	
 			});
 		});
@@ -707,4 +714,76 @@ exports.passwordUpdate = function(req, res) {
 			res.redirect('/coord_plani/actualizarDatos');
 		}
 	})
+}
+
+exports.agergarNoticias = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad, models.rol ],
+		where: {
+			cedula: req.user.cedula
+		}
+	}).then(Usuario => {
+		res.render('coord_plani/noticias/agregar', { 
+			Usuario 
+		});	
+	})
+}
+
+exports.addNoticia = function(req, res) {
+	//Set storage Engine
+	const storage = multer.diskStorage({
+		destination: './public/uploads/noticias',
+		filename: function(req, file, cb){
+			cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+		}
+	});
+
+	//Init Upload
+	const upload = multer({
+		storage: storage, 
+		limits: { fileSize: 1000000 },
+		fileFilter: function(req, file, cb){
+			checkFileType(file, cb);
+		}
+	}).single('urlImg');
+
+	// Check File Type
+	function checkFileType(file, cb){
+		//allowed ext
+		const filetypes = /jpeg|jpg|png|gif/;
+		//Check ext
+		const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+		//check mime
+		const mimetype = filetypes.test(file.mimetype);
+
+		if(mimetype && extname){
+			return cb(null,true);
+		} else{
+			cb('Error: Images Only!');
+		}
+	}
+
+	upload(req,res,(err) => {
+		if(err){
+			console.log('error');
+			res.send('algun error')
+		} else{
+			if(req.file == undefined){
+				console.log(req.file);
+				res.send('indefinido')
+			} else{
+				console.log(req.file.filename);
+				models.noticia.create({
+					titulo: req.body.titulo,
+					resumen: req.body.resumen,
+					descripcion: req.body.descripcion,
+					urlImg: req.file.filename
+				}).then(Noticia => {
+					console.log('Noticia agregada exitosamente');
+					res.redirect('/coord_plani/agregarNoticias');
+				})
+			}
+		}
+	});
 }

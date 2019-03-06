@@ -339,92 +339,35 @@
 							<section class="row justify-content-md-center">
 								<div class="col-md-12">
 									<div class="row justify-content-md-center">
+										<% if(Noticias.length == 0) {%>
+											<h3>Algun Mensaje</h3>
+										<%} else {%>
+											<% for(let i = 0; i < Noticias.length; i ++) {%>
+												<div class="col-md-4">
+													<div class="card">
+													    <img class="card-img-top" src="../../uploads/noticias/<%- Noticias[i].urlImg %>" alt="Card image cap">
+													    <div class="card-body">
+													    	<div class="row">
+													    		<div class="col-md-12">
+													    			<h6 class="card-title" style="color: black; text-align: justify; "><b><%- Noticias[i].titulo %></b>
+													    			</h6>			
+													    		</div>
 
-										<div class="col-md-3">
-											<div class="card">
-											    <img class="card-img-top" src="images/index/gesti1.jpg" alt="Card image cap">
-											    <div class="card-body">
-											    	<div class="row">
-											    		<div class="col-md-12">
-											    			<h6 class="card-title" style="color: black; text-align: justify; "><b>Jornadas de Trabajo con las Delegaciones de los Núcleos para el Diagnóstico de Actividades de Cultura y Extensión</b>
-											    			</h6>			
-											    		</div>
+													    		<div class="col-md-12">
+													    			<p class="card-text" style="text-align: justify;"><%- Noticias[i].resumen %></p>			
+													    		</div>
+													    	</div>
+													    </div>
+													    <div class="card-footer">
+													      
+													      <center><a href="" class="btn btn-info btn-xs" style="border-radius: 2px;background-color: #00aad4ff;">Ver mas</a></center>
+													    </div>
+													  </div>
+												</div>
+											<%}%>
+										<%}%>
 
-											    		<div class="col-md-12">
-											    			<p class="card-text" style="text-align: justify;">La responsabilidad de realizar los primeros papeles de trabajo recayó sobre CREDIUDO pero luego, con la intervención del personal de la Dirección de Cultura y sus delegaciones se procedió a ajustarlos.</p>			
-											    		</div>
-											    	</div>
-											    </div>
-											    <div class="card-footer">
-											      
-											      <center><a href="" class="btn btn-info btn-xs" style="border-radius: 2px;background-color: #00aad4ff;">Ver mas</a></center>
-											    </div>
-											  </div>
-										</div>
-
-										<div class="col-md-3">
-											<div class="card">
-											    <img class="card-img-top" src="images/index/gesti.jpg" alt="Card image cap">
-											    <div class="card-body">
-											    	<div class="row">
-											    		<div class="col-md-12">
-											    			<h6 class="card-title" style="color: black; text-align: justify;"><b>CREDIUDO Diseñó Cuestionario “Diagnóstico de Gestión en Centros..</b></h6>			
-											    		</div>
-											    		<div class="col-md-12">
-											    			<p class="card-text" style="text-align: justify;">CREDIUDO, en el primer semestre del año 2014, elaboró un instrumento de evaluación inédito con el cual, se proyectó tipificar la gestión que se desarrolla en los Institutos y Centros de Investigación adscritos a la Universidad de Oriente</p>			
-											    		</div>
-
-											    	</div>
-											    </div>
-											    <div class="card-footer">
-											      
-											      <center><a href="" class="btn btn-info btn-xs" style="border-radius: 2px;background-color: #00aad4ff;">Ver más</a></center>
-											    </div>
-											  </div>
-										</div>
-
-										<div class="col-md-3">
-											<div class="card">
-											    <img class="card-img-top" src="images/index/gesti1.jpg" alt="Card image cap">
-											    <div class="card-body">
-											    	<div class="row">
-											    		<div class="col-md-12">
-											    			<h6 class="card-title" style="color: black; text-align: justify; "><b>Jornadas de Trabajo con las Delegaciones de los Núcleos para el Diagnóstico de Actividades de Cultura y Extensión</b>
-											    			</h6>			
-											    		</div>
-
-											    		<div class="col-md-12">
-											    			<p class="card-text" style="text-align: justify;">La responsabilidad de realizar los primeros papeles de trabajo recayó sobre CREDIUDO pero luego, con la intervención del personal de la Dirección de Cultura y sus delegaciones se procedió a ajustarlos.</p>			
-											    		</div>
-											    	</div>
-											    </div>
-											    <div class="card-footer">
-											      
-											      <center><a href="" class="btn btn-info btn-xs" style="border-radius: 2px;background-color: #00aad4ff;">Ver más</a></center>
-											    </div>
-											  </div>
-										</div>
-
-										<div class="col-md-3">
-											<div class="card">
-											    <img class="card-img-top" src="images/index/gesti.jpg" alt="Card image cap">
-											    <div class="card-body">
-											    	<div class="row">
-											    		<div class="col-md-12">
-											    			<h6 class="card-title" style="color: black; text-align: justify;"><b>CREDIUDO Diseñó Cuestionario “Diagnóstico de Gestión en Centros..</b></h6>			
-											    		</div>
-											    		<div class="col-md-12">
-											    			<p class="card-text" style="text-align: justify;">CREDIUDO, en el primer semestre del año 2014, elaboró un instrumento de evaluación inédito con el cual, se proyectó tipificar la gestión que se desarrolla en los Institutos y Centros de Investigación adscritos a la Universidad de Oriente</p>			
-											    		</div>
-
-											    	</div>
-											    </div>
-											    <div class="card-footer">
-											      
-											      <center><a href="" class="btn btn-info btn-xs" style="border-radius: 2px;background-color: #00aad4ff;">Ver más</a></center>
-											    </div>
-											  </div>
-										</div>
+										
 									</div>
 								</div>
 							</section>

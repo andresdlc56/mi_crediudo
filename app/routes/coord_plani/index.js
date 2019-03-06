@@ -50,7 +50,12 @@ module.exports = function(app) {
 
         app.post('/coord_plani/updateDatos', isLoggedIn, coord_planiController.updateDatos);
 
-        app.post('/coord_plani/passwordUpdate', isLoggedIn, coord_planiController.passwordUpdate)
+        app.post('/coord_plani/passwordUpdate', isLoggedIn, coord_planiController.passwordUpdate);
+
+    //=============Gestionar Noticias===============================
+        app.get('/coord_plani/agregarNoticias', isLoggedIn, coord_planiController.agergarNoticias);
+
+        app.post('/coord_plani/addNoticia', isLoggedIn, coord_planiController.addNoticia);
 
     app.get('/logout',authController.logout);
 
