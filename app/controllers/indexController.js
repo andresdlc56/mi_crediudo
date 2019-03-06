@@ -6,8 +6,12 @@ exports.index = function(req, res) {
     models.evaluacion.findAll({
 
     }).then(Evaluaciones => {
-    	
-    	res.render('index/index', { Evaluaciones });	
+    	models.noticia.findAll({
+    		limit: 4,
+			order: [['id', 'DESC']] 
+    	}).then(Noticias => {
+    		res.render('index/indexPedro', { Evaluaciones, Noticias });
+    	})	
     })
     
     //res.send('Ruta Index');

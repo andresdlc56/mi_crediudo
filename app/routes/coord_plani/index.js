@@ -42,6 +42,30 @@ module.exports = function(app) {
 
         app.get('/getUnidades/:id', coord_planiController.getUnidades);
 
+        app.get('/coord_plani/getUsuario', coord_planiController.getUsuario);
+
+
+    //==============Actualizar Datos====================
+        app.get('/coord_plani/actualizarDatos', isLoggedIn, coord_planiController.actualizarDatos);
+
+        app.post('/coord_plani/updateDatos', isLoggedIn, coord_planiController.updateDatos);
+
+        app.post('/coord_plani/passwordUpdate', isLoggedIn, coord_planiController.passwordUpdate);
+
+    //=============Gestionar Noticias===============================
+        app.get('/coord_plani/agregarNoticias', isLoggedIn, coord_planiController.agergarNoticias);
+
+        app.post('/coord_plani/addNoticia', isLoggedIn, coord_planiController.addNoticia);
+
+        app.get('/coord_plani/verNoticia/:id', isLoggedIn, coord_planiController.verNoticia);
+
+        app.get('/coord_plani/editNoticia/:id', isLoggedIn, coord_planiController.editNoticia);
+
+        /*------Axios Solicitar Noticia--------*/
+            app.get('/coord_plani/getNoticia/:id', isLoggedIn, coord_planiController.getNoticia);
+
+        app.post('/coord_plani/updateNoticia', isLoggedIn, coord_planiController.updateNoticia);
+
     app.get('/logout',authController.logout);
 
 	function isLoggedIn(req, res, next) {

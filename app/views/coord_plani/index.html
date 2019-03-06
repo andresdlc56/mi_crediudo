@@ -14,7 +14,7 @@
 </head>
 <body>
 	<div id="main">
-		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+		<div class="jumbotron text-center" style="margin-bottom: 0px; padding: 0">
 			<img src="images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
 		</div>	
 
@@ -91,7 +91,7 @@
 								  	<div class="card-body">
 								    	<div class="row">
 								    		<div class="col-md-10 col-sm-10">
-								    			<h4>Ultimas Evaluaciones Planificadas</h4>	
+								    			<h4>Últimas Evaluaciones Planificadas</h4>	
 								    		</div>
 								    		<div class="col-md-2 col-sm-2 text-right">
 								    			<a href="/coord_plani/verTodas" data-toggle="tooltip" data-placement="right" title="Ver Todas"><span class="glyphicon glyphicon-log-in"></span><i class="fa fa-ellipsis-v" style="font-size: 15pt"></i></a>
@@ -142,10 +142,10 @@
 										    			</div>
 										    		</div>
 										    		<div class="col-md-2 col-sm-3 text-center" style="border-left: 1px solid #E6DFDD">
-										    			<a href="/coord_plani/editEval/<%- Evaluaciones[i].id %>" class="btn btn-warning edit-eval" data-toggle="tooltip" data-placement="right" title="Editar Evaluación">
+										    			<a href="/coord_plani/editEval/<%- Evaluaciones[i].id %>" class="btn btn-warning edit-eval btn-sm" data-toggle="tooltip" data-placement="right" title="Editar Evaluación">
 													        <span class="glyphicon glyphicon-log-in"></span><i class="fa fa-edit"></i>
 													    </a>
-										    			<a href="/coord_plani/deleteEval/<%- Evaluaciones[i].id %>" class="btn btn-danger" data-toggle="tooltip" data-placement="right" title="Eliminar Evaluación" onclick="return comprobar(<%- Evaluaciones[i].fecha_i.getDate() %>, <%- Evaluaciones[i].fecha_i.getMonth() %>);"><span class="glyphicon glyphicon-log-in"></span><i class="fa fa-remove"></i></a>
+										    			<a href="/coord_plani/deleteEval/<%- Evaluaciones[i].id %>" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="right" title="Eliminar Evaluación" onclick="return comprobar(<%- Evaluaciones[i].fecha_i.getDate() %>, <%- Evaluaciones[i].fecha_i.getMonth() %>);"><span class="glyphicon glyphicon-log-in"></span><i class="fa fa-remove"></i></a>
 										    		</div>
 										    	</div>
 									    	<%}%>
@@ -154,6 +154,53 @@
 											<h3 class="display-4 text-center">Ninguna</h3>
 								    	<%}%>
 								  	</div>
+								</div>
+								<br>
+							</div>
+
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="article border-bottom">
+											<div class="row">
+												<div class="col-md-10">
+													<h3>Últimas Noticias</h3>
+												</div>
+
+												<div class="col-md-2 text-right">
+													<a href="/coord_plani/verTodas" data-toggle="tooltip" data-placement="right" title="Ver Todas"><span class="glyphicon glyphicon-log-in"></span><i class="fa fa-ellipsis-v" style="font-size: 15pt"></i></a>
+												</div>
+											</div>
+										</div>
+										
+										<div class="row">
+											<% for(let i = 0; i < Noticias.length; i ++) {%>
+												<div class="col-md-12">
+													<div class="article border-bottom">
+														<br>
+														<div class="row">
+															<div class="col-md-3">
+																<a href="/coord_plani/verNoticia/<%- Noticias[i].id %>"><img src="../../../uploads/noticias/<%=Noticias[i].urlImg%>" class="img-thumbnail" style="width: 100%"/></a>
+															</div>
+
+															<div class="col-md-9">
+																<div class="row">
+																	<div class="col-sm-10 col-md-10">
+																		<h4><a href="/coord_plani/verNoticia/<%- Noticias[i].id %>"><%- Noticias[i].titulo %></a></h4>
+																	</div>
+
+																	<div class="col-md-12">
+																		<p><%- Noticias[i].resumen %></p>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<br>
+													</div>
+												</div>
+											<%}%>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

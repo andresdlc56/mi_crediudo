@@ -1,8 +1,11 @@
 var exports = module.exports = {}
 
 var models = require('../models');
+var multer = require('multer'); //para el manejo de multipart/form usado para cargar archivos
+const path = require('path');
 var Sequelize = require('sequelize');
 var Op = Sequelize.Op;
+var bCrypt = require('bcrypt-nodejs');
 
 //================Controlador Inicial Coord Planificación =============
 exports.index = function(req, res) {
@@ -32,15 +35,20 @@ exports.index = function(req, res) {
 				models.evento.findAll({
 
 				}).then(Eventos => {
-					//res.send(Evaluaciones);
-					res.render('coord_plani/index', { 
-						Evaluaciones, 
-						tipoEval,
-						Usuario,
-						Eventos,
-						message: req.flash('info'),
-		        		error: req.flash('error')
-					});
+					models.noticia.findAll({
+
+					}).then(Noticias => {
+						//res.send(Evaluaciones);
+						res.render('coord_plani/index', { 
+							Evaluaciones, 
+							tipoEval,
+							Usuario,
+							Eventos,
+							Noticias,
+							message: req.flash('info'),
+			        		error: req.flash('error')
+						});
+					})
 				})	
 			});
 		});
@@ -633,4 +641,267 @@ exports.getEvaluacionesTodas = function(req, res) {
 	}).catch(err => {
 		res.json(err);
 	});
+}
+
+exports.actualizarDatos = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		res.render('coord_plani/perfil/actualizar', { 
+			Usuario,
+			message: req.flash('err')
+		});
+	})
+}
+
+exports.getUsuario = function(req, res) {
+	models.usuario.findOne({
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		res.json(Usuario)
+	}).catch(err => {
+		res.json(err)
+	});
+}
+
+exports.updateDatos = function(req, res) {
+	models.usuario.update({
+		email: req.body.email
+	},{
+		where: { cedula: req.user.cedula }
+	}).then(Actualizado => {
+		req.flash('info', 'Datos Actualizados!');
+		res.redirect('/coord_plani');
+	}).catch(err => {
+		res.send('error');
+	});
+}
+
+exports.passwordUpdate = function(req, res) {
+	console.log('===========passwordUpdate============');
+	
+	var isValidPassword = function(userpass, password) { 
+    	return bCrypt.compareSync(password, userpass);
+    }
+
+    var password = req.body.password;
+    var newPass = req.body.newPassword;
+
+	models.usuario.findOne({
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		var tipoPass = typeof(password);
+		var passDB = typeof(Usuario.password);
+
+		if(isValidPassword(Usuario.password, password)) {
+			var newContrasena = bCrypt.hashSync(newPass, bCrypt.genSaltSync(8), null);
+
+			models.usuario.update({
+				password: newContrasena
+			}, {
+				where: { cedula: req.user.cedula }
+			}).then(Actualizado => {
+				res.redirect('/logout');
+			}).catch(err => {
+				console.log(err);
+			})
+		}
+
+		else {
+			console.log('Password Incorecto');
+			req.flash('err', 'Contraseña Actual Incorrecta!');
+			res.redirect('/coord_plani/actualizarDatos');
+		}
+	})
+}
+
+exports.agergarNoticias = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad, models.rol ],
+		where: {
+			cedula: req.user.cedula
+		}
+	}).then(Usuario => {
+		res.render('coord_plani/noticias/agregar', { 
+			Usuario 
+		});	
+	})
+}
+
+exports.addNoticia = function(req, res) {
+	//Set storage Engine
+	const storage = multer.diskStorage({
+		destination: './public/uploads/noticias',
+		filename: function(req, file, cb){
+			cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+		}
+	});
+
+	//Init Upload
+	const upload = multer({
+		storage: storage, 
+		limits: { fileSize: 1000000 },
+		fileFilter: function(req, file, cb){
+			checkFileType(file, cb);
+		}
+	}).single('urlImg');
+
+	// Check File Type
+	function checkFileType(file, cb){
+		//allowed ext
+		const filetypes = /jpeg|jpg|png|gif/;
+		//Check ext
+		const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+		//check mime
+		const mimetype = filetypes.test(file.mimetype);
+
+		if(mimetype && extname){
+			return cb(null,true);
+		} else{
+			cb('Error: Images Only!');
+		}
+	}
+
+	upload(req,res,(err) => {
+		if(err){
+			console.log('error');
+			res.send('algun error')
+		} else{
+			if(req.file == undefined){
+				console.log(req.file);
+				res.send('indefinido')
+			} else{
+				console.log(req.file.filename);
+				models.noticia.create({
+					titulo: req.body.titulo,
+					resumen: req.body.resumen,
+					descripcion: req.body.descripcion,
+					urlImg: req.file.filename
+				}).then(Noticia => {
+					console.log('Noticia agregada exitosamente');
+					res.redirect('/coord_plani/agregarNoticias');
+				})
+			}
+		}
+	});
+}
+
+exports.verNoticia = function(req, res) {
+	var sesion = true;
+
+	models.noticia.findOne({
+		where: { id: req.params.id }
+	}).then(Noticia => {
+		models.usuario.findOne({
+			include: [ models.nucleo, models.unidad, models.rol ],
+			where: { cedula: req.user.cedula }
+		}).then(Usuario => {
+			res.render('coord_plani/noticias/verNoticia', { Noticia, sesion, Usuario });	
+		})
+	})
+}
+
+exports.editNoticia = function(req, res) {
+	var sesion = true;
+
+	models.noticia.findOne({
+		where: { id: req.params.id }
+	}).then(Noticia => {
+		models.usuario.findOne({
+			include: [ models.nucleo, models.unidad, models.rol ],
+			where: { cedula: req.user.cedula }
+		}).then(Usuario => {
+			res.render('coord_plani/noticias/edit', { Noticia, sesion, Usuario });	
+		})
+	})
+}
+
+exports.getNoticia = function(req, res) {
+	models.noticia.findOne({
+		where: { id: req.params.id }
+	}).then(Noticia => {
+		res.json(Noticia);
+	}).catch(err => {
+		res.json(err)
+	})
+}
+
+exports.updateNoticia = function(req, res) {
+	//Set storage Engine
+	const storage = multer.diskStorage({
+		destination: './public/uploads/noticias',
+		filename: function(req, file, cb){
+			cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+		}
+	});
+
+	//Init Upload
+	const upload = multer({
+		storage: storage, 
+		limits: { fileSize: 1000000 },
+		fileFilter: function(req, file, cb){
+			checkFileType(file, cb);
+		}
+	}).single('urlImg');
+
+	// Check File Type
+	function checkFileType(file, cb){
+		//allowed ext
+		const filetypes = /jpeg|jpg|png|gif/;
+
+		//Check ext
+		const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+		//check mime
+		const mimetype = filetypes.test(file.mimetype);
+
+		if(mimetype && extname){
+			return cb(null,true);
+		} else{
+			cb('Error: Images Only!');
+		}
+	}
+
+	upload(req,res,(err) => {
+		if(err){
+			console.log('error');
+			res.send('algun error')
+		} else{
+			if(req.file == undefined){
+				models.noticia.update({
+					titulo: req.body.titulo,
+					resumen: req.body.resumen,
+					descripcion: req.body.descripcion
+				}, {
+					where: {
+						id: req.body.id
+					}
+				}).then(Evento => {
+					console.log('=========Noticia Editada Sin Img============');
+					
+					res.redirect('/coord_plani');
+				})
+				console.log(req.file);
+			} else{
+				models.noticia.update({
+					titulo: req.body.titulo,
+					resumen: req.body.resumen,
+					descripcion: req.body.descripcion,
+					urlImg: req.file.filename
+				}, {
+					where: {
+						id: req.body.id
+					}
+				}).then(Evento => {
+					console.log('============Noticia Editada Con Img==============');
+					
+					res.redirect('/coord_plani')
+				}).catch(err => {
+					console.log(err)
+				});
+			}
+		}
+	})
 }

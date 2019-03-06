@@ -92,4 +92,26 @@ $(document).ready(function() {
 			fecha_f: "Campo Obligatorio",
 		}
 	});
+
+	$("#updatePass").validate({
+		//REGLAS DE VALIDACION
+		rules:{
+			password:{
+				required:true
+			},
+			newPassword: {
+				required:true
+			},
+			confirm: {
+				required:true,
+            	equalTo: "#newPassword"
+            }
+		},//FIN REGLAS
+
+		messages:{
+			password: "Campo Obligatorio",
+			newPassword: "Campo Obligatorio",
+			confirm: "Password de Confirmación no Coincide"
+		}
+	});
 });
