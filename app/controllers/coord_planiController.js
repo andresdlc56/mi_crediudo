@@ -6,55 +6,64 @@ var Op = Sequelize.Op;
 
 //================Controlador Inicial Coord Planificación =============
 exports.index = function(req, res) {
-	var usuario = req.user;
-	/*
-		buscando 3 evalucaiones donde
-		donde usen un instrumento de evaluacion de tipo 1 (AutoEvaluacion)
-		y ordenalos de forma decendente  
-	*/
-	models.evaluacion.findAll({
-		include: [models.categoria, models.nucleo, models.unidad, models.instrument],
-		limit: 3,
-		where: {
-			instrumentId: 1	
-		},
-		order: [
-			['fecha_i', 'DESC']
-		]
-	}).then(Evaluaciones => {
-		//buscando todos los tipos de valuaciones
-		models.tipoEval.findAll({
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad, models.rol ],
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		/*
+			buscando 3 evalucaiones donde
+			donde usen un instrumento de evaluacion de tipo 1 (AutoEvaluacion)
+			y ordenalos de forma decendente  
+		*/
+		models.evaluacion.findAll({
+			include: [models.categoria, models.nucleo, models.unidad, models.instrument],
+			limit: 3,
+			where: {
+				instrumentId: 1	
+			},
+			order: [
+				['fecha_i', 'DESC']
+			]
+		}).then(Evaluaciones => {
+			//buscando todos los tipos de valuaciones
+			models.tipoEval.findAll({
 
-		}).then(tipoEval => {
-			models.evento.findAll({
+			}).then(tipoEval => {
+				models.evento.findAll({
 
-			}).then(Eventos => {
-				//res.send(Evaluaciones);
-				res.render('coord_plani/index', { 
-					Evaluaciones, 
-					tipoEval,
-					usuario,
-					Eventos,
-					message: req.flash('info'),
-	        		error: req.flash('error')
-				});
-			})	
+				}).then(Eventos => {
+					//res.send(Evaluaciones);
+					res.render('coord_plani/index', { 
+						Evaluaciones, 
+						tipoEval,
+						Usuario,
+						Eventos,
+						message: req.flash('info'),
+		        		error: req.flash('error')
+					});
+				})	
+			});
 		});
 	});
 }
 
 //===============Controlador para Mostrar Formulario de planificación de Evaluacion====
 exports.planiEval = function(req, res) {
-	//buscando todas las categorias
-	models.categoria.findAll({
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		//buscando todas las categorias
+		models.categoria.findAll({
 
-	}).then(Categorias => {
-		//buscando todos los nucleos
-		models.nucleo.findAll({
+		}).then(Categorias => {
+			//buscando todos los nucleos
+			models.nucleo.findAll({
 
-		}).then(Nucleos => {
-			res.render('coord_plani/evaluacion/planificar', { Categorias, Nucleos });	
-		});
+			}).then(Nucleos => {
+				res.render('coord_plani/evaluacion/planificar', { Usuario, Categorias, Nucleos });	
+			});
+		});	
 	});
 }
 
@@ -229,7 +238,7 @@ exports.addEval = function(req, res) {
 																					de sus tres posiciones se debe repetir el proceso de seleccion aleatoria 
 																					hasta que este arreglo tenga valores diferentes en sus tres posiciones
 																				*/
-																				while((aleatorio[0] == aleatorio[1]) || (aleatorio[0] == aleatorio[2]) || (aleatorio[1] == aleatorio[2])) {
+																				while((aleatorio[0] == aleatorio[1]) || (aleatorio[0] == aleatorio[2]) || (aleatorio[1] == aleatorio[0]) || (aleatorio[1] == aleatorio[2]) || (aleatorio[2] == aleatorio[0]) || (aleatorio[2] == aleatorio[1])) {
 																					console.log('=============Cambiando==============');
 																					aleatorio[n] = Evaluador[Math.floor(Math.random() * Evaluador.length)].cedula;
 																					console.log('Evaluador: '+aleatorio[n] +'-------->'+Evaluado[m].nombre);															
@@ -242,7 +251,7 @@ exports.addEval = function(req, res) {
 																					calificacion: null,
 																					status: false,
 																					evaluacionId: Evaluaciones[3].id,
-																					usuarioCedula: Evaluador[n].cedula,
+																					usuarioCedula: aleatorio[n],
 																					usuarioEvaluado: Evaluado[m].cedula
 																				});
 																			}
@@ -485,15 +494,20 @@ exports.deleteEval = function(req, res) {
 }
 
 exports.editEval = function(req, res) {
-	models.evaluacion.findOne({
-		include: [ models.nucleo, models.unidad ],
-		where: { id: req.params.id }
-	}).then(Evaluacion => {
-		models.nucleo.findAll({
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad, models.rol ],
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		models.evaluacion.findOne({
+			include: [ models.nucleo, models.unidad ],
+			where: { id: req.params.id }
+		}).then(Evaluacion => {
+			models.nucleo.findAll({
 
-		}).then(Nucleos => {
-			res.render('coord_plani/evaluacion/editar', { Evaluacion, Nucleos });
-		})
+			}).then(Nucleos => {
+				res.render('coord_plani/evaluacion/editar', { Evaluacion, Nucleos, Usuario });
+			})
+		});
 	});
 }
 
@@ -515,8 +529,17 @@ exports.getUnidades = function(req, res) {
 	})
 }
 
- //=================Controladores para Axios============
- exports.getInstrumentos = function(req, res) {
+exports.verTodas = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad, models.rol ],
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		res.render('coord_plani/evaluacion/evaluacionesTodas', { Usuario });
+	})
+}
+
+//=================Controladores para Axios============
+exports.getInstrumentos = function(req, res) {
  	models.instrument.findOne({
  		where: { tipoEvalId: 1 }
  	}).then(autoEval => {
@@ -543,9 +566,9 @@ exports.getUnidades = function(req, res) {
  			})
  		})
  	})
- }
+}
 
- exports.getEvaluacion = function(req, res) {
+exports.getEvaluacion = function(req, res) {
  	models.evaluacion.findOne({
  		include: [ models.nucleo, models.unidad ],
  		where: { id: req.params.id }
@@ -554,9 +577,9 @@ exports.getUnidades = function(req, res) {
  	}).catch(err => {
  		console.log(err);
  	})
- }
+}
 
- exports.getNucleos = function(req, res) {
+exports.getNucleos = function(req, res) {
  	models.nucleo.findAll({
 
  	}).then(Nucleos => {
@@ -564,9 +587,9 @@ exports.getUnidades = function(req, res) {
  	}).catch(err => {
  		res.json(err);
  	})
- }
+}
 
- exports.getUnidades = function(req, res) {
+exports.getUnidades = function(req, res) {
  	models.unidad.findAll({
  		where: { nucleoCodigo: req.params.id }
  	}).then(Unidades => {
@@ -574,9 +597,9 @@ exports.getUnidades = function(req, res) {
  	}).catch(err => {
  		res.json(err);
  	})
- }
+}
 
- exports.actualizaEval = function(req, res) {
+exports.actualizaEval = function(req, res) {
  	var idEval = parseInt(req.params.id);
  	console.log(typeof(idEval))
  	models.evaluacion.findAll({
@@ -599,4 +622,15 @@ exports.getUnidades = function(req, res) {
  		req.flash('info', 'Evaluacion Actualizada!');
 		res.redirect('/coord_plani');
  	})
- }
+}
+
+exports.getEvaluacionesTodas = function(req, res) {
+	models.evaluacion.findAll({
+		include: [ models.nucleo, models.unidad ],
+		where: { instrumentId: 1 }
+	}).then(Evaluaciones => {
+		res.json(Evaluaciones);
+	}).catch(err => {
+		res.json(err);
+	});
+}

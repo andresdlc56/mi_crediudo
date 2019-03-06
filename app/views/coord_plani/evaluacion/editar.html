@@ -5,172 +5,177 @@
 	<title>CREDIUDO | Coord. Planificación</title>
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="/js/pace.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
 	<!-- Custom styles for this template -->
     <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
 </head>
 <body>
-	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
-		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
-	</div>	
+	<div id="main">
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
 
-	<%- include('../../partials/coord_plani/navbar.html') %>
+		<%- include('../../partials/coord_plani/navbar.html') %>
 
-	<div class="container-fluid" id="main">
-		<div class="row justify-content-md-center">
-			<div class="col-md-12">
-				<div class="row">
-					<div class="col-md-12">
-						<!--=======MIGAS DE PAN=========-->
-						<nav aria-label="breadcrumb" style="margin-top: 1%">
-							<ol class="breadcrumb">
-							    <li class="breadcrumb-item active" aria-current="page">Home</li>
-							    <li class="breadcrumb-item active" aria-current="page">Planificar Evaluación</li>
-							</ol>
-						</nav>
-						<!--=======FIN MIGAS DE PAN=========-->
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-3">
-						<div class="card">
-						  	<div class="card-header">
-						    	Datos Personales:
-						  	</div>
-						  
-						  	<div class="card-body">
-						    	<div class="form-group">
-						    		<p><b>Nombre: </b></p>
-						    		<p><b>Apellido: </b></p>
-						    		<p><b>Nucleo: </b></p>
-						    		<p><b>Unidad: </b></p>
-						    	</div>
-						  	</div>
+		<div class="container-fluid">
+			<div class="row justify-content-md-center">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-12">
+							<!--=======MIGAS DE PAN=========-->
+							<nav aria-label="breadcrumb" style="margin-top: 1%">
+								<ol class="breadcrumb">
+								    <li class="breadcrumb-item active" aria-current="page"><a href="/coord_plani">Home</a></li>
+								    <li class="breadcrumb-item active" aria-current="page">Planificar Evaluación</li>
+								</ol>
+							</nav>
+							<!--=======FIN MIGAS DE PAN=========-->
 						</div>
-						<br>
 					</div>
 
-					<div class="col-md-9">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-body">
-										<div class="row">
-											<div class="col-md-12">
-												<h4>Editar Evaluación</h4>
-												<hr>
-												<% 
-													<!--variable para guardar fecha actual-->
-													var hoy = new Date();
+					<div class="row">
+						<div class="col-md-3">
+							<div class="card">
+							  	<div class="card-header">
+							    	Datos Personales:
+							  	</div>
+							  
+							  	<div class="card-body">
+							    	<div class="form-group">
+							    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+							    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+							    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+							    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
+							    		<p><b>Cargo: </b><%- Usuario.rol.nombre %></p>
+							    	</div>
+							  	</div>
+							</div>
+							<br>
+						</div>
 
-													<!--variable para guardar fecha de inicio de la evaluacion-->
-													var fechaI =  Evaluacion.fecha_i;
+						<div class="col-md-9">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="row">
+												<div class="col-md-12">
+													<h4>Editar Evaluación</h4>
+													<hr>
+													<% 
+														<!--variable para guardar fecha actual-->
+														var hoy = new Date();
 
-													<!--dia en q se iniciara la evaluacion-->
-													var dia_I = '' + fechaI.getDate();
+														<!--variable para guardar fecha de inicio de la evaluacion-->
+														var fechaI =  Evaluacion.fecha_i;
 
-													<!--mes en q se iniciara la evaluacion-->
-													var m_I = parseInt(fechaI.getMonth())+1
+														<!--dia en q se iniciara la evaluacion-->
+														var dia_I = '' + fechaI.getDate();
 
-													<!--formato mes con dos digitos-->
-													var mes_I = '' + m_I;
+														<!--mes en q se iniciara la evaluacion-->
+														var m_I = parseInt(fechaI.getMonth())+1
 
-													<!--año en el q iniciara la evaluacion-->
-													var anio_I = fechaI.getFullYear();
+														<!--formato mes con dos digitos-->
+														var mes_I = '' + m_I;
 
-													if (mes_I.length < 2) mes_I = '0' + mes_I;
-    												if (dia_I.length < 2) dia_I = '0' + dia_I;
-													
-													<!--concatenando y dando formato valido a la fecha-->
-													var fecha_completaI = anio_I+"-"+mes_I+"-"+dia_I;
+														<!--año en el q iniciara la evaluacion-->
+														var anio_I = fechaI.getFullYear();
 
-													var fechaF = Evaluacion.fecha_f;
-													var dia_f = '' + fechaF.getDate();
-													var dia_f = '' + fechaF.getDate();
-													var m_f = parseInt(fechaF.getMonth())+1
-													var mes_f = '' + m_f;
-													var anio_f = fechaF.getFullYear();
+														if (mes_I.length < 2) mes_I = '0' + mes_I;
+	    												if (dia_I.length < 2) dia_I = '0' + dia_I;
+														
+														<!--concatenando y dando formato valido a la fecha-->
+														var fecha_completaI = anio_I+"-"+mes_I+"-"+dia_I;
 
-													if (mes_f.length < 2) mes_f = '0' + mes_f;
-    												if (dia_f.length < 2) dia_f = '0' + dia_f;
+														var fechaF = Evaluacion.fecha_f;
+														var dia_f = '' + fechaF.getDate();
+														var dia_f = '' + fechaF.getDate();
+														var m_f = parseInt(fechaF.getMonth())+1
+														var mes_f = '' + m_f;
+														var anio_f = fechaF.getFullYear();
 
-													var fecha_completaF = anio_f+"-"+mes_f+"-"+dia_f;
-												%>
+														if (mes_f.length < 2) mes_f = '0' + mes_f;
+	    												if (dia_f.length < 2) dia_f = '0' + dia_f;
 
-												<% if(Evaluacion.fecha_i > hoy) {%>
-													<form v-on:submit="checkForm" method="POST" action="/coord_plani/editEval/<%- Evaluacion.id %>">
-							                        	<div class="modal-body">
-							                          		<div class="form-row">
-							                          			<div class="form-group col-md-6">
-							                          				<label>Nucleo: </label>
-							                          				<select v-model="evaluacion.nucleoCodigo" name="nucleo" class="form-control" @change="getUnidades(evaluacion.nucleoCodigo)">
-							                          					<option v-for="option in nucleos" v-bind:value="option.codigo">{{ option.nombre }}</option>
-							                          				</select>
-							                          			</div>
+														var fecha_completaF = anio_f+"-"+mes_f+"-"+dia_f;
+													%>
 
-							                          			<div class="form-group col-md-6">
-							                          				<label>Unidad: </label>
-							                          				<select v-model="evaluacion.unidadCodigo" name="unidad" class="form-control">
-							                          					<option v-for="option in unidades" v-bind:value="option.codigo">{{ option.nombre }}</option>
-							                          				</select>
-							                          			</div>
-							                          		</div>
+													<% if(Evaluacion.fecha_i > hoy) {%>
+														<form v-on:submit="checkForm" method="POST" action="/coord_plani/editEval/<%- Evaluacion.id %>">
+								                        	<div class="modal-body">
+								                          		<div class="form-row">
+								                          			<div class="form-group col-md-6">
+								                          				<label>Nucleo: </label>
+								                          				<select v-model="evaluacion.nucleoCodigo" name="nucleo" class="form-control" @change="getUnidades(evaluacion.nucleoCodigo)">
+								                          					<option v-for="option in nucleos" v-bind:value="option.codigo">{{ option.nombre }}</option>
+								                          				</select>
+								                          			</div>
 
-							                          		<div class="form-row">
-							                          			<div class="form-group col-md-6">
-							                          				<label>Fecha Inicio: </label>
-							                          				<input type="date" v-model="evaluacion.fecha_i" name="fecha_i" class="form-control">
-							                          			</div>
+								                          			<div class="form-group col-md-6">
+								                          				<label>Unidad: </label>
+								                          				<select v-model="evaluacion.unidadCodigo" name="unidad" class="form-control">
+								                          					<option v-for="option in unidades" v-bind:value="option.codigo">{{ option.nombre }}</option>
+								                          				</select>
+								                          			</div>
+								                          		</div>
 
-							                          			<div class="form-group col-md-6">
-							                          				<label>Fecha Final: </label>
-							                          				<input type="date" v-model="evaluacion.fecha_f" name="fecha_f" class="form-control">
-							                          			</div>
-							                          		</div>
+								                          		<div class="form-row">
+								                          			<div class="form-group col-md-6">
+								                          				<label>Fecha Inicio: </label>
+								                          				<input type="date" v-model="evaluacion.fecha_i" name="fecha_i" class="form-control">
+								                          			</div>
 
-							                        	</div>  
-							                      
-							                        	<!-- Modal footer -->
-							                        	<div class="modal-footer">
-							                          		<button type="submit" class="btn btn-primary">Submit</button>
-							                        	</div>
-							                      	</form>
-												<%} else {%>
-													<form v-on:submit="verificarForm" method="POST" action="/coord_plani/eval_encurso">
-														<input type="hidden" name="id" value="<%- Evaluacion.id %>">
-							                        	<div class="modal-body">
-							                          		<div class="form-row">
-							                          			<div class="form-group col-md-6">
-							                          				<label>Nucleo: </label>
-							                          				<input type="text" name="nucleo" class="form-control" value="<%- Evaluacion.nucleo.nombre %>" disabled>
-							                          			</div>
+								                          			<div class="form-group col-md-6">
+								                          				<label>Fecha Final: </label>
+								                          				<input type="date" v-model="evaluacion.fecha_f" name="fecha_f" class="form-control">
+								                          			</div>
+								                          		</div>
 
-							                          			<div class="form-group col-md-6">
-							                          				<label>Unidad: </label>
-							                          				<input type="text" name="unidad" class="form-control" value="<%- Evaluacion.unidad.nombre %>" disabled>
-							                          			</div>
-							                          		</div>
+								                        	</div>  
+								                      
+								                        	<!-- Modal footer -->
+								                        	<div class="modal-footer">
+								                          		<button type="submit" class="btn btn-primary">Submit</button>
+								                        	</div>
+								                      	</form>
+													<%} else {%>
+														<form v-on:submit="verificarForm" method="POST" action="/coord_plani/eval_encurso">
+															<input type="hidden" name="id" value="<%- Evaluacion.id %>">
+								                        	<div class="modal-body">
+								                          		<div class="form-row">
+								                          			<div class="form-group col-md-6">
+								                          				<label>Nucleo: </label>
+								                          				<input type="text" name="nucleo" class="form-control" value="<%- Evaluacion.nucleo.nombre %>" disabled>
+								                          			</div>
 
-							                          		<div class="form-row">
-							                          			<div class="form-group col-md-6">
-							                          				<label>Fecha Inicio: </label>
-							                          				<input type="date" v-model="evaluacion.fecha_i" name="evaluacion.fecha_i" class="form-control"  disabled>
-							                          			</div>
+								                          			<div class="form-group col-md-6">
+								                          				<label>Unidad: </label>
+								                          				<input type="text" name="unidad" class="form-control" value="<%- Evaluacion.unidad.nombre %>" disabled>
+								                          			</div>
+								                          		</div>
 
-							                          			<div class="form-group col-md-6">
-							                          				<label>Fecha Final: </label>
-							                          				<input type="date" v-model="evaluacion.fecha_f" name="fecha_f" class="form-control">
-							                          			</div>
-							                          		</div>
+								                          		<div class="form-row">
+								                          			<div class="form-group col-md-6">
+								                          				<label>Fecha Inicio: </label>
+								                          				<input type="date" v-model="evaluacion.fecha_i" name="evaluacion.fecha_i" class="form-control"  disabled>
+								                          			</div>
 
-							                        	</div>  
-							                      
-							                        	<!-- Modal footer -->
-							                        	<div class="modal-footer">
-							                          		<button type="submit" class="btn btn-primary">Submit</button>
-							                        	</div>
-							                      	</form>
-												<%}%>
+								                          			<div class="form-group col-md-6">
+								                          				<label>Fecha Final: </label>
+								                          				<input type="date" v-model="evaluacion.fecha_f" name="fecha_f" class="form-control">
+								                          			</div>
+								                          		</div>
+
+								                        	</div>  
+								                      
+								                        	<!-- Modal footer -->
+								                        	<div class="modal-footer">
+								                          		<button type="submit" class="btn btn-primary">Submit</button>
+								                        	</div>
+								                      	</form>
+													<%}%>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -178,24 +183,24 @@
 							</div>
 						</div>
 					</div>
+					<br>
 				</div>
 			</div>
 		</div>
+		
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
 	</div>
-	
-	<footer class="footer" style="background: #BEBCB0;">
-		<div class="container">
-			<span class="text-muted">Pie de Pagina</span>
-		</div>
-	</footer>
 
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
-	
-	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+	<script src="/js/vue.js"></script>
+	<script src="/js/axios.js"></script>
 	<script type="text/javascript">
 		new Vue({
 			el:'#main',

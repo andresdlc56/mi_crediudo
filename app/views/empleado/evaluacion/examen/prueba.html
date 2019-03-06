@@ -104,11 +104,11 @@
 								    	<tr class="thead-dark">
 								      		<th width="5%">#</th>
 								      		<th scope="col"><%=Factor[i].factor.nombre%></th>
+								      		<th>1 ptos</th>
 								      		<th>2 ptos</th>
+								      		<th>3 ptos</th>
 								      		<th>4 ptos</th>
-								      		<th>6 ptos</th>
-								      		<th>8 ptos</th>
-								      		<th>10 ptos</th>
+								      		<th>5 ptos</th>
 								    	</tr>
 								    	<% let k=0 %>
 								    	<% for(let j = 0; j < Item.length; j ++) {%>
@@ -117,19 +117,19 @@
 											    	<td width="5%"></td>
 											    	<td><%=Item[j].nombre%></td> 
 											    	<td class="text-center">
+											    		<input type="radio" name="item[<%= j %>]" value=1 id="item" required>
+											    	</td>
+											    	<td class="text-center">
 											    		<input type="radio" name="item[<%= j %>]" value=2 id="item" required>
+											    	</td>
+											    	<td class="text-center">
+											    		<input type="radio" name="item[<%= j %>]" value=3 id="item" required>
 											    	</td>
 											    	<td class="text-center">
 											    		<input type="radio" name="item[<%= j %>]" value=4 id="item" required>
 											    	</td>
 											    	<td class="text-center">
-											    		<input type="radio" name="item[<%= j %>]" value=6 id="item" required>
-											    	</td>
-											    	<td class="text-center">
-											    		<input type="radio" name="item[<%= j %>]" value=8 id="item" required>
-											    	</td>
-											    	<td class="text-center">
-											    		<input type="radio" name="item[<%= j %>]" value=10 id="item" required>
+											    		<input type="radio" name="item[<%= j %>]" value=5 id="item" required>
 											    	</td>
 											  	</tr>
 											  	<% k=k+1 %>

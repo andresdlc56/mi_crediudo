@@ -86,68 +86,118 @@
 						
 						<!--Contenido-->
 						<div class="col-sm-12 col-md-12 col-lg-9">
-							<div class="card">
-								<div class="card-body">
-									<div class="article border-bottom">
-										<h3>Resultados de Evaluaciones</h3>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="article border-bottom">
+												<h3>Resultados de Evaluaciones</h3>
+											</div>
+											<br>
+											
+											<table style="width: 100%">
+												<thead>
+													<th style="width: 40%">Factor</th>
+													<th>Calificación</th>
+												</thead>
+												<tbody>
+													<% let autoEval = [] %> <!--arreglo que almacena los ptos parciales de los factores en la autoEval-->
+													<% let acumuladorCoEval = [] %> 
+													<% let jefe = [] %> <!-- arreglo que almacena los ptos parciales de los factores en la eval q hace el jefe -->
+													<% let califiParcial = [] %> <!-- arreglo q guarda la calificacion parcial de un factor (autoE+coE+jefe) -->
+													<% let n = [] %> <!-- arreglo q almacena el numero de veces q entro en un cliclo (la pude haber definido como 3 y ya) -->
+													<% califiCoEval = [] %> <!-- arreglo que almacena los ptos parciales de los factores en la coEval -->
+
+
+													<% for(let i = 0; i < Factores.length; i ++) {%>
+														<% if(calificacionFactor && calificacionFactor.length > 0) {%>
+															<% autoEval[i] = 0 %>
+															<% acumuladorCoEval[i] = 0 %>
+															<% jefe[i] = 0 %>
+															<% califiCoEval[i] = 0 %>
+															<% califiParcial[i] = 0 %>
+															<% n[i] = 0 %>
+														</tbody>
+															<tr>
+																<td><%- Factores[i].factor.nombre %></td>
+																<td style="padding: 5px">
+																	<% for(let j = 0; j < calificacionFactor.length; j ++) {%>
+																		<% if(calificacionFactor[j].factorId == Factores[i].factorId) {%>
+																			<% if(calificacionFactor[j].evaluacion.instrumentId == 1) {%>
+																				<% autoEval[i] = calificacionFactor[j].calificacion * 0.10 %>
+																				
+																			<%} else if(calificacionFactor[j].evaluacion.instrumentId == 2) {%>
+																				<% n[i] = n[i] + 1 %>
+																				<% acumuladorCoEval[i] = acumuladorCoEval[i] + parseFloat(calificacionFactor[j].calificacion) %>	
+																			<%} else if(calificacionFactor[j].evaluacion.instrumentId == 4) {%>
+																				<% jefe[i] = calificacionFactor[j].calificacion * 0.50 %>
+																			<%}%>
+																		<%}%>
+																	<%}%>
+																	<% califiCoEval[i] = (acumuladorCoEval[i] / n[i]) * 0.40%>
+																	<% califiParcial[i] = autoEval[i] + califiCoEval[i] + jefe[i] %>
+																	<div class="progress">
+																	  	<div class="progress-bar" role="progressbar" style="width: <%= califiParcial[i] * 20 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= (califiParcial[i]).toFixed(2) %> Ptos</b></div>
+																	</div>
+																</td>
+															</tr>
+														<%}%>
+													<%}%>
+
+
+												</tbody>
+											</table>
+										</div>
+									</div>	
+									<br>
+								</div>
+								
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<table style="width: 100%">
+												<tr>
+													<td style="width: 40%"><h2>Calificación General: </h2></td>
+													<td>
+														<div class="progress">
+															<div class="progress-bar" role="progressbar" style="width: <%= Resultado.calificacion * 20 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b> <%= Resultado.calificacion %> Ptos</b></div>
+														</div>
+													</td>
+												</tr>
+											</table>
+										</div>
 									</div>
 									<br>
-									
-									<table style="width: 100%">
-										<thead>
-											<th style="width: 40%">Factor</th>
-											<th>Calificación</th>
-										</thead>
-										<tbody>
-											<% let autoEval = [] %> <!--arreglo que almacena los ptos parciales de los factores en la autoEval-->
-											<% let acumuladorCoEval = [] %> 
-											<% let jefe = [] %> <!-- arreglo que almacena los ptos parciales de los factores en la eval q hace el jefe -->
-											<% let califiParcial = [] %> <!-- arreglo q guarda la calificacion parcial de un factor (autoE+coE+jefe) -->
-											<% let n = [] %> <!-- arreglo q almacena el numero de veces q entro en un cliclo (la pude haber definido como 3 y ya) -->
-											<% califiCoEval = [] %> <!-- arreglo que almacena los ptos parciales de los factores en la coEval -->
+								</div>
 
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="article border-bottom">
+												<h3>Observación</h3>
+											</div>
+											<textarea class="form-control" disabled rows="5"><%- Observacion.contenido %></textarea>
+										</div>
+									</div>
+									<br>
+								</div>
 
-											<% for(let i = 0; i < Factores.length; i ++) {%>
-												<% if(calificacionFactor && calificacionFactor.length > 0) {%>
-													<% autoEval[i] = 0 %>
-													<% acumuladorCoEval[i] = 0 %>
-													<% jefe[i] = 0 %>
-													<% califiCoEval[i] = 0 %>
-													<% califiParcial[i] = 0 %>
-													<% n[i] = 0 %>
-												</tbody>
-													<tr>
-														<td><%- Factores[i].factor.nombre %></td>
-														<td style="padding: 5px">
-															<% for(let j = 0; j < calificacionFactor.length; j ++) {%>
-																<% if(calificacionFactor[j].factorId == Factores[i].factorId) {%>
-																	<% if(calificacionFactor[j].evaluacion.instrumentId == 1) {%>
-																		<% autoEval[i] = (calificacionFactor[j].calificacion * 2) / 10 %>
-																		
-																	<%} else if(calificacionFactor[j].evaluacion.instrumentId == 2) {%>
-																		<% n[i] = n[i] + 1 %>
-																		<% acumuladorCoEval[i] = acumuladorCoEval[i] + parseFloat(calificacionFactor[j].calificacion) %>	
-																	<%} else if(calificacionFactor[j].evaluacion.instrumentId == 4) {%>
-																		<% jefe[i] = (calificacionFactor[j].calificacion * 3) / 10 %>
-																	<%}%>
-																<%}%>
-															<%}%>
-															<% califiCoEval[i] = (((acumuladorCoEval[i] / n[i]) * 5) / 10) %>
-															<% califiParcial[i] = autoEval[i] + califiCoEval[i] + jefe[i] %>
-															<div class="progress">
-															  	<div class="progress-bar" role="progressbar" style="width: <%= califiParcial[i] * 10 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= (califiParcial[i]).toFixed(2) %> Ptos</b></div>
-															</div>
-														</td>
-													</tr>
-												<%}%>
-											<%}%>
-
-
-										</tbody>
-									</table>
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="article border-bottom">
+												<h3>Recomendación</h3>
+											</div>
+											<textarea class="form-control" disabled rows="5"></textarea>
+										</div>
+									</div>
+									<br>
 								</div>
 							</div>
+							
 						</div>
+
+						
 					</div>
 				</div>
 			</div>

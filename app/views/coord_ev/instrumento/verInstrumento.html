@@ -11,221 +11,225 @@
     <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
 </head>
 <body>
-	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
-		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
-	</div>	
+	<div id="main">
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
 
-	<%- include('../../partials/coord_eval/navbar.html') %>
+		<%- include('../../partials/coord_eval/navbar.html') %>
 
-	<div class="container-fluid" id="main">
-		<div class="row justify-content-md-center">
-			<div class="col-md-12">
-				<div class="row">
-					<div class="col-md-12">
-						<!--=======MIGAS DE PAN=========-->
-						<nav aria-label="breadcrumb" style="margin-top: 1%">
-							<ol class="breadcrumb">
-							    <li class="breadcrumb-item active" aria-current="page">Home</li>
-							</ol>
-						</nav>
-						<!--=======FIN MIGAS DE PAN=========-->
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-sm-12 col-md-3">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="card">
-								  	<div class="card-header">
-								    	Datos Personales:
-								  	</div>
-								  
-								  	<div class="card-body">
-								    	<div class="form-group">
-								    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
-								    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
-								    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
-								    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
-								    	</div>
-								  	</div>
-								</div>
-								<br>
-							</div>
-
-							<div class="col-md-12" v-if="!crearPregunta">
-								<div class="card">
-									<div class="card-header">
-										Nueva Pregunta
-									</div>
-									<div class="card-body">
-										<a href="javascript:void(0)" v-on:click="creandoPregunta()" class="btn btn-primary btn-block">Crear Pregunta</a>
-									</div>
-								</div>
-							</div>
-
-							<div class="col-md-12" v-else>
-								<div class="card">
-									<div class="card-header">
-										Nueva Factor
-									</div>
-									<div class="card-body">
-										<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#exampleModalCenter">Crear Factor</button>
-
-										<!-- Modal -->
-										<form @submit.prevent="addFactor(instrumento.id)">	
-											<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-											  	<div class="modal-dialog modal-dialog-centered" role="document">
-												    <div class="modal-content">
-												      		<div class="modal-header">
-												        		<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-												        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												          			<span aria-hidden="true">&times;</span>
-												        		</button>
-												      		</div>
-												      		<div class="modal-body">
-												        		<div class="form-group row">
-																    <label for="inputPassword" class="col-sm-3 col-form-label">Factor:</label>
-																    <div class="col-sm-9">
-																      	<input type="text" class="form-control" placeholder="Ingrese el Nuevo Factor" v-model="newFactor">
-																    </div>
-																</div>
-												      		</div>
-												      		<div class="modal-footer">
-												        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-												        		<input type="submit" name="save" class="btn btn-primary" value="Save changes">
-												      		</div>
-												    </div>
-											  	</div>
-											</div>
-										</form>
-									</div>
-								</div>
-							</div>								
+		<div class="container-fluid">
+			<div class="row justify-content-md-center">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-12">
+							<!--=======MIGAS DE PAN=========-->
+							<nav aria-label="breadcrumb" style="margin-top: 1%">
+								<ol class="breadcrumb">
+								    <li class="breadcrumb-item active" aria-current="page"><a href="/dashboard">Home</a></li>
+								    <li class="breadcrumb-item active" aria-current="page"><a href="/coord_ev/instrumentos">Instrumentos</a></li>
+								    <li class="breadcrumb-item active" aria-current="page">{{ instrumento.tipoEval }}</li>
+								</ol>
+							</nav>
+							<!--=======FIN MIGAS DE PAN=========-->
 						</div>
-						<br>
 					</div>
 
-					<div class="col-md-9">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-body">
-										<div class="article border-bottom">
-											<h3>Datos del Nuevo Instrumento</h3>
+					<div class="row">
+						<div class="col-sm-12 col-md-3">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+									  	<div class="card-header">
+									    	Datos Personales:
+									  	</div>
+									  
+									  	<div class="card-body">
+									    	<div class="form-group">
+									    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+									    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+									    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+									    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
+									    	</div>
+									  	</div>
+									</div>
+									<br>
+								</div>
+
+								<div class="col-md-12" v-if="!crearPregunta">
+									<div class="card">
+										<div class="card-header">
+											Nueva Pregunta
 										</div>
+										<div class="card-body">
+											<a href="javascript:void(0)" v-on:click="creandoPregunta()" class="btn btn-primary btn-block">Crear Pregunta</a>
+										</div>
+									</div>
+								</div>
 
-										<form @submit.prevent="editarInicio(instrumento.id)">
-											<fieldset v-bind:disabled="habilitado">
-												<br>
-												<div class="form-group">
-													<label for="nombre">Nombre o Titulo:</label>
-													<input type="text" v-model="instrumento.titulo" class="form-control" required>
+								<div class="col-md-12" v-else>
+									<div class="card">
+										<div class="card-header">
+											Nueva Factor
+										</div>
+										<div class="card-body">
+											<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#exampleModalCenter">Crear Factor</button>
+
+											<!-- Modal -->
+											<form @submit.prevent="addFactor(instrumento.id)">	
+												<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+												  	<div class="modal-dialog modal-dialog-centered" role="document">
+													    <div class="modal-content">
+													      		<div class="modal-header">
+													        		<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+													        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													          			<span aria-hidden="true">&times;</span>
+													        		</button>
+													      		</div>
+													      		<div class="modal-body">
+													        		<div class="form-group row">
+																	    <label for="inputPassword" class="col-sm-3 col-form-label">Factor:</label>
+																	    <div class="col-sm-9">
+																	      	<input type="text" class="form-control" placeholder="Ingrese el Nuevo Factor" v-model="newFactor">
+																	    </div>
+																	</div>
+													      		</div>
+													      		<div class="modal-footer">
+													        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+													        		<input type="submit" name="save" class="btn btn-primary" value="Save changes">
+													      		</div>
+													    </div>
+												  	</div>
 												</div>
+											</form>
+										</div>
+									</div>
+								</div>								
+							</div>
+							<br>
+						</div>
 
+						<div class="col-md-9">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="article border-bottom">
+												<h3>Datos del Nuevo Instrumento</h3>
+											</div>
+
+											<form @submit.prevent="editarInicio(instrumento.id)">
+												<fieldset v-bind:disabled="habilitado">
+													<br>
+													<div class="form-group">
+														<label for="nombre">Nombre o Titulo:</label>
+														<input type="text" v-model="instrumento.titulo" class="form-control" required>
+													</div>
+
+													<div class="row">
+													    <div class="col">
+													      	<label for="categoria">Categoria:</label>
+													      	<select v-model="instrumento.categoriumId" class="form-control" required>
+													      		<option v-for="option in categorias" v-bind:value="option.id">
+																	{{ option.nombre }}
+																</option>
+														    </select>
+													    </div>
+													    <div class="col">
+													    	<label for="tipo">Tipo:</label>
+													      	<select v-model="instrumento.tipoEvalId" class="form-control" required>
+														     	<option v-for="opt in tipos" v-bind:value="opt.id">
+																	{{ opt.nombre }}
+																</option>
+														    </select>
+													    </div>
+													</div>
+													<hr>		
+												</fieldset>
+												
+												<a href="javascript:void(0)" v-if="habilitado" v-on:click="habilitar()" class="btn btn-primary btn-block"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
+
+												<input type="submit" v-else class="btn btn-success btn-block" value="Guardar">
+											</form>										
+										</div>
+									</div>
+									<br>
+								</div>
+
+								<div class="col-md-12" v-if="crearPregunta">
+									<div class="card">
+										<div class="card-body">
+											<form @submit.prevent="addPregunta(instrumento.id)">
 												<div class="row">
-												    <div class="col">
-												      	<label for="categoria">Categoria:</label>
-												      	<select v-model="instrumento.categoriumId" class="form-control" required>
-												      		<option v-for="option in categorias" v-bind:value="option.id">
+												    <div class="col-md-4">
+												    	<label>Factor:</label>
+												      	<select v-model="pregunta.factor" name="" class="form-control">
+												      		<option value=""> --Seleccione una Opción-- </option>
+												      		<option v-for="option in factores" v-bind:value="option.id">
 																{{ option.nombre }}
 															</option>
-													    </select>
+												      	</select>
 												    </div>
-												    <div class="col">
-												    	<label for="tipo">Tipo:</label>
-												      	<select v-model="instrumento.tipoEvalId" class="form-control" required>
-													     	<option v-for="opt in tipos" v-bind:value="opt.id">
-																{{ opt.nombre }}
-															</option>
-													    </select>
+												    <div class="col-md-8">
+												    	<label>Item:</label>
+												      	<input type="text" v-model="pregunta.item" class="form-control" placeholder="Ingrese un Item">
 												    </div>
 												</div>
-												<hr>		
-											</fieldset>
-											
-											<a href="javascript:void(0)" v-if="habilitado" v-on:click="habilitar()" class="btn btn-primary btn-block"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
-
-											<input type="submit" v-else class="btn btn-success btn-block" value="Guardar">
-										</form>										
+												<hr>
+												<button class="btn btn-primary">Add</button>
+											</form>										
+										</div>
 									</div>
+									<br>
 								</div>
-								<br>
-							</div>
 
-							<div class="col-md-12" v-if="crearPregunta">
-								<div class="card">
-									<div class="card-body">
-										<form @submit.prevent="addPregunta(instrumento.id)">
-											<div class="row">
-											    <div class="col-md-4">
-											    	<label>Factor:</label>
-											      	<select v-model="pregunta.factor" name="" class="form-control">
-											      		<option value=""> --Seleccione una Opción-- </option>
-											      		<option v-for="option in factores" v-bind:value="option.id">
-															{{ option.nombre }}
+								<div class="col-md-12">
+									<table class="table table-hover table-sm table-bordered">
+										<thead>
+											<tr>
+												<th scope="col" style="width: 5%">#</th>
+												<th scope="col" style="width: 55%">Item</th>
+												<th scope="col" style="width: 30%">Factor</th>
+												<th scope="col" style="width: 10%">Acción</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr v-for="(pregunta, index) of preguntas">
+												<th scope="row">{{ index + 1 }}</th>
+												<td>
+													<input type="text" v-model="pregunta.nombre" class="form-control" v-bind:disabled="pregunta.id !== preguntaSeleccionada">	
+												</td>
+												<td>
+													<select v-model="pregunta.factorId" class="form-control" v-bind:disabled="pregunta.id !== preguntaSeleccionada">
+														<option v-for="opti in factores" v-bind:value="opti.id">
+															{{ opti.nombre }}
 														</option>
-											      	</select>
-											    </div>
-											    <div class="col-md-8">
-											    	<label>Item:</label>
-											      	<input type="text" v-model="pregunta.item" class="form-control" placeholder="Ingrese un Item">
-											    </div>
-											</div>
-											<hr>
-											<button class="btn btn-primary">Add</button>
-										</form>										
-									</div>
+													</select>   	
+												</td>
+												<td>
+													<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="edicionPregunta(pregunta.id)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="right" title="Editar Item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+													
+													<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="deleteItem(pregunta.id, pregunta.factorId, instrumento.id)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="right" title="Eliminar Item"><i class="fa fa-times" aria-hidden="true"></i></a>
+
+													<a href="javascript:void(0)" v-if="preguntaSeleccionada === pregunta.id" v-on:click="guardarEdicion(pregunta.id, pregunta.nombre, pregunta.factorId, instrumento.id)" class="btn btn-success btn-sm btn-block">Save</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
 								</div>
-								<br>
-							</div>
-
-							<div class="col-md-12">
-								<table class="table table-hover table-sm table-bordered">
-									<thead>
-										<tr>
-											<th scope="col" style="width: 5%">#</th>
-											<th scope="col" style="width: 55%">Item</th>
-											<th scope="col" style="width: 30%">Factor</th>
-											<th scope="col" style="width: 10%">Acción</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr v-for="(pregunta, index) of preguntas">
-											<th scope="row">{{ index + 1 }}</th>
-											<td>
-												<input type="text" v-model="pregunta.nombre" class="form-control" v-bind:disabled="pregunta.id !== preguntaSeleccionada">	
-											</td>
-											<td>
-												<select v-model="pregunta.factorId" class="form-control" v-bind:disabled="pregunta.id !== preguntaSeleccionada">
-													<option v-for="opti in factores" v-bind:value="opti.id">
-														{{ opti.nombre }}
-													</option>
-												</select>   	
-											</td>
-											<td>
-												<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="edicionPregunta(pregunta.id)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="right" title="Editar Item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-												
-												<a href="javascript:void(0)" v-if="preguntaSeleccionada === null" v-on:click="deleteItem(pregunta.id, pregunta.factorId, instrumento.id)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="right" title="Eliminar Item"><i class="fa fa-times" aria-hidden="true"></i></a>
-
-												<a href="javascript:void(0)" v-if="preguntaSeleccionada === pregunta.id" v-on:click="guardarEdicion(pregunta.id, pregunta.nombre, pregunta.factorId, instrumento.id)" class="btn btn-success btn-sm btn-block">Save</a>
-											</td>
-										</tr>
-									</tbody>
-								</table>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<footer class="footer" style="background: #BEBCB0;">
-		<div class="container">
-			<span class="text-muted">Pie de Pagina</span>
-		</div>
-	</footer>
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
+	</div>
 
 	<script src="/js/jquery-3.3.1.min.js"></script>
 	<script src="/js/popper.min.js"></script>
@@ -237,11 +241,12 @@
 		new Vue({
 			el: '#main',
 			data: {
+				activo: false,
 				instrumento: {
 					titulo: '',
 					categorium: '',
 					categoriumId: '',
-					tipo: '',
+					tipoEval: '',
 					tipoId: ''
 				},
 				pregunta: {
@@ -262,6 +267,10 @@
 				var currentUrl = window.location.pathname.split('/');
 				var id = currentUrl[3];
 
+				var url = window.location.pathname.split('/');
+				var seccion = currentUrl[2];
+
+				this.activarInstrumentos(seccion);
 				this.getInstrumento(id);
 				this.getCategorias();
 				this.getTipos();
@@ -269,6 +278,11 @@
 				this.getFactores();
 			},
 			methods: {
+				activarInstrumentos(seccion) {
+					if(seccion == 'verInstrumento') {
+						activo: true;
+					}
+				},
 				getInstrumento(id) {
 					axios.get('/coord_ev/getInstrumento/' + id)
 						.then(res => {
@@ -276,7 +290,8 @@
 							this.instrumento.categorium = res.data.categorium.nombre;
 							this.instrumento.categoriumId = res.data.categoriumId;
 							this.instrumento.tipoEvalId = res.data.tipoEvalId;
-							
+							this.instrumento.tipoEval = res.data.tipoEval.nombre
+							//console.log(this.instrumento.tipoEval.nombre)
 						}).catch(err => {
 							console.log(err);
 						});

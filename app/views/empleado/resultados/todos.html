@@ -97,6 +97,8 @@
 											<tr>
 												<th>#</th>
 												<th>Nombre</th>
+												<th>Fecha I</th>
+												<th>Fecha F</th>
 												<th>Calificación</th>
 												<th>Detalles</th>
 											</tr>
@@ -104,6 +106,12 @@
 												<tr>
 													<td><%- i + 1 %></td>
 													<td><%- Resultados[i].evaluacion.nombre %></td>
+													<td>
+														<%- Resultados[i].evaluacion.fecha_i.getDate() %>/<%- Resultados[i].evaluacion.fecha_i.getMonth() + 1%>/<%- Resultados[i].evaluacion.fecha_i.getFullYear() %>		
+													</td>
+													<td>
+														<%- Resultados[i].evaluacion.fecha_f.getDate() %>/<%- Resultados[i].evaluacion.fecha_f.getMonth() + 1%>/<%- Resultados[i].evaluacion.fecha_f.getFullYear() %>	
+													</td>
 													<td><%- Resultados[i].calificacion %> Ptos</td>
 													<td><a href="/dashboard/verResultado/<%- Resultados[i].evaluacionId %>" class="btn btn-primary btn-sm">Ver</a></td>
 												</tr>

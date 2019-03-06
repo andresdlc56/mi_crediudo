@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Inicio</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+
+	
+</head>
+<body>
+	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
+
+		<%- include('../../partials/empleado/navbar.html') %>
+
+	<div class="container-fluid">
+		<div class="row justify-content-md-center">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12">
+						<!--=======MIGAS DE PAN=========-->
+						<nav aria-label="breadcrumb" style="margin-top: 1%">
+							<ol class="breadcrumb">
+							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							</ol>
+						</nav>
+						<!--=======FIN MIGAS DE PAN=========-->				
+					</div>
+
+					<div class="col-md-3">
+						<div class="card">
+						  	<div class="card-header">
+						    	Datos Personales:
+						  	</div>
+						  
+						  	<div class="card-body">
+						    	<div class="form-group">
+						    		<p><b>Nombre: </b><%- Usuario.nombre %></p>
+						    		<p><b>Apellido: </b><%- Usuario.apellido %></p>
+						    		<p><b>Nucleo: </b><%- Usuario.nucleo.nombre %></p>
+						    		<p><b>Unidad: </b><%- Usuario.unidad.nombre %></p>
+						    		<p><b>Cargo: </b><%- Usuario.rol.nombre %></p>
+						    	</div>
+						  	</div>
+						</div>
+
+						<br>
+
+						<div class="card">
+						  	<div class="card-header">
+						    	¿Sabes como Evaluar?
+						  	</div>
+						  
+						  	<div class="card-body">
+						    	<div class="form-group">
+						    		<p><b>Nombre: </b></p>
+						    		<p><b>Apellido: </b></p>
+						    		<p><b>Nucleo: </b></p>
+						    		<p><b>Unidad: </b></p>
+						    	</div>
+						  	</div>
+						</div>
+					</div>
+
+					<div class="col-md-9">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="article border-bottom">
+											<h3>Evaluaciones Realizadas</h3>
+										</div>
+										<table class="table">
+											<thead>
+												<tr>
+													<th scope="col">#</th>
+													<th scope="col">Nombre de Eval</th>
+											      	<th scope="col">Fecha I</th>
+											      	<th scope="col">Fecha F</th>
+											      	<th scope="col">Acción</th>
+												</tr>
+											</thead>
+											<tbody>
+												<% for(let i = 0; i < autoEvals.length; i ++) {%>
+													<tr>
+														<td><%- i+1 %></td>
+														<td><%- autoEvals[i].nombre %></td>
+														<td>
+															<p><%- autoEvals[i].fecha_i.getDate() %>/<%- autoEvals[i].fecha_i.getMonth() + 1%>/<%- autoEvals[i].fecha_i.getFullYear() %></p>		
+														</td>
+														<td>
+															<p><%- autoEvals[i].fecha_f.getDate() %>/<%- autoEvals[i].fecha_f.getMonth() + 1%>/<%- autoEvals[i].fecha_f.getFullYear() %></p>		
+														</td>
+														<td>
+															
+														</td>
+													</tr>
+												<%}%>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="footer" style="background: #BEBCB0;">
+		<div class="container">
+			<span class="text-muted">Pie de Pagina</span>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
+</body>
+</html>

@@ -212,6 +212,37 @@
 															</div>
 														<%}%>
 													<%}%>
+													<div class="article border-bottom">
+														<div class="row">
+															<div class="col-md-3 col-sm-3 text-center">
+																<div class="row">
+																	<div class="col-md-12">
+														    			<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 30pt;"></i>
+														    		</div>
+														    		
+															    	<div class="col-md-12">
+															    		<p style="font-size: 10pt">
+															    			<% for(let j = 0; j < dataUser.length; j ++) {%>
+															    				<% if(dataUser[j].cedula == autoEvalJefe.usuarioEvaluado) {%>
+															    					<%- dataUser[j].nombre %> <%- dataUser[j].apellido %>
+															    				<%}%>
+															    			<%}%>
+															    		</p>
+															    	</div>
+																</div>
+															</div>
+
+															<div class="col-md-9 col-sm-9 text-center" style="border-left: 1px solid #E6DFDD">
+															    <br>
+															    <%if(autoEvalJefe.status == true) {%>
+																	<a href="" class="btn btn-primary btn-sm btn-block">Ver</a>
+															    <%} else {%>
+																	<a href="#" class="btn btn-primary btn-sm btn-block disabled" tabindex="-1" role="button" aria-disabled="true">Ver</a>
+															    <%}%>
+															    
+															</div>
+														</div>
+													</div>
 										      	</div>
 										    </div>
 										</div>
