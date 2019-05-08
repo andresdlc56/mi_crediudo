@@ -114,4 +114,29 @@ $(document).ready(function() {
 			confirm: "Password de Confirmación no Coincide"
 		}
 	});
+
+	$("#addNoticia").validate({
+		//REGLAS DE VALIDACION
+		rules:{
+			titulo:{
+				required:true
+			},
+			resumen: {
+				required:true
+			},
+			descripcion: {
+				required:true
+            },
+            urlImg: {
+            	required: true
+            }
+		},//FIN REGLAS
+
+		messages:{
+			titulo: "Campo Obligatorio",
+			resumen: "Campo Obligatorio",
+			descripcion: "Campo Obligatoro",
+			urlImg: "Campo Obligatorio"
+		}
+	});
 });
