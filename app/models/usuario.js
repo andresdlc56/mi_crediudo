@@ -31,6 +31,10 @@ module.exports = function(sequelize, Sequelize) {
  
         last_login: {
             type: Sequelize.DATE
+        },
+        crediudo: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false  
         }
     });
     // Class Method

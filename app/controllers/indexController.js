@@ -10,7 +10,7 @@ exports.index = function(req, res) {
     		limit: 4,
 			order: [['id', 'DESC']] 
     	}).then(Noticias => {
-    		res.render('index/indexPedro', { Evaluaciones, Noticias });
+    		res.render('index/index', { Evaluaciones, Noticias });
     	})	
     })
     

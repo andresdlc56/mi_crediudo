@@ -88,14 +88,16 @@ module.exports = function(passport, user) {
     passport.use('local-signin', new LocalStrategy(
      
         {
-            // by default, local strategy uses username and password, we will override with email
+            /*
+                De forma predeterminada, la estrategia local utiliza un nombre de usuario y una contraseña, 
+                los anularemos con el correo electrónico
+            */
             usernameField: 'cedula',
             passwordField: 'password',
-            passReqToCallback: true // allows us to pass back the entire request to the callback
+            passReqToCallback: true // nos permite pasar la solicitud completa a la devolución de llamada
         },
 
         function(req, cedula, password, done){
-
             var Usuario = user;
             var isValidPassword = function(userpass, password) { 
                 return bCrypt.compareSync(password, userpass);
@@ -108,18 +110,17 @@ module.exports = function(passport, user) {
 
                 if (!user) {
                     return done(null, false, {
-                        message: 'Email does not exist'
+                        message: 'Esta Cedula No Existe'
                     });
                 }
 
                 
                 if (!isValidPassword(user.password, password)) {
                     return done(null, false, {
-                        message: 'Incorrect password.'
+                        message: 'Contraseña Incorrecta'
                     });
                 }
                 
-
                 var empleadoinfo = user.get();
                 return done(null, empleadoinfo);
 
@@ -127,7 +128,63 @@ module.exports = function(passport, user) {
                 console.log("Error:", err);
      
                 return done(null, false, {
-                    message: 'Something went wrong with your Signin'
+                    message: 'Algo salió mal con tu Inicio de Sesión'
+                });
+            });
+        }
+    ));
+
+    //LOCAL SIGNINCrediudo
+    passport.use('local-signinCrediudo', new LocalStrategy(
+     
+        {
+            /*
+                De forma predeterminada, la estrategia local utiliza un nombre de usuario y una contraseña, 
+                los anularemos con el correo electrónico
+            */
+            usernameField: 'cedula',
+            passwordField: 'password',
+            passReqToCallback: true // nos permite pasar la solicitud completa a la devolución de llamada
+        },
+
+        function(req, cedula, password, done){
+            var Usuario = user;
+            var isValidPassword = function(userpass, password) { 
+                return bCrypt.compareSync(password, userpass);
+            }
+
+            Usuario.findOne({
+                include: [modelRol.Rol],
+                where:{cedula: cedula}
+            }).then(function(user){
+
+                if (!user) {
+                    return done(null, false, {
+                        message: 'Esta Cedula No Existe'
+                    });
+                }
+
+                
+                if (!isValidPassword(user.password, password)) {
+                    return done(null, false, {
+                        message: 'Contraseña Incorrecta'
+                    });
+                }
+
+                if(user.crediudo == false) {
+                    return done(null, false, {
+                        message: 'Usted no es Usuario CREDIUDO'
+                    });
+                }
+                
+                var empleadoinfo = user.get();
+                return done(null, empleadoinfo);
+
+            }).catch(function(err) {
+                console.log("Error:", err);
+     
+                return done(null, false, {
+                    message: 'Algo salió mal con tu Inicio de Sesión'
                 });
             });
         }
