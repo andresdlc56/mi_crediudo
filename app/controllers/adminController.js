@@ -1,6 +1,8 @@
 var exports = module.exports = {}
 
 var models = require('../models');
+var multer = require('multer'); //para el manejo de multipart/form usado para cargar archivos
+const path = require('path');
 
 exports.index = function(req, res) {
 	//BUSQUEDA DEL PERSONAL DE CREDIUDO
@@ -228,5 +230,276 @@ exports.reemplazar = function(req, res) {
 			req.flash('info', 'Actualización Exitosa!');
 			res.redirect('/admin');
 		})
+	})
+}
+
+exports.creacionMision = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { rolId: 1 }
+	}).then(Admin => {
+		res.render('admin/conocenos/creacion&mision/index', {
+			Admin,
+			message: req.flash('info')
+		});
+	})
+}
+
+/*-------Solicitar info de la seccion "Creacion"-------*/
+exports.getCreacion = function(req, res) {
+	models.modulo.findOne({
+		where: { id: 1 }
+	}).then(Creacion => {
+		res.json(Creacion);
+	}).catch(err => {
+		res.json(err);
+	});
+}
+
+/*-----------Actualizar zona de "Creacion"---------*/
+exports.updateCreacion = function(req, res) {
+	//Set storage Engine
+	const storage = multer.diskStorage({
+		destination: './public/uploads/index/conocenos/creacion&mision',
+		filename: function(req, file, cb){
+			cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+		}
+	});
+
+	//Init Upload
+	const upload = multer({
+		storage: storage, 
+		limits: { fileSize: 1000000 },
+		fileFilter: function(req, file, cb){
+			checkFileType(file, cb);
+		}
+	}).single('urlImg');
+
+	// Check File Type
+	function checkFileType(file, cb){
+		//allowed ext
+		const filetypes = /jpeg|jpg|png|gif/;
+
+		//Check ext
+		const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+		//check mime
+		const mimetype = filetypes.test(file.mimetype);
+
+		if(mimetype && extname){
+			return cb(null,true);
+		} else{
+			cb('Error: Images Only!');
+		}
+	}
+
+	upload(req,res,(err) => {
+		if(err){
+			console.log('error');
+			res.send('algun error')
+		} else{
+			if(req.file == undefined){
+				models.modulo.update({
+					descripcion: req.body.descripcion
+				}, {
+					where: {
+						id: 1
+					}
+				}).then(Evento => {
+					console.log('=========Seccion de "Creacion" Actualizado Sin Img============');
+					req.flash('info', 'Sección de Creación Actualizado Exitosamente');
+					res.redirect('/admin/conocenos/creacion&mision');
+				})
+				console.log(req.file);
+			} else{
+				models.modulo.update({
+					descripcion: req.body.descripcion,
+					urlImg: req.file.filename
+				}, {
+					where: {
+						id: 1
+					}
+				}).then(Evento => {
+					console.log('============Sección de "Creacion" Actualizado Con Img==============');
+					req.flash('info', 'Sección de Creación Actualizado Exitosamente');
+					res.redirect('/admin/conocenos/creacion&mision');
+				}).catch(err => {
+					console.log(err)
+				});
+			}
+		}
+	})
+}
+
+/*-------Solicitar info de la seccion "Mision"-------*/
+exports.getMision = function(req, res) {
+	models.modulo.findOne({
+		where: { id: 2 }
+	}).then(Mision => {
+		res.json(Mision);
+	}).catch(err => {
+		res.json(err);
+	});
+}
+
+/*-----------Actualizar zona de "Creacion"---------*/
+exports.updateMision = function(req, res) {
+	//Set storage Engine
+	const storage = multer.diskStorage({
+		destination: './public/uploads/index/conocenos/creacion&mision',
+		filename: function(req, file, cb){
+			cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+		}
+	});
+
+	//Init Upload
+	const upload = multer({
+		storage: storage, 
+		limits: { fileSize: 1000000 },
+		fileFilter: function(req, file, cb){
+			checkFileType(file, cb);
+		}
+	}).single('urlImg');
+
+	// Check File Type
+	function checkFileType(file, cb){
+		//allowed ext
+		const filetypes = /jpeg|jpg|png|gif/;
+
+		//Check ext
+		const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+		//check mime
+		const mimetype = filetypes.test(file.mimetype);
+
+		if(mimetype && extname){
+			return cb(null,true);
+		} else{
+			cb('Error: Images Only!');
+		}
+	}
+
+	upload(req,res,(err) => {
+		if(err){
+			console.log('error');
+			res.send('algun error')
+		} else{
+			if(req.file == undefined){
+				models.modulo.update({
+					descripcion: req.body.descripcion
+				}, {
+					where: {
+						id: 2
+					}
+				}).then(Evento => {
+					console.log('=========Seccion de "Mision" Actualizado Sin Img============');
+					req.flash('info', 'Sección de Misión Actualizado Exitosamente');
+					res.redirect('/admin/conocenos/creacion&mision');
+				})
+				console.log(req.file);
+			} else{
+				models.modulo.update({
+					descripcion: req.body.descripcion,
+					urlImg: req.file.filename
+				}, {
+					where: {
+						id: 2
+					}
+				}).then(Evento => {
+					console.log('============Sección de "Mision" Actualizado Con Img==============');
+					req.flash('info', 'Sección de Misión Actualizado Exitosamente');
+					res.redirect('/admin/conocenos/creacion&mision');
+				}).catch(err => {
+					console.log(err)
+				});
+			}
+		}
+	})
+}
+
+/*-------Solicitar info de la seccion "Vision"-------*/
+exports.getVision = function(req, res) {
+	models.modulo.findOne({
+		where: { id: 3 }
+	}).then(Vision => {
+		res.json(Vision);
+	}).catch(err => {
+		res.json(err);
+	});
+}
+
+/*-----------Actualizar zona de "Vision"---------*/
+exports.updateVision = function(req, res) {
+	//Set storage Engine
+	const storage = multer.diskStorage({
+		destination: './public/uploads/index/conocenos/creacion&mision',
+		filename: function(req, file, cb){
+			cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+		}
+	});
+
+	//Init Upload
+	const upload = multer({
+		storage: storage, 
+		limits: { fileSize: 1000000 },
+		fileFilter: function(req, file, cb){
+			checkFileType(file, cb);
+		}
+	}).single('urlImg');
+
+	// Check File Type
+	function checkFileType(file, cb){
+		//allowed ext
+		const filetypes = /jpeg|jpg|png|gif/;
+
+		//Check ext
+		const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+		//check mime
+		const mimetype = filetypes.test(file.mimetype);
+
+		if(mimetype && extname){
+			return cb(null,true);
+		} else{
+			cb('Error: Images Only!');
+		}
+	}
+
+	upload(req,res,(err) => {
+		if(err){
+			console.log(err);
+			req.flash('info', 'Disculpe parece que a sucedido un Error');
+			res.redirect('/admin/conocenos/creacion&mision');
+		} else{
+			if(req.file == undefined){
+				models.modulo.update({
+					descripcion: req.body.descripcion
+				}, {
+					where: {
+						id: 3
+					}
+				}).then(Evento => {
+					console.log('=========Seccion de "Vision" Actualizado Sin Img============');
+					req.flash('info', 'Sección de Visión Actualizado Exitosamente');
+					res.redirect('/admin/conocenos/creacion&mision');
+				})
+				console.log(req.file);
+			} else{
+				models.modulo.update({
+					descripcion: req.body.descripcion,
+					urlImg: req.file.filename
+				}, {
+					where: {
+						id: 3
+					}
+				}).then(Evento => {
+					console.log('============Sección de "Vision" Actualizado Con Img==============');
+					req.flash('info', 'Sección de Visión Actualizado Exitosamente');
+					res.redirect('/admin/conocenos/creacion&mision');
+				}).catch(err => {
+					console.log(err)
+				});
+			}
+		}
 	})
 }

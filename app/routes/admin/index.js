@@ -47,7 +47,27 @@ module.exports = function(app) {
         app.get('/admin/getCoordEval', isLoggedIn, adminController.getCoordEval);
     
 
-    
+    /*==============Conocenos================*/
+        app.get('/admin/conocenos/creacion&mision', isLoggedIn, adminController.creacionMision);
+
+        /*========Solicitar info de la seccion "Creacion"=========*/
+            app.get('/admin/conocenos/creacion', isLoggedIn, adminController.getCreacion);
+
+        /*============Ruta para Editar zona de "Creacion"===========*/
+            app.post('/admin/conocenos/creacion&mision/updateCreacion', isLoggedIn, adminController.updateCreacion);    
+
+        /*========Solicitar info de la seccion "Mision"=========*/
+            app.get('/admin/conocenos/mision', isLoggedIn, adminController.getMision);
+
+        /*============Ruta para Editar zona de "Mision"===========*/
+            app.post('/admin/conocenos/creacion&mision/updateMision', isLoggedIn, adminController.updateMision);
+
+        /*========Solicitar info de la seccion "Vision"=========*/
+            app.get('/admin/conocenos/vision', isLoggedIn, adminController.getVision);
+
+         /*============Ruta para Editar zona de "Mision"===========*/
+            app.post('/admin/conocenos/creacion&mision/updateVision', isLoggedIn, adminController.updateVision);
+
 
     app.get('/logout',authController.logout);
 

@@ -139,4 +139,43 @@ $(document).ready(function() {
 			urlImg: "Campo Obligatorio"
 		}
 	});
+
+	$("#formCreacion").validate({
+		//REGLAS DE VALIDACION
+		rules:{
+			descripcion:{
+				required:true
+			}
+		},//FIN REGLAS
+
+		messages:{
+			descripcion: "Campo Obligatorio",
+		}
+	});
+
+	$("#formMision").validate({
+		//REGLAS DE VALIDACION
+		rules:{
+			descripcion:{
+				required:true
+			}
+		},//FIN REGLAS
+
+		messages:{
+			descripcion: "Campo Obligatorio",
+		}
+	});
+
+	$("#formVision").validate({
+		//REGLAS DE VALIDACION
+		rules:{
+			descripcion:{
+				required:true
+			}
+		},//FIN REGLAS
+
+		messages:{
+			descripcion: "Campo Obligatorio",
+		}
+	});
 });
