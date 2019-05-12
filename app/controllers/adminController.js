@@ -503,3 +503,129 @@ exports.updateVision = function(req, res) {
 		}
 	})
 }
+
+exports.objetivos = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { rolId: 1 }
+	}).then(Admin => {
+		res.render('admin/conocenos/objetivos/index', {
+			Admin,
+			message: req.flash('info')
+		});
+	});
+}
+
+exports.getObjetivos = function(req, res) {
+	models.modulo.findOne({
+		where: { id: 4 }
+	}).then(Objetivos => {
+		res.json(Objetivos);
+	}).catch(err => {
+		res.json(err);
+	});
+}
+
+exports.updateObjetivos = function(req, res) {
+	models.modulo.update({
+		descripcion: req.body.descripcion
+	}, {
+		where: { id: 4 }
+	}).then(Objetivo => {
+		console.log('============Sección de "Objetivos" Actualizado Exitosamente==============');
+		req.flash('info', 'Sección de Objetivos Actualizada Exitosamente');
+		res.redirect('/admin/conocenos/objetivos');
+	}).catch(err => {
+		console.log('============ha Ocurrido un Error==============');
+		req.flash('info', 'ha Ocurrido un Error');
+		res.redirect('/admin/conocenos/objetivos');
+	})
+}
+
+exports.funciones = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { rolId: 1 }
+	}).then(Admin => {
+		res.render('admin/conocenos/funciones/index', {
+			Admin,
+			message: req.flash('info')
+		});
+	});
+}
+
+exports.getFunciones = function(req, res) {
+	models.modulo.findOne({
+		where: { id: 5 }
+	}).then(Objetivos => {
+		res.json(Objetivos);
+	}).catch(err => {
+		res.json(err);
+	});
+}
+
+exports.updateFunciones = function(req, res) {
+	models.modulo.update({
+		descripcion: req.body.descripcion
+	}, {
+		where: { id: 5 }
+	}).then(Objetivo => {
+		console.log('============Sección de "Funciones" Actualizado Exitosamente==============');
+		req.flash('info', 'Sección de Funciones Actualizada Exitosamente');
+		res.redirect('/admin/conocenos/funciones');
+	}).catch(err => {
+		console.log('============ha Ocurrido un Error==============');
+		req.flash('info', 'ha Ocurrido un Error');
+		res.redirect('/admin/conocenos/funciones');
+	})
+}
+
+exports.subComisiones = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { rolId: 1 }
+	}).then(Admin => {
+		res.render('admin/conocenos/subComisiones/index', {
+			Admin,
+			message: req.flash('info')
+		});
+	});
+}
+
+exports.etapas = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { rolId: 1 }
+	}).then(Admin => {
+		res.render('admin/conocenos/etapas/index', {
+			Admin,
+			message: req.flash('info')
+		});
+	});
+}
+
+exports.getEtapas = function(req, res) {
+	models.modulo.findOne({
+		where: { id: 6 }
+	}).then(Etapas => {
+		res.json(Etapas);
+	}).catch(err => {
+		res.json(err);
+	});
+}
+
+exports.updateEtapas = function(req, res) {
+	models.modulo.update({
+		descripcion: req.body.descripcion
+	}, {
+		where: { id: 6 }
+	}).then(Etapas => {
+		console.log('============Sección de "Etapas" Actualizado Exitosamente==============');
+		req.flash('info', 'Sección de Etapas Actualizada Exitosamente');
+		res.redirect('/admin/conocenos/etapas');
+	}).catch(err => {
+		console.log('============ha Ocurrido un Error==============');
+		req.flash('info', 'ha Ocurrido un Error');
+		res.redirect('/admin/conocenos/etapas');
+	})
+}

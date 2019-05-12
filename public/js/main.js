@@ -178,4 +178,30 @@ $(document).ready(function() {
 			descripcion: "Campo Obligatorio",
 		}
 	});
+
+	$("#formObjetivos").validate({
+		//REGLAS DE VALIDACION
+		rules:{
+			descripcion:{
+				required:true
+			}
+		},//FIN REGLAS
+
+		messages:{
+			descripcion: "Campo Obligatorio",
+		}
+	});
+
+	$("#formFunciones").validate({
+		//REGLAS DE VALIDACION
+		rules:{
+			descripcion:{
+				required:true
+			}
+		},//FIN REGLAS
+
+		messages:{
+			descripcion: "Campo Obligatorio",
+		}
+	});
 });

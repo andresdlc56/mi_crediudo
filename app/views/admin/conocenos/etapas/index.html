@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | ADMIN</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="/js/pace.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+
+	<script src="https://cloud.tinymce.com/5/tinymce.min.js"></script>
+  	<script>tinymce.init({selector:'textarea'});</script>
+
+    <!--estilo a mensaje de error-->
+	<style type="text/css">
+	    label.error{
+	    	color: red;
+	    }
+
+	    table, th, td {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<div id="main">
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
+
+		<%- include('../../../partials/admin/navbar.html') %>
+
+		<div class="container-fluid">
+			<div class="row justify-content-md-center">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-12">
+							<!--=======MIGAS DE PAN=========-->
+							<nav aria-label="breadcrumb" style="margin-top: 1%">
+								<ol class="breadcrumb">
+								    <li class="breadcrumb-item" aria-current="page"><a href="/admin">Home</a></li>
+								    <li class="breadcrumb-item active" aria-current="page">Conócenos</li>
+								    <li class="breadcrumb-item active" aria-current="page">Etapas</li>
+								</ol>
+							</nav>
+							<!--=======FIN MIGAS DE PAN=========-->		
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-12 col-md-12 col-lg-3">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+									  	<div class="card-header">
+									    	Datos Personales:
+									  	</div>
+									  
+									  	<div class="card-body">
+									    	<div class="form-group">
+									    		<p><b>Nombre: </b><%- Admin.nombre %></p>
+									    		<p><b>Apellido: </b><%- Admin.apellido %></p>
+									    		<p><b>Nucleo: </b><%- Admin.nucleo.nombre %></p>
+									    		<p><b>Unidad: </b><%- Admin.unidad.nombre %></p>
+									    	</div>
+									  	</div>
+									</div>
+								</div>
+							</div>
+							
+							<br>
+						</div>
+
+						<div class="col-sm-12 col-md-12 col-lg-9">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="jumbotron jumbotron-fluid">
+										<div class="container text-center">
+									    	<h1 class="display-5">Etapas</h1>
+									  	</div>
+									</div>
+								</div>
+
+								<div class="col-md-12">
+									<!--=======mensaje de alerta==========-->
+									<% if(message == false) {%>
+
+									<%} else {%>
+										<div class="alert alert-success alert-dismissible fade show" role="alert">
+									        <%= message %>
+									       	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+									    </div>
+									<%}%>
+									<!--=======fin mensaje de alerta==========-->
+								</div>
+
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="article border-bottom">
+												<h4>Etapas</h4>
+											</div>
+											<br>
+											<form method="POST" action="/admin/conocenos/updateEtapas">
+												<div class="form-group">
+													<label>Descripción:</label>
+													<textarea name="descripcion" class="form-control" rows="15" v-bind:disabled="editEtapas" v-model="etapas.descripcion">{{ etapas.decripcion }}</textarea>
+												</div>
+
+												<div class="article border-top">
+													<div class="d-flex justify-content-end" style="margin-top: 10px">
+														<a href="javascript:;" class="btn btn-primary" v-on:click="editarEtapas()" v-if="editEtapas">Editar</a>
+
+														<input type="submit" name="guardar" value="Guardar" class="btn btn-success" v-if="!editEtapas">
+													
+														<a href="javascript:;" class="btn btn-danger" v-on:click="cancelarEdicion()" v-if="!editEtapas">Cancelar</a>
+													</div>
+												</div>	
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
+	</div>
+	
+
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
+
+	<script src="/js/vue.js"></script>
+	<script src="/js/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el:'#main',
+			data: {
+				etapas: {},
+				editEtapas: true
+			},
+			created() {
+				this.getEtapas();
+			},
+			methods: {
+				getEtapas() {
+					axios.get('/admin/conocenos/getEtapas')
+						.then(res => {
+							this.etapas = res.data;
+							console.log(this.etapas);
+						}).catch(err => {
+							console.log(err);
+						});
+				},
+				editarEtapas() {
+					console.log('Editar Etapas');
+					this.editEtapas = false;
+				},
+				cancelarEdicion() {
+					console.log('Cancelar Edicion');
+					//this.getObjetivos();
+					this.editEtapas = true;
+				}
+			}
+		})
+	</script>
+</body>
+</html>

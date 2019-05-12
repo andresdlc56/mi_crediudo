@@ -12,13 +12,13 @@
     <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
     <!--estilo a mensaje de error-->
 	<style type="text/css">
-	        label.error{
-	            color: red;
-	        }
+	    label.error{
+	    	color: red;
+	    }
 
-	        table, th, td {
-			    border: 1px solid black;
-			}
+	    table, th, td {
+			border: 1px solid black;
+		}
 	</style>
 </head>
 <body>
@@ -48,164 +48,186 @@
 
 					<div class="row">
 						<div class="col-sm-12 col-md-12 col-lg-3">
-							<div class="card">
-							  	<div class="card-header">
-							    	Datos Personales:
-							  	</div>
-							  
-							  	<div class="card-body">
-							    	<div class="form-group">
-							    		<p><b>Nombre: </b><%- Admin.nombre %></p>
-							    		<p><b>Apellido: </b><%- Admin.apellido %></p>
-							    		<p><b>Nucleo: </b><%- Admin.nucleo.nombre %></p>
-							    		<p><b>Unidad: </b><%- Admin.unidad.nombre %></p>
-							    	</div>
-							  	</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+									  	<div class="card-header">
+									    	Datos Personales:
+									  	</div>
+									  
+									  	<div class="card-body">
+									    	<div class="form-group">
+									    		<p><b>Nombre: </b><%- Admin.nombre %></p>
+									    		<p><b>Apellido: </b><%- Admin.apellido %></p>
+									    		<p><b>Nucleo: </b><%- Admin.nucleo.nombre %></p>
+									    		<p><b>Unidad: </b><%- Admin.unidad.nombre %></p>
+									    	</div>
+									  	</div>
+									</div>
+								</div>
 							</div>
+							
 							<br>
 						</div>
 
 						<div class="col-sm-12 col-md-12 col-lg-9">
-							<!--=======mensaje de alerta==========-->
-							<% if(message == false) {%>
-
-							<%} else {%>
-								<div class="alert alert-success alert-dismissible fade show" role="alert">
-							        <%= message %>
-							       	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-							    </div>
-							<%}%>
-							<!--=======fin mensaje de alerta==========-->
-
-							<div class="card">
-								<div class="card-body">
-									<div class="article border-bottom">
-										<h4>Creación</h4>
-									</div>
-									<br>
-									<div class="row">
-										<div class="col-md-12">
-											<form method="POST" action="/admin/conocenos/creacion&mision/updateCreacion" id="formCreacion" enctype="multipart/form-data">
-												<div class="row">
-													<div class="col-sm-4 col-md-4 col-lg-4">
-														<img v-bind:src="'/uploads/index/conocenos/creacion&mision/' +creacion.urlImg" onerror="this.src='/images/error/no-img.jpg'" class="img-thumbnail" style="width: 100%" v-if="!editCreacion">
-
-														<img id="blah" v-bind:src="'/uploads/index/conocenos/creacion&mision/'+creacion.urlImg" alt="your image" v-if="editCreacion" class="img-thumbnail" style="width: 100%"/>
-
-														<input type="file" name="urlImg" onchange="readURL(this);" v-if="editCreacion">
-													</div>
-
-													<div class="col-sm-8 col-md-8 col-lg-8">
-														<textarea name="descripcion" class="form-control" rows="5" v-bind:disabled="!editCreacion" v-model="creacion.descripcion"></textarea>
-													</div>
-
-													<div class="col-lg-12">
-														<div class="article border-top">
-															<div class="d-flex justify-content-end" style="margin-top: 10px">
-																<a href="javascript:;" class="btn btn-primary" v-on:click="editarCreacion()" v-if="!editCreacion">Editar</a>
-
-																<a href="javascript:;" class="btn btn-danger" v-on:click="cancelarEditCreacion()" v-if="editCreacion">Cancelar</a>
-
-																<input type="submit" name="guardar" value="Guardar" v-if="editCreacion" class="btn btn-success">
-															</div>
-														</div>
-													</div>		
-												</div>	
-											</form>
-										</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="jumbotron jumbotron-fluid">
+										<div class="container text-center">
+									    	<h1 class="display-5">Creación, Misión y Propósito</h1>
+									  	</div>
 									</div>
 								</div>
-							</div>
 
-							<br>
+								<div class="col-md-12">
+									<!--=======mensaje de alerta==========-->
+									<% if(message == false) {%>
 
-							<div class="card">
-								<div class="card-body">
-									<div class="article border-bottom">
-										<h4>Misión</h4>
-									</div>
-									<br>
-									<div class="row">
-										<div class="col-md-12">
-											<form method="POST" action="/admin/conocenos/creacion&mision/updateMision" id="formMision" enctype="multipart/form-data">
-												<div class="row">
-													<div class="col-sm-4 col-md-4 col-lg-4">
-														<img v-bind:src="'/uploads/index/conocenos/creacion&mision/' +mision.urlImg" onerror="this.src='/images/error/no-img.jpg'" class="img-thumbnail" style="width: 100%" v-if="!editMision">
-
-														<img id="dos" v-bind:src="'/uploads/index/conocenos/creacion&mision/'+mision.urlImg" alt="your image" v-if="editMision" class="img-thumbnail" style="width: 100%"/>
-
-														<input type="file" name="urlImg" onchange="readURLMision(this);" v-if="editMision">
-													</div>
-
-													<div class="col-sm-8 col-md-8 col-lg-8">
-														<textarea name="descripcion" class="form-control" rows="5" v-bind:disabled="!editMision" v-model="mision.descripcion"></textarea>
-													</div>
-
-													<div class="col-lg-12">
-														<div class="article border-top">
-															<div class="d-flex justify-content-end" style="margin-top: 10px">
-																<a href="javascript:;" class="btn btn-primary" v-on:click="editarMision()" v-if="!editMision">Editar</a>
-
-																<a href="javascript:;" class="btn btn-danger" v-on:click="cancelarEditMision()" v-if="editMision">Cancelar</a>
-
-																<input type="submit" name="guardar" value="Guardar" v-if="editMision" class="btn btn-success">
-															</div>
-														</div>
-													</div>		
-												</div>	
-											</form>
-										</div>
-									</div>
+									<%} else {%>
+										<div class="alert alert-success alert-dismissible fade show" role="alert">
+									        <%= message %>
+									       	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+									    </div>
+									<%}%>
+									<!--=======fin mensaje de alerta==========-->
 								</div>
-							</div>
+								
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="article border-bottom">
+												<h4>Creación</h4>
+											</div>
+											<br>
+											<div class="row">
+												<div class="col-md-12">
+													<form method="POST" action="/admin/conocenos/creacion&mision/updateCreacion" id="formCreacion" enctype="multipart/form-data">
+														<div class="row">
+															<div class="col-sm-4 col-md-4 col-lg-4">
+																<img v-bind:src="'/uploads/index/conocenos/creacion&mision/' +creacion.urlImg" onerror="this.src='/images/error/no-img.jpg'" class="img-thumbnail" style="width: 100%" v-if="!editCreacion">
 
-							<br>
+																<img id="blah" v-bind:src="'/uploads/index/conocenos/creacion&mision/'+creacion.urlImg" alt="your image" v-if="editCreacion" class="img-thumbnail" style="width: 100%"/>
 
-							<div class="card">
-								<div class="card-body">
-									<div class="article border-bottom">
-										<h4>Visión</h4>
-									</div>
-									<br>
-									<div class="row">
-										<div class="col-md-12">
-											<form method="POST" action="/admin/conocenos/creacion&mision/updateVision" id="formVision" enctype="multipart/form-data">
-												<div class="row">
-													<div class="col-sm-4 col-md-4 col-lg-4">
-														<img v-bind:src="'/uploads/index/conocenos/creacion&mision/' +vision.urlImg" onerror="this.src='/images/error/no-img.jpg'" class="img-thumbnail" style="width: 100%" v-if="!editVision">
-
-														<img id="tres" v-bind:src="'/uploads/index/conocenos/creacion&mision/'+vision.urlImg" alt="your image" v-if="editVision" class="img-thumbnail" style="width: 100%"/>
-
-														<input type="file" name="urlImg" onchange="readURLVision(this);" v-if="editVision">
-													</div>
-
-													<div class="col-sm-8 col-md-8 col-lg-8">
-														<textarea name="descripcion" class="form-control" rows="5" v-bind:disabled="!editVision" v-model="vision.descripcion"></textarea>
-													</div>
-
-													<div class="col-lg-12">
-														<div class="article border-top">
-															<div class="d-flex justify-content-end" style="margin-top: 10px">
-																<a href="javascript:;" class="btn btn-primary" v-on:click="editarVision()" v-if="!editVision">Editar</a>
-
-																<a href="javascript:;" class="btn btn-danger" v-on:click="cancelarEditVision()" v-if="editVision">Cancelar</a>
-
-																<input type="submit" name="guardar" value="Guardar" v-if="editVision" class="btn btn-success">
+																<input type="file" name="urlImg" onchange="readURL(this);" v-if="editCreacion">
 															</div>
-														</div>
-													</div>		
-												</div>	
-											</form>
+
+															<div class="col-sm-8 col-md-8 col-lg-8">
+																<textarea name="descripcion" class="form-control" rows="5" v-bind:disabled="!editCreacion" v-model="creacion.descripcion"></textarea>
+															</div>
+
+															<div class="col-lg-12">
+																<div class="article border-top">
+																	<div class="d-flex justify-content-end" style="margin-top: 10px">
+																		<a href="javascript:;" class="btn btn-primary" v-on:click="editarCreacion()" v-if="!editCreacion">Editar</a>
+
+																		<a href="javascript:;" class="btn btn-danger" v-on:click="cancelarEditCreacion()" v-if="editCreacion">Cancelar</a>
+
+																		<input type="submit" name="guardar" value="Guardar" v-if="editCreacion" class="btn btn-success">
+																	</div>
+																</div>
+															</div>		
+														</div>	
+													</form>
+												</div>
+											</div>
 										</div>
 									</div>
+									<br>
+								</div>
+
+
+
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="article border-bottom">
+												<h4>Misión</h4>
+											</div>
+											<br>
+											<div class="row">
+												<div class="col-md-12">
+													<form method="POST" action="/admin/conocenos/creacion&mision/updateMision" id="formMision" enctype="multipart/form-data">
+														<div class="row">
+															<div class="col-sm-4 col-md-4 col-lg-4">
+																<img v-bind:src="'/uploads/index/conocenos/creacion&mision/' +mision.urlImg" onerror="this.src='/images/error/no-img.jpg'" class="img-thumbnail" style="width: 100%" v-if="!editMision">
+
+																<img id="dos" v-bind:src="'/uploads/index/conocenos/creacion&mision/'+mision.urlImg" alt="your image" v-if="editMision" class="img-thumbnail" style="width: 100%"/>
+
+																<input type="file" name="urlImg" onchange="readURLMision(this);" v-if="editMision">
+															</div>
+
+															<div class="col-sm-8 col-md-8 col-lg-8">
+																<textarea name="descripcion" class="form-control" rows="5" v-bind:disabled="!editMision" v-model="mision.descripcion"></textarea>
+															</div>
+
+															<div class="col-lg-12">
+																<div class="article border-top">
+																	<div class="d-flex justify-content-end" style="margin-top: 10px">
+																		<a href="javascript:;" class="btn btn-primary" v-on:click="editarMision()" v-if="!editMision">Editar</a>
+
+																		<a href="javascript:;" class="btn btn-danger" v-on:click="cancelarEditMision()" v-if="editMision">Cancelar</a>
+
+																		<input type="submit" name="guardar" value="Guardar" v-if="editMision" class="btn btn-success">
+																	</div>
+																</div>
+															</div>		
+														</div>	
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+									<br>
+								</div>
+
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="article border-bottom">
+												<h4>Propósito</h4>
+											</div>
+											<br>
+											<div class="row">
+												<div class="col-md-12">
+													<form method="POST" action="/admin/conocenos/creacion&mision/updateVision" id="formVision" enctype="multipart/form-data">
+														<div class="row">
+															<div class="col-sm-4 col-md-4 col-lg-4">
+																<img v-bind:src="'/uploads/index/conocenos/creacion&mision/' +vision.urlImg" onerror="this.src='/images/error/no-img.jpg'" class="img-thumbnail" style="width: 100%" v-if="!editVision">
+
+																<img id="tres" v-bind:src="'/uploads/index/conocenos/creacion&mision/'+vision.urlImg" alt="your image" v-if="editVision" class="img-thumbnail" style="width: 100%"/>
+
+																<input type="file" name="urlImg" onchange="readURLVision(this);" v-if="editVision">
+															</div>
+
+															<div class="col-sm-8 col-md-8 col-lg-8">
+																<textarea name="descripcion" class="form-control" rows="5" v-bind:disabled="!editVision" v-model="vision.descripcion"></textarea>
+															</div>
+
+															<div class="col-lg-12">
+																<div class="article border-top">
+																	<div class="d-flex justify-content-end" style="margin-top: 10px">
+																		<a href="javascript:;" class="btn btn-primary" v-on:click="editarVision()" v-if="!editVision">Editar</a>
+
+																		<a href="javascript:;" class="btn btn-danger" v-on:click="cancelarEditVision()" v-if="editVision">Cancelar</a>
+
+																		<input type="submit" name="guardar" value="Guardar" v-if="editVision" class="btn btn-success">
+																	</div>
+																</div>
+															</div>		
+														</div>	
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+
 								</div>
 							</div>
 						</div>
-
 					</div>
-
 				</div>
 			</div>
 		</div>

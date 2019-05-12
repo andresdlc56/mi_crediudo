@@ -65,9 +65,37 @@ module.exports = function(app) {
         /*========Solicitar info de la seccion "Vision"=========*/
             app.get('/admin/conocenos/vision', isLoggedIn, adminController.getVision);
 
-         /*============Ruta para Editar zona de "Mision"===========*/
+        /*============Ruta para Editar zona de "Mision"===========*/
             app.post('/admin/conocenos/creacion&mision/updateVision', isLoggedIn, adminController.updateVision);
 
+        /*================Objetivos============================*/
+            app.get('/admin/conocenos/objetivos', isLoggedIn, adminController.objetivos);
+
+            /*--------------Solicitar toda la info de la seccion "Objetivos"------*/
+            app.get('/admin/conocenos/getObjetivos', isLoggedIn, adminController.getObjetivos);
+
+            /*--------------------Ruta para Editar zona de "Objetivos"---------------*/
+            app.post('/admin/conocenos/objetivos/updateObjetivos', isLoggedIn, adminController.updateObjetivos);
+
+        /*=============Funciones=========================*/
+            app.get('/admin/conocenos/funciones', isLoggedIn, adminController.funciones);
+
+            /*-------------Solicitar toda info de la Seccion "Funciones"-----------*/
+            app.get('/admin/conocenos/getFunciones', isLoggedIn, adminController.getFunciones);
+
+            /*--------------------Ruta para Editar zona de "Objetivos"---------------*/
+            app.post('/admin/conocenos/funciones/updateFunciones', isLoggedIn, adminController.updateFunciones);
+
+        /*=================Sub Comisiones===========================*/
+            app.get('/admin/conocenos/subComisiones', isLoggedIn, adminController.subComisiones);
+        
+        /*====================Etapas=======================*/
+            app.get('/admin/conocenos/etapas', isLoggedIn, adminController.etapas);
+
+            /*-------------Solicitar toda info de la Seccion "Etapas"-----------*/
+            app.get('/admin/conocenos/getEtapas', isLoggedIn, adminController.getEtapas);
+
+            app.post('/admin/conocenos/updateEtapas', isLoggedIn, adminController.updateEtapas);
 
     app.get('/logout',authController.logout);
 
