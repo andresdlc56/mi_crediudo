@@ -9,6 +9,8 @@ module.exports = function(app,passport) {
     //RUTA INICIAL INDEX
     app.get('/', indexController.index);
 
+    app.get('/etapas', indexController.etapas);
+
     //RUTA DE INICIO DE SESION
     app.get('/login', authController.signin);
 

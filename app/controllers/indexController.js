@@ -16,3 +16,13 @@ exports.index = function(req, res) {
     
     //res.send('Ruta Index');
 }
+
+exports.etapas = function(req, res) {
+    models.modulo.findOne({
+        where: { id: 6 }
+    }).then(Etapas => {
+        res.render('index/conocenos/etapas/index', {
+            Etapas
+        });
+    })
+}
