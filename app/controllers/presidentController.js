@@ -16,6 +16,7 @@ exports.index = function(req, res) {
 		a la unidad "CREDIUDO" y tenga un rol "Presidente"
 	*/
 	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
 		where: { 
 			[Op.and]: [
 				{nucleoCodigo:1}, 
@@ -1201,14 +1202,23 @@ exports.observacion = function(req, res) {
 }
 
 exports.historial = function(req, res) {
-	var usuario = req.user;
+	var fechaActual = new Date();
 
-	models.evaluacion.findAll({
-		include: [models.nucleo, models.unidad]
-
-	}).then(Evaluaciones => {
-		//res.send(Evaluaciones);
-		res.render('president/historial/index', { usuario, Evaluaciones });		
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Presidente => {
+		models.evaluacion.findAll({
+			include: [models.nucleo, models.unidad],
+			where: { instrumentId: 1 }
+		}).then(Evaluaciones => {
+			//res.send(Evaluaciones);
+			res.render('president/historial/index', { 
+				Presidente, 
+				Evaluaciones,
+				fechaActual
+			});		
+		});	
 	});
 }
 
@@ -1334,6 +1344,9 @@ exports.getEvaluaciones = function(req, res) {
 		}).then(Unidad => {
 			models.usuario.findAll({
 				include: [ models.cargo ],
+				order: [
+						['cargoId', 'ASC']
+				],
 				where: {
 					unidadCodigo: req.params.id
 				}
@@ -1352,6 +1365,7 @@ exports.getEvaluaciones = function(req, res) {
 				}).then(Evals => {
 					//ultima Calificacion
 					models.calificacion.findAll({
+						include: [ models.evaluacion, models.unidad ],
 						order: [
 							['id', 'DESC']
 						],
@@ -1359,7 +1373,13 @@ exports.getEvaluaciones = function(req, res) {
 							unidadCodigo: req.params.id
 						}
 					}).then(califiUnidad => {
-						res.render('president/nucleos/unidad/index', { Usuario, Unidad, Users, Evals, califiUnidad })
+						res.render('president/nucleos/unidad/index', { 
+							Usuario, 
+							Unidad, 
+							Users, 
+							Evals, 
+							califiUnidad 
+						})
 					})	
 				})
 			})

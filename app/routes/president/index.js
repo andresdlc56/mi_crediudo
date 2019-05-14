@@ -53,39 +53,17 @@ module.exports = function(app) {
     //Ver lista de Unidades de un Nucleo Seleccionado
     app.get('/president/nucleos/:id', isLoggedIn, presidentController.unidades);
 
-    
-
     app.get('/president/auto', isLoggedIn, presidentController.autoEval);
-
-    
 
     app.post('/president/detalles/:id',isLoggedIn, presidentController.observacion);
 
-    
-       
-
-    
-
-
-
-
     app.post('/president/detalles/editObs/:id', isLoggedIn, presidentController.editObserv);
-
-   
-   
-    
-    
-
 
     app.get('/president/cambiar_coordP', isLoggedIn, presidentController.cambiarCoordPla);
 
     app.get('/getCoordP', presidentController.getCoordP);
 
     app.get('/getUsuario/:id', presidentController.getUsuario);
-
-
-
-
 
     //Ruta Para cambiar al coord Eval de CREDIUDO
     app.get('/president/cambiar_coordP/:id', isLoggedIn, presidentController.cambiarCoordP);

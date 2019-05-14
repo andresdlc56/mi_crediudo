@@ -6,6 +6,9 @@
 
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+
 	<script type="text/javascript" src="/js/pace.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
 	<!-- Custom styles for this template -->
@@ -30,8 +33,9 @@
 			<div class="col-md-12">
 				<nav aria-label="breadcrumb" style="margin-top: 1%">
 					<ol class="breadcrumb">
-					    <li class="breadcrumb-item" aria-current="page">Home</li>
-					    <li class="breadcrumb-item active" aria-current="page">Nucleos</li>
+					    <li class="breadcrumb-item" aria-current="page"><a href="/president">Home</a></li>
+					    <li class="breadcrumb-item" aria-current="page"><a href="/president/nucleos">Nucleos</a></li>
+					    <li class="breadcrumb-item active" aria-current="page"><%- Unidad.nombre %></li>
 					</ol>
 				</nav>
 			</div>
@@ -133,7 +137,81 @@
 							</div>
 						</div>
 					</div>
+					
+					<div class="col-md-12">
+						<br>
+						<div class="row">
+							<div class="col-md-5">
+								<div class="card">
+									<div class="card-body">
+										<div class="article border-bottom">
+											<h3>Personal (<%- Users.length %>)</h3>
+										</div>
+										<table class="table table-hover table-bordered">
+										  <thead>
+										    <tr>
+										      <th style="width: 15%">Rango</th>
+										      <th>Nombre y Apellido</th>
+										      
+										    </tr>
+										  </thead>
+										  <tbody>
+											<% for(let i = 0; i < Users.length; i ++) {%>
+												<% if(Users[i].cargoId == 2) {%>
+													<tr>
+												      <th scope="row" class="text-center"><p style="font-size: 15pt" title="Jefe"><i class="fas fa-chess-king"></i></p></th>
+												      <td><a href=""><%- Users[i].nombre %> <%- Users[i].apellido %></a></td>
+												    </tr>
+												<%} else if(Users[i].cargoId == 3) {%>
+													<tr>
+												      <th scope="row" class="text-center"><p style="font-size: 15pt" title="Empleado"><i class="fas fa-chess-pawn"></i></p></th>
+												      <td><a href=""><%- Users[i].nombre %> <%- Users[i].apellido %></a></td>
+												    </tr>
+												<%}%>
+											<%}%>
+										  </tbody>
+										</table>
+									</div>
+								</div>
+							</div>
 
+							<div class="col-md-7">
+								<div class="card">
+									<div class="card-body">
+										<div class="article border-bottom">
+											<h3>Evaluaciones Culminadas</h3>
+										</div>
+										<table class="table table-hover table-bordered">
+											<thead>
+										    <tr>
+										      <th>Nombre</th>
+										      <th>Fecha I</th>
+										      <th>Fecha F</th>
+										      <th>Califi.</th>  
+										    </tr>
+										  </thead>
+										  <tbody>
+										  	<% for(let i = 0; i < califiUnidad.length; i ++) {%>
+												<tr>
+													<td><a href=""><%- califiUnidad[i].evaluacion.nombre %></a></td>
+													<td>
+														<%= califiUnidad[i].evaluacion.fecha_i.getDate() %>/<%= califiUnidad[i].evaluacion.fecha_i.getMonth() + 1 %>/<%= califiUnidad[i].evaluacion.fecha_i.getFullYear() %>
+													</td>
+													<td>
+														<%= califiUnidad[i].evaluacion.fecha_f.getDate() %>/<%= califiUnidad[i].evaluacion.fecha_f.getMonth() + 1 %>/<%= califiUnidad[i].evaluacion.fecha_f.getFullYear() %>
+													</td>
+													<td><%- califiUnidad[i].value %></td>
+												</tr>
+										  	<%}%>
+										  </tbody>
+										</table>
+									</div>
+								</div>
+							</div>							
+						</div>
+					</div>
+					
+					<!--
 					<div class="col-md-12">
 						<br>
 						<div class="card">
@@ -171,6 +249,7 @@
 							</div>
 						</div>						
 					</div>
+					-->
 				</div>
 				
 			</div>
