@@ -83,6 +83,13 @@ module.exports = function(app) {
     //Guardar Calificacion de Unidad
     app.post('/president/califiUnidad/:id', presidentController.saveCalifi);
 
+    //================Ver el Perfil de un Usuario de una determinada Unidad=====
+    app.get('/president/nucleos/unidad/:unidadCodigo/userPerfil/:userCedula', isLoggedIn, presidentController.userPerfil);
+
+    app.get('/president/userPerfil/:userCedula/eval/:evalId', isLoggedIn, presidentController.detallesEvalUser);
+
+    /*------Buscar los factores con su calificacion de un usuario en una determinada autoEva------*/
+    app.get('/president/userPerfil/:userCedula/autoEvalId/:autoEvalId', isLoggedIn, presidentController.getFactoresAutoEval);
 
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Jefe"
     //app.get('/president/culminado/:id/u/:idu',isLoggedIn, presidentController.culminado_b);

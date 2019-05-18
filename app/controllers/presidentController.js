@@ -1396,3 +1396,161 @@ exports.saveCalifi = function(req, res) {
 		res.redirect('/president/detalles/'+ req.params.id);
 	})
 }
+
+//---------Ver el Perfil de un Usuario determinado-----
+exports.userPerfil = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Presidente => {
+		models.unidad.findOne({
+			include: [ models.nucleo ],
+			where: { codigo: req.params.unidadCodigo }
+		}).then(Unidad => {
+			models.usuario.findOne({
+				include: [ models.cargo, models.rol, models.nucleo, models.unidad ],
+				where: { cedula: req.params.userCedula }
+			}).then(Usuario => {
+				models.observacion.findAll({
+					include: [ models.evaluacion, models.usuario ],
+					order: [
+						['id', 'DESC']
+					],
+					where: { usuarioCedula: Usuario.cedula }
+				}).then(Observaciones => {
+					models.evaluacion.findAll({
+						include: [ models.nucleo, models.unidad ],
+						where: {
+							unidadCodigo: Usuario.unidadCodigo,
+							instrumentId: 1
+						}
+					}).then(Evaluaciones => {
+						res.render('president/nucleos/unidad/userPerfil/index', {
+							Presidente,
+							Unidad,
+							Usuario,
+							Observaciones,
+							Evaluaciones
+						});	
+					});
+				});
+			});
+		});
+	});
+};
+
+//----Ver detalles de un Usuario en una Evaluacion especifica----
+exports.detallesEvalUser = function(req, res) {
+	var idA = parseInt(req.params.evalId); //AutoEvaluacion
+	var idB = parseInt(req.params.evalId) + 1; //CoEvaluacion
+	var idC = parseInt(req.params.evalId) + 2; //Evaluacion a Jefe
+	var idD = parseInt(req.params.evalId) + 3; //Evaluacion a Subordinado
+	var idE = parseInt(req.params.evalId) + 4; //AutoEvaluacion Jefe
+
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Presidente => {
+		models.usuario.findOne({
+			include: [ models.nucleo, models.unidad, models.cargo ],
+			where: { cedula: req.params.userCedula }
+		}).then(Usuario => {
+			models.unidad.findOne({
+				include: [ models.nucleo ],
+				where: { codigo: Usuario.unidadCodigo }
+			}).then(Unidad => {
+				//Si El Usuario Seleccionado es de Cargo 3 (Empleado)
+				if(Usuario.cargoId == 3) {
+					models.evaluacionUsuario.findAll({
+						include: [ models.evaluacion, models.usuario ],
+						where: {
+							[Op.or]: [{evaluacionId: idA}, {evaluacionId: idB}, {evaluacionId: idD}],
+							usuarioEvaluado: Usuario.cedula,
+							status: true
+						}
+					}).then(evalUsuario => {
+						//Buscar detalles de la autoEval de el Usuario seleccionado
+						models.evaluacionUsuario.findOne({
+							where: {
+								usuarioCedula: req.params.userCedula,
+								usuarioEvaluado: req.params.userCedula,
+								evaluacionId: req.params.evalId,
+								status: true
+							}
+						}).then(autoEval => {
+							models.evaluacionUsuario.findAll({
+								where: {
+									usuarioEvaluado: req.params.userCedula,
+									evaluacionId: idB,
+									status: true
+								}
+							}).then(coEvals => {
+								/*Si el Usuario Seleccionado ha sido coEvaluado 3 veces*/
+								if(coEvals.length == 3) {
+									var calificacion = 0;
+									let acomulado = 0;
+
+									for(let i = 0; i < coEvals.length; i ++) {
+										acomulado = acomulado + parseFloat(coEvals[i].calificacion);
+									}
+									calificacionCoEval = acomulado / 3;
+
+									/*Buscar la Evaluacion donde el Jefe de usuario seleccionado lo Evaluao*/
+									models.evaluacionUsuario.findOne({
+										where: {
+											[Op.and]: [
+												{usuarioEvaluado: req.params.userCedula}, 
+												{evaluacionId: idD},
+												{status: true}
+											]
+										}
+									}).then(evaldJefe => {
+										var califiGeneral = 0;
+										var acomuladoAutoeval = 0;
+										var acomuladoCoeval = 0;
+										var acomuladoJefe = 0;
+
+										acomuladoAutoeval = autoEval.calificacion * 0.10;
+										acomuladoJefe = evaldJefe.calificacion * 0.40;
+										acomuladoCoeval = calificacionCoEval * 0.50;
+										califiGeneral = acomuladoAutoeval + acomuladoCoeval + acomuladoJefe;
+
+										res.render('president/nucleos/unidad/userPerfil/detallesEval',{
+											Presidente,
+											Usuario,
+											Unidad,
+											evalUsuario,
+											autoEval,
+											evaldJefe,
+											calificacionCoEval
+										});			
+									});		
+								} else {
+									res.send('Aun no ha sido Evaluado 3 veces');
+								}	
+							})
+								
+						})
+					})
+				} 
+				//Si el usuario Seleccionado es de Cargo 2 (jefe-subordinado)
+				else if(Usuario.cargoId == 2) {
+					res.send('Jefe-Subordinado')
+				}
+			})	
+		})	
+	})
+};
+
+exports.getFactoresAutoEval = function(req, res) {
+	models.factorUsuario.findAll({
+		where: {
+			usuarioCedula: req.params.userCedula,
+			evaluacionId: req.params.autoEvalId
+		}
+	}).then(Factores => {
+		res.json(Factores);
+	}).catch(err => {
+		res.json('errorrr');
+	});
+}

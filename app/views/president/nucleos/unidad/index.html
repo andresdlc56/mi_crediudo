@@ -160,12 +160,12 @@
 												<% if(Users[i].cargoId == 2) {%>
 													<tr>
 												      <th scope="row" class="text-center"><p style="font-size: 15pt" title="Jefe"><i class="fas fa-chess-king"></i></p></th>
-												      <td><a href=""><%- Users[i].nombre %> <%- Users[i].apellido %></a></td>
+												      <td><a href="/president/nucleos/unidad/<%- Users[i].unidadCodigo %>/userPerfil/<%- Users[i].cedula %>"><%- Users[i].nombre %> <%- Users[i].apellido %></a></td>
 												    </tr>
 												<%} else if(Users[i].cargoId == 3) {%>
 													<tr>
 												      <th scope="row" class="text-center"><p style="font-size: 15pt" title="Empleado"><i class="fas fa-chess-pawn"></i></p></th>
-												      <td><a href=""><%- Users[i].nombre %> <%- Users[i].apellido %></a></td>
+												      <td><a href="/president/nucleos/unidad/<%- Users[i].unidadCodigo %>/userPerfil/<%- Users[i].cedula %>"><%- Users[i].nombre %> <%- Users[i].apellido %></a></td>
 												    </tr>
 												<%}%>
 											<%}%>
@@ -210,46 +210,6 @@
 							</div>							
 						</div>
 					</div>
-					
-					<!--
-					<div class="col-md-12">
-						<br>
-						<div class="card">
-							<div class="card-body">
-								<div class="article border-bottom">
-									<h3>Personal</h3>
-								</div>
-								<div class="row">
-									<% for(let i = 0; i < Users.length; i ++) {%>
-									<div class="col-sm-6 col-md-4 col-lg-3">
-										<br>
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col-5">
-														<div class="card">
-															<div class="card-body text-center">
-																<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-circle-o" style="font-size: 20pt;"></i>
-															</div>
-														</div>
-													</div>
-
-													<div class="col-7">
-														<a href="#"><%- Users[i].nombre %> <%- Users[i].apellido %></a>
-														<hr style="margin: 1px">
-														<p><em><%- Users[i].cargo.nombre %></em></p>
-													</div>
-												</div>
-											</div>
-										</div>
-										<br>
-									</div>
-									<%}%>
-								</div>
-							</div>
-						</div>						
-					</div>
-					-->
 				</div>
 				
 			</div>

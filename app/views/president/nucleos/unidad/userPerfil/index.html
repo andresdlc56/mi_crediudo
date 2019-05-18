@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Evaluaciones Planificadas</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+
+	<script type="text/javascript" src="/js/pace.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+    <style type="text/css">
+    	.anyClass {
+		  height: 550px;
+		  overflow-y: scroll;
+		}
+    </style>
+</head>
+<body>
+	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+		<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+	</div>	
+
+	<%- include('../../../../partials/president/navbar.html') %>
+
+	<div class="container-fluid" id="main">
+		<div class="row justify-content-md-center">
+			<!--=======MIGAS DE PAN=========-->
+			<div class="col-md-12">
+				<nav aria-label="breadcrumb" style="margin-top: 1%">
+					<ol class="breadcrumb">
+					    <li class="breadcrumb-item" aria-current="page"><a href="/president">Home</a></li>
+					    <li class="breadcrumb-item" aria-current="page"><a href="/president/nucleos">Nucleos</a></li>
+					    <li class="breadcrumb-item" aria-current="page"><a href="/president/nucleos/unidad/<%- Unidad.codigo %>"><%- Unidad.nombre %></a></li>
+					    <li class="breadcrumb-item active" aria-current="page"><%- Usuario.nombre %></li>
+					</ol>
+				</nav>
+			</div>
+			<!--=======FIN MIGAS DE PAN=========-->
+
+			<!--==============Nav Izquierdo============-->
+			<div class="col-md-3">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								Usuario Logeado
+							</div>
+							<div class="card-body">
+								<p><b>Nombre: </b><%- Presidente.nombre %></p>
+								<p><b>Apellido: </b><%- Presidente.apellido %></p>
+								<p><b>Nucleo: </b><%- Presidente.nucleo.nombre %></p>
+								<p><b>Unidad: </b><%- Presidente.unidad.nombre %></p>
+							</div>
+						</div>
+						<br>
+					</div>
+
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								Unidad Seleccionada
+							</div>
+							<div class="card-body">
+								<p><b>Nucleo: </b><%- Unidad.nucleo.nombre %></p>
+								<p><b>Unidad: </b><%- Unidad.nombre %></p>
+								<p><b>Personal: </b></p>
+							</div>
+						</div>
+						<br>
+					</div>
+				</div>
+			</div>
+
+			<!--=============Contenido=============-->
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="jumbotron jumbotron-fluid">
+						  <div class="container">
+						    <div class="row">
+						    	<div class="col-sm-5 col-md-3 text-center">
+						    		<i class="fas fa-user-circle" style="font-size: 150pt"></i>
+						    	</div>
+						    	<div class="col-sm-7 col-md-9">
+						    		<h1 class="display-4"><%- Usuario.nombre %> <%- Usuario.apellido %></h1>
+						    		<p class="lead"><%- Usuario.cargo.nombre %></p>
+						    	</div>
+						    </div>
+						  </div>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="card">
+							<div class="card-body">
+								<div class="article border-bottom">
+									<h3>Evals. Realizadas</h3>
+								</div>
+								<div>
+									<p style="font-size: 70pt" class="text-center">
+										<%- Observaciones.length %>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="card">
+							<div class="card-body">
+								<div class="article border-bottom">
+									<h3>Promedio</h3>
+								</div>
+								<div>
+									<p style="font-size: 70pt" class="text-center">
+										<% let acumulado = 0 %>
+										<% for(let i = 0; i < Observaciones.length; i ++) {%>
+											<% acumulado = acumulado + Observaciones[i].calificacion %>
+										<%}%>
+										<%- acumulado / Observaciones.length %>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="card">
+							<div class="card-body">
+								<div class="article border-bottom">
+									<h3>Ultima Calif.</h3>
+								</div>
+								<div>
+									<p style="font-size: 70pt" class="text-center">
+										<%- Observaciones[0].calificacion %>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<br>
+						<div class="card">
+							<div class="card-body">
+								<div class="article border-bottom">
+									<h3>Evaluaciones Realizadas</h3>
+								</div>
+								<table class="table table-hover table-bordered">
+									<thead>
+										<th style="width: 5%">#</th>
+										<th>Nombre</th>
+										<th>Fecha I</th>
+										<th>Fecha F</th>
+										<th style="width: 10%">Acción</th>	
+									</thead>
+									<tbody>
+										<% for(let i = 0; i < Evaluaciones.length; i ++) {%>
+											<tr>
+												<td><%- i + 1 %></td>
+												<td><%- Evaluaciones[i].nombre %></td>
+												<td>
+													<%= Evaluaciones[i].fecha_i.getDate() %>/<%= Evaluaciones[i].fecha_i.getMonth() + 1 %>/<%= Evaluaciones[i].fecha_i.getFullYear() %>
+												</td>
+												<td>
+													<%= Evaluaciones[i].fecha_f.getDate() %>/<%= Evaluaciones[i].fecha_f.getMonth() + 1 %>/<%= Evaluaciones[i].fecha_f.getFullYear() %>
+												</td>
+												<td>
+													<a href="/president/userPerfil/<%- Usuario.cedula %>/eval/<%- Evaluaciones[i].id %>" class="btn btn-primary btn-sm">Ver</a>
+												</td>
+											</tr>	
+										<%}%>
+									</tbody>									
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br>
+	<footer class="footer" style="background: #BEBCB0;">
+		<div class="container">
+			<span class="text-muted">Pie de Pagina</span>
+		</div>
+	</footer>
+
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
+</body>
+</html>
