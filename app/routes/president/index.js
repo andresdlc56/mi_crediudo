@@ -88,9 +88,6 @@ module.exports = function(app) {
 
     app.get('/president/userPerfil/:userCedula/eval/:evalId', isLoggedIn, presidentController.detallesEvalUser);
 
-    /*------Buscar los factores con su calificacion de un usuario en una determinada autoEva------*/
-    app.get('/president/userPerfil/:userCedula/autoEvalId/:autoEvalId', isLoggedIn, presidentController.getFactoresAutoEval);
-
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Jefe"
     //app.get('/president/culminado/:id/u/:idu',isLoggedIn, presidentController.culminado_b);
 
