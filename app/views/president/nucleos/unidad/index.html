@@ -103,13 +103,17 @@
 								</div>
 								<div>
 									<p style="font-size: 70pt" class="text-center">
-										<% var acomulado = 0 %>
-										<% var promedio = 0 %>
-										<% for(let i = 0; i < califiUnidad.length; i ++) {
-											acomulado = acomulado + califiUnidad[i].value
-										}%>
-										<% promedio = acomulado/ califiUnidad.length %>
-										<%- promedio %>
+										<% if(califiUnidad && califiUnidad.length > 0) {%>
+											<% var acomulado = 0 %>
+											<% var promedio = 0 %>
+											<% for(let i = 0; i < califiUnidad.length; i ++) {
+												acomulado = acomulado + califiUnidad[i].value
+											}%>
+											<% promedio = acomulado/ califiUnidad.length %>
+											<%- promedio %>
+										<%} else {%>
+											--
+										<%}%>
 									</p>
 								</div>
 							</div>
@@ -130,7 +134,7 @@
 									</p>
 									<%} else {%>
 										<p style="font-size: 80pt" class="text-center">
-											nada
+											--
 										</p>
 									<%}%>
 								</div>
