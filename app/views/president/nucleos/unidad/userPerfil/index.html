@@ -103,7 +103,11 @@
 								</div>
 								<div>
 									<p style="font-size: 70pt" class="text-center">
-										<%- Observaciones.length %>
+										<% if(Observaciones && Observaciones.length > 0) {%>
+											<%- Observaciones.length %>
+										<%} else {%>
+											--
+										<%}%>
 									</p>
 								</div>
 							</div>
@@ -118,11 +122,15 @@
 								</div>
 								<div>
 									<p style="font-size: 70pt" class="text-center">
-										<% let acumulado = 0 %>
-										<% for(let i = 0; i < Observaciones.length; i ++) {%>
-											<% acumulado = acumulado + Observaciones[i].calificacion %>
+										<% if(Observaciones && Observaciones.length > 0) {%>
+											<% let acumulado = 0 %>
+											<% for(let i = 0; i < Observaciones.length; i ++) {%>
+												<% acumulado = acumulado + Observaciones[i].calificacion %>
+											<%}%>
+											<%- acumulado / Observaciones.length %>
+										<%} else {%>
+											--
 										<%}%>
-										<%- acumulado / Observaciones.length %>
 									</p>
 								</div>
 							</div>
@@ -137,7 +145,11 @@
 								</div>
 								<div>
 									<p style="font-size: 70pt" class="text-center">
-										<%- Observaciones[0].calificacion %>
+										<% if(Observaciones && Observaciones.length > 0) {%>
+											<%- Observaciones[0].calificacion %>
+										<%} else {%>
+											--
+										<%}%>
 									</p>
 								</div>
 							</div>
