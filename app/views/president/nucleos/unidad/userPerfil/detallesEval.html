@@ -101,7 +101,7 @@
 						<div class="card">
 							<div class="card-body">
 								<div class="article border-bottom">
-									<h3>Calificacion General</h3>
+									<h3>Calificación General</h3>
 								</div>
 								<div>
 									<br>
@@ -200,7 +200,106 @@
 						<br>
 					</div>
 
-					
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="article border-bottom">
+									<h3>Calificación Segun su Enfoque</h3>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="card">
+											<div class="card-body">
+												<div class="row">
+													<div class="col-lg-3 col-md-4 col-sm-3">
+														<div class="card">
+															<div class="card-body text-center">
+																<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-child" style="font-size: 30pt;"></i>
+																<hr style="margin: 1px">
+																<p><strong>AutoEvaluación</strong></p>
+															</div>
+														</div>
+													</div>
+													<div class="col-lg-9 col-md-8 col-sm-9 text-center">
+														<br><br>
+														<div class="progress">
+															<div class="progress-bar" role="progressbar" style="width: <%= autoEvaluacion * 20 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= autoEvaluacion %> Ptos</b></div>
+														</div>
+													</div>					
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-12">
+										<div class="card">
+											<div class="card-body">
+												<div class="row">
+													<div class="col-lg-3 col-md-4 col-sm-3">
+														<div class="card">
+															<div class="card-body text-center">
+																<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-users" style="font-size: 30pt;"></i>
+																<hr style="margin: 2px">
+																<p><strong>CoEvaluación</strong></p>
+															</div>
+														</div>
+													</div>
+													<div class="col-lg-9 col-md-8 col-sm-9 text-center">
+														<br><br>
+														<div class="progress">
+															<div class="progress-bar" role="progressbar" style="width: <%= calificacion * 20 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b> <%= Math.trunc(calificacion)%> Ptos</b></div>
+														</div>
+													</div>					
+												</div>
+											</div>
+										</div>
+										<br>
+									</div>
+
+									<div class="col-md-12">
+										<div class="card">
+											<div class="card-body">
+												<div class="row">
+													<div class="col-lg-3 col-md-4 col-sm-3">
+														<div class="card">
+															<div class="card-body text-center">
+																<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-secret" style="font-size: 30pt;"></i>
+																<hr style="margin: 1px">
+																<p><strong>Segun Jefe</strong></p>
+															</div>
+														</div>
+													</div>
+													<div class="col-lg-9 col-md-8 col-sm-9 text-center">
+														<br><br>
+														<div class="progress">
+															<div class="progress-bar" role="progressbar" style="width: <%= evaldJefe.calificacion * 20 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%=  Math.trunc(evaldJefe.calificacion) %> Ptos</b>
+															</div>
+														</div>
+													</div>					
+												</div>
+											</div>
+										</div>
+										<br>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<br>
+						<div class="card">
+							<div class="card-body">
+								<div class="article border-bottom">
+									<h3>Observación</h3>
+								</div>
+								<br>
+								<p>
+									{{ observacion.contenido }}
+								</p>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -218,5 +317,34 @@
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
+
+	<script src="/js/vue.js"></script>
+	<script src="/js/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#main',
+			data: {
+				observacion: ''
+			},
+			created() {
+				var currentUrl = window.location.pathname.split('/');
+				var userCedula = currentUrl[3];
+				var idEval = currentUrl[5];
+
+				this.getObservacion(userCedula, idEval);
+			},
+			methods: {
+				getObservacion(userCedula, idEval) {
+					axios.get('/president/userPerfil/'+userCedula+'/eval/'+idEval+'/getObservacion')
+						.then(res => {
+							this.observacion = res.data;
+							console.log(this.observacion);
+						}).catch(err => {
+							console.log(err);
+						})
+				}
+			}
+		});
+	</script>
 </body>
 </html>

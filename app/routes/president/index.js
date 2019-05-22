@@ -88,6 +88,8 @@ module.exports = function(app) {
 
     app.get('/president/userPerfil/:userCedula/eval/:evalId', isLoggedIn, presidentController.detallesEvalUser);
 
+    app.get('/president/userPerfil/:userCedula/eval/:idEval/getObservacion', isLoggedIn, presidentController.getObservacion)
+
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Jefe"
     //app.get('/president/culminado/:id/u/:idu',isLoggedIn, presidentController.culminado_b);
 
