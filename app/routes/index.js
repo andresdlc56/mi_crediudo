@@ -38,6 +38,8 @@ module.exports = function(app,passport) {
     }
     ));
 
+    app.get('/objetivos', indexController.objetivos);
+
     //================Rutas axios=============
 
     //RUTA PARA FINALIZAR SESION
@@ -50,12 +52,4 @@ module.exports = function(app,passport) {
             return next();
         res.redirect('/login');
     }
-
-    //app.post('/login', indexController.iniciando);
-
-    /*app.post('/signup', passport.authenticate('local-signup', {
-            successRedirect: '/dashboard',
-            failureRedirect: '/signup'
-        }
-    ));*/
 }

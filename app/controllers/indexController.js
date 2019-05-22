@@ -26,3 +26,11 @@ exports.etapas = function(req, res) {
         });
     })
 }
+
+exports.objetivos = function(req, res) {
+    models.modulo.findOne({
+        where: { id: 4 }
+    }).then(Objetivos => {
+        res.render('index/conocenos/objetivos', { Objetivos });    
+    });
+}
