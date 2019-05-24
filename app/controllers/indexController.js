@@ -47,3 +47,11 @@ exports.creacionMision = function(req, res) {
         res.render('index/conocenos/creacion&mision', { Data });
     })
 }
+
+exports.funciones = function(req, res) {
+    models.modulo.findOne({
+        where: { id: 5 }
+    }).then(Funciones => {
+        res.render('index/conocenos/funciones', { Funciones });    
+    });
+}
