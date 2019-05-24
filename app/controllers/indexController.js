@@ -1,6 +1,8 @@
 var exports = module.exports = {}
 
 var models = require('../models');
+var Sequelize = require('sequelize');
+var Op = Sequelize.Op;
 
 exports.index = function(req, res) {
     models.evaluacion.findAll({
@@ -33,4 +35,15 @@ exports.objetivos = function(req, res) {
     }).then(Objetivos => {
         res.render('index/conocenos/objetivos', { Objetivos });    
     });
+}
+
+exports.creacionMision = function(req, res) {
+    models.modulo.findAll({
+        order: [[ 'id', 'ASC' ]],
+        where: {
+            [Op.or]: [{id: 1}, {id: 2}, {id: 3}]
+        }
+    }).then(Data => {
+        res.render('index/conocenos/creacion&mision', { Data });
+    })
 }

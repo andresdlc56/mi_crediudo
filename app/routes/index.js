@@ -40,6 +40,8 @@ module.exports = function(app,passport) {
 
     app.get('/objetivos', indexController.objetivos);
 
+    app.get('/creacion&mision', indexController.creacionMision);
+
     //================Rutas axios=============
 
     //RUTA PARA FINALIZAR SESION
