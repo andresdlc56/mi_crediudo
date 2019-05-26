@@ -33,7 +33,7 @@
 						</div>
 
 						<!--=========CARROUSEL========-->
-						<div class="col-md-9">
+						<div class="col-md-12">
 							<div id="demo" class="carousel slide" data-ride="carousel">
 								<!-- Indicators -->
 								<ul class="carousel-indicators">
@@ -46,7 +46,7 @@
 									<div class="carousel-inner">
 										
 									    <div class="carousel-item active">
-										    <img src="images/index/eval.jpg" alt="Responsive image" class="img-fluid" style="width: 100%">
+										    <img src="images/index/eval.jpg" alt="Responsive image" class="img-fluid" style="width: 100%; height: 500px">
 										    <div class="carousel-caption d-none d-md-block">
 												<h5>CREDIUDO</h5>
 												<p>Zona de Evaluaciones</p>
@@ -58,7 +58,7 @@
 										<%} else {%>
 											<div class="carousel-item">
 												<a href="/dashboard">
-											      	<img src="images/index/eval.jpg" alt="Responsive image" class="img-fluid" style="width: 100%">
+											      	<img src="images/index/eval.jpg" alt="Responsive image" class="img-fluid" style="width: 100%; height: 500px">
 
 											      	<div class="carousel-caption d-none d-md-block">
 												    	<a href="/dashboard" style="color: white">
@@ -84,14 +84,7 @@
 						</div>
 						<!--=========FIN CARROUSEL========-->
 
-						<div class="col-md-3">
-							<div class="list-group">
-								<a class="list-group-item list-group-item-action" href="/login">Evaluacion <span class="badge badge-light">4</span></a>
-								<a class="list-group-item list-group-item-action" href="#list-profile">Crear Instrumento</a>
-								<a class="list-group-item list-group-item-action" href="#list-messages" role="tab">Crear Factor</a>
-								<a class="list-group-item list-group-item-action" href="#list-settings">Settings</a>
-							</div>
-						</div>
+						
 
 						<!--=====SUB COMISIONES========-->
 						<div class="col-md-12">
@@ -146,20 +139,6 @@
 				</div>
 			</div>
 		</div>
-		
-
-		<h2>CREDIUDO | Inicio</h2>
-		<a href="/login">Iniciar Sesion</a>
-
-		HOLA
-
-		<br><br>
-		
-		<% if(Evaluaciones == 0) {%>
-			
-		<%} else {%>
-			<a href="/dashboard">Evaluacion</a>
-		<%}%>
 
 		<script src="/js/jquery-3.3.1.min.js"></script>
 		<script src="/js/popper.min.js"></script>

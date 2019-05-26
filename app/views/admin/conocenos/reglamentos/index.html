@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Reglamentos</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="/js/pace.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+    
+	
+    <!--estilo a mensaje de error-->
+	<style type="text/css">
+	    label.error{
+	    	color: red;
+	    }
+	</style>
+</head>
+<body>
+	<div>
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
+
+		<%- include('../../../partials/admin/navbar.html') %>
+
+		<div class="container-fluid">
+			<div class="row justify-content-md-center">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-12">
+							<!--=======MIGAS DE PAN=========-->
+							<nav aria-label="breadcrumb" style="margin-top: 1%">
+								<ol class="breadcrumb">
+								    <li class="breadcrumb-item" aria-current="page"><a href="/admin">Home</a></li>
+								    <li class="breadcrumb-item active" aria-current="page">Conócenos</li>
+								    <li class="breadcrumb-item active" aria-current="page">Funciones</li>
+								</ol>
+							</nav>
+							<!--=======FIN MIGAS DE PAN=========-->		
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-12 col-md-12 col-lg-3">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+									  	<div class="card-header">
+									    	Datos Personales:
+									  	</div>
+									  
+									  	<div class="card-body">
+									    	<div class="form-group">
+									    		<p><b>Nombre: </b><%- Admin.nombre %></p>
+									    		<p><b>Apellido: </b><%- Admin.apellido %></p>
+									    		<p><b>Nucleo: </b><%- Admin.nucleo.nombre %></p>
+									    		<p><b>Unidad: </b><%- Admin.unidad.nombre %></p>
+									    	</div>
+									  	</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-9">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="jumbotron jumbotron-fluid">
+										<div class="container text-center">
+									    	<h1 class="display-5">Reglamentos</h1>
+									  	</div>
+									</div>
+								</div>
+
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="article border-bottom">
+												<h3>Nuevo Reglamento</h3>
+											</div>
+											<br>
+											<div class="article border-bottom">
+												<form method="POST" action="/admin/conocenos/subirReglamento" enctype="multipart/form-data">
+													<div class="form-group">
+														<label for="titulo">Titulo:</label>
+														<input type="text" name="titulo" placeholder="Ingrese el Titulo del Archivo" class="form-control">
+													</div>
+
+													<div class="form-group">
+														<label>Descripción:</label>
+														<textarea name="descripcion" class="form-control" rows="5"></textarea>
+													</div>
+
+													<div class="form-group">
+														<input type="file" name="pdf">
+													</div>
+													<br>
+													<div class="form-group">
+														<input type="submit" name="guardar" value="Guardar" class="btn btn-success">
+													</div>
+												</form>	
+											</div>
+												
+										</div>
+									</div>
+									<br>
+								</div>
+
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="article border-bottom">
+												<h3>Reglas Existentes</h3>
+											</div>
+											<br>
+											<% if(Reglas && Reglas.length > 0) {%>
+												<table class="table table-hover">
+												  <thead>
+												    <tr>
+												      <th scope="col">#</th>
+												      <th scope="col">Titulo</th>
+												      <th scope="col">Fecha</th>
+												      <th scope="col">Archivo</th>
+												    </tr>
+												  </thead>
+												  <tbody>
+												  	<% for(let i = 0; i < Reglas.length; i ++) {%>
+														<tr>
+													      <th scope="row"><%- i + 1 %></th>
+													      <td><%- Reglas[i].titulo %></td>
+													      <td>Otto</td>
+													      <td>Otto</td>
+													    </tr>	
+												  	<%}%>
+												  </tbody>
+												</table>
+											<%} else{%>
+												No hay Reglas
+											<%}%>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
+	</div>
+	
+
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
+</body>
+</html>

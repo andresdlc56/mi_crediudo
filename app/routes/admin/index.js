@@ -97,6 +97,10 @@ module.exports = function(app) {
 
             app.post('/admin/conocenos/updateEtapas', isLoggedIn, adminController.updateEtapas);
 
+            app.get('/admin/conocenos/reglamentos', isLoggedIn, adminController.reglamentos);
+
+            app.post('/admin/conocenos/subirReglamento', isLoggedIn, adminController.subirReglamento);
+
     app.get('/logout',authController.logout);
 
 	function isLoggedIn(req, res, next) {

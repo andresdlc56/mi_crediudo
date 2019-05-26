@@ -629,3 +629,73 @@ exports.updateEtapas = function(req, res) {
 		res.redirect('/admin/conocenos/etapas');
 	})
 }
+
+exports.reglamentos = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Admin => {
+		models.regla.findAll({
+			order: [[ 'id', 'DESC' ]]
+		}).then(Reglas => {
+			res.render('admin/conocenos/reglamentos/index', { Admin, Reglas });	
+		})
+	});
+}
+
+exports.subirReglamento = function(req, res) {
+	//Set storage Engine
+	const storage = multer.diskStorage({
+		destination: './public/uploads/index/conocenos/reglamentos',
+		filename: function(req, file, cb){
+			cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+		}
+	});
+
+	//Init Upload
+	const upload = multer({
+		storage: storage, 
+		limits: { fileSize: 1000000 },
+		fileFilter: function(req, file, cb){
+			checkFileType(file, cb);
+		}
+	}).single('pdf');
+
+	// Check File Type
+	function checkFileType(file, cb){
+		//allowed ext
+		const filetypes = /pdf/;
+
+		//Check ext
+		const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+		//check mime
+		const mimetype = filetypes.test(file.mimetype);
+
+		if(mimetype && extname){
+			return cb(null,true);
+		} else{
+			cb('Error: Images Only!');
+		}
+	}
+
+	upload(req,res,(err) => {
+		if(err){
+			console.log(err);
+			req.flash('info', 'Disculpe parece que a sucedido un Error');
+			res.redirect('/admin/conocenos/reglamentos');
+		} else{
+			models.regla.create({
+				titulo: req.body.titulo,
+				descripcion: req.body.descripcion,
+				pdf: req.file.filename
+			}).then(Evento => {
+				console.log('============Sección de "Vision" Actualizado Con Img==============');
+				req.flash('info', 'Sección de Visión Actualizado Exitosamente');
+				res.redirect('/admin/conocenos/reglamentos');
+			}).catch(err => {
+				console.log(err)
+			});
+		}
+	})
+}
