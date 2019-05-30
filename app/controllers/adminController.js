@@ -3,6 +3,7 @@ var exports = module.exports = {}
 var models = require('../models');
 var multer = require('multer'); //para el manejo de multipart/form usado para cargar archivos
 const path = require('path');
+var fs = require('fs');
 
 exports.index = function(req, res) {
 	//BUSQUEDA DEL PERSONAL DE CREDIUDO
@@ -697,5 +698,19 @@ exports.subirReglamento = function(req, res) {
 				console.log(err)
 			});
 		}
+	})
+}
+
+exports.verReglamento = function(req, res) {
+	models.regla.findOne({
+		where: { id: req.params.id }
+	}).then(Reglamento => {
+	 	//var filePath = "../../uploads/index/conocenos/reglamentos/constancia.pdf";
+	 	//console.log(path.join(__dirname , '../../public/uploads/index/conocenos/reglamentos/constancia.pdf'));
+	 	var ruta = path.join(__dirname , '../../public/uploads/index/conocenos/reglamentos/');
+
+	    res.sendFile(ruta+Reglamento.pdf);
+	}).catch(err => {
+		res.json(err);
 	})
 }
