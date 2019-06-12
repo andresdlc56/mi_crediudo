@@ -103,6 +103,8 @@ module.exports = function(app) {
 
             app.get('/admin/conocenos/verReglamento/:id', isLoggedIn, adminController.verReglamento);
 
+            app.get('/admin/conocenos/getReglamento/:id', isLoggedIn, adminController.getReglamento);
+
     app.get('/logout',authController.logout);
 
 	function isLoggedIn(req, res, next) {

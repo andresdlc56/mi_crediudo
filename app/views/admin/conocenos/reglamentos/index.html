@@ -66,7 +66,7 @@
 							</div>
 						</div>
 
-						<div class="col-md-9">
+						<div class="col-md-9" id="main">
 							<div class="row">
 								<div class="col-md-12">
 									<div class="jumbotron jumbotron-fluid">
@@ -121,10 +121,11 @@
 												<table class="table table-hover">
 												  <thead>
 												    <tr>
-												      <th scope="col">#</th>
-												      <th scope="col">Titulo</th>
-												      <th scope="col">Fecha</th>
-												      <th scope="col">Archivo</th>
+												      <th style="width: 5%">#</th>
+												      <th style="width: 30%">Titulo</th>
+												      <th>Fecha</th>
+												      <th style="width: 10%">Archivo</th>
+												      <th style="width: 25%">Accion</th>
 												    </tr>
 												  </thead>
 												  <tbody>
@@ -134,9 +135,16 @@
 													      <td><%- Reglas[i].titulo %></td>
 													      <td>Otto</td>
 													      <td>
-															<a href="/admin/conocenos/verReglamento/<%- Reglas[i].id %>" target="_blank">
-													      		<p style="font-size: 20pt"><i class="fa fa-file-pdf-o"></i></p>
-															</a>
+													      	<p style="font-size: 20pt"><i class="fa fa-file-pdf-o"></i></p>
+													      </td>
+													      <td>
+													      	<a href="/admin/conocenos/verReglamento/<%- Reglas[i].id %>" target="_blank" class="btn btn-primary btn-sm">
+													      		ver
+													      	</a>
+													      	<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target=".bd-example-modal-lg" v-on:click="getReglamento(<%- Reglas[i].id %>)">edit</button>
+													      	<a href="" class="btn btn-danger btn-sm">
+													      		delete
+													      	</a>
 													      </td>
 													    </tr>	
 												  	<%}%>
@@ -145,8 +153,36 @@
 											<%} else{%>
 												No hay Reglas
 											<%}%>
-											
 										</div>
+									</div>
+
+									<!-Modal-->
+									<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	  									<div class="modal-dialog modal-lg">
+	    									<div class="modal-content">
+	    										<div class="modal-header">
+	    											hola mundo
+	    										</div>
+	     		 								<div class="modal-body">
+	     		 									<div class="form-group">
+	     		 										<label>Titulo</label>
+	     		 										<input type="text" name="titulo" class="form-control" v-model="reglamento.titulo">
+	     		 									</div>
+
+	     		 									<div class="form-group">
+														<label>Descripción:</label>
+														<textarea name="descripcion" class="form-control" rows="5" v-model="reglamento.descripcion"></textarea>
+													</div>
+
+													<div class="form-group">
+														<input type="file" name="pdf">
+													</div>
+	     		 								</div>
+	     		 								<div class="modal-footer">
+	     		 									<input type="submit" name="guardar" value="Guardar" class="btn btn-primary">
+	     		 								</div>
+	    									</div>
+	  									</div>
 									</div>
 								</div>
 							</div>
@@ -169,5 +205,30 @@
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
+
+	<script src="/js/vue.js"></script>
+	<script src="/js/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#main',
+			data: {
+				reglamento: {}	
+			},
+			created() {
+			
+			},
+			methods: {
+				getReglamento(id) {
+					axios.get('/admin/conocenos/getReglamento/'+id)
+						.then(res => {
+							this.reglamento = res.data;
+							console.log(this.reglamento);
+						}).catch(err => {
+							console.log(err);
+						});
+				}
+			}
+		})
+	</script>
 </body>
 </html>

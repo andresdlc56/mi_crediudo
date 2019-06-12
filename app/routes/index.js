@@ -44,6 +44,8 @@ module.exports = function(app,passport) {
 
     app.get('/funciones', indexController.funciones);
 
+    app.get('/reglamentos', indexController.reglamentos);
+
     //================Rutas axios=============
 
     //RUTA PARA FINALIZAR SESION

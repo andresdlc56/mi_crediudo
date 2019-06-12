@@ -55,3 +55,7 @@ exports.funciones = function(req, res) {
         res.render('index/conocenos/funciones', { Funciones });    
     });
 }
+
+exports.reglamentos = function(req, res) {
+    res.render('index/conocenos/reglamentos');
+}

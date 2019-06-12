@@ -714,3 +714,13 @@ exports.verReglamento = function(req, res) {
 		res.json(err);
 	})
 }
+
+exports.getReglamento = function(req, res) {
+	models.regla.findOne({
+		where: { id: req.params.id }
+	}).then(Regla => {
+		res.json(Regla);
+	}).catch(err => {
+		res.json(err);
+	});
+}
