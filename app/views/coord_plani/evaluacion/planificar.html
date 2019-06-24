@@ -78,29 +78,18 @@
 												<form v-on:submit="checkForm()" method="post" action="/coord_plani/plani_eval" id="plani_eval">
 													<div class="form-row">
 														<div class="form-group col-md-6">
-															<label>Personal a Evaluar:</label>
-															<select name="categoria" id="categoria" class="form-control" autofocus>
-																<option value=""> --Seleccione una Opción-- </option>
-																<% for(var i = 0; i < Categorias.length; i ++) {%>
-																	<option value="<%= Categorias[i].id %>"><%= Categorias[i].nombre %></option>
-																<%}%>
+															<label>Personal a Evaluar: </label>
+															<select v-model="categoria" name="categoria" class="form-control" @change="getNucleos(categoria)">
+																<option disabled value="">Please select one</option>
+																<option v-for="categ in categorias" v-bind:value="categ.id">
+																	{{ categ.nombre }}
+																</option>
 															</select>
 														</div>
 
-														<!--
 														<div class="form-group col-md-6">
 															<label>Nucleo: </label>
-															<select name="nucleo" id="nucleo" class="form-control">
-																<option value=""> --Seleccione una Opción-- </option>
-																<% for(var j = 0; j < Nucleos.length; j ++) {%>
-																	<option value="<%= Nucleos[j].codigo %>"><%= Nucleos[j].nombre %></option>
-																<%}%>
-															</select>
-														</div>
-														-->
-														<div class="form-group col-md-6">
-															<label>Nucleo: </label>
-															<select v-model="nucleo" name="nucleo" class="form-control" @change="getUnidades(nucleo)">
+															<select v-model="nucleo" name="nucleo" class="form-control" @change="getUnidades(nucleo, categoria)">
 																<option disabled value="">Please select one</option>
 																<option v-for="option in options" v-bind:value="option.codigo">
 																	{{ option.nombre }}
@@ -181,11 +170,14 @@
 				instrumentos: '',
 				deshabilitar: true,
 				fecha_i: '',
-				fecha_f: ''
+				fecha_f: '',
+				categoria: {},
+				categorias: []
 			},
 			created() {
 				this.getInstrumentos();
-				this.getNucleos();
+				//this.getNucleos();
+				this.getCategorias();
 			},
 			methods: {
 				/*
@@ -207,18 +199,22 @@
 							console.log(err)
 						})
 				},
-				getNucleos() {
-					axios.get('/getNucleos')
+				getNucleos(categoriaId) {
+					console.log('Nucleos Cargados');
+					axios.get('/getNucleos/'+categoriaId)
 						.then(res => {
 							this.options = res.data
 						}).catch(err => {
 							console.log(err)
 						});
 				},
-				getUnidades(id) {
-					axios.get('/getUnidades/' + id)
+				getUnidades(id, categoriaId) {
+					console.log('Nucleo: '+id);
+					console.log('Categoria: '+categoriaId);
+					axios.get('/getUnidades/' + id +'/' + categoriaId)
 						.then(res => {
-							this.unidades = res.data
+							this.unidades = res.data;
+							console.log(this.unidades);
 						}).catch(err => {
 							console.log(err)
 						})
@@ -241,6 +237,14 @@
 			      			return true;
 			      		}
 			      	}
+			    },
+			    getCategorias() {
+			    	axios.get('/getCategorias')
+			    		.then(res => {
+			    			this.categorias = res.data;
+			    		}).catch(err => {
+			    			console.log(err);
+			    		});
 			    }
 			}
 		})

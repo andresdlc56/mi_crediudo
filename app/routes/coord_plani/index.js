@@ -27,7 +27,7 @@ module.exports = function(app) {
 
     app.get('/coord_plani/verTodas', isLoggedIn, coord_planiController.verTodas);
 
-    app.get('/getNucleos', coord_planiController.getNucleos);
+    //app.get('/getNucleos', coord_planiController.getNucleos);
 
     app.get('/getUnidades/:id', coord_planiController.getUnidades);
 
@@ -38,9 +38,11 @@ module.exports = function(app) {
 
         app.get('/getEvaluacion/:id', coord_planiController.getEvaluacion);
 
-        app.get('/getNucleos', coord_planiController.getNucleos);
+        app.get('/getNucleos/:categoriaId', coord_planiController.getNucleos);
 
-        app.get('/getUnidades/:id', coord_planiController.getUnidades);
+        app.get('/getCategorias', coord_planiController.getCategorias);
+
+        app.get('/getUnidades/:id/:categoriaId', coord_planiController.getUnidades);
 
         app.get('/coord_plani/getUsuario', coord_planiController.getUsuario);
 

@@ -555,7 +555,9 @@ exports.editEval = function(req, res) {
 
 exports.getNucleos = function(req, res) {
 	models.nucleo.findAll({
-
+		where: {
+			categoriumId: req.params.categoriaId
+		}
 	}).then(Nucleos => {
 		res.json(Nucleos);
 	}).catch(err => {
@@ -563,13 +565,22 @@ exports.getNucleos = function(req, res) {
 	})
 }
 
+/*
 exports.getUnidades = function(req, res) {
 	models.unidad.findAll({
-		where: { nucleoCodigo: req.params.id }
+		where: { 
+			[Op.and]: [
+				{categoriumId: req.params.categoriaId},
+				{nucleoCodigo: req.params.id} 
+			] 
+		}
 	}).then(Unidades => {
 		res.json(Unidades)
+	}).catch(err => {
+		res.json(err);
 	})
 }
+*/
 
 exports.verTodas = function(req, res) {
 	models.usuario.findOne({
@@ -621,6 +632,7 @@ exports.getEvaluacion = function(req, res) {
  	})
 }
 
+/*
 exports.getNucleos = function(req, res) {
  	models.nucleo.findAll({
 
@@ -630,10 +642,16 @@ exports.getNucleos = function(req, res) {
  		res.json(err);
  	})
 }
+*/
 
 exports.getUnidades = function(req, res) {
  	models.unidad.findAll({
- 		where: { nucleoCodigo: req.params.id }
+ 		where: {
+ 			[Op.and]: [
+				{categoriumId: req.params.categoriaId},
+				{nucleoCodigo: req.params.id} 
+			] 
+ 		}
  	}).then(Unidades => {
  		res.json(Unidades);
  	}).catch(err => {
@@ -938,4 +956,14 @@ exports.updateNoticia = function(req, res) {
 			}
 		}
 	})
+}
+
+exports.getCategorias = function(req, res) {
+	models.categoria.findAll({
+
+	}).then(Categorias => {
+		res.json(Categorias);
+	}).catch(err => {
+		res.json(err);
+	});
 }

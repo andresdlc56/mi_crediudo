@@ -22,6 +22,7 @@ module.exports = function(sequelize, Sequelize) {
         Nucleo.hasMany(models.usuario); //un Nucleo tiene muchos Usuarios
         Nucleo.hasMany(models.evaluacion); //un Nucleo tiene muchas Evaluaciones
         Nucleo.hasMany(models.evento); //un Nucleo tiene muchas Eventos
+        Nucleo.belongsTo(models.categoria); // un Nucleo pertenece a una Categoria
     };
  
     return Nucleo;
