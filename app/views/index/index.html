@@ -5,10 +5,12 @@
 		<title>CREDIUDO | Inicio</title>
 		<link rel="shortcut icon" href="/images/title/favicon-96x96.png">
 
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<script type="text/javascript" src="/js/pace.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+		<!-- Custom styles for this template -->
+    	<link href="/css/sticky-footer-navbar.css" rel="stylesheet">
 	</head>
 
 	<body>
@@ -33,12 +35,17 @@
 						</div>
 
 						<!--=========CARROUSEL========-->
-						<div class="col-md-9">
+						<div class="col-md-12">
 							<div id="demo" class="carousel slide" data-ride="carousel">
 								<!-- Indicators -->
 								<ul class="carousel-indicators">
 									<li data-target="#demo" data-slide-to="0" class="active"></li>
-								    <li data-target="#demo" data-slide-to="1"></li>
+									<% if(Evaluaciones.length == 1) {%>
+										<li data-target="#demo" data-slide-to="1"></li>
+									<%} else if(Evaluaciones.length == 2) {%>
+										<li data-target="#demo" data-slide-to="1"></li>
+										<li data-target="#demo" data-slide-to="2"></li>
+									<%}%>   
 								</ul>
 
 								<!-- The slideshow -->
@@ -46,52 +53,51 @@
 									<div class="carousel-inner">
 										
 									    <div class="carousel-item active">
-										    <img src="images/index/eval.jpg" alt="Responsive image" class="img-fluid" style="width: 100%">
+										    <img src="images/index/eval.jpg" alt="Responsive image" class="img-fluid" style="width: 100%; height: 500px">
 										    <div class="carousel-caption d-none d-md-block">
 												<h5>CREDIUDO</h5>
-												<p>Zona de Evaluaciones</p>
+												<p>Bienvenido</p>
 											  </div>
 									    </div>
 										
-										<% if(Evaluaciones == 0) {%>
-						
-										<%} else {%>
-											<div class="carousel-item">
-												<a href="/dashboard">
-											      	<img src="images/index/eval.jpg" alt="Responsive image" class="img-fluid" style="width: 100%">
+										<% if(Evaluaciones.length > 0) {%>
+											<% for(let i = 0; i < Evaluaciones.length; i ++) {%>
+												<div class="carousel-item">
+													<a href="/dashboard">
+												      	<img src="images/index/eval.jpg" alt="Responsive image" class="img-fluid" style="width: 100%; height: 500px">
 
-											      	<div class="carousel-caption d-none d-md-block">
-												    	<a href="/dashboard" style="color: white">
-													    	<h5>CREDIUDO</h5>
-													    	<p>Evaluacion 2</p>
-												    	</a>
-												  	</div>
-											  	</a>
-										    </div>
+												      	<div class="carousel-caption d-none d-md-block">
+													    	<a href="/dashboard" style="color: white">
+														    	<h5>
+														    		<%- Evaluaciones[i].nombre %>
+														    		(<%- Evaluaciones[i].fecha_i.getDate() %>/<%- Evaluaciones[i].fecha_i.getMonth() + 1%>/<%- Evaluaciones[i].fecha_i.getFullYear() %> - <%- Evaluaciones[i].fecha_f.getDate() %>/<%- Evaluaciones[i].fecha_f.getMonth() + 1%>/<%- Evaluaciones[i].fecha_f.getFullYear() %>)		
+														    	</h5>
+														    	<p>
+														    		<%- Evaluaciones[i].nucleo.nombre %>
+														    		-
+														    		<%- Evaluaciones[i].unidad.nombre %>
+														    	</p>
+													    	</a>
+													  	</div>
+												  	</a>
+											    </div>
+											<%}%>
 										<%}%>
-									    
 									</div>
 								
 
 								<!-- Left and right controls -->
-								<a class="carousel-control-prev" href="#demo" data-slide="prev">
-								    <span class="carousel-control-prev-icon"></span>
-								</a>
-								<a class="carousel-control-next" href="#demo" data-slide="next">
-								    <span class="carousel-control-next-icon"></span>
-								</a>
+								<% if(Evaluaciones.length > 0) {%>
+									<a class="carousel-control-prev" href="#demo" data-slide="prev">
+									    <span class="carousel-control-prev-icon"></span>
+									</a>
+									<a class="carousel-control-next" href="#demo" data-slide="next">
+									    <span class="carousel-control-next-icon"></span>
+									</a>
+								<%}%>
 							</div>
 						</div>
 						<!--=========FIN CARROUSEL========-->
-
-						<div class="col-md-3">
-							<div class="list-group">
-								<a class="list-group-item list-group-item-action" href="/login">Evaluacion <span class="badge badge-light">4</span></a>
-								<a class="list-group-item list-group-item-action" href="#list-profile">Crear Instrumento</a>
-								<a class="list-group-item list-group-item-action" href="#list-messages" role="tab">Crear Factor</a>
-								<a class="list-group-item list-group-item-action" href="#list-settings">Settings</a>
-							</div>
-						</div>
 
 						<!--=====SUB COMISIONES========-->
 						<div class="col-md-12">
@@ -103,35 +109,35 @@
 							<section class="row justify-content-md-center">
 								<div class="col-md-10" style="margin-bottom: 2%;">
 									<div class="row justify-content-md-center">
-										<div class="col-md-2 text-center">
+										<div class="col-sm-6 col-md-2 text-center">
 											<a href="">
 												<img src="images/index/nucleos/sucre.png" class="img-fluid" alt="Responsive image">
 												<p>Sub Comisión<br>Nucleo Sucre</p>
 											</a>
 										</div>
 
-										<div class="col-md-2 text-center">
+										<div class="col-sm-6 col-md-2 text-center">
 											<a href="">
 												<img src="images/index/nucleos/monagas.png">
 												<p>Sub Comisión<br>Nucleo Monagas</p>
 											</a>
 										</div>
 
-										<div class="col-md-2 text-center">
+										<div class="col-sm-6 col-md-2 text-center">
 											<a href="">
 												<img src="images/index/nucleos/bolivar.png">
 												<p>Sub Comisión<br>Nucleo Bolivar</p>
 											</a>
 										</div>
 
-										<div class="col-md-2 text-center">
+										<div class="col-sm-6 col-md-2 text-center">
 											<a href="">
 												<img src="images/index/nucleos/nuevaesparta.png">
 												<p>Sub Comisión<br>Nucleo Nueva Esparta</p>
 											</a>
 										</div>
 
-										<div class="col-md-2 text-center">
+										<div class="col-sm-12 col-md-2 text-center">
 											<a href="">
 												<img src="images/index/nucleos/nuevaesparta.png">
 												<p>Sub Comisión<br>Nucleo Nueva Esparta</p>
@@ -142,28 +148,63 @@
 							</section>	
 						</div>	
 						<!--=====FIN SUB COMISIONES========-->
+
+						<!--========Evaluaciones===========-->
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-12 text-center">
+									<h3>Evaluar es Nuestro deber con la Instutución</h3>
+								</div>
+								<div class="col-md-12 text-center">
+									<div class="row">
+										<div class="col-md-4">
+											Personal Admin
+										</div>
+
+										<div class="col-md-4">
+											Centros de Investigacion
+										</div>
+
+										<div class="col-md-4">
+											Personal Docente
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--=====Fin Evaluaciones==========-->
+
+						<!--======Info Estatica============-->
+						<div class="col-md-12 text-center">
+							<div class="row">
+								<div class="col-md-4">
+									Seguimiento
+								</div>
+
+								<div class="col-md-4">
+									Capacitación
+								</div>
+
+								<div class="col-md-4">
+									Trabajo en Equipo
+								</div>
+							</div>
+						</div>
+						<!--=======Fin Info Estatica=======-->
 					</div>
 				</div>
 			</div>
 		</div>
-		
 
-		<h2>CREDIUDO | Inicio</h2>
-		<a href="/login">Iniciar Sesion</a>
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
 
-		HOLA
-
-		<br><br>
-		
-		<% if(Evaluaciones == 0) {%>
-			
-		<%} else {%>
-			<a href="/dashboard">Evaluacion</a>
-		<%}%>
-
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-		<script src="js/bootstrap.min.js"></script>
+		<script src="/js/jquery-3.3.1.min.js"></script>
+		<script src="/js/popper.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
 		<script src="/js/main.js"></script>
 	</body>
 </html>

@@ -53,39 +53,17 @@ module.exports = function(app) {
     //Ver lista de Unidades de un Nucleo Seleccionado
     app.get('/president/nucleos/:id', isLoggedIn, presidentController.unidades);
 
-    
-
     app.get('/president/auto', isLoggedIn, presidentController.autoEval);
-
-    
 
     app.post('/president/detalles/:id',isLoggedIn, presidentController.observacion);
 
-    
-       
-
-    
-
-
-
-
     app.post('/president/detalles/editObs/:id', isLoggedIn, presidentController.editObserv);
-
-   
-   
-    
-    
-
 
     app.get('/president/cambiar_coordP', isLoggedIn, presidentController.cambiarCoordPla);
 
     app.get('/getCoordP', presidentController.getCoordP);
 
     app.get('/getUsuario/:id', presidentController.getUsuario);
-
-
-
-
 
     //Ruta Para cambiar al coord Eval de CREDIUDO
     app.get('/president/cambiar_coordP/:id', isLoggedIn, presidentController.cambiarCoordP);
@@ -105,6 +83,12 @@ module.exports = function(app) {
     //Guardar Calificacion de Unidad
     app.post('/president/califiUnidad/:id', presidentController.saveCalifi);
 
+    //================Ver el Perfil de un Usuario de una determinada Unidad=====
+    app.get('/president/nucleos/unidad/:unidadCodigo/userPerfil/:userCedula', isLoggedIn, presidentController.userPerfil);
+
+    app.get('/president/userPerfil/:userCedula/eval/:evalId', isLoggedIn, presidentController.detallesEvalUser);
+
+    app.get('/president/userPerfil/:userCedula/eval/:idEval/getObservacion', isLoggedIn, presidentController.getObservacion)
 
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Jefe"
     //app.get('/president/culminado/:id/u/:idu',isLoggedIn, presidentController.culminado_b);

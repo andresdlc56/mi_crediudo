@@ -9,11 +9,18 @@ module.exports = function(app,passport) {
     //RUTA INICIAL INDEX
     app.get('/', indexController.index);
 
+    app.get('/etapas', indexController.etapas);
+
     //RUTA DE INICIO DE SESION
     app.get('/login', authController.signin);
 
+    //RUTA INICIO DE SESION USUARIO CREDIUDO
+    app.get('/loginCrediudo', authController.signinCrediudo);
+
     //RUTA INICIAL PARA LOS USUARIOS EMPLEADOS QUE HAN INICIADO SESION
     app.get('/dashboard', isLoggedIn, authController.dashboard);
+
+    app.get('/userCrediudo', isLoggedIn, authController.userCrediudo);
 
     //RUTA PARA EL PROCESAMIENTO DE LOS USUARIOS QUE INTENTAN LOGEARSE 
     app.post('/login', passport.authenticate('local-signin', {
@@ -23,6 +30,21 @@ module.exports = function(app,passport) {
 	    }
 	));
 
+    //RUTA PARA EL LOGUEO DE USUARIOS CREDIUDO
+    app.post('/loginCrediudo', passport.authenticate('local-signinCrediudo', {
+        successRedirect: '/userCrediudo',
+        failureRedirect: '/loginCrediudo',
+        failureFlash: true
+    }
+    ));
+
+    app.get('/objetivos', indexController.objetivos);
+
+    app.get('/creacion&mision', indexController.creacionMision);
+
+    app.get('/funciones', indexController.funciones);
+
+    app.get('/reglamentos', indexController.reglamentos);
 
     //================Rutas axios=============
 
@@ -36,12 +58,4 @@ module.exports = function(app,passport) {
             return next();
         res.redirect('/login');
     }
-
-    //app.post('/login', indexController.iniciando);
-
-    /*app.post('/signup', passport.authenticate('local-signup', {
-            successRedirect: '/dashboard',
-            failureRedirect: '/signup'
-        }
-    ));*/
 }

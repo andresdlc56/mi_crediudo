@@ -10,9 +10,6 @@ module.exports = function(sequelize, Sequelize) {
             type: Sequelize.DECIMAL,
             defaultValue: 0
         },
-        factorId: {
-            type: Sequelize.INTEGER
-        },
         usuarioCedula: {
             type: Sequelize.INTEGER 
         }
@@ -21,6 +18,7 @@ module.exports = function(sequelize, Sequelize) {
     factorUsuario.associate = function (models) {
         factorUsuario.belongsTo(models.evaluacion);
         //factorUsuario.belongsTo(models.usuario);
+        factorUsuario.belongsTo(models.factor);
     };
  
     return factorUsuario;

@@ -6,6 +6,7 @@ const path = require('path');
 var Sequelize = require('sequelize');
 var Op = Sequelize.Op;
 var bCrypt = require('bcrypt-nodejs');
+var nodemailer = require('nodemailer');
 
 //================Controlador Inicial Coord Planificación =============
 exports.index = function(req, res) {
@@ -380,7 +381,40 @@ exports.addEval = function(req, res) {
 																}
 															}
 														}
-														//res.send("Listo");
+														//Enviar Correo a todos los Usuarios de esta Unidad
+														console.log("nodeMailerSample()");
+
+														console.log("Creating transport...");
+													    var transporter = nodemailer.createTransport({
+													      service: 'gmail', //al usar un servicio bien conocido, no es necesario proveer un nombre de servidor.
+													      auth: {
+													        user: 'andresdlc56@gmail.com',
+													        pass: 'Papa5088829'
+													      }
+													    });
+
+													    //Enviar correo a todos los usuarios de esta unidad
+														for(let i = 0; i < Usuario.length; i ++) {
+															var mailOptions = {
+														      from: 'andresdlc56@gmail.com',
+														      to: Usuario[i].email,
+														      subject: 'Evaluación Planificada',
+														      text: 'Hola '+Usuario[i].nombre+' Tienes una Evaluacion Asignada, para mas Información visita nuestra pagina: http://localhost:5000/login'
+														    };
+
+														    console.log("sending email", mailOptions);
+														    transporter.sendMail(mailOptions, function (error, info) {
+														      console.log("senMail returned!");
+														      if (error) {
+														        console.log("ERROR!!!!!!", error);
+														      } else {
+														        console.log('Email sent: ' + info.response);
+														      }
+														    });
+
+														    console.log("End of Script");
+
+														}
 														req.flash('info', 'Evaluación planificada Exitosamente!');
 														res.redirect('/coord_plani');
 													})

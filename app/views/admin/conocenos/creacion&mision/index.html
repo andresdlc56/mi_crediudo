@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | ADMIN</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="/js/pace.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+    <!--estilo a mensaje de error-->
+	<style type="text/css">
+	    label.error{
+	    	color: red;
+	    }
+
+	    table, th, td {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<div id="main">
+		<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+			<img src="/images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+		</div>	
+
+		<%- include('../../../partials/admin/navbar.html') %>
+
+		<div class="container-fluid">
+			<div class="row justify-content-md-center">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-12">
+							<!--=======MIGAS DE PAN=========-->
+							<nav aria-label="breadcrumb" style="margin-top: 1%">
+								<ol class="breadcrumb">
+								    <li class="breadcrumb-item" aria-current="page"><a href="/admin">Home</a></li>
+								    <li class="breadcrumb-item active" aria-current="page">Conócenos</li>
+								    <li class="breadcrumb-item active" aria-current="page">Creación, Misión y Propósito</li>
+								</ol>
+							</nav>
+							<!--=======FIN MIGAS DE PAN=========-->		
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-12 col-md-12 col-lg-3">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+									  	<div class="card-header">
+									    	Datos Personales:
+									  	</div>
+									  
+									  	<div class="card-body">
+									    	<div class="form-group">
+									    		<p><b>Nombre: </b><%- Admin.nombre %></p>
+									    		<p><b>Apellido: </b><%- Admin.apellido %></p>
+									    		<p><b>Nucleo: </b><%- Admin.nucleo.nombre %></p>
+									    		<p><b>Unidad: </b><%- Admin.unidad.nombre %></p>
+									    	</div>
+									  	</div>
+									</div>
+								</div>
+							</div>
+							
+							<br>
+						</div>
+
+						<div class="col-sm-12 col-md-12 col-lg-9">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="jumbotron jumbotron-fluid">
+										<div class="container text-center">
+									    	<h1 class="display-5">Creación, Misión y Propósito</h1>
+									  	</div>
+									</div>
+								</div>
+
+								<div class="col-md-12">
+									<!--=======mensaje de alerta==========-->
+									<% if(message == false) {%>
+
+									<%} else {%>
+										<div class="alert alert-success alert-dismissible fade show" role="alert">
+									        <%= message %>
+									       	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+									    </div>
+									<%}%>
+									<!--=======fin mensaje de alerta==========-->
+								</div>
+								
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="article border-bottom">
+												<h4>Creación</h4>
+											</div>
+											<br>
+											<div class="row">
+												<div class="col-md-12">
+													<form method="POST" action="/admin/conocenos/creacion&mision/updateCreacion" id="formCreacion" enctype="multipart/form-data">
+														<div class="row">
+															<div class="col-sm-4 col-md-4 col-lg-4">
+																<img v-bind:src="'/uploads/index/conocenos/creacion&mision/' +creacion.urlImg" onerror="this.src='/images/error/no-img.jpg'" class="img-thumbnail" style="width: 100%" v-if="!editCreacion">
+
+																<img id="blah" v-bind:src="'/uploads/index/conocenos/creacion&mision/'+creacion.urlImg" alt="your image" v-if="editCreacion" class="img-thumbnail" style="width: 100%"/>
+
+																<input type="file" name="urlImg" onchange="readURL(this);" v-if="editCreacion">
+															</div>
+
+															<div class="col-sm-8 col-md-8 col-lg-8">
+																<textarea name="descripcion" class="form-control" rows="5" v-bind:disabled="!editCreacion" v-model="creacion.descripcion"></textarea>
+															</div>
+
+															<div class="col-lg-12">
+																<div class="article border-top">
+																	<div class="d-flex justify-content-end" style="margin-top: 10px">
+																		<a href="javascript:;" class="btn btn-primary" v-on:click="editarCreacion()" v-if="!editCreacion">Editar</a>
+
+																		<a href="javascript:;" class="btn btn-danger" v-on:click="cancelarEditCreacion()" v-if="editCreacion">Cancelar</a>
+
+																		<input type="submit" name="guardar" value="Guardar" v-if="editCreacion" class="btn btn-success">
+																	</div>
+																</div>
+															</div>		
+														</div>	
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+									<br>
+								</div>
+
+
+
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="article border-bottom">
+												<h4>Misión</h4>
+											</div>
+											<br>
+											<div class="row">
+												<div class="col-md-12">
+													<form method="POST" action="/admin/conocenos/creacion&mision/updateMision" id="formMision" enctype="multipart/form-data">
+														<div class="row">
+															<div class="col-sm-4 col-md-4 col-lg-4">
+																<img v-bind:src="'/uploads/index/conocenos/creacion&mision/' +mision.urlImg" onerror="this.src='/images/error/no-img.jpg'" class="img-thumbnail" style="width: 100%" v-if="!editMision">
+
+																<img id="dos" v-bind:src="'/uploads/index/conocenos/creacion&mision/'+mision.urlImg" alt="your image" v-if="editMision" class="img-thumbnail" style="width: 100%"/>
+
+																<input type="file" name="urlImg" onchange="readURLMision(this);" v-if="editMision">
+															</div>
+
+															<div class="col-sm-8 col-md-8 col-lg-8">
+																<textarea name="descripcion" class="form-control" rows="5" v-bind:disabled="!editMision" v-model="mision.descripcion"></textarea>
+															</div>
+
+															<div class="col-lg-12">
+																<div class="article border-top">
+																	<div class="d-flex justify-content-end" style="margin-top: 10px">
+																		<a href="javascript:;" class="btn btn-primary" v-on:click="editarMision()" v-if="!editMision">Editar</a>
+
+																		<a href="javascript:;" class="btn btn-danger" v-on:click="cancelarEditMision()" v-if="editMision">Cancelar</a>
+
+																		<input type="submit" name="guardar" value="Guardar" v-if="editMision" class="btn btn-success">
+																	</div>
+																</div>
+															</div>		
+														</div>	
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+									<br>
+								</div>
+
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="article border-bottom">
+												<h4>Propósito</h4>
+											</div>
+											<br>
+											<div class="row">
+												<div class="col-md-12">
+													<form method="POST" action="/admin/conocenos/creacion&mision/updateVision" id="formVision" enctype="multipart/form-data">
+														<div class="row">
+															<div class="col-sm-4 col-md-4 col-lg-4">
+																<img v-bind:src="'/uploads/index/conocenos/creacion&mision/' +vision.urlImg" onerror="this.src='/images/error/no-img.jpg'" class="img-thumbnail" style="width: 100%" v-if="!editVision">
+
+																<img id="tres" v-bind:src="'/uploads/index/conocenos/creacion&mision/'+vision.urlImg" alt="your image" v-if="editVision" class="img-thumbnail" style="width: 100%"/>
+
+																<input type="file" name="urlImg" onchange="readURLVision(this);" v-if="editVision">
+															</div>
+
+															<div class="col-sm-8 col-md-8 col-lg-8">
+																<textarea name="descripcion" class="form-control" rows="5" v-bind:disabled="!editVision" v-model="vision.descripcion"></textarea>
+															</div>
+
+															<div class="col-lg-12">
+																<div class="article border-top">
+																	<div class="d-flex justify-content-end" style="margin-top: 10px">
+																		<a href="javascript:;" class="btn btn-primary" v-on:click="editarVision()" v-if="!editVision">Editar</a>
+
+																		<a href="javascript:;" class="btn btn-danger" v-on:click="cancelarEditVision()" v-if="editVision">Cancelar</a>
+
+																		<input type="submit" name="guardar" value="Guardar" v-if="editVision" class="btn btn-success">
+																	</div>
+																</div>
+															</div>		
+														</div>	
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<footer class="footer" style="background: #BEBCB0;">
+			<div class="container">
+				<span class="text-muted">Pie de Pagina</span>
+			</div>
+		</footer>
+	</div>
+	
+
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
+
+	<script src="/js/vue.js"></script>
+	<script src="/js/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el:'#main',
+			data: {
+				editCreacion: false,
+				creacion: {},
+				editMision: false,
+				mision: {},
+				editVision: false,
+				vision: {}
+			},
+			created() {
+				this.getCreacion();
+				this.getMision();
+				this.getVision();
+			},
+			methods: {
+				//Cargar Img y contenido de la seccion "Creacion"
+				getCreacion() {
+					axios.get('/admin/conocenos/creacion')
+						.then(res => {
+							this.creacion = res.data;
+							console.log(this.creacion);
+						}).catch(err => {
+							console.log(err);
+						});
+				},
+				editarCreacion() {
+					this.editCreacion = true;
+				},
+				cancelarEditCreacion() {
+					this.editCreacion = false;
+					this.getCreacion();
+				},
+
+				//Cargar Img y contenido de la seccion "Creacion"
+				getMision() {
+					axios.get('/admin/conocenos/mision')
+						.then(res => {
+							this.mision = res.data;
+							console.log(this.mision);
+						}).catch(err => {
+							console.log(err);
+						});
+				},
+				editarMision() {
+					this.editMision = true;
+				},
+				cancelarEditMision() {
+					this.editMision = false;
+					this.getMision();
+				},
+
+				//Cargar Img y contenido de la seccion "Vision"
+				getVision() {
+					axios.get('/admin/conocenos/vision')
+						.then(res => {
+							this.vision = res.data;
+							console.log(this.vision);
+						}).catch(err => {
+							console.log(err);
+						});
+				},
+				editarVision() {
+					this.editVision = true;
+				},
+				cancelarEditVision() {
+					this.editVision = false;
+					this.getVision();
+				}
+			}
+		})
+	</script>
+
+	<!--Codigo para gestionar vista previa de img seleccionada-->
+	<script type="text/javascript">
+		function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function readURLMision(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#dos')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function readURLVision(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#tres')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+	</script>
+</body>
+</html>

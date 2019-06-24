@@ -37,6 +37,7 @@ var authRoute = require('./app/routes/auth.js')(app,passport);
 
 //Routes
 var Index = require('./app/routes/index.js')(app,passport);
+var userCrediudo = require('./app/routes/userCrediudo/index.js')(app,passport);
 var admin = require('./app/routes/admin/index.js')(app);
 var presi = require('./app/routes/president/index.js')(app);
 var coord_ev = require('./app/routes/coord_ev/index.js')(app);

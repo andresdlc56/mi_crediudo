@@ -41,7 +41,7 @@
 		
 		<br>
 		
-		<div class="row justify-content-md-center">
+		<div class="row justify-content-md-center" style="margin-top: 3%; margin-bottom: 3%">
 			<div class="col-md-4">
 				<!--=======mensaje de alerta==========-->
 				<% if(error == false) {%>
@@ -72,10 +72,12 @@
 								<input type="password" name="password" class="form-control" id="password" placeholder="***********">
 							</div>
 
-							<input type="submit" class="btn btn-primary" name="entrar" value="Entrar">
+							<input type="submit" class="btn btn-primary btn-block" name="entrar" value="Entrar">
 				  		</form>
-				    	
-				    	
+
+				  		<hr>
+
+				  		<a href="/loginCrediudo">Soy Usuario CREDIUDO</a>
 				  	</div>
 				</div>
 			</div>
@@ -90,10 +92,27 @@
 		</div>
 	</footer>
 
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-	<script src="js/bootstrap.min.js"></script>
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.validate.min.js"></script>
 	<script src="/js/main.js"></script>
+
+	<script src="/js/vue.js"></script>
+	<script src="/js/axios.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#main',
+			data: {
+				
+			},
+			created() {
+				
+			},
+			methods: {
+				
+			}
+		});
+	</script>
 </body>
 </html>

@@ -114,4 +114,94 @@ $(document).ready(function() {
 			confirm: "Password de Confirmación no Coincide"
 		}
 	});
+
+	$("#addNoticia").validate({
+		//REGLAS DE VALIDACION
+		rules:{
+			titulo:{
+				required:true
+			},
+			resumen: {
+				required:true
+			},
+			descripcion: {
+				required:true
+            },
+            urlImg: {
+            	required: true
+            }
+		},//FIN REGLAS
+
+		messages:{
+			titulo: "Campo Obligatorio",
+			resumen: "Campo Obligatorio",
+			descripcion: "Campo Obligatoro",
+			urlImg: "Campo Obligatorio"
+		}
+	});
+
+	$("#formCreacion").validate({
+		//REGLAS DE VALIDACION
+		rules:{
+			descripcion:{
+				required:true
+			}
+		},//FIN REGLAS
+
+		messages:{
+			descripcion: "Campo Obligatorio",
+		}
+	});
+
+	$("#formMision").validate({
+		//REGLAS DE VALIDACION
+		rules:{
+			descripcion:{
+				required:true
+			}
+		},//FIN REGLAS
+
+		messages:{
+			descripcion: "Campo Obligatorio",
+		}
+	});
+
+	$("#formVision").validate({
+		//REGLAS DE VALIDACION
+		rules:{
+			descripcion:{
+				required:true
+			}
+		},//FIN REGLAS
+
+		messages:{
+			descripcion: "Campo Obligatorio",
+		}
+	});
+
+	$("#formObjetivos").validate({
+		//REGLAS DE VALIDACION
+		rules:{
+			descripcion:{
+				required:true
+			}
+		},//FIN REGLAS
+
+		messages:{
+			descripcion: "Campo Obligatorio",
+		}
+	});
+
+	$("#formFunciones").validate({
+		//REGLAS DE VALIDACION
+		rules:{
+			descripcion:{
+				required:true
+			}
+		},//FIN REGLAS
+
+		messages:{
+			descripcion: "Campo Obligatorio",
+		}
+	});
 });

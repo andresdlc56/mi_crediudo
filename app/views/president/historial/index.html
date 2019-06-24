@@ -18,7 +18,7 @@
 
 	<div class="container-fluid">
 		<div class="row justify-content-md-center">
-			<div class="col-md-10">
+			<div class="col-md-12">
 				<div class="row">
 					<div class="col-md-12">
 						<!--=======MIGAS DE PAN=========-->
@@ -41,10 +41,10 @@
 						  
 						  	<div class="card-body">
 						    	<div class="form-group">
-						    		<p><b>Nombre: </b><%- usuario.nombre %></p>
-						    		<p><b>Apellido: </b><%- usuario.apellido %></p>
-						    		<p><b>Nucleo: </b><%- usuario.nucleoCodigo %></p>
-						    		<p><b>Unidad: </b><%- usuario.unidadCodigo %></p>
+						    		<p><b>Nombre: </b><%- Presidente.nombre %></p>
+						    		<p><b>Apellido: </b><%- Presidente.apellido %></p>
+						    		<p><b>Nucleo: </b><%- Presidente.nucleo.nombre %></p>
+						    		<p><b>Unidad: </b><%- Presidente.unidad.nombre %></p>
 						    	</div>
 						  	</div>
 						</div>
@@ -57,7 +57,7 @@
 							<div class="col-md-12">
 								<div class="card">
 									<div class="card-body">
-										<h3>Evaluaciones Programadas</h3>
+										<h3>Historial de Evaluaciones</h3>
 										<hr>
 										<% if(Evaluaciones && Evaluaciones.length > 0) {%>
 											<table class="table">
@@ -68,7 +68,7 @@
 												      	<th scope="col">Unidad</th>
 												      	<th scope="col">Fecha I</th>
 												      	<th scope="col">Fecha F</th>
-												      	<th scope="col">Acción</th>
+												      	<th scope="col">Status</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -79,6 +79,22 @@
 															<td><%- Evaluaciones[i].unidad.nombre %></td>
 															<td><%= Evaluaciones[i].fecha_i.getDate() %>/<%= Evaluaciones[i].fecha_i.getMonth() + 1 %>/<%= Evaluaciones[i].fecha_i.getFullYear() %></td>
 													      	<td><%= Evaluaciones[i].fecha_f.getDate() %>/<%= Evaluaciones[i].fecha_f.getMonth() + 1 %>/<%= Evaluaciones[i].fecha_f.getFullYear() %></td>
+													      	<td>
+													      		<!--Condicion para verificar evaluacion activa-->
+													      		<% if(((Evaluaciones[i].fecha_i).getTime() < fechaActual.getTime()) && ((Evaluaciones[i].fecha_f).getTime() > fechaActual.getTime())) {%>
+																	<a href="/president/detalles/<%- Evaluaciones[i].id %>" class="btn btn-success btn-sm">Activa</a>
+													      		<%}%>
+
+													      		<!--Condicion para verificar evaluacion culminada-->
+													      		<% if(((Evaluaciones[i].fecha_i).getTime() < fechaActual.getTime()) && ((Evaluaciones[i].fecha_f).getTime() < fechaActual.getTime())) {%>
+																	<a href="#" class="btn btn-danger btn-sm">Culminada</a>
+													      		<%}%>
+
+													      		<!--Condicion para verificar proxima evaluacion-->
+													      		<% if(((Evaluaciones[i].fecha_i).getTime() > fechaActual.getTime()) && ((Evaluaciones[i].fecha_f).getTime() > fechaActual.getTime())) {%>
+																	<a href="#" class="btn btn-primary btn-sm">Proxima</a>
+													      		<%}%>
+													      	</td>
 														</tr>
 													<%}%>
 												</tbody>
