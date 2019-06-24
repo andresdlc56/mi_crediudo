@@ -5,14 +5,30 @@ var Sequelize = require('sequelize');
 var Op = Sequelize.Op;
 
 exports.index = function(req, res) {
-    models.evaluacion.findAll({
+    var fechaActual = new Date();
 
+    models.evaluacion.findAll({
+        include: [ models.nucleo, models.unidad ],
+        where: {
+            [Op.or]: {
+                fecha_i: {
+                    [Op.gte]: fechaActual
+                },
+                fecha_f: {
+                    [Op.gte]: fechaActual  
+                }   
+            },
+            instrumentId: 2
+        },
+        limit: 1,
+        order: [[ 'fecha_i', 'DESC' ]]
     }).then(Evaluaciones => {
     	models.noticia.findAll({
     		limit: 4,
 			order: [['id', 'DESC']] 
     	}).then(Noticias => {
-    		res.render('index/index', { Evaluaciones, Noticias });
+    		//res.send(Evaluaciones);
+            res.render('index/index', { Evaluaciones, Noticias });
     	})	
     })
     
