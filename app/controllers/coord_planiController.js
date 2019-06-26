@@ -618,6 +618,7 @@ exports.verTodas = function(req, res) {
 }
 
 //=================Controladores para Axios============
+//controlador para verificar que todos los instrumentos de evaluaciones esten disponibles
 exports.getInstrumentos = function(req, res) {
  	models.instrument.findOne({
  		where: { tipoEvalId: 1 }
@@ -631,14 +632,34 @@ exports.getInstrumentos = function(req, res) {
  				models.instrument.findOne({
  					where: { tipoEvalId: 4 }
  				}).then(eval_a_subor => {
- 					var Instrumentos = false;
-
- 					if((!autoEval || !coEval || !eval_a_jefe || !eval_a_subor)) {
- 						res.json(Instrumentos);
- 					} else {
- 						Instrumentos = true
- 						res.json(Instrumentos);
- 					}
+ 					models.instrument.findOne({
+ 						where: { tipoEvalId: 5 }
+ 					}).then(autoEvalJefe => {
+ 						models.instrument.findOne({
+ 							where: { tipoEvalId: 6 }
+ 						}).then(autoEvalCentroJefe => {
+ 							models.instrument.findOne({
+ 								where: { tipoEvalId: 7 }
+ 							}).then(autoEvalCentroSubor => {
+ 								models.instrument.findOne({
+ 									where: { tipoEvalId: 8 }
+ 								}).then(eval_a_jefeCentro => {
+ 									models.instrument.findOne({
+ 										where: { tipoEvalId: 9 }
+ 									}).then(eval_a_suborCentro => {
+ 										var Instrumentos = false;
+					 					if((!autoEval || !coEval || !eval_a_jefe || !eval_a_subor || !autoEvalJefe || !autoEvalCentroJefe || !autoEvalCentroSubor || !eval_a_jefeCentro || !eval_a_suborCentro)) {
+					 						res.json(Instrumentos);
+					 					} else {
+					 						Instrumentos = true
+					 						res.json(Instrumentos);
+					 					}
+ 									})
+ 								})	
+ 							})							
+ 							
+ 						})	
+ 					})
  				}).catch(err => {
  					console.log(err)
  				})
