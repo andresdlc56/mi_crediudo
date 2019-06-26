@@ -454,7 +454,87 @@ exports.addEval = function(req, res) {
 			where: { unidadCodigo: req.body.unidad }
 		}).then(Usuarios => {
 			if(Usuarios.length > 2) {
-				res.send("Si");
+				//Buscar el Instrumento para la AutoEval del Jefe del centro de Inves
+				models.instrument.findOne({
+					where: {
+						[Op.and]: [
+							{tipoEvalId: 6},
+							{categoriumId: 2} 
+						] 
+					}
+				}).then(autoEvalJefeCentro => {
+					models.evaluacion.create({
+						nombre: req.body.nombre,
+						categoriumId: req.body.categoria,
+						nucleoCodigo: req.body.nucleo,
+						fecha_i: req.body.fecha_i,
+						fecha_f: req.body.fecha_f,
+						unidadCodigo: req.body.unidad,
+						instrumentId: autoEval.id
+					}).then(seis => {
+						//Buscar el Instrumento para la AutoEval del Subordi del centro de Inves
+						models.instrument.findOne({
+							where: {
+								[Op.and]: [
+									{tipoEvalId: 7},
+									{categoriumId: 2} 
+								] 
+							}
+						}).then(autoEvalSubordCentro => {
+							models.evaluacion.create({
+								nombre: req.body.nombre,
+								categoriumId: req.body.categoria,
+								nucleoCodigo: req.body.nucleo,
+								fecha_i: req.body.fecha_i,
+								fecha_f: req.body.fecha_f,
+								unidadCodigo: req.body.unidad,
+								instrumentId: autoEval.id
+							}).then(siete => {
+								//Buscar el Instrumento para Evaluar al Jefe del centro de Inves
+								models.instrument.findOne({
+									where: {
+										[Op.and]: [
+											{tipoEvalId: 8},
+											{categoriumId: 2} 
+										] 
+									}
+								}).then(Eval_a_JefeCentro => {
+									models.evaluacion.create({
+										nombre: req.body.nombre,
+										categoriumId: req.body.categoria,
+										nucleoCodigo: req.body.nucleo,
+										fecha_i: req.body.fecha_i,
+										fecha_f: req.body.fecha_f,
+										unidadCodigo: req.body.unidad,
+										instrumentId: autoEval.id
+									}).then(ocho => {
+										//Buscar el Instrumento para Evaluar a los subordi del centro de Inves
+										models.instrument.findOne({
+											where: {
+												[Op.and]: [
+													{tipoEvalId: 9},
+													{categoriumId: 2} 
+												] 
+											}
+										}).then(Eval_a_SubordCentro => {
+											models.evaluacion.create({
+												nombre: req.body.nombre,
+												categoriumId: req.body.categoria,
+												nucleoCodigo: req.body.nucleo,
+												fecha_i: req.body.fecha_i,
+												fecha_f: req.body.fecha_f,
+												unidadCodigo: req.body.unidad,
+												instrumentId: autoEval.id
+											}).then(nueve => {
+
+											})
+										})
+									})
+								})
+							})
+						})
+					})
+				})
 			} else {
 				req.flash('error', 'Error! Este Centro de Investigación no cuenta con Suficiente Personal ');
 				res.redirect('/coord_plani/plani_eval');
