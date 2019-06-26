@@ -449,11 +449,11 @@ exports.addEval = function(req, res) {
 			}
 		});
 	} else {
-		//Buscar cuantos Usuarios tiene la unidad donde se planifico la eval
+		//Buscar cuantos Usuarios tiene el Centro de Invest donde se planifico la eval
 		models.usuario.findAll({
 			where: { unidadCodigo: req.body.unidad }
 		}).then(Usuarios => {
-			if(Usuarios.length > 4) {
+			if(Usuarios.length > 2) {
 				res.send("Si");
 			} else {
 				req.flash('error', 'Error! Este Centro de Investigación no cuenta con Suficiente Personal ');
