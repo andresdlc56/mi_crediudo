@@ -431,10 +431,7 @@ exports.addEval = function(req, res) {
 															})
 														})
 													})
-												})
-												
-
-												
+												})	
 											})
 										})
 									})
@@ -666,8 +663,54 @@ exports.addEval = function(req, res) {
 																})
 															}
 														}
-														req.flash('info', 'Evaluación planificada Exitosamente!');
-														res.redirect('/coord_plani');
+
+														//buscamos a todo el personal de ese Centro de Invest
+														models.usuario.findAll({
+															where: {
+																[Op.and]: [
+																	{nucleoCodigo: req.body.nucleo},
+																	{unidadCodigo: req.body.unidad} 
+																]
+															}
+														}).then(Personal => {
+															//Enviar Correo a todos los Usuarios de esta Unidad
+															console.log("nodeMailerSample()");
+
+															console.log("Creating transport...");
+															var transporter = nodemailer.createTransport({
+															    service: 'gmail', //al usar un servicio bien conocido, no es necesario proveer un nombre de servidor.
+															    auth: {
+															    	user: 'andresdlc56@gmail.com',
+															        pass: 'Papa5088829'
+															    }
+															});
+
+															for(let z = 0; z < Personal.length; z ++) {
+																var mailOptions = {
+																    from: 'andresdlc56@gmail.com',
+																    to: Personal[z].email,
+																    subject: 'Evaluación Planificada',
+																    text: 'Hola '+Personal[z].nombre+' Tienes una Evaluacion Asignada, para mas Información visita nuestra pagina: http://localhost:5000/login'
+																};
+
+																console.log("sending email", mailOptions);
+																transporter.sendMail(mailOptions, function (error, info) {
+																	console.log("senMail returned!");
+																    if (error) {
+																       console.log("ERROR!!!!!!", error);
+																    } else {
+																    	console.log('Email sent: ' + info.response);
+																    }
+																});
+
+																console.log("End of Script");
+															}
+
+															req.flash('info', 'Evaluación planificada Exitosamente!');
+															res.redirect('/coord_plani');
+														}).catch(err => {
+															console.log(err);
+														});
 													})
 												})
 											})
