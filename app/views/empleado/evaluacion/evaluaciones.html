@@ -118,6 +118,7 @@
 								<br>
 
 								<div class="row">
+									<!--Si el Usuario logueado tiene cargo jefeSubordinado-->
 									<%if(Usuario.cargoId == 2) {%>
 										<!--AutoEvaluacion-->
 										<div class="col-sm-6 col-md-6 col-lg-6 text-center">
@@ -136,35 +137,56 @@
 												<p><strong>Eval al Subor</strong></p>
 											</a>
 										</div>
-										
+									
+									<!--Si el Usuario logueado tiene cargo subordinado-->
 									<%} else if(Usuario.cargoId == 3) {%>
-										<!--AutoEvaluacion-->
-										<div class="col-sm-6 col-md-6 col-lg-4 text-center">
-											<a href="javascript:void(0)" v-on:click="buscarAutoEval()" class="btn btn-outline-primary" style="width: 90%" v-bind:class="{ active: botonAutoE }">
-												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-child" style="font-size: 30pt;"></i>
-												<hr style="margin: 1px">
-												<p><strong>AutoEvaluación</strong></p>
-											</a>
-										</div>
+										<% if(dataEvaluacion.categoriumId == 1) {%>
+											<!--AutoEvaluacion-->
+											<div class="col-sm-6 col-md-6 col-lg-4 text-center">
+												<a href="javascript:void(0)" v-on:click="buscarAutoEval(<%- dataEvaluacion.categoriumId %>)" class="btn btn-outline-primary" style="width: 90%" v-bind:class="{ active: botonAutoE }">
+													<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-child" style="font-size: 30pt;"></i>
+													<hr style="margin: 1px">
+													<p><strong>AutoEvaluación</strong></p>
+												</a>
+											</div>
 
-										<!--CoEvaluacion-->
-										<div class="col-sm-6 col-md-6 col-lg-4 text-center">
-											<a href="javascript:void(0)" v-on:click="buscarCoEval()" class="btn btn-outline-success" style="width: 90%" v-bind:class="{ active: botonCoE }">
-												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-users" style="font-size: 30pt;"></i>
-												<hr style="margin: 2px">
-												<p><strong>CoEvaluación</strong></p>
-											</a>
-										</div>
+											<!--CoEvaluacion-->
+											<div class="col-sm-6 col-md-6 col-lg-4 text-center">
+												<a href="javascript:void(0)" v-on:click="buscarCoEval()" class="btn btn-outline-success" style="width: 90%" v-bind:class="{ active: botonCoE }">
+													<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-users" style="font-size: 30pt;"></i>
+													<hr style="margin: 2px">
+													<p><strong>CoEvaluación</strong></p>
+												</a>
+											</div>
 
 
-										<!--Evaluacion al Jefe-->
-										<div class="col-sm-6 col-md-6 col-lg-4 text-center">
-											<a href="javascript:void(0)" v-on:click="buscarEvalaJefe(<%- Jefe.cedula %>)" class="btn btn-outline-secondary" style="width: 90%" v-bind:class="{ active: botonEvalaJefe }">
-												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-users" style="font-size: 30pt;"></i>
-												<hr style="margin: 2px">
-												<p><strong>Evaluar al Jefe</strong></p>
-											</a>
-										</div>
+											<!--Evaluacion al Jefe-->
+											<div class="col-sm-6 col-md-6 col-lg-4 text-center">
+												<a href="javascript:void(0)" v-on:click="buscarEvalaJefe(<%- Jefe.cedula %>, <%- dataEvaluacion.categoriumId %>)" class="btn btn-outline-secondary" style="width: 90%" v-bind:class="{ active: botonEvalaJefe }">
+													<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-users" style="font-size: 30pt;"></i>
+													<hr style="margin: 2px">
+													<p><strong>Evaluar al Jefe</strong></p>
+												</a>
+											</div>
+										<%} else {%>
+											<!--AutoEvaluacion-->
+											<div class="col-sm-6 col-md-6 col-lg-6 text-center">
+												<a href="javascript:void(0)" v-on:click="buscarAutoEval(<%- dataEvaluacion.categoriumId %>)" class="btn btn-outline-primary" style="width: 90%" v-bind:class="{ active: botonAutoE }">
+													<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-child" style="font-size: 30pt;"></i>
+													<hr style="margin: 1px">
+													<p><strong>AutoEvaluación</strong></p>
+												</a>
+											</div>
+
+											<!--Evaluacion al Jefe-->
+											<div class="col-sm-6 col-md-6 col-lg-6 text-center">
+												<a href="javascript:void(0)" v-on:click="buscarEvalaJefe(<%- Jefe.cedula %>, <%- dataEvaluacion.categoriumId %>)" class="btn btn-outline-secondary" style="width: 90%" v-bind:class="{ active: botonEvalaJefe }">
+													<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-users" style="font-size: 30pt;"></i>
+													<hr style="margin: 2px">
+													<p><strong>Evaluar al Jefe</strong></p>
+												</a>
+											</div>
+										<%}%>
 									<%}%>
 								</div>
 								
@@ -322,30 +344,57 @@
 			
 			},
 			methods: {
-				buscarAutoEval() {
+				buscarAutoEval(categoria) {
 					var currentUrl = window.location.pathname.split('/');
 					var idEval = currentUrl[3];
 
-					idEval = idEval - 3;
+					//si la categoria de la evaluacion es 1 (administrativo)
+					if(categoria == 1) {
+						idEval = idEval - 3;
 
-					var cedula = document.getElementById("cedula").value;
+						var cedula = document.getElementById("cedula").value;
 
-					var link = '/dashboard/eval/'+idEval+'/u/'+cedula
+						var link = '/dashboard/eval/'+idEval+'/u/'+cedula
 
-					this.botonAutoE = true;
-					this.botonCoE = false;
-					this.botonEvalaJefe = false;
-					this.botonEvalaSubor = false;
-					this.activo = true;
+						this.botonAutoE = true;
+						this.botonCoE = false;
+						this.botonEvalaJefe = false;
+						this.botonEvalaSubor = false;
+						this.activo = true;
 
-					axios.get('/buscarAutoEval/'+idEval+'/empleado/'+cedula)
-						.then(res => {
-							this.autoEval = res.data;
-							this.url = link;
-							console.log(this.autoEval)
-						}).catch(err => {
-							console.log(err)
-						});
+						axios.get('/buscarAutoEval/'+idEval+'/empleado/'+cedula)
+							.then(res => {
+								this.autoEval = res.data;
+								this.url = link;
+								console.log(this.autoEval)
+							}).catch(err => {
+								console.log(err)
+							});
+					} 
+
+					//si la categoria de la evaluacion es 2 (centro de Invest)
+					else {
+						idEval = idEval;
+
+						var cedula = document.getElementById("cedula").value;
+
+						var link = '/dashboard/eval/'+idEval+'/u/'+cedula
+
+						this.botonAutoE = true;
+						this.botonCoE = false;
+						this.botonEvalaJefe = false;
+						this.botonEvalaSubor = false;
+						this.activo = true;
+
+						axios.get('/buscarAutoEval/'+idEval+'/empleado/'+cedula)
+							.then(res => {
+								this.autoEval = res.data;
+								this.url = link;
+								console.log(this.autoEval)
+							}).catch(err => {
+								console.log(err)
+							});
+					}
 				},
 				buscarCoEval() {
 					var currentUrl = window.location.pathname.split('/');
@@ -367,26 +416,47 @@
 							console.log(err);
 						})
 				},
-				buscarEvalaJefe(cedula) {
+				buscarEvalaJefe(cedula, categoria) {
 					this.botonAutoE = false;
 					this.botonCoE = false;
 					this.botonEvalaJefe = true;
 					this.activo = true;
 
-					var currentUrl = window.location.pathname.split('/');
-					var idEval = currentUrl[3] - 1;
-					var evaluador = document.getElementById("cedula").value;
-					var evaluado = document.getElementById('evaluado').value;
+					//Si la categoria de la evaluacion es 1 (administrativo)
+					if(categoria == 1) {
+						var currentUrl = window.location.pathname.split('/');
+						var idEval = currentUrl[3] - 1;
+						var evaluador = document.getElementById("cedula").value;
+						var evaluado = document.getElementById('evaluado').value;
 
-					this.url = '/dashboard/eval/'+idEval+'/u/'+evaluado;
+						this.url = '/dashboard/eval/'+idEval+'/u/'+evaluado;
 
-					axios.get('/buscarEvalaJefe/'+idEval+'/jefe/'+cedula+'/empleado/'+evaluador)
-						.then(res => {
-							this.evalaJefe = res.data;
-							console.log(this.evalaJefe)
-						}).catch(err => {
-							console.log('ashbjhasdv');
-						})
+						axios.get('/buscarEvalaJefe/'+idEval+'/jefe/'+cedula+'/empleado/'+evaluador)
+							.then(res => {
+								this.evalaJefe = res.data;
+								console.log(this.evalaJefe)
+							}).catch(err => {
+								console.log('ashbjhasdv');
+							})
+					}
+
+					//si la categoria de evaluacion es 2 (centro de Invest)
+					else {
+						var currentUrl = window.location.pathname.split('/');
+						var idEval =  parseInt(currentUrl[3]) + 1;
+						var evaluador = document.getElementById("cedula").value;
+						var evaluado = document.getElementById('evaluado').value;
+
+						this.url = '/dashboard/eval/'+idEval+'/u/'+evaluado;
+
+						axios.get('/buscarEvalaJefe/'+idEval+'/jefe/'+cedula+'/empleado/'+evaluador)
+							.then(res => {
+								this.evalaJefe = res.data;
+								console.log(this.evalaJefe)
+							}).catch(err => {
+								console.log('ashbjhasdv');
+							})
+					}
 				},
 				buscarEvalaSubor(categoria) {
 					this.activo = true;

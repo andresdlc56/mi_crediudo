@@ -228,7 +228,72 @@ exports.dashboard = function(req, res) {
 					})
 				})
 			} else if(req.user.cargoId == 3) {
-				res.send("Subordinado");
+				/*
+					Buscar las Evaluaciones donde nucleo y unidad sea igual 
+					al nucleo y unidad del usuario que inicio sesion, su
+					instrumentId sea igual a 6 y su fecha de inicio y final 
+					esten en el rango apropiado
+				*/
+				models.evaluacion.findAll({
+					where: { 
+						[Op.and]: [
+							{nucleoCodigo:usuario.nucleoCodigo}, 
+							{unidadCodigo:usuario.unidadCodigo},
+							{instrumentId: 7},
+							{
+								fecha_f: {
+									[Op.gte]: fecha_actual
+								}
+							}
+						] 
+					}
+				}).then(Evaluacion => {
+					//buscamos los datos del Usuario logueado
+					models.usuario.findOne({
+						include: [ models.nucleo, models.unidad ],
+						where: { cedula: req.user.cedula }
+					}).then(Usuario => {
+						models.observacion.findAll({
+							where: {
+								usuarioCedula: req.user.cedula,
+								status: false
+							},
+							include: [ models.evaluacion ]
+						}).then(Observacion => {
+							models.evaluacion.findAll({
+								limit: 3,
+								where: { 
+									[Op.and]: [
+										{nucleoCodigo:usuario.nucleoCodigo}, 
+										{unidadCodigo:usuario.unidadCodigo},
+										{instrumentId: 7},
+										{
+											fecha_i: {
+												[Op.gte]: fecha_actual
+											}
+										},
+										{
+											fecha_f: {
+												[Op.lte]: fecha_actual
+											}
+										}
+									] 
+								},
+								order: [
+									['id', 'DESC']
+								]
+							}).then(evalCulminada => {
+								res.render('empleado/index', {
+									Evaluacion,
+									Usuario,
+									Observacion,
+									evalCulminada,
+									message: req.flash('info')
+								})
+							})
+						})
+					})
+				})
 			}
 		}
 	})
