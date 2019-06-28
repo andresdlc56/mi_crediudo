@@ -121,7 +121,7 @@
 									<%if(Usuario.cargoId == 2) {%>
 										<!--AutoEvaluacion-->
 										<div class="col-sm-6 col-md-6 col-lg-6 text-center">
-											<a href="javascript:void(0)" v-on:click="buscarAutoEvalJefe()" class="btn btn-outline-primary" style="width: 90%" v-bind:class="{ active: botonAutoE }">
+											<a href="javascript:void(0)" v-on:click="buscarAutoEvalJefe(<%- dataEvaluacion.categoriumId %>)" class="btn btn-outline-primary" style="width: 90%" v-bind:class="{ active: botonAutoE }">
 												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-child" style="font-size: 30pt;"></i>
 												<hr style="margin: 1px">
 												<p><strong>AutoEvaluación</strong></p>
@@ -130,7 +130,7 @@
 
 										<!--Evaluacion a Subordinados-->
 										<div class="col-sm-6 col-md-6 col-lg-6 text-center">
-											<a href="javascript:void(0)" v-on:click="buscarEvalaSubor()" class="btn btn-outline-dark" style="width: 90%" v-bind:class="{ active: botonEvalaSubor }">
+											<a href="javascript:void(0)" v-on:click="buscarEvalaSubor(<%- dataEvaluacion.categoriumId %>)" class="btn btn-outline-dark" style="width: 90%" v-bind:class="{ active: botonEvalaSubor }">
 												<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-secret" style="font-size: 30pt;"></i>
 												<hr style="margin: 1px">
 												<p><strong>Eval al Subor</strong></p>
@@ -388,52 +388,98 @@
 							console.log('ashbjhasdv');
 						})
 				},
-				buscarEvalaSubor() {
+				buscarEvalaSubor(categoria) {
 					this.activo = true;
 					this.botonAutoE = false;
 					this.botonCoE = false;
 					this.botonEvalaJefe = false;
 					this.botonEvalaSubor = true;
 
-					var currentUrl = window.location.pathname.split('/');
-					var idEval = currentUrl[3];
+					if(categoria == 1) {
+						var currentUrl = window.location.pathname.split('/');
+						var idEval = currentUrl[3];
 
-					this.idEvalSubor = idEval;
-					console.log(this.idEvalSubor);
+						this.idEvalSubor = idEval;
+						console.log(this.idEvalSubor);
 
-					axios.get('/buscarEvalsaSubor/'+idEval)
-						.then(res => {
-							this.evalsSubor = res.data;
-							console.log(this.evalsSubor);
-						}).catch(err => {
-							console.log(err);
-						})
+						axios.get('/buscarEvalsaSubor/'+idEval)
+							.then(res => {
+								this.evalsSubor = res.data;
+								console.log(this.evalsSubor);
+							}).catch(err => {
+								console.log(err);
+							})
+					} else {
+						var currentUrl = window.location.pathname.split('/');
+						var idEval = parseInt(currentUrl[3]) + 3;
+
+						this.idEvalSubor = idEval;
+						console.log(this.idEvalSubor);
+
+						axios.get('/buscarEvalsaSubor/'+idEval)
+							.then(res => {
+								this.evalsSubor = res.data;
+								console.log(this.evalsSubor);
+							}).catch(err => {
+								console.log(err);
+							})
+					}
+
+					
 				},
-				buscarAutoEvalJefe() {
-					var currentUrl = window.location.pathname.split('/');
-					var idEval = currentUrl[3];
+				buscarAutoEvalJefe(categoria) {
+					if(categoria == 1) {
+						var currentUrl = window.location.pathname.split('/');
+						var idEval = currentUrl[3];
 
-					idEval = parseInt(idEval) + 1;
+						idEval = parseInt(idEval) + 1;
 
-					var cedula = document.getElementById("cedula").value;
+						var cedula = document.getElementById("cedula").value;
 
-					var link = '/dashboard/eval/'+idEval+'/u/'+cedula;
-					//console.log(link);
+						var link = '/dashboard/eval/'+idEval+'/u/'+cedula;
+						//console.log(link);
 
-					this.botonAutoE = true;
-					this.botonCoE = false;
-					this.botonEvalaJefe = false;
-					this.botonEvalaSubor = false;
-					this.activo = true;
+						this.botonAutoE = true;
+						this.botonCoE = false;
+						this.botonEvalaJefe = false;
+						this.botonEvalaSubor = false;
+						this.activo = true;
 
-					axios.get('/buscarAutoEval/'+idEval+'/empleado/'+cedula)
-						.then(res => {
-							this.autoEval = res.data;
-							this.url = link;
-							//console.log(this.autoEval)
-						}).catch(err => {
-							console.log(err)
-						});
+						axios.get('/buscarAutoEval/'+idEval+'/empleado/'+cedula)
+							.then(res => {
+								this.autoEval = res.data;
+								this.url = link;
+								//console.log(this.autoEval)
+							}).catch(err => {
+								console.log(err)
+							});
+					} else {
+						var currentUrl = window.location.pathname.split('/');
+						var idEval = currentUrl[3];
+
+						idEval = parseInt(idEval);
+
+						var cedula = document.getElementById("cedula").value;
+
+						var link = '/dashboard/eval/'+idEval+'/u/'+cedula;
+						//console.log(link);
+
+						this.botonAutoE = true;
+						this.botonCoE = false;
+						this.botonEvalaJefe = false;
+						this.botonEvalaSubor = false;
+						this.activo = true;
+
+						axios.get('/buscarAutoEval/'+idEval+'/empleado/'+cedula)
+							.then(res => {
+								this.autoEval = res.data;
+								this.url = link;
+								//console.log(this.autoEval)
+							}).catch(err => {
+								console.log(err)
+							});
+					}
+					
 				}
 			}
 		});
