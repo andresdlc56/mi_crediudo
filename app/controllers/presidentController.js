@@ -38,7 +38,7 @@ exports.index = function(req, res) {
 					fecha_f: {
 						[Op.gt]: fecha_actual
 					},
-					instrumentId: 4	
+					[Op.or]: [{instrumentId: 4}, {instrumentId: 6}]
 				}
 			},
 			order: [
@@ -55,7 +55,7 @@ exports.index = function(req, res) {
 						fecha_f: {
 							[Op.lt]: fecha_actual
 						},
-						instrumentId: 4	
+						[Op.or]: [{instrumentId: 4}, {instrumentId: 6}]
 					}
 				}
 			}).then(evalCulminada => {
@@ -78,7 +78,7 @@ exports.index = function(req, res) {
 										fecha_f: {
 											[Op.gt]: fecha_actual
 										},
-										instrumentId: 4	
+										[Op.or]: [{instrumentId: 4}, {instrumentId: 6}]
 									}
 								},
 								order: [
@@ -89,7 +89,9 @@ exports.index = function(req, res) {
 									Buscar todas las evaluaciones Planificadas donde el instrumento usuado sea 4
 								*/
 								models.evaluacion.findAll({
-									where: { instrumentId: 4 }
+									where: { 
+										[Op.or]: [{instrumentId: 4}, {instrumentId: 6}]
+									}
 								}).then(allEval => {
 									models.nucleo.findAll({
 
@@ -133,7 +135,9 @@ exports.evalPlanificadas = function(req, res) {
 		/*Buscar todas las evaluaciones planificadas donde usen el intrumento 4*/
 		models.evaluacion.findAll({
 			include: [ models.nucleo, models.unidad ],
-			where: { instrumentId: 4 }
+			where: {
+				[Op.or]: [{instrumentId: 4}, {instrumentId: 6}]
+			}
 		}).then(evalPlanificada => {
 			res.render('president/evaluaciones/planificadas/index', { Usuario, evalPlanificada, fechaActual });
 		});
@@ -165,7 +169,7 @@ exports.evalProceso = function(req, res) {
 					fecha_f: {
 						[Op.gt]: fechaActual
 					},
-					instrumentId: 1	
+					[Op.or]: [{instrumentId: 1}, {instrumentId: 6}]
 				}
 			}
 		}).then(evalProceso => {
