@@ -470,7 +470,7 @@ exports.addEval = function(req, res) {
 						fecha_i: req.body.fecha_i,
 						fecha_f: req.body.fecha_f,
 						unidadCodigo: req.body.unidad,
-						instrumentId: autoEval.id
+						instrumentId: autoEvalJefeCentro.id
 					}).then(seis => {
 						//Buscar el Instrumento para la AutoEval del Subordi del centro de Inves
 						models.instrument.findOne({
@@ -488,7 +488,7 @@ exports.addEval = function(req, res) {
 								fecha_i: req.body.fecha_i,
 								fecha_f: req.body.fecha_f,
 								unidadCodigo: req.body.unidad,
-								instrumentId: autoEval.id
+								instrumentId: autoEvalSubordCentro.id
 							}).then(siete => {
 								//Buscar el Instrumento para Evaluar al Jefe del centro de Inves
 								models.instrument.findOne({
@@ -506,7 +506,7 @@ exports.addEval = function(req, res) {
 										fecha_i: req.body.fecha_i,
 										fecha_f: req.body.fecha_f,
 										unidadCodigo: req.body.unidad,
-										instrumentId: autoEval.id
+										instrumentId: Eval_a_JefeCentro.id
 									}).then(ocho => {
 										//Buscar el Instrumento para Evaluar a los subordi del centro de Inves
 										models.instrument.findOne({
@@ -524,9 +524,152 @@ exports.addEval = function(req, res) {
 												fecha_i: req.body.fecha_i,
 												fecha_f: req.body.fecha_f,
 												unidadCodigo: req.body.unidad,
-												instrumentId: autoEval.id
+												instrumentId: Eval_a_SubordCentro.id
 											}).then(nueve => {
-
+												//buscamos al jefe-subordinado del centro de inves
+												models.usuario.findOne({
+													where: {
+														[Op.and]: [
+															{nucleoCodigo: req.body.nucleo},
+															{unidadCodigo: req.body.unidad},
+															{cargoId: 2},
+															{rolId: 5} 
+														]
+													}
+												}).then(jefeSubord => {
+													/*
+														buscamos la ultimas cuatro evaluaciones
+														recien creadas
+													*/
+													models.evaluacion.findAll({
+														include: [models.instrument],
+														limit: 4,
+														order: [
+															['id', 'DESC']
+														]
+													}).then(Evaluaciones => {
+														//hacemos un ciclo en la evaluaciones encontradas
+														for(let i = 0; i < Evaluaciones.length; i ++) {
+															/*
+																si una de las evaluaciones usa el instrumento 6
+																crear la autoEval del Jefe del centro
+															*/
+															if(Evaluaciones[i].instrumentId == 6) {
+																models.evaluacionUsuario.create({
+																	usuarioCedula: jefeSubord.cedula,
+																	calificacion: null, 
+																	status: false,
+																	evaluacionId: Evaluaciones[i].id,
+																	usuarioEvaluado: jefeSubord.cedula
+																}).then(autoEJefe => {
+																	console.log('--------AutoEvaluacion de jefe Creada (Centro de Investigacion)-------');
+																})
+															} else if(Evaluaciones[i].instrumentId == 7) {
+																//BUscamos a todos los subordinados de este centro de Invet
+																models.usuario.findAll({
+																	where: {
+																		[Op.and]: [
+																			{nucleoCodigo: req.body.nucleo},
+																			{unidadCodigo: req.body.unidad},
+																			{cargoId: 3},
+																			{rolId: 5} 
+																		]
+																	}
+																}).then(Usuarios => {
+																	//hacemos un ciclo por todos los usuarios encontrados
+																	for(let z = 0; z < Usuarios.length; z ++) {
+																		//creamos una autoeval por cada subordinado
+																		models.evaluacionUsuario.create({
+																			usuarioCedula: Usuarios[z].cedula,
+																			calificacion: null,
+																			status: false,
+																			evaluacionId: Evaluaciones[i].id,
+																			usuarioEvaluado: Usuarios[z].cedula
+																		}).then(autoESubordi => {
+																			console.log('--------AutoEvaluacion de Subordina Creada (Centro de Investigacion)-------');
+																		})
+																	}
+																})
+															} else if(Evaluaciones[i].instrumentId == 8) {
+																//Buscamos todos los usuarios de este centro menos al jefe
+																models.usuario.findAll({
+																	where: {
+																		[Op.and]: [
+																			{nucleoCodigo: req.body.nucleo},
+																			{unidadCodigo: req.body.unidad},
+																			{cargoId: 3},
+																			{rolId: 5} 
+																		]
+																	}
+																}).then(subordinados => {
+																	//Buscamos al jefe-subordinado de este centro
+																	models.usuario.findOne({
+																		where: {
+																			[Op.and]: [
+																				{nucleoCodigo: req.body.nucleo},
+																				{unidadCodigo: req.body.unidad},
+																				{cargoId: 2},
+																				{rolId: 5} 
+																			]
+																		}
+																	}).then(jefeSubordinado => {
+																		//hacemos un recorrido por todos los subordinados 
+																		for(let z = 0; z < subordinados.length; z ++) {
+																			models.evaluacionUsuario.create({
+																				usuarioCedula: subordinados[z].cedula,
+																				calificacion: null,
+																				status: false,
+																				evaluacionId: Evaluaciones[i].id,
+																				usuarioEvaluado: jefeSubordinado.cedula
+																			}).then(evalAJefe => {
+																				console.log('--------Evaluacion a Jefe de centro Creada-------');
+																			})
+																		}
+																	})
+																})
+															} else if(Evaluaciones[i].instrumentId == 9) {
+																//Buscamos todos los usuarios de este centro menos al jefe
+																models.usuario.findAll({
+																	where: {
+																		[Op.and]: [
+																			{nucleoCodigo: req.body.nucleo},
+																			{unidadCodigo: req.body.unidad},
+																			{cargoId: 3},
+																			{rolId: 5} 
+																		]
+																	}
+																}).then(subordinados => {
+																	//Buscamos al jefe-subordinado de este centro
+																	models.usuario.findOne({
+																		where: {
+																			[Op.and]: [
+																				{nucleoCodigo: req.body.nucleo},
+																				{unidadCodigo: req.body.unidad},
+																				{cargoId: 2},
+																				{rolId: 5} 
+																			]
+																		}
+																	}).then(jefeSubordinado => {
+																		//hacemos un recorrido por todos los subordinados 
+																		for(let z = 0; z < subordinados.length; z ++) {
+																			models.evaluacionUsuario.create({
+																				usuarioCedula: jefeSubordinado.cedula,
+																				calificacion: null,
+																				status: false,
+																				evaluacionId: Evaluaciones[i].id,
+																				usuarioEvaluado: subordinados[z].cedula
+																			}).then(evalAJefe => {
+																				console.log('--------Evaluacion a Subordinado del centro Creada-------');
+																			})
+																		}
+																	})
+																})
+															}
+														}
+														req.flash('info', 'Evaluación planificada Exitosamente!');
+														res.redirect('/coord_plani');
+													})
+												})
 											})
 										})
 									})
