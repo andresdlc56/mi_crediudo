@@ -282,10 +282,8 @@ exports.autoEval = function(req, res) {
 /* Controlador para ver los detalles de una Evalucacion */
 exports.detalles = function(req, res) {
 	var usuario = req.user; //Datos del Usuario que inicio sesion
-	var idB = parseInt(req.params.id) + 1;
-	var idC = parseInt(req.params.id) + 2;
-	var idD = parseInt(req.params.id) + 3;
-	var idE = parseInt(req.params.id) + 4;
+	
+	
 	/*
 		Buscar los datos de la evaluacion que viene por parametro
 	*/
@@ -293,42 +291,151 @@ exports.detalles = function(req, res) {
 		include: [ models.nucleo, models.unidad ],
 		where: { id: req.params.id }
 	}).then(infoEval => {
-		/*
-			Buscar toda info de la evaluacionUsuario donde evaluacionId
-			es igual al id que viene por parametro 
-		*/
-		models.evaluacionUsuario.findAll({
-			include: [models.evaluacion],
-			where: {
-				evaluacionId: req.params.id
-			}
-		}).then(autoEval => {
+		if(infoEval.categoriumId == 1) {
+			var idB = parseInt(req.params.id) + 1;
+			var idC = parseInt(req.params.id) + 2;
+			var idD = parseInt(req.params.id) + 3;
+			var idE = parseInt(req.params.id) + 4;
+
+			/*
+				Buscar toda info de la evaluacionUsuario donde evaluacionId
+				es igual al id que viene por parametro 
+			*/
 			models.evaluacionUsuario.findAll({
 				include: [models.evaluacion],
 				where: {
-					evaluacionId: idB		
+					evaluacionId: req.params.id
 				}
-			}).then(coEval => {
-				//Evaluacion que realizan los jefes para calificar al subordinado
+			}).then(autoEval => {
 				models.evaluacionUsuario.findAll({
 					include: [models.evaluacion],
 					where: {
-						evaluacionId: idD		
+						evaluacionId: idB		
 					}
-				}).then(evalSubor => {
-					//Evaluacion que realizan los subordinados para calificar al Jefe
+				}).then(coEval => {
+					//Evaluacion que realizan los jefes para calificar al subordinado
+					models.evaluacionUsuario.findAll({
+						include: [models.evaluacion],
+						where: {
+							evaluacionId: idD		
+						}
+					}).then(evalSubor => {
+						//Evaluacion que realizan los subordinados para calificar al Jefe
+						models.evaluacionUsuario.findAll({
+							include: [models.evaluacion],
+							where: {
+								evaluacionId: idC		
+							}	
+						}).then(evalJefe => {
+							models.evaluacionUsuario.findOne({
+								include: [ models.evaluacion ],
+								where: {
+									evaluacionId: idE
+								}
+							}).then(autoEvalJefe => {
+								models.usuario.findAll({
+									where: {
+										nucleoCodigo: infoEval.nucleoCodigo,
+										unidadCodigo: infoEval.unidadCodigo
+									}
+								}).then(dataUser => {
+									models.evaluacionUsuario.findAll({
+										where: {
+											[Op.and]: [
+												{status: true},
+												{
+													[Op.or]: [{evaluacionId: req.params.id}, {evaluacionId: idB}, {evaluacionId: idC}, {evaluacionId: idD}]
+												} 
+											]
+										}
+									}).then(evalTrue => {
+										var evalTotal = autoEval.length + coEval.length + evalSubor.length + evalJefe.length;
+										var evalListas = evalTrue.length;
+
+										console.log("Total de Evaluaciones: "+ evalTotal);
+										console.log("Evaluaciones ya Ejecutadas: "+ evalListas);
+
+										models.observacion.findAll({
+											where: { evaluacionId: req.params.id }
+										}).then(Calificacion => {
+											var acomulado = 0;
+
+											for(let i = 0; i < Calificacion.length; i ++) {
+												acomulado = acomulado + parseFloat(Calificacion[i].calificacion);
+											}
+
+											models.calificacion.findOne({
+												where: {evaluacionId: req.params.id}
+											}).then(califiUni => {
+												//res.send(dataUser);
+												res.render('president/detalles/index', { 
+													usuario, 
+													infoEval, 
+													autoEval, 
+													coEval,
+													evalSubor,
+													evalJefe,
+													dataUser,
+													evalTotal,
+													evalListas, 
+													Calificacion,
+													acomulado,
+													califiUni,
+													autoEvalJefe
+												});
+											})
+										})	
+									});
+								});
+							});
+						});
+					});
+				});	
+			});			
+		} else{
+
+			var idB = parseInt(req.params.id) + 1; //AutoEvalSubordinado
+			var idC = parseInt(req.params.id) + 2; //Eval-a-Jefe
+			var idD = parseInt(req.params.id) + 3;	//Evals-a-Subordinados
+
+			/*
+				Buscar toda info de la autoEvaluacion del jefe del centro de Investi 
+			*/
+			models.evaluacionUsuario.findOne({
+				include: [models.evaluacion],
+				where: {
+					evaluacionId: req.params.id
+				}
+			}).then(autoEvalJefe => {
+				/*
+					Buscar toda info de la autoEvaluacion de los subordinados del centro de Investi 
+				*/
+				models.evaluacionUsuario.findAll({
+					include: [models.evaluacion],
+					where: {
+						[Op.or]: [{evaluacionId: req.params.id}, {evaluacionId: idB}]
+					}
+				}).then(autoEval => {
+					/*
+						Buscar toda info de la eval al jefe que le hacen 
+						subordinados del centro de Investi 
+					*/
 					models.evaluacionUsuario.findAll({
 						include: [models.evaluacion],
 						where: {
 							evaluacionId: idC		
-						}	
+						}
 					}).then(evalJefe => {
-						models.evaluacionUsuario.findOne({
-							include: [ models.evaluacion ],
+						/*
+							Buscar toda evaluaciones a los subordinados por 
+							parte del jefe del centro de invest 
+						*/
+						models.evaluacionUsuario.findAll({
+							include: [models.evaluacion],
 							where: {
-								evaluacionId: idE
+								evaluacionId: idD	
 							}
-						}).then(autoEvalJefe => {
+						}).then(evalSubor => {
 							models.usuario.findAll({
 								where: {
 									nucleoCodigo: infoEval.nucleoCodigo,
@@ -345,7 +452,7 @@ exports.detalles = function(req, res) {
 										]
 									}
 								}).then(evalTrue => {
-									var evalTotal = autoEval.length + coEval.length + evalSubor.length + evalJefe.length;
+									var evalTotal = autoEval.length + 1 + evalSubor.length + evalJefe.length;
 									var evalListas = evalTrue.length;
 
 									console.log("Total de Evaluaciones: "+ evalTotal);
@@ -368,7 +475,6 @@ exports.detalles = function(req, res) {
 												usuario, 
 												infoEval, 
 												autoEval, 
-												coEval,
 												evalSubor,
 												evalJefe,
 												dataUser,
@@ -380,14 +486,14 @@ exports.detalles = function(req, res) {
 												autoEvalJefe
 											});
 										})
-									})	
-								});
-							});
-						});
-					});
-				});
-			});	
-		});
+									})
+								})
+							})
+						})
+					})	
+				})
+			});			
+		}		
 	});
 }
 
