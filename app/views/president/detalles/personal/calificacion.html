@@ -116,33 +116,7 @@
 											<hr>
 											<div>
 												<div class="row">									
-													<div class="col-md-12">
-														<div class="card">
-															<div class="card-body">
-																<div class="row">
-																	<div class="col-lg-3 col-md-4 col-sm-3">
-																		<div class="card">
-																			<div class="card-body text-center">
-																				<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-child" style="font-size: 30pt;"></i>
-																				<hr style="margin: 1px">
-																				<p><strong>AutoEvaluación</strong></p>
-																			</div>
-																		</div>
-																	</div>
-																	<div class="col-lg-9 col-md-8 col-sm-9 text-center">
-																		<br><br>
-																		<div class="progress">
-																			<div class="progress-bar" role="progressbar" style="width: <%= autoEval.calificacion * 20 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= Math.trunc(autoEval.calificacion) %> Ptos</b></div>
-																		</div>
-																	</div>					
-																</div>
-															</div>
-														</div>
-														<br>
-													</div>
-
-													<!--Si el Usuario selccionado tiene cargo 2 (JefeSubor)-->
-													<%if(User.cargoId == 2) {%>
+													<% if(infoEval.categoriumId == 1) {%>
 														<div class="col-md-12">
 															<div class="card">
 																<div class="card-body">
@@ -150,69 +124,16 @@
 																		<div class="col-lg-3 col-md-4 col-sm-3">
 																			<div class="card">
 																				<div class="card-body text-center">
-																					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-users" style="font-size: 30pt;"></i>
-																					<hr style="margin: 2px">
-																					<p><strong>Segun Subordinados</strong></p>
-																				</div>
-																			</div>
-																		</div>
-																		<div class="col-lg-9 col-md-8 col-sm-9 text-center">
-																			<br><br>
-																			<div class="progress">
-																				<div class="progress-bar" role="progressbar" style="width: <%= calificacion * 20 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= Math.trunc(calificacion)%> Ptos</b></div>
-																			</div>
-																		</div>					
-																	</div>
-																</div>
-															</div>
-															<br>
-														</div>
-													<%}%>
-
-													<!--Si el Usuario selccionado tiene cargo 3 (Subordinado)-->
-													<% if(User.cargoId == 3) {%>
-														<div class="col-md-12">
-															<div class="card">
-																<div class="card-body">
-																	<div class="row">
-																		<div class="col-lg-3 col-md-4 col-sm-3">
-																			<div class="card">
-																				<div class="card-body text-center">
-																					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-users" style="font-size: 30pt;"></i>
-																					<hr style="margin: 2px">
-																					<p><strong>CoEvaluación</strong></p>
-																				</div>
-																			</div>
-																		</div>
-																		<div class="col-lg-9 col-md-8 col-sm-9 text-center">
-																			<br><br>
-																			<div class="progress">
-																				<div class="progress-bar" role="progressbar" style="width: <%= calificacion * 20 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b> <%= Math.trunc(calificacion)%> Ptos</b></div>
-																			</div>
-																		</div>					
-																	</div>
-																</div>
-															</div>
-															<br>
-														</div>
-
-														<div class="col-md-12">
-															<div class="card">
-																<div class="card-body">
-																	<div class="row">
-																		<div class="col-lg-3 col-md-4 col-sm-3">
-																			<div class="card">
-																				<div class="card-body text-center">
-																					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-secret" style="font-size: 30pt;"></i>
+																					<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-child" style="font-size: 30pt;"></i>
 																					<hr style="margin: 1px">
-																					<p><strong>Segun Jefe</strong></p>
+																					<p><strong>AutoEvaluación</strong></p>
 																				</div>
 																			</div>
 																		</div>
 																		<div class="col-lg-9 col-md-8 col-sm-9 text-center">
 																			<br><br>
 																			<div class="progress">
-																				<div class="progress-bar" role="progressbar" style="width: <%= evaldJefe.calificacion * 20 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%=  Math.trunc(evaldJefe.calificacion) %> Ptos</b></div>
+																				<div class="progress-bar" role="progressbar" style="width: <%= autoEval.calificacion * 20 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= Math.trunc(autoEval.calificacion) %> Ptos</b></div>
 																			</div>
 																		</div>					
 																	</div>
@@ -220,6 +141,142 @@
 															</div>
 															<br>
 														</div>
+
+														<!--Si el Usuario selccionado tiene cargo 2 (JefeSubor)-->
+														<%if(User.cargoId == 2) {%>
+															<div class="col-md-12">
+																<div class="card">
+																	<div class="card-body">
+																		<div class="row">
+																			<div class="col-lg-3 col-md-4 col-sm-3">
+																				<div class="card">
+																					<div class="card-body text-center">
+																						<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-users" style="font-size: 30pt;"></i>
+																						<hr style="margin: 2px">
+																						<p><strong>Segun Subordinados</strong></p>
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-lg-9 col-md-8 col-sm-9 text-center">
+																				<br><br>
+																				<div class="progress">
+																					<div class="progress-bar" role="progressbar" style="width: <%= calificacion * 20 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= Math.trunc(calificacion)%> Ptos</b></div>
+																				</div>
+																			</div>					
+																		</div>
+																	</div>
+																</div>
+																<br>
+															</div>
+														<%}%>
+
+														<!--Si el Usuario selccionado tiene cargo 3 (Subordinado)-->
+														<% if(User.cargoId == 3) {%>
+															<div class="col-md-12">
+																<div class="card">
+																	<div class="card-body">
+																		<div class="row">
+																			<div class="col-lg-3 col-md-4 col-sm-3">
+																				<div class="card">
+																					<div class="card-body text-center">
+																						<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-users" style="font-size: 30pt;"></i>
+																						<hr style="margin: 2px">
+																						<p><strong>CoEvaluación</strong></p>
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-lg-9 col-md-8 col-sm-9 text-center">
+																				<br><br>
+																				<div class="progress">
+																					<div class="progress-bar" role="progressbar" style="width: <%= calificacion * 20 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b> <%= Math.trunc(calificacion)%> Ptos</b></div>
+																				</div>
+																			</div>					
+																		</div>
+																	</div>
+																</div>
+																<br>
+															</div>
+
+															<div class="col-md-12">
+																<div class="card">
+																	<div class="card-body">
+																		<div class="row">
+																			<div class="col-lg-3 col-md-4 col-sm-3">
+																				<div class="card">
+																					<div class="card-body text-center">
+																						<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-user-secret" style="font-size: 30pt;"></i>
+																						<hr style="margin: 1px">
+																						<p><strong>Segun Jefe</strong></p>
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-lg-9 col-md-8 col-sm-9 text-center">
+																				<br><br>
+																				<div class="progress">
+																					<div class="progress-bar" role="progressbar" style="width: <%= evaldJefe.calificacion * 20 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%=  Math.trunc(evaldJefe.calificacion) %> Ptos</b></div>
+																				</div>
+																			</div>					
+																		</div>
+																	</div>
+																</div>
+																<br>
+															</div>
+														<%}%>
+													<%} else {%>
+														<!--====Si el Usuario Seleccionado tiene Cargo 2 (jefe-Subordi)-->
+														<% if(User.cargoId == 2) {%>
+															<div class="col-md-12">
+																<div class="card">
+																	<div class="card-body">
+																		<div class="row">
+																			<div class="col-lg-3 col-md-4 col-sm-3">
+																				<div class="card">
+																					<div class="card-body text-center">
+																						<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-child" style="font-size: 30pt;"></i>
+																						<hr style="margin: 1px">
+																						<p><strong>AutoEvaluación</strong></p>
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-lg-9 col-md-8 col-sm-9 text-center">
+																				<br><br>
+																				<div class="progress">
+																					<div class="progress-bar" role="progressbar" style="width: <%= autoEval.calificacion * 20 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= Math.trunc(autoEval.calificacion) %> Ptos</b></div>
+																				</div>
+																			</div>					
+																		</div>
+																	</div>
+																</div>
+																<br>
+															</div>
+
+															
+															<div class="col-md-12">
+																<div class="card">
+																	<div class="card-body">
+																		<div class="row">
+																			<div class="col-lg-3 col-md-4 col-sm-3">
+																				<div class="card">
+																					<div class="card-body text-center">
+																						<span class="glyphicon glyphicon-log-in"></span><i class="fa fa-users" style="font-size: 30pt;"></i>
+																						<hr style="margin: 2px">
+																						<p><strong>Segun Subordinados</strong></p>
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-lg-9 col-md-8 col-sm-9 text-center">
+																				<br><br>
+																				<div class="progress">
+																					<div class="progress-bar" role="progressbar" style="width: <%= calificacion * 20 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b><%= Math.trunc(calificacion)%> Ptos</b></div>
+																				</div>
+																			</div>					
+																		</div>
+																	</div>
+																</div>
+																<br>
+															</div>
+														
+														<%}%>
 													<%}%>
 												</div>
 											</div>

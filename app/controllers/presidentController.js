@@ -203,7 +203,7 @@ exports.evalCulmi = function(req, res) {
 					fecha_f: {
 						[Op.lt]: fechaActual
 					},
-					instrumentId: 1	
+					[Op.or]: [{instrumentId: 1}, {instrumentId: 6}]
 				}
 			}
 		}).then(evalCulmi => {
@@ -408,7 +408,7 @@ exports.detalles = function(req, res) {
 				}
 			}).then(autoEvalJefe => {
 				/*
-					Buscar toda info de la autoEvaluacion de los subordinados del centro de Investi 
+					Buscar autoEvaluaciones del centro de Investi 
 				*/
 				models.evaluacionUsuario.findAll({
 					include: [models.evaluacion],
@@ -452,7 +452,7 @@ exports.detalles = function(req, res) {
 										]
 									}
 								}).then(evalTrue => {
-									var evalTotal = autoEval.length + 1 + evalSubor.length + evalJefe.length;
+									var evalTotal = autoEval.length + evalSubor.length + evalJefe.length;
 									var evalListas = evalTrue.length;
 
 									console.log("Total de Evaluaciones: "+ evalTotal);
@@ -521,11 +521,6 @@ exports.verPersonal = function(req, res) {
 exports.verCalificacion = function(req, res) {
 	var usuario = req.user; //info del usuario que inicio sesion
 
-	var idB = parseInt(req.params.id)+1;//id q representa la coevaluacion
-	var idC = parseInt(req.params.id)+2;//id q representa evaluacion al jefe
-	var idD = parseInt(req.params.id)+3;//id q representa evaluacion al subordinado
-	var idE = parseInt(req.params.id)+4;//id q representa autoEvaluacion Jefe
-
 	/*
 		Buscar la informacion de la evaluacion que viene por parametro
 	*/
@@ -533,197 +528,315 @@ exports.verCalificacion = function(req, res) {
 		include: [ models.nucleo, models.unidad ],
 		where: { id: req.params.id }
 	}).then(infoEval => {
-		/*
-			Buscar informacion del usuario seleccionado donde su
-			cedula sea igual a la cedula que viene por parametro y pertencesca
-			a la unidad donde se esta realizando la evaluacion encontrada en el paso anterior 
-		*/
-		models.usuario.findOne({
-			include: [ models.nucleo, models.unidad, models.cargo ],
-			where: {
-				[Op.and]: [
-					{cedula: req.params.idUser}, 
-					{unidadCodigo: infoEval.unidadCodigo},
-				]
-			}
-		}).then(User => {
-			/*Si el usuario encontrado tiene cargo 3 (subordinado)*/
-			if(User.cargoId == 3) {
-				/*
-					Buscar la autoEvaluacion realizada por el usuario encontrado 
-					en el paso anterior 
-				*/
-				models.evaluacionUsuario.findOne({
-					where: {
-						[Op.and]: [
-							{usuarioCedula: User.cedula},
-							{usuarioEvaluado: User.cedula}, 
-							{evaluacionId: parseInt(req.params.id)},
-							{status: true}
-						]
-					}
-				}).then(autoEval => {
+		//Si la categoria de la evalucion es 1 (administrativo)
+		if(infoEval.categoriumId == 1) {
+			var idB = parseInt(req.params.id)+1;//id q representa la coevaluacion
+			var idC = parseInt(req.params.id)+2;//id q representa evaluacion al jefe
+			var idD = parseInt(req.params.id)+3;//id q representa evaluacion al subordinado
+			var idE = parseInt(req.params.id)+4;//id q representa autoEvaluacion Jefe
+			/*
+				Buscar informacion del usuario seleccionado donde su
+				cedula sea igual a la cedula que viene por parametro y pertencesca
+				a la unidad donde se esta realizando la evaluacion encontrada en el paso anterior 
+			*/
+			models.usuario.findOne({
+				include: [ models.nucleo, models.unidad, models.cargo ],
+				where: {
+					[Op.and]: [
+						{cedula: req.params.idUser}, 
+						{unidadCodigo: infoEval.unidadCodigo},
+					]
+				}
+			}).then(User => {
+				/*Si el usuario encontrado tiene cargo 3 (subordinado)*/
+				if(User.cargoId == 3) {
 					/*
-						Buscar todas la coEvaluaciones realizadas por los compañeros 
-						del usuario seleccionado
+						Buscar la autoEvaluacion realizada por el usuario encontrado 
+						en el paso anterior 
 					*/
-					models.evaluacionUsuario.findAll({
+					models.evaluacionUsuario.findOne({
 						where: {
 							[Op.and]: [
+								{usuarioCedula: User.cedula},
 								{usuarioEvaluado: User.cedula}, 
-								{evaluacionId: idB},
-								{status: true}
-							]		
-						}
-					}).then(coEval => {
-						/*Si el Usuario Seleccionado ha sido coEvaluado 3 veces*/
-						if(coEval.length == 3) {
-							var calificacion = 0;
-							let acomulado = 0;
-
-							for(let i = 0; i < coEval.length; i ++) {
-								acomulado = acomulado + parseFloat(coEval[i].calificacion);
-							}
-							calificacion = acomulado / 3;
-
-							/*Buscar la Evaluacion donde el Jefe de usuario seleccionado lo Evaluao*/
-							models.evaluacionUsuario.findOne({
-								where: {
-									[Op.and]: [
-										{usuarioEvaluado: User.cedula}, 
-										{evaluacionId: idD},
-										{status: true}
-									]
-								}
-							}).then(evaldJefe => {
-								var califiGeneral = 0;
-								var acomuladoAutoeval = 0;
-								var acomuladoCoeval = 0;
-								var acomuladoJefe = 0;
-
-								acomuladoAutoeval = autoEval.calificacion * 0.10;
-								acomuladoJefe = evaldJefe.calificacion * 0.50;
-								acomuladoCoeval = calificacion * 0.40;
-								califiGeneral = Math.trunc(acomuladoAutoeval) + Math.trunc(acomuladoCoeval) + Math.trunc(acomuladoJefe);
-
-								models.observacion.findOne({
-									where: {
-										[Op.and]: [
-											{usuarioCedula: User.cedula}, 
-											{evaluacionId: req.params.id}
-										] 
-									}
-								}).then(Observacion => {
-									console.log('====info evaluacion=======');
-									console.log('Usuario Seleccionado: '+User.nombre+' '+User.apellido);
-									console.log('Calificacion AutoEval: '+autoEval.calificacion);
-									console.log('Nro de veces que ha sido evaluado por un compañero: '+coEval.length);
-									console.log('Calificacion coEval: '+calificacion);
-									console.log('Calificacion segun Jefe: '+evaldJefe.calificacion);
-									console.log('Calificacion segun General: '+califiGeneral);
-									//res.send(Observacion);
-									res.render('president/detalles/personal/calificacion', {
-										usuario,
-										infoEval,
-										User,
-										autoEval,
-										calificacion,
-										evaldJefe,
-										califiGeneral,
-										Observacion
-									});
-								})								
-
-								
-							});		
-						} else {
-							res.send('Aun no ha sido Evaluado 3 veces');
-						}	
-					});
-				});
-			} else if(User.cargoId == 2) {
-				models.evaluacionUsuario.findOne({
-					where: {
-						[Op.and]: [
-							{usuarioCedula: User.cedula},
-							{usuarioEvaluado: User.cedula}, 
-							{evaluacionId: idE},
-							{status: true}
-						]
-					}
-				}).then(autoEval => {
-					models.evaluacionUsuario.findAll({
-						where: {
-							[Op.and]: [
-								{usuarioEvaluado: User.cedula}, 
-								{evaluacionId: idC},
+								{evaluacionId: parseInt(req.params.id)},
 								{status: true}
 							]
 						}
-					}).then(evalAlJefe => {
-						/*Buscar todo el personal con cargo 3 (subordinado) de esta unidad*/
-						models.usuario.findAll({
+					}).then(autoEval => {
+						/*
+							Buscar todas la coEvaluaciones realizadas por los compañeros 
+							del usuario seleccionado
+						*/
+						models.evaluacionUsuario.findAll({
 							where: {
 								[Op.and]: [
-									{nucleoCodigo: infoEval.nucleoCodigo}, 
-									{unidadCodigo: infoEval.unidadCodigo},
-									{cargoId: 3}
-								]
+									{usuarioEvaluado: User.cedula}, 
+									{evaluacionId: idB},
+									{status: true}
+								]		
 							}
-						}).then(Subordinado => {
-							if(evalAlJefe.length == Subordinado.length) {
+						}).then(coEval => {
+							/*Si el Usuario Seleccionado ha sido coEvaluado 3 veces*/
+							if(coEval.length == 3) {
 								var calificacion = 0;
 								let acomulado = 0;
 
-								var califiGeneral = 0;
-								var acomuladoAutoeval = 0;
-								var acomuladoSubor = 0;
-
-
-								for(let i = 0; i < evalAlJefe.length; i ++) {
-									acomulado = acomulado + parseFloat(evalAlJefe[i].calificacion);
+								for(let i = 0; i < coEval.length; i ++) {
+									acomulado = acomulado + parseFloat(coEval[i].calificacion);
 								}
-								calificacion = acomulado / evalAlJefe.length;
+								calificacion = acomulado / 3;
 
-								/*-----Aqui se maneja el porcentaje o peso para calificar al jefe---*/
-								acomuladoAutoeval = autoEval.calificacion * 0.30;
-								acomuladoSubor = calificacion * 0.70;
-								califiGeneral = acomuladoAutoeval + acomuladoSubor;
-
-								models.observacion.findOne({
+								/*Buscar la Evaluacion donde el Jefe de usuario seleccionado lo Evaluao*/
+								models.evaluacionUsuario.findOne({
 									where: {
 										[Op.and]: [
-											{usuarioCedula: User.cedula}, 
-											{evaluacionId: req.params.id}
-										] 
+											{usuarioEvaluado: User.cedula}, 
+											{evaluacionId: idD},
+											{status: true}
+										]
 									}
-								}).then(Observacion => {
-									console.log('====info evaluacion=======');
-									console.log('Usuario Seleccionado: '+User.nombre+' '+User.apellido);
-									console.log('Calificacion AutoEval: '+autoEval.calificacion);
-									console.log('Nro de veces que ha sido evaluado por un Subordinado: '+evalAlJefe.length);
-									console.log('Calificacion segun subordinados: '+calificacion);
-									console.log('Calificacion General: '+califiGeneral);
-									res.render('president/detalles/personal/calificacion', { 
-										usuario, 
-										infoEval, 
-										User,
-										autoEval,
-										evalAlJefe,
-										Subordinado,
-										calificacion,
-										califiGeneral,
-										Observacion
-									});
-								})
+								}).then(evaldJefe => {
+									var califiGeneral = 0;
+									var acomuladoAutoeval = 0;
+									var acomuladoCoeval = 0;
+									var acomuladoJefe = 0;
+
+									acomuladoAutoeval = autoEval.calificacion * 0.10;
+									acomuladoJefe = evaldJefe.calificacion * 0.50;
+									acomuladoCoeval = calificacion * 0.40;
+									califiGeneral = Math.trunc(acomuladoAutoeval) + Math.trunc(acomuladoCoeval) + Math.trunc(acomuladoJefe);
+
+									models.observacion.findOne({
+										where: {
+											[Op.and]: [
+												{usuarioCedula: User.cedula}, 
+												{evaluacionId: req.params.id}
+											] 
+										}
+									}).then(Observacion => {
+										console.log('====info evaluacion=======');
+										console.log('Usuario Seleccionado: '+User.nombre+' '+User.apellido);
+										console.log('Calificacion AutoEval: '+autoEval.calificacion);
+										console.log('Nro de veces que ha sido evaluado por un compañero: '+coEval.length);
+										console.log('Calificacion coEval: '+calificacion);
+										console.log('Calificacion segun Jefe: '+evaldJefe.calificacion);
+										console.log('Calificacion segun General: '+califiGeneral);
+										//res.send(Observacion);
+										res.render('president/detalles/personal/calificacion', {
+											usuario,
+											infoEval,
+											User,
+											autoEval,
+											calificacion,
+											evaldJefe,
+											califiGeneral,
+											Observacion
+										});
+									})								
+
+									
+								});		
 							} else {
-								res.send(evalAlJefe);
-							}
+								res.send('Aun no ha sido Evaluado 3 veces');
+							}	
 						});
 					});
-				});
-			}
-		});
+				} else if(User.cargoId == 2) {
+					models.evaluacionUsuario.findOne({
+						where: {
+							[Op.and]: [
+								{usuarioCedula: User.cedula},
+								{usuarioEvaluado: User.cedula}, 
+								{evaluacionId: idE},
+								{status: true}
+							]
+						}
+					}).then(autoEval => {
+						models.evaluacionUsuario.findAll({
+							where: {
+								[Op.and]: [
+									{usuarioEvaluado: User.cedula}, 
+									{evaluacionId: idC},
+									{status: true}
+								]
+							}
+						}).then(evalAlJefe => {
+							/*Buscar todo el personal con cargo 3 (subordinado) de esta unidad*/
+							models.usuario.findAll({
+								where: {
+									[Op.and]: [
+										{nucleoCodigo: infoEval.nucleoCodigo}, 
+										{unidadCodigo: infoEval.unidadCodigo},
+										{cargoId: 3}
+									]
+								}
+							}).then(Subordinado => {
+								if(evalAlJefe.length == Subordinado.length) {
+									var calificacion = 0;
+									let acomulado = 0;
+
+									var califiGeneral = 0;
+									var acomuladoAutoeval = 0;
+									var acomuladoSubor = 0;
+
+
+									for(let i = 0; i < evalAlJefe.length; i ++) {
+										acomulado = acomulado + parseFloat(evalAlJefe[i].calificacion);
+									}
+									calificacion = acomulado / evalAlJefe.length;
+
+									/*-----Aqui se maneja el porcentaje o peso para calificar al jefe---*/
+									acomuladoAutoeval = autoEval.calificacion * 0.30;
+									acomuladoSubor = calificacion * 0.70;
+									califiGeneral = acomuladoAutoeval + acomuladoSubor;
+
+									models.observacion.findOne({
+										where: {
+											[Op.and]: [
+												{usuarioCedula: User.cedula}, 
+												{evaluacionId: req.params.id}
+											] 
+										}
+									}).then(Observacion => {
+										console.log('====info evaluacion=======');
+										console.log('Usuario Seleccionado: '+User.nombre+' '+User.apellido);
+										console.log('Calificacion AutoEval: '+autoEval.calificacion);
+										console.log('Nro de veces que ha sido evaluado por un Subordinado: '+evalAlJefe.length);
+										console.log('Calificacion segun subordinados: '+calificacion);
+										console.log('Calificacion General: '+califiGeneral);
+										res.render('president/detalles/personal/calificacion', { 
+											usuario, 
+											infoEval, 
+											User,
+											autoEval,
+											evalAlJefe,
+											Subordinado,
+											calificacion,
+											califiGeneral,
+											Observacion
+										});
+									})
+								} else {
+									res.send(evalAlJefe);
+								}
+							});
+						});
+					});
+				}
+			});
+		} else {
+			var idB = parseInt(req.params.id)+1;//id q representa la autoEval (subordi)
+			var idC = parseInt(req.params.id)+2;//id q representa evaluacion al jefe
+			var idD = parseInt(req.params.id)+3;//id q representa evaluacion a los subordinado
+
+			/*
+				Buscar informacion del usuario seleccionado donde su
+				cedula sea igual a la cedula que viene por parametro y pertencesca
+				a la unidad donde se esta realizando la evaluacion encontrada en el paso anterior 
+			*/
+			models.usuario.findOne({
+				include: [ models.nucleo, models.unidad, models.cargo ],
+				where: {
+					[Op.and]: [
+						{cedula: req.params.idUser}, 
+						{unidadCodigo: infoEval.unidadCodigo},
+					]
+				}
+			}).then(User => {
+				//Si el Usuario encontrado tiene cargo 2 (jefe-subordinado)
+				if(User.cargoId == 2) {
+					/*
+						Buscar la autoEvaluacion realizada por el usuario encontrado 
+						en el paso anterior 
+					*/
+					models.evaluacionUsuario.findOne({
+						where: {
+							[Op.and]: [
+								{usuarioCedula: User.cedula},
+								{usuarioEvaluado: User.cedula}, 
+								{evaluacionId: parseInt(req.params.id)},
+								{status: true}
+							]
+						}
+					}).then(autoEval => {
+						models.evaluacionUsuario.findAll({
+							where: {
+								[Op.and]: [
+									{usuarioEvaluado: User.cedula}, 
+									{evaluacionId: idC},
+									{status: true}
+								]
+							}
+						}).then(evalAlJefe => {
+							/*Buscar todo el personal con cargo 3 (subordinado) de esta unidad*/
+							models.usuario.findAll({
+								where: {
+									[Op.and]: [
+										{nucleoCodigo: infoEval.nucleoCodigo}, 
+										{unidadCodigo: infoEval.unidadCodigo},
+										{cargoId: 3}
+									]
+								}
+							}).then(Subordinado => {
+								if(evalAlJefe.length == Subordinado.length) {
+									var calificacion = 0;
+									let acomulado = 0;
+
+									var califiGeneral = 0;
+									var acomuladoAutoeval = 0;
+									var acomuladoSubor = 0;
+
+
+									for(let i = 0; i < evalAlJefe.length; i ++) {
+										acomulado = acomulado + parseFloat(evalAlJefe[i].calificacion);
+									}
+									calificacion = acomulado / evalAlJefe.length;
+
+									/*-----Aqui se maneja el porcentaje o peso para calificar al jefe---*/
+									acomuladoAutoeval = autoEval.calificacion * 0.30;
+									acomuladoSubor = calificacion * 0.70;
+									califiGeneral = acomuladoAutoeval + acomuladoSubor;
+
+									models.observacion.findOne({
+										where: {
+											[Op.and]: [
+												{usuarioCedula: User.cedula}, 
+												{evaluacionId: req.params.id}
+											] 
+										}
+									}).then(Observacion => {
+										console.log('====info evaluacion=======');
+										console.log('Usuario Seleccionado: '+User.nombre+' '+User.apellido);
+										console.log('Calificacion AutoEval: '+autoEval.calificacion);
+										console.log('Nro de veces que ha sido evaluado por un Subordinado: '+evalAlJefe.length);
+										console.log('Calificacion segun subordinados: '+calificacion);
+										console.log('Calificacion General: '+califiGeneral);
+										res.render('president/detalles/personal/calificacion', { 
+											usuario, 
+											infoEval, 
+											User,
+											autoEval,
+											evalAlJefe,
+											Subordinado,
+											calificacion,
+											califiGeneral,
+											Observacion
+										});
+									})
+								} else {
+									res.send(evalAlJefe);
+								}
+							})
+						})
+					})
+				} 
+				//Si el Usuario encontrado tiene cargo 3 (Subordinado)
+				else if(User.cargoId == 3) {
+
+				}
+			})
+		}
 	});
 }
 
