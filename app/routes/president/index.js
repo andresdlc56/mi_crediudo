@@ -61,7 +61,11 @@ module.exports = function(app) {
 
     app.get('/president/cambiar_coordP', isLoggedIn, presidentController.cambiarCoordPla);
 
+    app.get('/president/cambiar_coordE', isLoggedIn, presidentController.cambiarCoordEval);
+
     app.get('/getCoordP', presidentController.getCoordP);
+
+    app.get('/getCoordE', presidentController.getCoordE);
 
     app.get('/getUsuario/:id', presidentController.getUsuario);
 

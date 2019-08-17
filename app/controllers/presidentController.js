@@ -1522,7 +1522,25 @@ exports.getUnidades = function(req, res) {
 }
 
 exports.cambiarCoordPla = function(req, res) {
-	res.render('president/cambiar/index');
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		res.render('president/cambiar/coordP', { Usuario });
+	}).catch(err => {
+		console.log(err);
+	});
+}
+
+exports.cambiarCoordEval = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(Usuario => {
+		res.render('president/cambiar/coordE', { Usuario });
+	}).catch(err => {
+		console.log(err);
+	});
 }
 
 //buscar coordinador de planificacion
@@ -1533,6 +1551,19 @@ exports.getCoordP = function(req, res) {
 		}
 	}).then(coordP => {
 		res.json(coordP)
+	}).catch(err => {
+		res.send(err)
+	})
+}
+
+//buscar coordinador de Evaluacion
+exports.getCoordE = function(req, res) {
+	models.usuario.findOne({
+		where: {
+			rolId: 4
+		}
+	}).then(coordE => {
+		res.json(coordE)
 	}).catch(err => {
 		res.send(err)
 	})
