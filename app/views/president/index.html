@@ -154,86 +154,6 @@
 									</div>
 								</div>
 							</div>
-
-							<!--
-							<div class="col-md-6">
-								<!--==============EVALUACIONES EN CURSO=================
-								<div class="card">
-									<div class="card-body">
-										<h3>Evaluaciones En Curso</h3>
-										<hr>
-										<% if(evaluacion && evaluacion.length > 0) {%>
-											<table class="table">
-												<thead>
-												    <tr>
-												      	<th scope="col">Nombre de Eval</th>
-												      	<th scope="col">Nucleo</th>
-												      	<th scope="col">Unidad</th>
-												      	<th scope="col">Acción</th>
-												    </tr>
-											  	</thead>
-											  	<tbody>
-													<% for(var i = 0; i < evaluacion.length; i ++) {%>
-												    	<% if(fecha_actual => evaluacion[i].fecha_i && fecha_actual <= evaluacion[i].fecha_f ) {%>
-													    	<tr>
-													      		<td><%= evaluacion[i].nombre %></td>
-													      		<td><%= evaluacion[i].nucleo.nombre %></td>
-													      		<td><%= evaluacion[i].unidad.nombre %></td>
-													      		<td><a href="/president/detalles/<%= evaluacion[i].id %>" class="btn btn-primary btn-sm">Ver</a></td>
-													    	</tr>
-														<%}%>
-													<%}%>
-											  	</tbody>
-											</table>
-										<%} else {%>
-											<h3 class="display-4 text-center">Ninguna</h3>
-										<%}%>				
-									</div>
-								</div>	
-								<!--=========FIN EVALUACIONES EN CURSO=============
-								<br>
-							</div>
-							-->
-
-							<!--===============PROXIMAS EVALUACIONES===========
-							<div class="col-md-6">
-								<!--==============EVALUACIONES EN CURSO=================
-								<div class="card">
-									<div class="card-body">
-										<h3>Proximas Evaluaciones</h3>
-										<hr>
-										<% if(proxiEval && proxiEval.length > 0) {%>
-											<table class="table">
-												<thead>
-												    <tr>
-												      	<th scope="col">Nombre de Eval</th>
-												      	<th scope="col">Nucleo</th>
-												      	<th scope="col">Unidad</th>
-												      	<th scope="col">Acción</th>
-												    </tr>
-											  	</thead>
-											  	<tbody>
-													<% for(var i = 0; i < proxiEval.length; i ++) {%>
-	
-													    	<tr>
-													      		<td><%= proxiEval[i].nombre %></td>
-													      		<td><%= proxiEval[i].nucleo.nombre %></td>
-													      		<td><%= proxiEval[i].unidad.nombre %></td>
-													      		<td><a href="/president/detalles/<%= proxiEval[i].id %>" class="btn btn-primary btn-sm">Ver</a></td>
-													    	</tr>
-														
-													<%}%>
-											  	</tbody>
-											</table>
-										<%} else {%>
-											<h3 class="display-4 text-center">Ninguna</h3>
-										<%}%>				
-									</div>
-								</div>	
-								<!--=========FIN EVALUACIONES EN CURSO=============
-								<br>
-							</div>
-							===============FIN PROXIMAS EVALUACIONES======-->
 								
 							<div class="col-md-12">
 								<div class="row">
@@ -242,72 +162,129 @@
 											<div class="card-body">
 												<h4>Personal CREDIUDO</h4>
 												<hr>
-												<div class="article border-bottom">
-													<div class="col-md-12">
-														<div class="row">
-															<div class="col-sm-4 col-md-4 text-center">
-																<img alt class="rounded-circle" src="../../uploads/perfil/user.jpg" style="width: 40%">
-										  						<p style="font-size: 10pt; margin-bottom: 0">Presidente</p>
+												<!--Presidente-->
+												<div class="col-md-12">
+													<div class="row">
+														<div class="col-sm-4 col-md-3 col-lg-4">
+															<div class="card">
+																<div class="card-body text-center" style="padding: 8px">
+																	<img alt class="rounded-circle img-fluid d-block mx-auto" src="../../uploads/perfil/user.jpg" style="width: 40%">
+																	<hr style="margin: 5px">
+																	<p style="font-size: 10pt">Presidente</p>		
+																</div>
 															</div>
-															<div class="col-sm-8 col-md-8">
-																<p style="margin: 2px" class="text-muted"><em><%- president.nombre %> <%- president.apellido %></em></p>
-										  						<p style="margin: 2px" class="text-muted"><em>C.I: <%- president.cedula %></em></p>
+														</div>
+														<div class="col-sm-8 col-md-9 col-lg-8">
+															<div class="card" style="height: 100%">
+																<div class="card-body" style="padding: 10px">
+																	<div class="row">
+																		<div class="col-sm-12 col-md-12">
+																			<table>
+																				<tr>
+																					<td><b>Nombre y Apellido: </b><%- president.nombre %> <%- president.apellido %></td>
+																				</tr>
+																				<tr>
+																					<td><b>Cedula de Identidad: </b><%- president.cedula %></td>
+																				</tr>
+																			</table>
+																		</div>
+																	</div>
+																</div>
 															</div>
 														</div>
 													</div>
+													<hr>
 												</div>
 
-												<div class="article border-bottom">
-													<div class="col-md-12">
-														<div class="row">
-															<div class="col-sm-4 col-md-4 text-center">
-																<img alt class="rounded-circle" src="../../uploads/perfil/user.jpg" style="width: 40%">
-										  						<p style="font-size: 10pt; margin-bottom: 0">Coord. Planificación</p>
+												<!--Coord. Planificación-->
+												<div class="col-md-12">
+													<div class="row">
+														<div class="col-sm-4 col-md-3 col-lg-4">
+															<div class="card">
+																<div class="card-body text-center" style="padding: 8px">
+																	<img alt class="rounded-circle img-fluid d-block mx-auto" src="../../uploads/perfil/user.jpg" style="width: 40%">
+																	<hr style="margin: 5px">
+																	<p style="font-size: 10pt">Coord. Planificación</p>		
+																</div>
 															</div>
-															<div class="col-sm-6 col-md-6">
-																<% if(!coordPlani) {%>
-																	<p style="margin: 2px; font-size: 18pt" class="text-muted"><em>Sin Asignar</em></p>
-																<%} else {%>
-																	<p style="margin: 2px" class="text-muted"><em><%- coordPlani.nombre %> <%- coordPlani.apellido %></em></p>
-										  							<p style="margin: 2px" class="text-muted"><em>C.I: <%- coordPlani.cedula %></em></p>
-																<%}%>
-															</div>
-															<div class="col-sm-2 col-md-2">
-																<% if(coordPlani) {%>
-																	<a href="/president/cambiar_coordP" class="btn btn-light btn-sm edit-eval">
-																        <span class="glyphicon glyphicon-log-in"></span><i class="fa fa-exchange"></i>
-																    </a>
-																<%}%>
+														</div>
+														<div class="col-sm-8 col-md-9 col-lg-8">
+															<div class="card" style="height: 100%">
+																<div class="card-body" style="padding: 10px">
+																	<div class="row">
+																		<div class="col-sm-12 col-md-12">
+																			<table>
+																				<tr>
+																					<td><b>Nombre y Apellido: </b><%- coordPlani.nombre %> <%- coordPlani.apellido %></td>
+																				</tr>
+																				<tr>
+																					<td><b>Cedula de Identidad: </b><%- coordEval.cedula %></td>
+																				</tr>
+																				<tr>
+																					<td>
+																						<% if(coordPlani) {%>
+																							<a href="/president/cambiar_coordP">
+																						        Cambiar
+																						    </a>
+																						<%}%>
+																					</td>
+																				</tr>
+																			</table>
+																		</div>
+																	</div>
+																</div>
 															</div>
 														</div>
 													</div>
+													<hr>
+												</div>
+												<!--!!!!!!!!!!!!!!!!!!!!-->
+												
+												<!--Coord. Evaluación-->
+												<div class="col-md-12">
+													<div class="row">
+														<div class="col-sm-4 col-md-3 col-lg-4">
+															<div class="card">
+																<div class="card-body text-center" style="padding: 8px">
+																	<img alt class="rounded-circle img-fluid d-block mx-auto" src="../../uploads/perfil/user.jpg" style="width: 40%">
+																	<hr style="margin: 5px">
+																	<p style="font-size: 10pt">Coord. Evaluación</p>		
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-8 col-md-9 col-lg-8">
+															<div class="card" style="height: 100%">
+																<div class="card-body" style="padding: 10px">
+																	<div class="row">
+																		<div class="col-sm-12 col-md-12">
+																			<table>
+																				<tr>
+																					<td><b>Nombre y Apellido: </b><%- coordEval.nombre %> <%- coordEval.apellido %></td>
+																				</tr>
+																				<tr>
+																					<td><b>Cedula de Identidad: </b><%- coordEval.cedula %></td>
+																				</tr>
+																				<tr>
+																					<td>
+																						<% if(coordEval) {%>
+																							<a href="/president/cambiar_coordEval/<%- coordEval.cedula %>">
+																					        Cambiar
+																					    </a>
+																						<%}%>
+																					</td>
+																				</tr>
+																			</table>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<hr>
 												</div>
 
-												<div class="article border-bottom">
-													<div class="col-md-12">
-														<div class="row">
-															<div class="col-sm-4 col-md-4 text-center">
-																<img alt class="rounded-circle" src="../../uploads/perfil/user.jpg" style="width: 40%">
-										  						<p style="font-size: 10pt; margin-bottom: 0">Coord. Evaluación</p>
-															</div>
-															<div class="col-sm-6 col-md-6">
-																<% if(!coordEval) {%>
-																	<p style="margin: 2px; font-size: 18pt" class="text-muted"><em>Sin Asignar</em></p>
-																<%} else {%>
-																	<p style="margin: 2px" class="text-muted"><em><%- coordEval.nombre %> <%- coordEval.apellido %></em></p>
-											  						<p style="margin: 2px" class="text-muted"><em>C.I: <%- coordEval.cedula %></em></p>
-																<%}%>
-															</div>
-															<div class="col-sm-2 col-md-2">
-																<% if(coordEval) {%>
-																	<a href="/president/cambiar_coordEval/<%- coordEval.cedula %>" class="btn btn-light btn-sm edit-eval">
-																        <span class="glyphicon glyphicon-log-in"></span><i class="fa fa-exchange"></i>
-																    </a>	
-																<%}%>
-															</div>
-														</div>
-													</div>
-												</div>
+												<!--!!!!!!!!!!!!!!!!!!!!-->
+												
 											</div>
 										</div>
 										<br>
