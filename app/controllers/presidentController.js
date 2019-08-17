@@ -1808,3 +1808,31 @@ exports.getObservacion = function(req, res) {
 		res.json(err)
 	})
 }
+
+exports.reemplazar = function(req, res) {
+	models.usuario.update({
+		nucleoCodigo: req.body.nucleoCandidato,
+		unidadCodigo: req.body.unidadCandidato,
+		cargoId: req.body.cargoCandidato,
+		rolId: req.body.rolCandidato
+	},{
+		where: {
+			cedula: req.body.cedulaReemplazado
+		}
+	}).then(exEncargado => {
+		models.usuario.update({
+			nucleoCodigo: req.body.nucleoReemplazado,
+			unidadCodigo: req.body.unidadReemplazado,
+			cargoId: req.body.cargoReemplazado,
+			rolId: req.body.rolReemplazado	
+		}, {
+			where: {
+				cedula: req.body.cedulaCandidato
+			}
+		}).then(newEncargado => {
+			console.log('=====================Usuarios Actualizados Exitosamente========================');
+			req.flash('info', 'Actualización Exitosa!');
+			res.redirect('/president');
+		})
+	})
+}

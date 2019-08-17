@@ -162,7 +162,22 @@
 
 							<div class="col-md-12">
 								<hr>
-								<form onsubmit="return confirm('¿Esta Seguro de Reemplazar al Corrd. Planificación?')" method="POST" action="/hola">
+								<form onsubmit="return confirm('¿Esta Seguro de Reemplazar al Corrd. Planificación?')" method="POST" action="/president/updateCoord">
+									<!--==========Datos del reemplazado=============-->
+									<input type="hidden" name="cedulaReemplazado" v-model="coord.cedula">
+									<input type="hidden" name="nucleoReemplazado" v-model="coord.nucleoCodigo">
+									<input type="hidden" name="unidadReemplazado" v-model="coord.unidadCodigo">
+									<input type="hidden" name="cargoReemplazado" v-model="coord.cargoId">
+									<input type="hidden" name="rolReemplazado" v-model="coord.rolId">
+
+									<!--============Datos del Candidato======================-->
+									<input type="hidden" name="cedulaCandidato" v-model="usuario.cedula">
+									<input type="hidden" name="nucleoCandidato" v-model="usuario.nucleoCodigo">
+									<input type="hidden" name="unidadCandidato" v-model="usuario.unidadCodigo">
+									<input type="hidden" name="cargoCandidato" v-model="usuario.cargoId">
+									<input type="hidden" name="rolCandidato" v-model="usuario.rolId">
+
+
 									<div class="form-group" v-if="variable">
 										<input type="submit" name="cambiar" value="Reemplazar" class="btn btn-primary btn-block btn-lg">	
 									</div>

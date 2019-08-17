@@ -90,6 +90,9 @@ module.exports = function(app) {
 
     app.get('/president/userPerfil/:userCedula/eval/:idEval/getObservacion', isLoggedIn, presidentController.getObservacion)
 
+    //Ruta para actualizar o reemplazar a un coordinador
+    app.post('/president/updateCoord', isLoggedIn, presidentController.reemplazar);
+
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Jefe"
     //app.get('/president/culminado/:id/u/:idu',isLoggedIn, presidentController.culminado_b);
 
