@@ -1841,29 +1841,67 @@ exports.getObservacion = function(req, res) {
 }
 
 exports.reemplazar = function(req, res) {
-	models.usuario.update({
-		nucleoCodigo: req.body.nucleoCandidato,
-		unidadCodigo: req.body.unidadCandidato,
-		cargoId: req.body.cargoCandidato,
-		rolId: req.body.rolCandidato
-	},{
-		where: {
-			cedula: req.body.cedulaReemplazado
-		}
-	}).then(exEncargado => {
-		models.usuario.update({
-			nucleoCodigo: req.body.nucleoReemplazado,
-			unidadCodigo: req.body.unidadReemplazado,
-			cargoId: req.body.cargoReemplazado,
-			rolId: req.body.rolReemplazado	
-		}, {
-			where: {
-				cedula: req.body.cedulaCandidato
+	models.usuario.findOne({
+		where: { cedula: req.body.cedulaReemplazado }
+	}).then(usuarioUno => {
+		models.usuario.findOne({
+			where: { cedula: req.body.cedulaCandidato }
+		}).then(usuarioDos => {
+			if(usuarioDos.crediudo == false) {
+				models.usuario.update({
+					nucleoCodigo: req.body.nucleoCandidato,
+					unidadCodigo: req.body.unidadCandidato,
+					cargoId: req.body.cargoCandidato,
+					rolId: req.body.rolCandidato,
+					crediudo: false
+				},{
+					where: {
+						cedula: req.body.cedulaReemplazado
+					}
+				}).then(exEncargado => {
+					models.usuario.update({
+						nucleoCodigo: req.body.nucleoReemplazado,
+						unidadCodigo: req.body.unidadReemplazado,
+						cargoId: req.body.cargoReemplazado,
+						rolId: req.body.rolReemplazado,
+						crediudo: true	
+					}, {
+						where: {
+							cedula: req.body.cedulaCandidato
+						}
+					}).then(newEncargado => {
+						console.log('=====================Usuarios Actualizados Exitosamente========================');
+						req.flash('info', 'Actualización Exitosa!');
+						res.redirect('/president');
+					})
+				})
+			} else {
+				models.usuario.update({
+					nucleoCodigo: req.body.nucleoCandidato,
+					unidadCodigo: req.body.unidadCandidato,
+					cargoId: req.body.cargoCandidato,
+					rolId: req.body.rolCandidato
+				},{
+					where: {
+						cedula: req.body.cedulaReemplazado
+					}
+				}).then(exEncargado => {
+					models.usuario.update({
+						nucleoCodigo: req.body.nucleoReemplazado,
+						unidadCodigo: req.body.unidadReemplazado,
+						cargoId: req.body.cargoReemplazado,
+						rolId: req.body.rolReemplazado
+					}, {
+						where: {
+							cedula: req.body.cedulaCandidato
+						}
+					}).then(newEncargado => {
+						console.log('=====================Usuarios Actualizados Exitosamente========================');
+						req.flash('info', 'Actualización Exitosa!');
+						res.redirect('/president');
+					})
+				})
 			}
-		}).then(newEncargado => {
-			console.log('=====================Usuarios Actualizados Exitosamente========================');
-			req.flash('info', 'Actualización Exitosa!');
-			res.redirect('/president');
 		})
 	})
 }
