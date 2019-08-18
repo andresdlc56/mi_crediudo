@@ -213,23 +213,27 @@
 																<div class="card-body" style="padding: 10px">
 																	<div class="row">
 																		<div class="col-sm-12 col-md-12">
-																			<table>
-																				<tr>
-																					<td><b>Nombre y Apellido: </b><%- coordPlani.nombre %> <%- coordPlani.apellido %></td>
-																				</tr>
-																				<tr>
-																					<td><b>Cedula de Identidad: </b><%- coordPlani.cedula %></td>
-																				</tr>
-																				<tr>
-																					<td>
-																						<% if(coordPlani) {%>
-																							<a href="/president/cambiar_coordP">
-																						        Cambiar
-																						    </a>
-																						<%}%>
-																					</td>
-																				</tr>
-																			</table>
+																			<% if(coordPlani) {%>
+																				<table>
+																					<tr>
+																						<td><b>Nombre y Apellido: </b><%- coordPlani.nombre %> <%- coordPlani.apellido %></td>
+																					</tr>
+																					<tr>
+																						<td><b>Cedula de Identidad: </b><%- coordPlani.cedula %></td>
+																					</tr>
+																					<tr>
+																						<td>
+																							<% if(coordPlani) {%>
+																								<a href="/president/cambiar_coordP">
+																							        Cambiar
+																							    </a>
+																							<%}%>
+																						</td>
+																					</tr>
+																				</table>
+																			<%} else {%>
+																				<a href="#">Asignar</a>
+																			<%}%>
 																		</div>
 																	</div>
 																</div>
@@ -257,23 +261,27 @@
 																<div class="card-body" style="padding: 10px">
 																	<div class="row">
 																		<div class="col-sm-12 col-md-12">
-																			<table>
-																				<tr>
-																					<td><b>Nombre y Apellido: </b><%- coordEval.nombre %> <%- coordEval.apellido %></td>
-																				</tr>
-																				<tr>
-																					<td><b>Cedula de Identidad: </b><%- coordEval.cedula %></td>
-																				</tr>
-																				<tr>
-																					<td>
-																						<% if(coordEval) {%>
-																							<a href="/president/cambiar_coordE">
-																					        Cambiar
-																					    </a>
-																						<%}%>
-																					</td>
-																				</tr>
-																			</table>
+																			<% if(coordEval) {%>
+																				<table>
+																					<tr>
+																						<td><b>Nombre y Apellido: </b><%- coordEval.nombre %> <%- coordEval.apellido %></td>
+																					</tr>
+																					<tr>
+																						<td><b>Cedula de Identidad: </b><%- coordEval.cedula %></td>
+																					</tr>
+																					<tr>
+																						<td>
+																							<% if(coordEval) {%>
+																								<a href="/president/cambiar_coordE">
+																						        Cambiar
+																						    </a>
+																							<%}%>
+																						</td>
+																					</tr>
+																				</table>
+																			<%} else {%>
+																				<a href="#">Asignar</a>
+																			<%}%>
 																		</div>
 																	</div>
 																</div>
@@ -282,9 +290,6 @@
 													</div>
 													<hr>
 												</div>
-
-												<!--!!!!!!!!!!!!!!!!!!!!-->
-												
 											</div>
 										</div>
 										<br>

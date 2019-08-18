@@ -44,9 +44,9 @@ module.exports = function(sequelize, Sequelize) {
         Usuario.belongsTo(models.unidad); //un Usuario pertenece a una Unidad
         //Usuario.belongsToMany(models.evaluacion, {through: 'evaluacionUsuario'});
         Usuario.belongsTo(models.cargo);
-        Usuario.hasMany(models.evaluacionUsuario);
+        Usuario.hasMany(models.evaluacionUsuario, { onDelete:'cascade' });
         //Usuario.belongsToMany(models.item, {through: 'itemUsuario', foreignKey: 'usuarioId'});
-        Usuario.hasMany(models.observacion);
+        Usuario.hasMany(models.observacion, { onDelete:'cascade' });
         //Usuario.hasMany(models.factorUsuario);
         //Usuario.belongsToMany(models.factor, {through: 'factorUsuario'});
 

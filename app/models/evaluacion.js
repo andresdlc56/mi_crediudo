@@ -19,9 +19,9 @@ module.exports = function(sequelize, Sequelize) {
         Evaluacion.belongsTo(models.unidad); //una Evaluacion pertenece a una Unidad
         Evaluacion.belongsTo(models.instrument); //una Evaluacion pertenece a un Instrumento
         Evaluacion.hasMany(models.evaluacionUsuario, { onDelete:'cascade' });
-        Evaluacion.hasMany(models.observacion);
-        Evaluacion.hasOne(models.calificacion); //Una Evaluacion tiene una Calificacion
-        Evaluacion.hasMany(models.factorUsuario);
+        Evaluacion.hasMany(models.observacion, {onDelete:'cascade'});
+        Evaluacion.hasOne(models.calificacion, { onDelete:'cascade' }); //Una Evaluacion tiene una Calificacion
+        Evaluacion.hasMany(models.factorUsuario, {onDelete:'cascade'});
     };
  
     return Evaluacion;
