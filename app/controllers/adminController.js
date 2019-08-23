@@ -70,7 +70,8 @@ exports.asignaPresi = function(req, res) {
 	models.usuario.update({
 		nucleoCodigo: 1,
 		rolId: 2,
-		unidadCodigo: 12
+		unidadCodigo: 12,
+		cediudo: true
 	},{
 		where: {
 			cedula: req.body.cedula
