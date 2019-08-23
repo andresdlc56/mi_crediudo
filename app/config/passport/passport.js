@@ -171,7 +171,7 @@ module.exports = function(passport, user) {
                     });
                 }
 
-                if(user.crediudo == false) {
+                if(user.crediudo === false) {
                     return done(null, false, {
                         message: 'Usted no es Usuario CREDIUDO'
                     });

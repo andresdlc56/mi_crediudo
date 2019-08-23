@@ -70,6 +70,7 @@ exports.asignaPresi = function(req, res) {
 	models.usuario.update({
 		nucleoCodigo: 1,
 		rolId: 2,
+		cargoId: 2,
 		unidadCodigo: 12,
 		cediudo: true
 	},{
