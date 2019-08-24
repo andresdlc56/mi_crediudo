@@ -1921,7 +1921,37 @@ exports.asignaCoordP = function(req, res) {
 	models.usuario.update({
 		nucleoCodigo: 1,
 		rolId: 3,
-		cargoId: 2,
+		cargoId: 3,
+		unidadCodigo: 12,
+		crediudo: true
+	},{
+		where: {
+			cedula: req.body.cedula
+		}
+	}).then(Usuario => {
+		console.log('=======' + req.body.cedula + '===========')
+		req.flash('info', 'Coord. Planificación Asignado Exitosamente!');
+		res.redirect('/president');
+		//res.send(Usuario);
+	});
+}
+
+exports.asignarCoordE = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(presidente => {
+		res.render('president/asignar/coordEval', { presidente });	
+	}).catch(err => {
+		console.log(err);
+	})
+}
+
+exports.asignaCoordE = function(req, res) {
+	models.usuario.update({
+		nucleoCodigo: 1,
+		rolId: 4,
+		cargoId: 3,
 		unidadCodigo: 12,
 		crediudo: true
 	},{

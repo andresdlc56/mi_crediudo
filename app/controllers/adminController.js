@@ -198,7 +198,11 @@ exports.getCoordPlani = function(req, res) {
 		include: [ models.nucleo, models.unidad ],
 		where: { rolId: 3 }
 	}).then(CoordPlani => {
-		res.json(CoordPlani)
+		if(CoordPlani) {
+			res.json(CoordPlani);
+		} else {
+			res.json(false);
+		}
 	}).catch(err => {
 		console.log(err)
 	})
