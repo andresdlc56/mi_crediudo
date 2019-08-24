@@ -72,7 +72,7 @@ exports.asignaPresi = function(req, res) {
 		rolId: 2,
 		cargoId: 2,
 		unidadCodigo: 12,
-		cediudo: true
+		crediudo: true
 	},{
 		where: {
 			cedula: req.body.cedula
@@ -168,7 +168,11 @@ exports.getAdmin = function(req, res) {
 		include: [ models.nucleo, models.unidad ],
 		where: { rolId: 1 }
 	}).then(Admin => {
-		res.json(Admin)
+		if(Admin) {
+			res.json(Admin);
+		} else {
+			res.json(false);
+		}
 	}).catch(err => {
 		console.log(err)
 	})
@@ -179,7 +183,11 @@ exports.getPresidente = function(req, res) {
 		include: [ models.nucleo, models.unidad ],
 		where: { rolId: 2 }
 	}).then(Presidente => {
-		res.json(Presidente)
+		if(Presidente) {
+			res.json(Presidente);
+		} else {
+			res.json(false);
+		}
 	}).catch(err => {
 		console.log(err)
 	})
@@ -201,7 +209,11 @@ exports.getCoordEval = function(req, res) {
 		include: [ models.nucleo, models.unidad ],
 		where: { rolId: 4 }
 	}).then(CoordEval => {
-		res.json(CoordEval)
+		if(CoordEval) {
+			res.json(CoordEval)	
+		} else {
+			res.json(false)
+		}
 	}).catch(err => {
 		console.log(err)
 	})

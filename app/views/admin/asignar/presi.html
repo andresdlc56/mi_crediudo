@@ -64,7 +64,7 @@
 										<div class="article border-bottom">
 											<div class="input-group mb-12">
 												<label for="cedula" class="col-sm-2 col-form-label">Cedula</label>
-											  	<input type="text" class="form-control" v-model="cedula" placeholder="Ingrese Una Cedula de Identidad" v-on:keyup.enter="getUsuario(cedula)">
+											  	<input type="text" class="form-control" v-model="cedula" placeholder="Ingrese Una Cedula de Identidad" v-on:keyup.enter="getUsuario(cedula)" onkeypress='return validaNumericos(event)' autofocus>
 												<div class="input-group-append">
 													<button class="btn btn-outline-secondary" type="button">Buscar</button>
 												</div>
@@ -138,10 +138,9 @@
 		</div>
 	</footer>
 	
-	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+	<script src="/js/misFunciones.js"></script>
+	<script src="/js/vue.js"></script>
+	<script src="/js/axios.js"></script>
 	<script type="text/javascript">
 		new Vue({
 			el: '#main',

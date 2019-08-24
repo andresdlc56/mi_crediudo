@@ -97,6 +97,9 @@ module.exports = function(app) {
     //Ruta para actualizar o reemplazar a un coordinador
     app.post('/president/updateCoord', isLoggedIn, presidentController.reemplazar);
 
+    app.get('/president/asignar-CoordP', isLoggedIn, presidentController.asignarCoordP);
+    app.post('/president/asignar-CoordP', isLoggedIn, presidentController.asignaCoordP);
+
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Jefe"
     //app.get('/president/culminado/:id/u/:idu',isLoggedIn, presidentController.culminado_b);
 

@@ -1,4 +1,5 @@
 var express = require('express');
+const morgan = require('morgan');
 var app = express();
 var passport   = require('passport');
 var session    = require('express-session');
@@ -7,6 +8,8 @@ var env = require('dotenv').load();
 var multer = require('multer'); //para el manejo de multipart/form usado para cargar archivos
 var path =require('path');
 var flash = require('connect-flash');
+
+app.use(morgan('dev'));
 
 //For BodyParser
 app.use(bodyParser.urlencoded({ extended: true }));

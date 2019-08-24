@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREDIUDO | Presidente</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="/js/pace.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/pace-theme-center-circle.css">
+	<!-- Custom styles for this template -->
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+</head>
+<body>
+	<div class="jumbotron" style="margin-bottom: 0px; padding: 0">
+		<img src="../images/index/banner-sistema.jpg" alt="Responsive image" class="img-fluid">
+	</div>	
+
+	<%- include('../../partials/president/navbar.html') %>
+
+	<div class="container-fluid" id="main">
+		<div class="row justify-content-md-center">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12">
+						<!--=======MIGAS DE PAN=========-->
+						<nav aria-label="breadcrumb" style="margin-top: 1%">
+							<ol class="breadcrumb">
+							    <li class="breadcrumb-item active" aria-current="page">Home</li>
+							</ol>
+						</nav>
+						<!--=======FIN MIGAS DE PAN=========-->		
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12 col-md-12 col-lg-3">
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-lg-12">
+								<div class="card">
+								  	<div class="card-header">
+								    	Datos Personales:
+								  	</div>
+								  
+								  	<div class="card-body">
+								    	<div class="form-group">
+								    		<p><b>Nombre: </b><%= presidente.nombre %></p>
+								    		<p><b>Apellido: </b><%= presidente.apellido %></p>
+								    		<p><b>Nucleo: </b><%= presidente.nucleo.nombre %></p>
+								    		<p><b>Unidad: </b><%= presidente.unidad.nombre %></p>
+								    	</div>
+								  	</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-9">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="article border-bottom">
+											<div class="input-group mb-12">
+												<label for="cedula" class="col-sm-2 col-form-label">Cedula</label>
+											  	<input type="text" class="form-control" v-model="cedula" placeholder="Ingrese Una Cedula de Identidad" onkeypress='return validaNumericos(event)' v-on:keyup.enter="getUsuario(cedula)" autofocus>
+												<div class="input-group-append">
+													<button class="btn btn-outline-secondary" type="button">Buscar</button>
+												</div>
+											</div>
+											<br>
+										</div>
+										<br>
+										<div class="row">
+											<div class="col-lg-12">
+												<div class="row">
+													<div class="col-md-12 text-center" v-if="!variable">
+														<h2>Debe Elegir un Usuario</h2>
+													</div>
+
+													<div class="col-md-12 text-center" v-if="variable">
+														<div class="row">
+															<div class="col-md-4">
+																<img src="/images/img/user.png" alt="" class="img-thumbnail">
+															</div>
+															<div class="col-md-8">
+																<form method="POST" action="/president/asignar-coordP">
+																	<input type="hidden" name="cedula" v-model="user.cedula">
+																	<fieldset disabled>
+																		<div class="form-group row">
+																		    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Nombre:</label>
+																		    <div class="col-sm-9">
+																		    	<input type="text" class="form-control form-control-sm" v-model="user.nombre">
+																		    </div>
+																		</div>
+
+																		<div class="form-group row">
+																		    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Apellido:</label>
+																		    <div class="col-sm-9">
+																		    	<input type="text" class="form-control form-control-sm" v-model="user.apellido">
+																		    </div>
+																		</div>
+
+																		<div class="form-group row">
+																		    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">C.I:</label>
+																		    <div class="col-sm-9">
+																		    	<input type="text" class="form-control form-control-sm" v-model="user.cedula">
+																		    </div>
+																		</div>
+																	</fieldset>	
+																	<hr>
+																	<input type="submit" class="btn btn-primary btn-block" name="asignar" value="Asignar">
+																</form>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<br>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="footer" style="background: #BEBCB0;">
+		<div class="container">
+			<span class="text-muted">Pie de Pagina</span>
+		</div>
+	</footer>
+
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/main.js"></script>
+
+	<script src="/js/vue.js"></script>
+	<script src="/js/axios.js"></script>
+	<script src="/js/misFunciones.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#main',
+			data: {
+				cedula: '',
+				variable: false,
+				user: {},
+				admin: {},
+				presidente: {},
+				coordEval: {}
+			},
+			created() {
+				/*Buscar al usuario con cargo de admin del sistema*/
+				this.getAdmin();
+				/*Buscar al Usuario con el cargo de Presidente de CREDIUDO*/
+				this.getPresidente();
+				/*Buscar al Usuario con el cargo de Coord de Eval*/
+				this.getCoordEval();
+			},
+			methods: {
+				//Definicion de funcion getAdmin
+				getAdmin() {
+					axios.get('/admin/getAdmin')
+						.then(res => {
+							this.admin = res.data;
+						}).catch(err => {
+							console.log(err)
+						})
+				},
+				//Definicion de funcion getPresidente
+				getPresidente() {
+					axios.get('/admin/getPresidente')
+						.then(res => {
+							this.presidente = res.data;
+						}).catch(err => {
+							console.log(err)
+						});
+				},
+				//Definicion de funcion getCoordEval
+				getCoordEval() {
+					axios.get('/admin/getCoordEval')
+						.then(res => {
+							this.coordEval = res.data;
+						}).catch(err => {
+							console.log(err);
+						});
+				},
+				//Funcion para Buscar un Usuario la cedula ingresada
+				getUsuario(cedula) {
+					//SI la cedula ingresada es igual a la cedula del admin
+					if(cedula == this.admin.cedula) {
+						alert("Este Usuario ya esta Asignado para el Cargo de Admin");
+						this.cedula = ''
+					} 
+					//si la cedula ingresada es igual a la cedula del presidente
+					else if(cedula == this.presidente.cedula) {
+						alert("Este Usuario ya esta Asignado para el Cargo de Presidente");	
+						this.cedula = ''
+					}
+					//si la cedula ingresada es igual a la cedula del Coord. Evaluacion
+					else if(cedula == this.coordEval.cedula) {
+						alert("Este Usuario ya esta Asignado para el Cargo de Coord. Evaluacion");	
+						this.cedula = ''
+					}
+					/*
+						Si la cedula ingresada es distinta a las condiciones anteriores
+					*/
+					else {
+						axios.get('/admin/buscarUsuario/' + cedula)
+							.then(res => {
+								//Si no se encuentra un Usuario con la ceula ingresada
+								if(res.data == false) {
+									alert("Este Usuario no Existe")
+									this.cedula = ''
+								} 
+								//Si se encuentra un Usuario con la cedula ingresada
+								else {
+									this.user = res.data;
+									this.variable = true;
+									this.cedula = ''
+								}
+							}).catch(err => {
+								console.log(err)
+							})
+					}
+				}
+			}
+		})
+	</script>
+</body>
+</html>
