@@ -290,6 +290,53 @@
 													</div>
 													<hr>
 												</div>
+
+												<!--Coord. Procesamiento-->
+												<div class="col-md-12">
+													<div class="row">
+														<div class="col-sm-4 col-md-3 col-lg-4">
+															<div class="card">
+																<div class="card-body text-center" style="padding: 8px">
+																	<img alt class="rounded-circle img-fluid d-block mx-auto" src="../../uploads/perfil/user.jpg" style="width: 40%">
+																	<hr style="margin: 5px">
+																	<p style="font-size: 8pt">Coord. Procesamiento</p>		
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-8 col-md-9 col-lg-8">
+															<div class="card" style="height: 100%">
+																<div class="card-body" style="padding: 10px">
+																	<div class="row">
+																		<div class="col-sm-12 col-md-12">
+																			<% if(coordProces) {%>
+																				<table>
+																					<tr>
+																						<td><b>Nombre y Apellido: </b><%- coordProces.nombre %> <%- coordProces.apellido %></td>
+																					</tr>
+																					<tr>
+																						<td><b>Cedula de Identidad: </b><%- coordProces.cedula %></td>
+																					</tr>
+																					<tr>
+																						<td>
+																							<% if(coordProces) {%>
+																								<a href="/president/cambiar_CoordProces">
+																						        Cambiar
+																						    </a>
+																							<%}%>
+																						</td>
+																					</tr>
+																				</table>
+																			<%} else {%>
+																				<a href="/president/asignar-CoordProces">Asignar</a>
+																			<%}%>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<hr>
+												</div>
 											</div>
 										</div>
 										<br>

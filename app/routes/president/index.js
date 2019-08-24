@@ -102,6 +102,9 @@ module.exports = function(app) {
 
     app.get('/president/asignar-CoordE', isLoggedIn, presidentController.asignarCoordE);
     app.post('/president/asignar-CoordE', isLoggedIn, presidentController.asignaCoordE);
+
+    app.get('/president/asignar-CoordProces', isLoggedIn, presidentController.asignarCoordProces);
+    app.post('/president/asignar-CoordProces', isLoggedIn, presidentController.asignaCoordProces);
     //este controlador sera para los examenes culminados de tipo "Evaluacion al Jefe"
     //app.get('/president/culminado/:id/u/:idu',isLoggedIn, presidentController.culminado_b);
 

@@ -96,21 +96,26 @@ exports.index = function(req, res) {
 									models.nucleo.findAll({
 
 									}).then(Nucleo => {
-										//res.send(evaluacion);
-										res.render('president/index', { 
-											presidente, 
-											evaluacion,
-											evalCulminada, 
-											fecha_actual, 
-											usuario,
-											coordPlani,
-											coordEval,
-											president,
-											proxiEval,
-											allEval,
-											Nucleo,
-											message: req.flash('info')
-										});
+										models.usuario.findOne({
+											where: { rolId: 6 }
+										}).then(coordProces => {
+											//res.send(evaluacion);
+											res.render('president/index', { 
+												presidente, 
+												evaluacion,
+												evalCulminada, 
+												fecha_actual, 
+												usuario,
+												coordPlani,
+												coordEval,
+												president,
+												proxiEval,
+												allEval,
+												Nucleo,
+												coordProces,
+												message: req.flash('info')
+											});
+										})
 									});
 								});
 							});
@@ -1961,6 +1966,36 @@ exports.asignaCoordE = function(req, res) {
 	}).then(Usuario => {
 		console.log('=======' + req.body.cedula + '===========')
 		req.flash('info', 'Coord. Planificación Asignado Exitosamente!');
+		res.redirect('/president');
+		//res.send(Usuario);
+	});
+}
+
+exports.asignarCoordProces = function(req, res) {
+	models.usuario.findOne({
+		include: [ models.nucleo, models.unidad ],
+		where: { cedula: req.user.cedula }
+	}).then(presidente => {
+		res.render('president/asignar/coordProces', { presidente });	
+	}).catch(err => {
+		console.log(err);
+	})
+}
+
+exports.asignaCoordProces = function(req, res) {
+	models.usuario.update({
+		nucleoCodigo: 1,
+		rolId: 6,
+		cargoId: 3,
+		unidadCodigo: 12,
+		crediudo: true
+	},{
+		where: {
+			cedula: req.body.cedula
+		}
+	}).then(Usuario => {
+		console.log('=======' + req.body.cedula + '===========')
+		req.flash('info', 'Coord. Procesamiento Asignado Exitosamente!');
 		res.redirect('/president');
 		//res.send(Usuario);
 	});
