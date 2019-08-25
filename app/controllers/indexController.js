@@ -23,13 +23,12 @@ exports.index = function(req, res) {
         limit: 1,
         order: [[ 'fecha_i', 'DESC' ]]
     }).then(Evaluaciones => {
-    	models.noticia.findAll({
-    		limit: 4,
-			order: [['id', 'DESC']] 
-    	}).then(Noticias => {
-    		//res.send(Evaluaciones);
-            res.render('index/index', { Evaluaciones, Noticias });
-    	})	
+        models.evento.findAll({
+            limit: 4,
+            order: [['id', 'DESC']]
+        }).then(Eventos => {
+            res.render('index/index', { Evaluaciones, Eventos });    
+        })
     })
     
     //res.send('Ruta Index');
@@ -74,4 +73,26 @@ exports.funciones = function(req, res) {
 
 exports.reglamentos = function(req, res) {
     res.render('index/conocenos/reglamentos');
+}
+
+exports.getEvento = function(req, res) {
+    models.evento.findOne({
+        where: { id: req.params.id }
+    }).then(Evento => {
+        res.json(Evento);
+    }).catch(err => {
+        res.json(err);
+    });
+}
+
+exports.getEventoPrincipal = function(req, res) {
+    models.evento.findOne({
+        order: [
+            ['id', 'DESC']
+        ]
+    }).then(Evento => {
+        res.json(Evento);
+    }).catch(err => {
+        res.json(err);
+    });
 }

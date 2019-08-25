@@ -21,7 +21,7 @@
 			
 		<%- include('../partials/index/navbar.html') %>
 
-		<div class="container-fluid">
+		<div class="container-fluid" id="main">
 			<div class="row justify-content-md-center">
 				<div class="col-sm-12 col-md-12 col-lg-12">
 					<div class="row">
@@ -272,28 +272,25 @@
 											</div>
 											<table class="table table-hover">
 											  <tbody>
-											    <tr>
-											      <td style="width: 15%" class="text-center">
-											      	<p style="font-size: 20pt"><b>24</b></p>
-											      	<p style="margin-top: -25px; margin-bottom: 0px">Julio</p>
-											      </td>
-											      <td>
-											      	<a href=""><h5>Titulo del Evento</h5></a>
-											      	<p>Breve descripción</p>
-											      </td>
-											    </tr>
+											  	<% for(let i = 0; i < Eventos.length; i ++) {%>
+											  		<tr>
+												      <td style="width: 15%" class="text-center">
+												      	<p style="font-size: 20pt"><b><%- Eventos[i].fecha.getDate() %></b></p>
 
-											    <tr>
-											      <td style="width: 15%" class="text-center">
-											      	<p style="font-size: 20pt"><b>24</b></p>
-											      	<p style="margin-top: -25px; margin-bottom: 0px">Julio</p>
-											      </td>
-											      <td>
-											      	<a href=""><h5>Titulo del Evento</h5></a>
-											      	<p>Breve descripción</p>
-											      </td>
-											    </tr>
-											    
+												      	<% 
+															var mes = Eventos[i].fecha.getMonth();
+
+										    				var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]; 
+										    			%>
+
+												      	<p style="margin-top: -25px; margin-bottom: 0px"><%=meses[mes]%></p>
+												      </td>
+												      <td>
+												      	<a href="javascript:void(0)" v-on:click="getEvento(<%- Eventos[i].id %>)"><h5><%- Eventos[i].nombre %></h5></a>
+												      	<p><%- Eventos[i].descripcion.substr(0,60) %>...</p>
+												      </td>
+												    </tr>
+											  	<%}%>
 											  </tbody>
 											</table>
 
@@ -303,10 +300,16 @@
 
 								<div class="col-md-6">
 									<div class="card">
-										<div class="card-body">
-											mundo
-										</div>
+									  <img v-bind:src="'/uploads/eventos/' + evento.files" class="card-img-top" alt="Responsive image">
+									  <div class="card-body">
+									    <h5 class="card-title">{{ evento.nombre }}</h5>
+									    <p class="card-text">{{ resumen }} ...</p>
+									    <a href="#" class="btn btn-primary">Leer Mas</a>
+									    <a href="#" class="btn btn-primary">Inscribirme</a>
+									  </div>
 									</div>
+
+									
 								</div>
 							</div>
 						</div>
@@ -327,5 +330,42 @@
 		<script src="/js/bootstrap.min.js"></script>
 		<script src="/js/carrusel.js"></script>
 		<script src="/js/main.js"></script>
+		<script src="/js/vue.js"></script>
+		<script src="/js/axios.js"></script>
+		<script type="text/javascript">
+			new Vue({
+				el: '#main',
+				data: {
+					evento: {},
+					resumen: ''
+
+				},
+				created() {
+					this.getEventoPrincipal();
+				},
+				methods: {
+					getEventoPrincipal() {
+						axios.get('/getEventoPrincipal')
+							.then(res => {
+								this.evento = res.data;
+								this.resumen = this.evento.descripcion.substr(0,500);
+								console.log(this.evento);
+							}).catch(err => {
+								console.log(err)
+							});
+					},
+					getEvento(idEvento) {
+						axios.get('/getEvento/' + idEvento)
+							.then(res => {
+								this.evento = res.data;
+								this.resumen = this.evento.descripcion.substr(0,500)
+								console.log(this.evento);
+							}).catch(err => {
+								console.log(err)
+							});
+					}
+				}
+			});
+		</script>
 	</body>
 </html>
